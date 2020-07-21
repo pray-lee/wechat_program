@@ -1,0 +1,60 @@
+.baoxiao-container, .jiekuan-container{
+  padding: 40rpx;
+  background:#fff;
+  margin:0px auto;
+  border-radius: 10rpx;
+  margin-bottom: 40rpx;
+  box-shadow: 0 2px 20px 0 rgba(0,0,0,0.20);
+  margin: 50rpx 40rpx
+}
+.title{
+  line-height: 48rpx;
+  margin-bottom: 10rpx;
+  font-size: 30rpx;
+  text-align:center;
+  padding:20rpx 0;
+  font-weight: 600
+}
+.completed-bill{
+  font-size: 26rpx;
+  padding: 20rpx;
+  margin: 10rpx 0;
+  border-radius: 6rpx;
+}
+.list-btn-area{
+  display:flex;
+  justify-content: space-around;
+  border-top: 1px solid #ddd;
+  padding: -20rpx;
+  padding-top: 30rpx;
+}
+.list-btn-area > .btn-content{
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 207rpx;
+  font-size: 22rpx
+}
+.line{
+  width: 1px;
+  height: 82rpx;
+  background:#ddd;
+  margin-top: 20rpx
+}
+.img{
+  margin-bottom: 20rpx
+}
+.img:nth-of-type(1) {
+  width: 55rpx;
+  height: 55rpx
+}
+.img:nth-of-type(2) {
+  width: 49rpx;
+  height: 64rpx
+}
+.img:nth-of-type(3) {
+  width: 56rpx;
+  height: 59rpx
+}
+

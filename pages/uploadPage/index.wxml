@@ -1,0 +1,1 @@
+<web-view id="web-view-1" src="{{uploadSrc}}" onMessage="uploadCallback"></web-view>

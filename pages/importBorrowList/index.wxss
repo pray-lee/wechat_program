@@ -1,0 +1,64 @@
+.add-borrow-page{
+    height: 100%;
+    transform: translateY(0)
+}
+.jiekuandan {
+    height: calc(100vh - 100rpx)
+}
+.jiekuandan.iphoneX{
+    height: calc(100vh - 168rpx)
+}
+.import-borrow-item{
+    flex: 1
+}
+.import-borrow-item .form-row{
+    justify-content: space-between;
+    font-size: 24rpx;
+    padding: 0;
+}
+.import-borrow-item .form-line{
+    margin-left: 0
+}
+.import-borrow-remark {
+    line-height: 30rpx;
+    margin-top: 10rpx;
+}
+.import-borrow-info{
+    display:flex;
+    align-items: center;
+    color:#b8b9bb;
+    font-weight: 300;
+    font-size: 22rpx
+}
+.checkbox-label{
+    display:flex;
+    align-items: center;
+    padding: 0 15rpx;
+}
+.checkbox{
+    margin-right: 15rpx;
+    border-radius: 50%;
+}
+.import-borrow-list-btn{
+}
+.import-borrow-input{
+    font-size: 24rpx
+}
+.btn-area{
+    display:flex;
+    position:fixed;
+    bottom:0;
+    left:0;
+    z-index:990;
+    width: 100%;
+}
+.btn-area button{
+    flex: 1;
+    border:0;
+    background:#3276c3;
+    border-radius: 0;
+    color:#fff;
+    font-size: 32rpx;
+    height: 100rpx;
+    line-height: 100rpx
+}

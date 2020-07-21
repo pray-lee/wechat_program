@@ -1,0 +1,28 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/list/index",
+    "pages/addJiekuan/index",
+    "pages/addBaoxiao/index",
+    "pages/error/index",
+    "pages/uploadPage/index",
+    "pages/infoList/index",
+    "pages/importBorrowList/index",
+    "pages/baoxiaoDetail/index",
+    "pages/extra/index",
+    "pages/subjectPage/index",
+    "pages/auxptyPage/index",
+    "pages/capitalPage/index",
+    "pages/viewJiekuan/index",
+    "pages/viewBaoxiao/index",
+    "pages/viewBaoxiaoDetail/index",
+    "pages/viewExtra/index"
+  ],
+  "window": {
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#3276c3",
+    "navigationBarTitleText": "财咖报销",
+    "navigationBarTextStyle":"white"
+  },
+  "sitemapLocation": "sitemap.json"
+}

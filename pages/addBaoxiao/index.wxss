@@ -1,0 +1,303 @@
+.form-wrapper{
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    overflow:hidden
+}
+.form-scroll-wrapper{
+    height: calc(100vh - 100rpx)
+}
+.form-scroll-wrapper.iphoneX{
+    height: calc(100vh - 168rpx)
+}
+.block-wrapper{
+    background:#fff;
+}
+.title{
+    margin:0 40rpx;
+    padding: 20rpx 20rpx 20rpx 0;
+    font-size: 24rpx;
+    color:#999
+}
+.special-title{
+    font-size: 28rpx;
+    padding-left: 14rpx;
+    color:#333;
+}
+.btn-area{
+    display:flex;
+    position:fixed;
+    bottom:0;
+    left:0;
+    z-index:990;
+    width: 100%;
+    height: 100rpx;
+    background:#fff;
+}
+.btn-area.iphoneX{
+  padding-bottom: 68rpx;
+}
+.btn-area button{
+    flex: 1;
+    border:0;
+    background:#3276c3;
+    border-radius: 0;
+    color:#fff;
+    font-size: 32rpx;
+    height: 100rpx;
+    line-height: 100rpx
+}
+.radio{
+    margin-right: 30rpx
+}
+.none{
+    visibility: hidden;
+    height:0;
+    padding:0
+}
+.add-borrow-page{
+    height:100%
+}
+.add-borrow-page, .add-hesuanweidu-page{
+    z-index:1000;
+    transform:translateY(100%)
+}
+.add-extra-page{
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    margin:auto;
+    background:#fff;
+    transform: translateY(1000px);
+    z-index: 999
+}
+.extraBtn{
+    color:#ccc
+}
+.borrow-submit{
+    position:fixed;
+    z-index:1000;
+    bottom:0;
+    left:0;
+    text-align: center;
+    background:#3276c3;
+    color:#fff;
+    font-size: 32rpx;
+    width: 100%;
+    height: 100rpx;
+    line-height: 100rpx;
+}
+.add-borrow-btn, .add-file-btn{
+    text-align:center;
+    height:87rpx;
+    line-height: 87rpx;
+    color:#1f65d8;
+    font-size: 28rpx;
+}
+.borrow-item .form-row, .file-item .form-row, .baoxiao-item .form-row{
+    padding: 0 40rpx;
+    display:flex;
+    align-items: center;
+}
+.borrow-item .form-row-content, .file-list .form-row-content, .baoxiao-item .form-row-content{
+    text-align:center
+}
+.delete-borrow, .delete-file, .delete-baoxiao-item{
+    width: 60rpx;
+    height: 88rpx;
+    background:url(../../images/delete.png) center center no-repeat;
+    background-size: 40rpx 40rpx;
+    position:absolute;
+    left: 20rpx;
+    z-index: 999
+}
+.img{
+    width:40rpx;
+    height: 40rpx
+}
+
+.baoxiao-item{
+    margin: 20rpx 0
+}
+.baoxiao-item-title{
+    background:#f1f1f1;
+    padding: 0 60rpx;
+    font-size: 26rpx;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.special-btn{
+    width: 99%;
+    height: 88rpx;
+    line-height: 88rpx;
+    text-align:right;
+    color:rgb(136,136,136);
+    font-size: 24rpx
+}
+input{
+    padding-right:0
+}
+.btn-area .cancel-extra{
+    background:#fff;
+    color:#3276c3;
+}
+.mock-input{
+    height: 44rpx;
+    line-height: 44rpx;
+    width: 100%;
+    color:#333
+}
+.mock-input.nodata{
+    color:#c7c7cd
+}
+input:-moz-placeholder { /* Mozilla Firefox 4 to 18*/
+    color: rgb(136,136,136);
+}
+input::-moz-placeholder {/* Mozilla Firefox 19+*/
+    color: rgb(136,136,136);
+}
+
+input:-ms-input-placeholder{
+    color: rgb(136,136,136);
+}
+
+input::-webkit-input-placeholder{
+    color: rgb(136,136,136);
+}
+.invoice-wrapper{
+    display:flex;
+    justify-content: space-between;
+}
+.submit-info-wrapper{
+    padding: 34rpx 0
+}
+.submit-info, .total{
+    font-weight: 600
+}
+.submit-info{
+    display:flex;
+    justify-content: space-around;
+    font-size: 28rpx;
+    color:#333
+}
+.total{
+    display:flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding:0 40rpx;
+}
+.total-word{
+    font-size: 40rpx;
+}
+.jiekuan-icon{
+    width: 30rpx;
+    height: 30rpx;
+    margin-right: 10rpx;
+    vertical-align: top;
+}
+.incomeBankAccount, .incomeBankName{
+    color:#BBBBBB
+}
+.incomeBankAccount{
+    font-size: 36rpx;
+}
+.incomeBankName{
+    font-size: 24rpx
+}
+.btn-area .save-draft{
+    background:#fff;
+    color:#1f65d8;
+}
+.img-wrapper{
+    display:flex;
+    justify-content: flex-end;
+}
+.borrow-line{
+    width: 1rpx;
+    height: 36rpx;
+    background:#ddd
+}
+.borrow-remark {
+    padding: 0 10rpx
+}
+.special-content{
+    display:flex;
+    align-items: center;
+}
+.special-input{
+    width: auto !important;
+    padding: 0 .6rem;
+}
+.edit{
+    width: 30rpx;
+    height: 30rpx;
+    margin-top: -20rpx;
+}
+.title-word{
+    width: 7em;
+    margin-right: 20rpx;
+    text-align:left
+}
+.disabled{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    margin:auto;
+    z-index: 9999
+}
+.tips{
+    padding:15rpx 40rpx;
+    color:#999;
+    font-size:22rpx;
+}
+.form-row .baoxiaoDetail-left{
+    text-align:left;
+    height: auto;
+    flex: 1;
+    padding-left: 60rpx;
+}
+.form-row .baoxiaoDetail-right{
+    height: auto;
+    text-align:right;
+    flex: 1;
+}
+.form-row .baoxiaoDetail-right input{
+    flex: 1;
+    padding-right: 20rpx;
+    padding-bottom: 20rpx
+}
+
+.baoxiao-item .form-row, .borrow-item .form-row {
+    align-items: flex-start;
+    border-bottom: 1rpx solid #f1f1f1;
+    padding: 20rpx 40rpx;
+}
+.delete-baoxiao-item, .delete-borrow{
+    width: 40rpx;
+    height: 40rpx;
+    background-position: center
+}
+.subject-title{
+    font-size: 32rpx;
+    color:#333
+}
+.remark-title{
+    font-size: 24rpx;
+    color:#999
+}
+.remark-content{
+    font-size: 28rpx;
+    color:#666
+}
+
+.edit-wrapper{
+    display:flex;
+    align-items: center;
+}

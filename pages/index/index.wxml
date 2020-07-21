@@ -1,0 +1,113 @@
+<view class="app">
+    <view class="jiekuan-container">
+        <view class="jiekuan-content">
+            <view class="title">我的借款单</view>
+            <!--      <view class="completed-bill" bindtap="seeAll" data-type="jiekuanCompleted">查看已完成单据</view>-->
+            <view class="main">
+                <view wx:if="{{jiekuan}}" bindtap="goToEdit" data-id="{{jiekuan.id}}" data-flag="J" data-status="{{jiekuan.status}}">
+                    <view class="status error">
+                        <text>{{statusObj[jiekuan.status]}}</text>
+                        <text class="billCode">{{jiekuan.billCode}}</text>
+                    </view>
+                    <view class="content">
+                        <text wx:if="{{jiekuan.remark}}" class="left">{{jiekuan.remark}}</text>
+                        <text wx:else class="left">
+                            [无事由]
+                        </text>
+                        <text class="right">￥{{jiekuan.amount}}</text>
+                    </view>
+                </view>
+                <view wx:else>
+                    <view class="status error">
+                        <text>审批状态</text>
+                        <text class="billCode">单据编号</text>
+                    </view>
+                    <view class="content">
+                        <text class="left">事由</text>
+                        <text class="right">￥0.00</text>
+                    </view>
+                </view>
+                <!--        <view class="see-all" bindtap="seeAll" data-type="jiekuan">查看全部</view>-->
+                <view class="list-btn-area">
+                    <view class="btn-content" data-type="10" bindtap="seeAll" data-flag="J">
+                        <image class="img" mode="scaleToFill" src="../../images/draft-btn.png"></image>
+                        <view>草稿箱</view>
+                    </view>
+                    <view class="line"></view>
+                    <view class="btn-content" data-type="20" bindtap="seeAll" data-flag="J">
+                        <image class="img" mode="scaleToFill" src="../../images/undo-btn.png"></image>
+                        <view>未完成单据</view>
+                    </view>
+                    <view class="line"></view>
+                    <view class="btn-content" data-type="80" bindtap="seeAll" data-flag="J">
+                        <image class="img" mode="scaleToFill" src="../../images/completed-btn.png"></image>
+                        <view>已完成单据</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="baoxiao-container">
+        <view class="baoxiao-content">
+            <view class="title">我的报销单</view>
+            <view class="main">
+                <view wx:if="{{baoxiao}}" bindtap="goToEdit" data-id="{{baoxiao.id}}" data-flag="B" data-status="{{baoxiao.status}}">
+                    <view class="status error">
+                        <text>{{statusObj[baoxiao.status]}}</text>
+                        <text class="billCode">{{baoxiao.billCode}}</text>
+                    </view>
+                    <view class="content">
+                        <text wx:if="{{baoxiao.remark}}" class="left">{{baoxiao.remark}}</text>
+                        <text wx:else class="left">
+                            [无事由]
+                        </text>
+                        <text class="right">￥{{baoxiao.totalAmount}}</text>
+                    </view>
+                </view>
+                <view wx:else>
+                    <view class="status error">
+                        <text>审批状态</text>
+                        <text class="billCode">单据编号</text>
+                    </view>
+                    <view class="content">
+                        <text class="left">事由</text>
+                        <text class="right">￥0.00</text>
+                    </view>
+                </view>
+                <view class="list-btn-area">
+                    <view class="btn-content" data-type="10" bindtap="seeAll" data-flag="B">
+                        <image class="img" mode="scaleToFill" src="../../images/draft-btn.png"></image>
+                        <view>草稿箱</view>
+                    </view>
+                    <view class="line"></view>
+                    <view class="btn-content" data-type="20" bindtap="seeAll" data-flag="B">
+                        <image class="img" mode="scaleToFill" src="../../images/undo-btn.png"></image>
+                        <view>未完成单据</view>
+                    </view>
+                    <view class="line"></view>
+                    <view class="btn-content" data-type="80" bindtap="seeAll" data-flag="B">
+                        <image class="img" mode="scaleToFill" src="../../images/completed-btn.png"></image>
+                        <view>已完成单据</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="btn-area-wrapper {{isPhoneXSeries ? 'iphoneX' : ''}}">
+        <view class="add-btn" bindtap="onAddShow">
+            新增单据
+        </view>
+    </view>
+    <!-- 新增单据弹框 -->
+    <view class="add-page" animation="{{animationInfo}}">
+        <view class="add-item" bindtap="onShowAddJiekuan">
+            <image class="add-img" mode="scaleToFill" src="../../images/jiekuan-icon.png"></image>
+            <view>借款单</view>
+        </view>
+        <view class="add-item" bindtap="onShowAddBaoxiao">
+            <image class="add-img" mode="scaleToFill" src="../../images/baoxiao-icon.png"></image>
+            <view>报销单</view>
+        </view>
+    </view>
+    <view class="mask" hidden="{{maskHidden}}" bindtap="onAddHide"></view>
+</view>

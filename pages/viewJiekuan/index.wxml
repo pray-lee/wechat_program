@@ -1,0 +1,217 @@
+<view class="form-wrapper">
+    <form onSubmit="formSubmit" onReset="formReset">
+        <scroll-view scroll-y class="form-scroll-wrapper {{isPhoneXSeries ? 'iphoneX' : ''}}">
+            <view class="title">申请方信息</view>
+            <view class="block-wrapper">
+                <view class="form-row">
+                    <view class="form-row-label"><text class="require">*</text>申请组织</view>
+                    <view class="form-row-content">
+                        <view class="mock-input">{{result.accountbook.accountbookName}}</view>
+                    </view>
+                </view>
+                <view class="form-line"/>
+                <view class="form-row">
+                    <view class="form-row-label picker"><text class="require">*</text>申请部门</view>
+                    <view class="form-row-content">
+                        <view class="mock-input">{{result.departDetail.depart.departName}}</view>
+                    </view>
+                </view>
+            </view>
+            <view class="title">收款方信息</view>
+            <view class="block-wrapper">
+                <view class="form-row">
+                    <view class="form-row-label"><text class="require">*</text>收款方类型</view>
+                    <view class="form-row-content">
+                        <view wx:if="{{result.applicantType == 10}}" class="mock-input">职员</view>
+                        <view wx:if="{{result.applicantType == 20}}" class="mock-input">供应商</view>
+                        <view wx:if="{{result.applicantType == 30}}" class="mock-input">客户</view>
+                    </view>
+                </view>
+                <view class="form-line"/>
+                <view class="form-row" bindtap="goInfoList">
+                    <view class="form-row-label"><text class="require">*</text>收款信息</view>
+                    <view class="form-row-content borrowList-wrapper">
+                        <view class="mock-input">{{result.applicantName}}</view>
+                    </view>
+                    <block>
+                        <view class="form-row-content incomeBankAccount">
+                            <view wx:if="{{result.incomeBankAccount}}" class="mock-input ellipsis">{{result.incomeBankAccount}}</view>
+                            <view wx:else class="mock-input nodata">暂无银行账号</view>
+                        </view>
+                        <view class="form-row-content incomeBankName">
+                            <view wx:if="{{result.incomeBankName}}" class="mock-input ellipsis">{{result.incomeBankName}}</view>
+                            <view wx:else class="mock-input nodata">银行信息暂无</view>
+                        </view>
+                    </block>
+                </view>
+            </view>
+            <view class="tips">如果没有收款账户信息，请联系系统相关人员添加。</view>
+            <view class="title">单据信息</view>
+            <view class="block-wrapper">
+                <view class="form-row">
+                    <view class="form-row-label"><text class="require">*</text>事由</view>
+                    <view class="form-row-content" style="height:auto;min-height:44rpx">
+                        <view class="mock-input" wx:if="{{result.remark}}" style="height:auto;min-height:44rpx">{{result.remark}}</view>
+                        <view class="mock-input" wx:else>无</view>
+                    </view>
+                </view>
+                <view class="form-line"/>
+                <view class="form-row" bindtap="goSubjectPage">
+                    <view class="form-row-label"><text class="require">*</text>借款类型</view>
+                    <view class="form-row-content">
+                        <view wx:if="{{result.subject.fullSubjectName}}" class="mock-input">{{result.subject.fullSubjectName}}</view>
+                        <view wx:else class="mock-input nodata">暂无借款类型</view>
+                    </view>
+                </view>
+                <view class="form-line"/>
+                <view class="form-row" wx:if="{{result.billApEntityList.length}}">
+                    <view class="form-row-label"><text class="require">*</text>核算维度</view>
+                    <view class="form-row-content auxpty-wrapper" wx:for="{{result.billApEntityList}}">
+                            <view class="mock-input left ellipsis">{{item.auxptyName}}</view>
+                            <view class="mock-input right ellipsis" wx:if="{{item.auxptyDetailName}}">{{item.auxptyDetailName}}</view>
+                            <view class="mock-input right ellipsis" wx:else>无</view>
+                    </view>
+                </view>
+                <view class="form-line" wx:if="{{result.billApEntityList.length}}"/>
+                <view class="form-row">
+                    <view class="form-row-label"><text class="require">*</text>业务日期</view>
+                    <view class="form-row-content">
+                        <view data-name="businessDateTime">{{result.businessDateTime}}</view>
+                    </view>
+                    <image src="../../images/date-icon.png" mode="scaleToFill" class="date-icon"></image>
+                </view>
+                <view class="form-line"/>
+                <block wx:if="{{isCapitalTypeStart}}">
+                    <view class="form-row">
+                        <view class="form-row-label"><text class="require">*</text>资金计划类型</view>
+                        <view class="form-row-content">
+                            <view wx:if="{{result.capitalTypeDetailId}}" class="mock-input">{{result.capitalTypeDetailName}}</view>
+                            <view wx:else class="mock-input nodata">暂无资金计划类型</view>
+                        </view>
+                    </view>
+                    <view class="form-line"/>
+                </block>
+                <view class="form-row invoice-wrapper">
+                    <view class="form-row-label"><text class="require">*</text>是否有发票</view>
+                    <switch disabled checked="{{!!result.invoice}}" color="#1f76d8"/>
+                </view>
+            </view>
+<!-- 增加借款详情-->
+            <view class="title"></view>
+            <view class="block-wrapper">
+                <view class="title special-title">借款列表</view>
+                <view class="borrow-list">
+                    <view class="borrow-item" wx:for="{{result.billDetailList}}">
+                        <view class="form-row">
+                            <view class="form-row-content">
+                                <text>{{item.borrowAmount}}</text>
+                            </view>
+                            <view class="borrow-line"></view>
+                            <block>
+                                <view wx:if="{{item.remark}}" class="form-row-content">
+                                    <text>{{item.remark}}</text>
+                                </view>
+                                <view wx:else class="form-row-content">无</view>
+                            </block>
+                        </view>
+                        <view class="form-line"/></view>
+                </view>
+            </view>
+            <block wx:if="{{result.billFiles.length}}">
+                <view class="title"></view>
+                <view class="block-wrapper">
+                    <view class="title special-title">附件上传</view>
+                    <view class="file-list">
+                        <view class="file-item" wx:for="{{result.billFiles}}">
+                            <view class="form-row">
+                                <view class="form-row-content ellipsis" bindtap="previewFile" data-url="{{item.uri}}">{{item.name}}</view>
+                                <view class="form-row-content img-wrapper" bindtap="previewFile" data-url="{{item.uri}}">
+                                    <image src="{{item.uri}}" class="img"></image>
+                                </view>
+                            </view>
+                            <view class="form-line"/></view>
+                    </view>
+                </view>
+            </block>
+            <view class="title"></view>
+            <view class="block-wrapper submit-info-wrapper">
+                <view class="total">
+                    <text><image src="../../images/jiekuanTotal-icon.png" mode="scaleToFill" class="jiekuan-icon" />
+                        借款合计：</text><text class="total-word">{{result.amount}}</text></view>
+            </view>
+            <!--              流程图-->
+            <block wx:if="{{process !== null && process.operationRecords.length}}">
+                <view class="title">{{process.title}}</view>
+                <view class="progress">
+                    <view class="progress-box" wx:for="{{process.operationRecords}}">
+                        <view class="progress-left">
+                            <view class="avatar-wrapper">
+                                <view class="avatar-block">
+                                    <image wx:if="{{item.avatar}}" src="{{item.avatar}}" class="avatar"></image>
+                                    <view wx:else class="avatar">{{item.realName}}</view>
+                                    <image class="status-icon" wx:if="{{item.operationResult === 'AGREE' || item.operationType === 'START_PROCESS_INSTANCE'}}" src="../../images/1.png"></image>
+                                    <image class="status-icon" wx:if="{{item.operationResult === 'REFUSE'}}" src="../../images/2.png"></image>
+                                </view>
+                                <view class="status-line"></view>
+                            </view>
+                            <view class="status-content">
+                                <view class="progress-status">{{item.operationName}}</view>
+                                <view class="progress-user">{{item.userName}}{{item.resultName}}</view>
+                                <view class="progress-user" wx:if="{{item.remark}}">"{{item.remark}}"</view>
+                            </view>
+                        </view>
+                        <view class="progress-right">{{item.date}}</view>
+                    </view>
+                    <view class="progress-box" wx:if="{{process.tasks.length == 1}}">
+                        <view class="progress-left">
+                            <view class="avatar-wrapper">
+                                <view class="avatar-block">
+                                    <image wx:if="{{process.tasks[0].avatar}}" src="{{process.tasks[0].avatar}}" class="avatar"></image>
+                                    <view wx:else class="avatar">{{process.tasks[0].realName}}</view>
+                                    <image class="status-icon" src="../../images/3.png"></image>
+                                </view>
+                            </view>
+                            <view class="status-content">
+                                <view class="progress-status">{{process.tasks[0].operationName}}</view>
+                                <view class="progress-user">{{process.tasks[0].userName}}{{process.tasks[0].resultName}}</view>
+                                <view class="progress-user" wx:if="{{item.remark}}">"{{item.remark}}"</view>
+                            </view>
+                        </view>
+                        <view class="progress-right">{{item.date}}</view>
+                    </view>
+                    <view class="progress-box" wx:else="{{process.tasks.length > 1}}">
+                        <view class="progress-left">
+                            <view class="avatar-wrapper">
+                                <view class="avatar-block">
+                                    <image src="../../images/avatar.png" class="avatar"></image>
+                                    <image class="status-icon" src="../../images/3.png"></image>
+                                </view>
+                            </view>
+                            <view class="status-content">
+                                <view class="progress-status">{{process.tasks[0].operationName}}</view>
+                                <view class="progress-user">{{process.tasks.length}}人审批{{process.tasks[0].resultName}}</view>
+                                <view class="progress-user" wx:if="{{item.remark}}">"{{item.remark}}"</view>
+                                <view class="task-name-list">
+                                    <view class="task-name" wx:for="{{process.tasks}}">
+                                        <image class="small-avatar" src="{{item.avatar}}" wx:if="{{item.avatar}}"></image>
+                                        <view class="small-avatar" wx:else>{{item.realName}}</view>
+                                        <view class="small-name">{{item.userName}}</view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                        <view class="progress-right">{{item.date}}</view>
+                    </view>
+                </view>
+                <view class="cc-wrapper" wx:if="{{process.cc.length}}">
+                    <view class="cc-title">抄送人</view>
+                    <view wx:for="{{process.cc}}" wx:if="{{process.cc.length}}" class="cc-item">
+                        <image class="small-avatar" src="{{item.avatar}}" wx:if="{{item.avatar}}"></image>
+                        <view class="small-avatar" wx:else>{{item.realName}}</view>
+                        <view class="small-name">{{item.userName}}</view>
+                    </view>
+                </view>
+            </block>
+        </scroll-view>
+    </form>
+</view>

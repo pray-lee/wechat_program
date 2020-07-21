@@ -1,0 +1,140 @@
+.form-wrapper{
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  overflow:hidden
+}
+.form-scroll-wrapper{
+  height: calc(100vh - 200rpx);
+}
+.form-scroll-wrapper.iphoneX{
+  height: calc(100vh - 268rpx)
+}
+.import-borrow-list-btn{
+  position:fixed;
+  z-index:1000;
+  bottom:0px;
+  left:0px;
+  text-align:center;
+  background:rgb(50, 118, 195);
+  color:rgb(255, 255, 255);
+  font-size:0.32rem;
+  width:100%;
+  height:1rem;
+  line-height:1rem;
+  text-align:center;
+  border:0px;
+  border-radius:0px;
+}
+.btn-area{
+  display:flex;
+  position:fixed;
+  bottom:0;
+  left:0;
+  z-index:999;
+  width: 100%;
+  height: 100rpx;
+  border-top: 1px solid #f1f1f1;
+  background:#fff;
+}
+.btn-area.iphoneX{
+  padding-bottom: 68rpx
+}
+.btn-area button{
+  width: 100%;
+  border:0;
+  background:#3276c3;
+  border-radius: 0;
+  color:#fff;
+  font-size: 32rpx;
+  height: 100rpx;
+  line-height: 100rpx
+}
+.btn-area .save-draft{
+  background:#fff;
+  color:#1f65d8;
+}
+.add-hesuanweidu-page{
+  z-index: 1000
+}
+.delete-borrow, .delete-file{
+  width: 60rpx;
+  height: 88rpx;
+  background:url(../../images/delete.png) center center no-repeat;
+  background-size: 40rpx 40rpx;
+  position:absolute;
+  left: 20rpx;
+  z-index: 999
+}
+.total{
+  display:flex;
+  z-index:999;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 40rpx;
+  background:#fff;
+  position:fixed;
+  bottom: calc(100rpx - 2rpx);
+  left:0;
+  width: 100%;
+  box-sizing:border-box;
+  border-bottom: 1rpx solid #ddd;
+  border-top: 1rpx solid #ddd;
+}
+.total.iphoneX{
+  bottom: calc(168rpx - 2rpx)
+}
+.btn-area .save-draft{
+  background:#fff;
+  color:#1f65d8;
+}
+.jiekuan-icon{
+  width: 30rpx;
+  height: 30rpx;
+  margin-right: 10rpx;
+  vertical-align: top;
+}
+.block-wrapper{
+  background:#fff;
+}
+.title{
+  margin:0 40rpx;
+  padding: 20rpx 20rpx 20rpx 0;
+  font-size: 24rpx;
+  color:#999
+}
+.add-icon{
+  background:url(../images/add-icon.png) left center no-repeat;
+  background-size: 40rpx 40rpx;
+}
+.add-icon, .copy-icon, .delete-icon{
+  font-size:28rpx;
+  padding-left: 50rpx;
+  color:#1f65d8;
+  line-height: 40rpx;
+  height:40rpx;
+}
+.copy-icon{
+  background:url(../images/copy.png) left center no-repeat;
+  background-size: 40rpx 40rpx;
+}
+.delete-icon{
+  width: auto !important;
+  background:url(../images/delete.png) left center no-repeat;
+  background-size: 40rpx 40rpx;
+}
+.operate-area{
+  display:flex;
+  justify-content: space-between;
+  padding: 40rpx;
+}
+.baoxiao-item-title{
+  display:flex;
+  justify-content: space-between;
+}
+.delete-icon{
+  width: 40rpx;
+  height: 40rpx;
+}
