@@ -298,7 +298,7 @@ Page({
     },
     getBorrowIdFromStorage() {
         // 从缓存里获取借款人id
-        const borrowId = wx.getStorageSync({key: 'borrowId'})
+        const borrowId = wx.getStorageSync('borrowId')
         if (!!borrowId) {
             console.log('借款人id已经获取', borrowId)
             var borrowIndex = null
@@ -364,7 +364,7 @@ Page({
         return newImportList
     },
     getBaoxiaoDetailFromStorage() {
-        const index = wx.getStorageSync({key: 'index'})
+        const index = wx.getStorageSync('index')
         this.setData({
             submitData: {
                 ...this.data.submitData,

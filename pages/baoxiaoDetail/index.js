@@ -14,9 +14,9 @@ Page({
         this.setData({
             isPhoneXSeries: app.globalData.isPhoneXSeries
         })
-        const isEdit = wx.getStorageSync({key: 'edit'})
-        const initBaoxiaoDetail = wx.getStorageSync({key: 'initBaoxiaoDetail'})
-        const baoxiaoDetail = wx.getStorageSync({key: 'baoxiaoDetail'})
+        const isEdit = wx.getStorageSync('edit')
+        const initBaoxiaoDetail = wx.getStorageSync('initBaoxiaoDetail')
+        const baoxiaoDetail = wx.getStorageSync('baoxiaoDetail')
         if (!baoxiaoDetail) {
             this.setData({
                 baoxiaoDetail: initBaoxiaoDetail
@@ -40,7 +40,7 @@ Page({
     },
     getBorrowIdFromStorage() {
         // 从缓存里获取借款人id
-        const borrowId = wx.getStorageSync({key: 'borrowId'})
+        const borrowId = wx.getStorageSync('borrowId')
         if (!!borrowId) {
             var borrowIndex = 0
             this.data.borrowList.forEach((item, index) => {
@@ -62,7 +62,7 @@ Page({
     },
     getAuxptyIdFromStorage() {
         // 从缓存里获取auxpty
-        const auxpty = wx.getStorageSync({key: 'auxpty'})
+        const auxpty = wx.getStorageSync('auxpty')
         if (!!auxpty) {
             this.setSelectedAuxpty(auxpty)
             wx.removeStorage({
@@ -72,7 +72,7 @@ Page({
     },
     getSubjectIdFromStorage() {
         // 从缓存里获取科目id
-        const subject = wx.getStorageSync({key: 'subject'})
+        const subject = wx.getStorageSync('subject')
         if (!!subject && subject !== null) {
             this.setData({
                 baoxiaoDetail: {
@@ -98,9 +98,7 @@ Page({
             this.getBorrowIdFromStorage()
             this.getSubjectIdFromStorage()
         }, 300)
-        const baoxiaoDetail = wx.getStorageSync({
-            key: 'baoxiaoDetail',
-        })
+        const baoxiaoDetail = wx.getStorageSync('baoxiaoDetail')
         if (!!baoxiaoDetail) {
             this.setData({
                 baoxiaoDetail
@@ -382,7 +380,7 @@ Page({
                 baoxiaoArr: this.data.baoxiaoArr.concat(this.data.baoxiaoDetail)
             })
             this.setData({
-                baoxiaoDetail: wx.getStorageSync({key: 'initBaoxiaoDetail'})
+                baoxiaoDetail: wx.getStorageSync('initBaoxiaoDetail')
             })
         }
     },

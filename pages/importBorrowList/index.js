@@ -4,9 +4,7 @@ Page({
         tempImportList: []
     },
     onLoad() {
-        const tempImportList = wx.getStorageSync({
-            key: 'tempImportList'
-        })
+        const tempImportList = wx.getStorageSync('tempImportList')
         console.log(tempImportList)
         this.setData({
             tempImportList

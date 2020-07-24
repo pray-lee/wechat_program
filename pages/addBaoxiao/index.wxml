@@ -170,16 +170,25 @@
             <view class="title"></view>
             <view class="block-wrapper submit-info-wrapper">
                 <view class="total">
-                    <text class="title-word"><image src="../../images/jiekuanTotal-icon.png" mode="scaleToFill" class="jiekuan-icon" />
-                        报销金额：</text><text class="total-word">{{submitData.formatApplicationAmount}}</text>
+                    <view style="display:flex;align-items: center">
+                        <image src="../../images/jiekuanTotal-icon.png" mode="scaleToFill" class="jiekuan-icon" />
+                        <text class="title-word">报销金额：</text>
+                    </view>
+                    <text class="total-word">{{submitData.formatApplicationAmount}}</text>
                 </view>
                 <view class="total">
-                    <text class="title-word"><image src="../../images/jiekuanTotal-icon.png" mode="scaleToFill" class="jiekuan-icon" />
-                        核销借款：</text><text class="total-word">-{{submitData.formatVerificationAmount}}</text>
+                    <view style="display:flex;align-items: center">
+                        <image src="../../images/jiekuanTotal-icon.png" mode="scaleToFill" class="jiekuan-icon" />
+                        <text class="title-word">核销借款：</text>
+                    </view>
+                    <text class="total-word">-{{submitData.formatVerificationAmount}}</text>
                 </view>
                 <view class="total">
-                    <text class="title-word"><image src="../../images/jiekuanTotal-icon.png" mode="scaleToFill" class="jiekuan-icon" />
-                        支付总额：</text><text class="total-word">{{submitData.formatTotalAmount}}</text>
+                    <view style="display:flex;align-items: center">
+                        <image src="../../images/jiekuanTotal-icon.png" mode="scaleToFill" class="jiekuan-icon" />
+                        <text class="title-word">支付总额：</text>
+                    </view>
+                    <text class="total-word">{{submitData.formatTotalAmount}}</text>
                 </view>
             </view>
             <!--              流程图-->

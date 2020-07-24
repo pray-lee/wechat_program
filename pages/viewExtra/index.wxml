@@ -26,8 +26,11 @@
             </view>
         </scroll-view>
         <view class="total">
-            <text><image src="../../images/jiekuanTotal-icon.png" mode="scaleToFill" class="jiekuan-icon" />
-                金额合计：</text><text class="total-word">{{baoxiaoDetail.applicationAmount}}</text>
+            <view style="display:flex;align-items: center">
+                <image src="../../images/jiekuanTotal-icon.png" mode="scaleToFill" class="jiekuan-icon" />
+                <text>金额合计：</text>
+            </view>
+            <text class="total-word">{{baoxiaoDetail.applicationAmount}}</text>
         </view>
         </form>
     </view>

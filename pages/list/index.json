@@ -1,5 +1,3 @@
 {
-  "navigationBarTitleText": "单据列表",
-  "pullRefresh": true,
-  "allowsBounceVertical": "NO"
+  "navigationBarTitleText": "单据列表"
 }

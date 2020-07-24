@@ -256,7 +256,7 @@ Page({
             animationInfo: animation.export()
         })
         //刷新
-        const query = wx.getStorageSync({key: 'query'})
+        const query = wx.getStorageSync('query')
         console.log(query)
 
         if(query) {

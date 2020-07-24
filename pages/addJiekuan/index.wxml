@@ -77,7 +77,7 @@
                 <view class="form-line"/>
                 <view class="form-row" wx:if="{{subjectAuxptyList.length}}">
                     <view class="form-row-label"><text class="require">*</text>核算维度</view>
-                    <view class="form-row-content auxpty-wrapper" wx:for="{{subjectAuxptyList}}" data-id="{{item.auxptyId}}" bindtap="goAuxptyPage">
+                    <view class="form-row-content auxpty-wrapper" wx:for="{{subjectAuxptyList}}" wx:key="index" data-id="{{item.auxptyId}}" bindtap="goAuxptyPage">
                             <view class="mock-input left ellipsis">{{item.auxptyName}}</view>
                             <view class="mock-input right ellipsis" wx:if="{{!!selectedAuxpty && selectedAuxpty[item.auxptyId]}}">{{selectedAuxpty[item.auxptyId].name}}</view>
                             <view class="mock-input right ellipsis" wx:else>请选择</view>
@@ -119,7 +119,7 @@
             <view class="block-wrapper">
                 <view class="title special-title">借款列表</view>
                 <view class="borrow-list">
-                    <view class="borrow-item" wx:for="{{submitData.billDetailListObj}}">
+                    <view class="borrow-item" wx:for="{{submitData.billDetailListObj}}" wx:key="index">
                         <view class="form-row">
                             <view class="delete-borrow" bindtap="deleteBorrowDetail" data-detail="{{item.borrowAmount}}"></view>
                             <view class="form-row-content" bindtap="editBorrowDetail" data-index="{{index}}">
@@ -140,7 +140,7 @@
             <view class="block-wrapper">
                 <view class="title special-title">附件上传</view>
                 <view class="file-list">
-                    <view class="file-item" wx:if="{{submitData.billFilesObj.length}}" wx:for="{{submitData.billFilesObj}}">
+                    <view class="file-item" wx:if="{{submitData.billFilesObj.length}}" wx:for="{{submitData.billFilesObj}}" wx:key="index">
                         <view class="form-row">
                             <view class="delete-file" bindtap="deleteFile" data-file="{{item.name}}"></view>
 
@@ -158,14 +158,18 @@
             <view class="title"></view>
             <view class="block-wrapper submit-info-wrapper">
                 <view class="total">
-                    <text><image src="../../images/jiekuanTotal-icon.png" mode="scaleToFill" class="jiekuan-icon" />
-                        借款合计：</text><text class="total-word">{{submitData.formatAmount}}</text></view>
+                    <view style="display:flex;align-items: center">
+                        <image src="../../images/jiekuanTotal-icon.png" mode="scaleToFill" class="jiekuan-icon" />
+                        <text>借款合计：</text>
+                    </view>
+                    <text class="total-word">{{submitData.formatAmount}}</text>
+                </view>
             </view>
             <!--              流程图-->
             <block wx:if="{{process !== null && process.operationRecords.length}}">
                 <view class="title">{{process.title}}</view>
                 <view class="progress">
-                    <view class="progress-box" wx:for="{{process.operationRecords}}">
+                    <view class="progress-box" wx:for="{{process.operationRecords}}" wx:key="index">
                         <view class="progress-left">
                             <view class="avatar-wrapper">
                                 <view class="avatar-block">
@@ -214,7 +218,7 @@
                                 <view class="progress-user">{{process.tasks.length}}人审批{{process.tasks[0].resultName}}</view>
                                 <view class="progress-user" wx:if="{{item.remark}}">"{{item.remark}}"</view>
                                 <view class="task-name-list">
-                                    <view class="task-name" wx:for="{{process.tasks}}">
+                                    <view class="task-name" wx:for="{{process.tasks}}" wx:key="index">
                                         <image class="small-avatar" src="{{item.avatar}}" wx:if="{{item.avatar}}"></image>
                                         <view class="small-avatar" wx:else>{{item.realName}}</view>
                                         <view class="small-name">{{item.userName}}</view>
@@ -227,7 +231,7 @@
                 </view>
                 <view class="cc-wrapper" wx:if="{{process.cc.length}}">
                     <view class="cc-title">抄送人</view>
-                    <view wx:for="{{process.cc}}" wx:if="{{process.cc.length}}" class="cc-item">
+                    <view wx:for="{{process.cc}}" wx:key="index" wx:if="{{process.cc.length}}" class="cc-item">
                         <image class="small-avatar" src="{{item.avatar}}" wx:if="{{item.avatar}}"></image>
                         <view class="small-avatar" wx:else>{{item.realName}}</view>
                         <view class="small-name">{{item.userName}}</view>

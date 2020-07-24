@@ -304,7 +304,7 @@ Page({
     },
     getBorrowIdFromStorage() {
         // 从缓存里获取借款人id
-        const borrowId = wx.getStorageSync({key: 'borrowId'})
+        const borrowId = wx.getStorageSync('borrowId')
         console.log(borrowId, '---------------')
         if (!!borrowId) {
             console.log('借款人id已经获取', borrowId)
@@ -327,7 +327,7 @@ Page({
     },
     getAuxptyIdFromStorage() {
         // 从缓存里获取auxpty
-        const auxpty = wx.getStorageSync({key: 'auxpty'})
+        const auxpty = wx.getStorageSync('auxpty')
         if (!!auxpty) {
             this.setSelectedAuxpty(auxpty)
             wx.removeStorage({
@@ -337,7 +337,7 @@ Page({
     },
     getSubjectIdFromStorage() {
         // 从缓存里获取科目id
-        const subject = wx.getStorageSync({key: 'subject'})
+        const subject = wx.getStorageSync('subject')
         if (!!subject && subject !== null) {
             this.setData({
                 selectedAuxpty: null,
@@ -356,7 +356,7 @@ Page({
     },
     getCapitalDetailIdFromStorage() {
         // 从缓存里获取科目id
-        const capital = wx.getStorageSync({key: 'capital'})
+        const capital = wx.getStorageSync('capital')
         console.log(capital, 'apital')
         if (!!capital && capital !== null) {
             this.setData({
@@ -460,7 +460,7 @@ Page({
     },
     handleAddBorrow() {
         console.log(this.data.submitData)
-        const borrowAmountIndex = wx.getStorageSync({key: 'borrowAmountIndex'})
+        const borrowAmountIndex = wx.getStorageSync('borrowAmountIndex')
         if (this.data.borrowAmount === '') {
             wx.showModal({
                 content: '请输入借款金额',
@@ -1220,7 +1220,7 @@ Page({
         })
     },
     goSubjectPage() {
-        const subjectList = wx.getStorageSync({key: 'subjectList'})
+        const subjectList = wx.getStorageSync('subjectList')
         console.log(subjectList)
         if(subjectList.length) {
             wx.navigateTo({

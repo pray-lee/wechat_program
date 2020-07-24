@@ -136,8 +136,12 @@
             <view class="title"></view>
             <view class="block-wrapper submit-info-wrapper">
                 <view class="total">
-                    <text><image src="../../images/jiekuanTotal-icon.png" mode="scaleToFill" class="jiekuan-icon" />
-                        借款合计：</text><text class="total-word">{{result.amount}}</text></view>
+                    <view style="display:flex;align-items: center">
+                        <image src="../../images/jiekuanTotal-icon.png" mode="scaleToFill" class="jiekuan-icon" />
+                        <text>借款合计：</text>
+                    </view>
+                    <text class="total-word">{{result.amount}}</text>
+                </view>
             </view>
             <!--              流程图-->
             <block wx:if="{{process !== null && process.operationRecords.length}}">
