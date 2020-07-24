@@ -6,7 +6,7 @@
     </view>
     <scroll-view scroll-y="{{true}}" class="scroll-view {{isPhoneXSeries ? 'iphoneX' : ''}}" scroll-top="{{scrollTop}}" onScroll="onScroll">
         <view class="list-wrapper">
-            <view class="list-item" wx:for="{{list}}">
+            <view class="list-item" wx:for="{{list}}" wx:key="index">
                 <movable-area class='movable-area' wx:if="{{item.status == 25 || item.status == 10}}">
                     <movable-view direction="horizontal" class='movable-view'>
                         <view class="touch-item {{item.isTouchMove ? 'touch-move-active' : ''}}" data-index="{{index}}" onTouchStart="touchstart" onTouchMove="touchmove">

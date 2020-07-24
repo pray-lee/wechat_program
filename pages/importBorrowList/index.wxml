@@ -3,7 +3,7 @@
     <form onSubmit="onCheckboxSubmit">
         <scroll-view class="jiekuandan {{isPhoneXSeries ? 'iphoneX' : ''}}" scroll-y>
             <block wx:if="{{tempImportList.length}}">
-                <checkbox-group bindchange="onCheckboxChange" name="{{item.id}}" wx:for="{{tempImportList}}">
+                <checkbox-group bindchange="onCheckboxChange" name="{{item.id}}" wx:key="index" wx:for="{{tempImportList}}">
                     <label class="checkbox-label">
                         <checkbox value="{{item}}" class="checkbox"></checkbox>
                         <view class="import-borrow-item">

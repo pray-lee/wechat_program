@@ -75,7 +75,7 @@
             <view class="block-wrapper">
                 <view class="title special-title">报销详情</view>
                 <view class="baoxiao-list">
-                    <view class="baoxiao-item" wx:for="{{result.billDetailList}}" wx:if="{{result.billDetailList.length}}">
+                    <view class="baoxiao-item" wx:for="{{result.billDetailList}}" wx:key="index" wx:if="{{result.billDetailList.length}}">
                         <view class="form-row">
                             <view class="form-row-content baoxiaoDetail-left" bindtap="showBaoxiaoDetail" data-index="{{index}}">
                                 <view class="subject-title">{{item.subject.subjectName}}</view>
@@ -95,7 +95,7 @@
                 <view class="block-wrapper">
                     <view class="title special-title">核销借款</view>
                     <view class="borrow-list">
-                        <view class="borrow-item" wx:for="{{result.borrowBillList}}">
+                        <view class="borrow-item" wx:for="{{result.borrowBillList}}" wx:key="index">
                             <view class="form-row">
                                 <view class="form-row-content baoxiaoDetail-left">
                                     <view class="subject-title">{{item.subject.fullSubjectName}}</view>
@@ -121,7 +121,7 @@
                 <view class="block-wrapper">
                     <view class="title special-title">附件上传</view>
                     <view class="file-list">
-                        <view class="file-item" wx:for="{{result.billFiles}}">
+                        <view class="file-item" wx:for="{{result.billFiles}}" wx:key="index">
                             <view class="form-row">
                                 <view class="form-row-content ellipsis" bindtap="previewFile" data-url="{{item.uri}}">{{item.name}}</view>
                                 <view class="form-row-content img-wrapper" bindtap="previewFile" data-url="{{item.uri}}">
@@ -160,7 +160,7 @@
             <block wx:if="{{process !== null}}">
                 <view class="title">{{process.title}}</view>
                 <view class="progress">
-                    <view class="progress-box" wx:for="{{process.operationRecords}}">
+                    <view class="progress-box" wx:for="{{process.operationRecords}}" wx:key="index">
                         <view class="progress-left">
                             <view class="avatar-wrapper">
                                 <view class="avatar-block">
@@ -209,7 +209,7 @@
                                 <view class="progress-user">{{process.tasks.length}}人审批{{process.tasks[0].resultName}}</view>
                                 <view class="progress-user" wx:if="{{item.remark}}">"{{item.remark}}"</view>
                                 <view class="task-name-list">
-                                    <view class="task-name" wx:for="{{process.tasks}}">
+                                    <view class="task-name" wx:for="{{process.tasks}}" wx:key="index">
                                         <image class="small-avatar" src="{{item.avatar}}" wx:if="{{item.avatar}}"></image>
                                         <view class="small-avatar" wx:else>{{item.realName}}</view>
                                         <view class="small-name">{{item.userName}}</view>
@@ -222,7 +222,7 @@
                 </view>
                 <view class="cc-wrapper" wx:if="{{process.cc.length}}">
                     <view class="cc-title">抄送人</view>
-                    <view wx:for="{{process.cc}}" wx:if="{{process.cc.length}}" class="cc-item">
+                    <view wx:for="{{process.cc}}" wx:key="index" wx:if="{{process.cc.length}}" class="cc-item">
                         <image class="small-avatar" src="{{item.avatar}}" wx:if="{{item.avatar}}"></image>
                         <view class="small-avatar" wx:else>{{item.realName}}</view>
                         <view class="small-name">{{item.userName}}</view>
