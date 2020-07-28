@@ -86,13 +86,13 @@ Page({
     addLoading() {
         if (app.globalData.loadingCount < 1) {
             wx.showLoading({
-                content: '加载中...'
+                title: '加载中...',
+                mask: true
             })
         }
         app.globalData.loadingCount++
     },
     hideLoading() {
-        console.log(app.globalData.loadingCount, 'loadingCount')
         app.globalData.loadingCount--
         if (app.globalData.loadingCount === 0) {
             wx.hideLoading()
@@ -110,7 +110,7 @@ Page({
         console.log(this.data.submitData)
         Object.keys(this.data.submitData).forEach(item => {
             console.log(item)
-            if(item.indexOf('billApEntityList[') != -1) {
+            if (item.indexOf('billApEntityList[') != -1) {
                 delete this.data.submitData[item]
             }
         })
@@ -210,7 +210,7 @@ Page({
             // this.getSubjectAuxptyList(this.data.submitData.subjectId, this.data.submitData.accountbookId)
             // uisCurrentUser 判断是否应该选择当前登录的用户的applicantId
             var isCurrentUser = true
-            if(this.data[listName][value].id !== 10) {
+            if (this.data[listName][value].id !== 10) {
                 isCurrentUser = false
             }
             this.getBorrowBillList(this.data.submitData.accountbookId, this.data[listName][value].id, null, null, isCurrentUser)
@@ -270,13 +270,13 @@ Page({
             maskHidden: false,
             dialogHidden: false
         })
-        if(index >= 0) {
+        if (index >= 0) {
             this.setData({
                 borrowAmount: this.data.submitData.billDetailListObj[index].borrowAmount,
                 formatBorrowAmount: formatNumber(this.data.submitData.billDetailListObj[index].borrowAmount),
                 remark: this.data.submitData.billDetailListObj[index].remark
             })
-        }else{
+        } else {
             this.setData({
                 borrowAmount: '',
                 formatBorrowAmount: '',
@@ -328,6 +328,7 @@ Page({
     getAuxptyIdFromStorage() {
         // 从缓存里获取auxpty
         const auxpty = wx.getStorageSync('auxpty')
+        console.log(auxpty, '..................')
         if (!!auxpty) {
             this.setSelectedAuxpty(auxpty)
             wx.removeStorage({
@@ -477,13 +478,13 @@ Page({
             remark: this.data.remark
         }
         var billDetailListObj = []
-        if(borrowAmountIndex != null) {
+        if (borrowAmountIndex != null) {
             billDetailListObj = clone(this.data.submitData['billDetailListObj'])
             billDetailListObj.splice(borrowAmountIndex, 1, obj)
             wx.removeStorage({
                 key: 'borrowAmountIndex'
             })
-        }else{
+        } else {
             billDetailListObj = this.data.submitData['billDetailListObj'].concat(obj)
         }
         // 借款合计
@@ -505,7 +506,7 @@ Page({
         wx.chooseImage({
             count: 9,
             success: res => {
-                this.uploadFile(res.filePaths)
+                this.uploadFile(res.tempFilePaths)
             },
             fail: res => {
                 console.log('用户取消操作')
@@ -612,11 +613,11 @@ Page({
         this.addLoading()
         request({
             hideLoading: this.hideLoading,
-            url: app.globalData.url + 'accountbookController.do?getAccountbooksJsonByUserId&agentId=' + app.globalData.agentId,
+            url: app.globalData.url + 'accountbookController.do?getAccountbooksJsonByUserId&corpId=' + app.globalData.corpId,
             method: 'GET',
             success: res => {
                 console.log(res)
-                if(res.data.success) {
+                if (res.data.success && res.data.obj.length) {
                     var accountbookIndex = 0
                     var accountbookId = !!data ? data.accountbookId : res.data.obj[0].id
                     // edit的时候设置值
@@ -640,7 +641,7 @@ Page({
                     var applicantId = data ? data.applicantId : ''
                     var applicantIndex = 0
                     this.data.applicantType.forEach((item, index) => {
-                        if(item.id === applicantType) {
+                        if (item.id === applicantType) {
                             applicantIndex = index
                         }
                     })
@@ -653,7 +654,7 @@ Page({
                     this.getBorrowBillList(accountbookId, applicantType, applicantId, incomeBankName, true)
                     this.getDepartmentList(accountbookId, submitterDepartmentId, subjectId)
                     this.isCapitalTypeStart(accountbookId, capitalTypeDetailId)
-                }else{
+                } else {
                     wx.showModal({
                         content: res.data.msg,
                         confirmText: '好的',
@@ -678,7 +679,8 @@ Page({
             method: 'GET',
             success: res => {
                 console.log(res, '部门')
-                if(res.data && res.data.length) {
+                console.log(departmentId, 'departmentId')
+                if (res.data && res.data.length) {
                     var arr = res.data.map(item => {
                         return {
                             id: item.departDetail.id,
@@ -704,7 +706,7 @@ Page({
                         }
                     })
                     this.getSubjectList(accountbookId, submitterDepartmentId, subjectId)
-                }else{
+                } else {
                     wx.showModal({
                         content: '当前用户未设置部门或者所属部门已禁用',
                         confirmText: '好的',
@@ -743,9 +745,9 @@ Page({
                 // edit的时候，设置borrowIndex
                 var borrowIndex = 0
                 var applicantId = ''
-                if(isCurrentUser) {
+                if (isCurrentUser) {
                     applicantId = !!applicant ? applicant : app.globalData.applicantId
-                }else{
+                } else {
                     applicantId = arr[0].id
                 }
                 console.log(applicantId, '.........')
@@ -929,13 +931,13 @@ Page({
     getAuxptyList(accountbookId, auxptyid) {
         this.addLoading()
         let url = this.getAuxptyUrl(accountbookId, auxptyid)
-        if(auxptyid == 2 && this.data.submitData.applicantType == 10) {
+        if (auxptyid == 2 && this.data.submitData.applicantType == 10) {
             url = url + '&id=' + this.data.submitData.applicantId
         }
-        if(auxptyid == 3 && this.data.submitData.applicantType == 20) {
+        if (auxptyid == 3 && this.data.submitData.applicantType == 20) {
             url = url + '&id=' + this.data.submitData.applicantId
         }
-        if(auxptyid == 4 && this.data.submitData.applicantType == 30) {
+        if (auxptyid == 4 && this.data.submitData.applicantType == 30) {
             url = url + '&id=' + this.data.submitData.applicantId
         }
         request({
@@ -962,7 +964,13 @@ Page({
                 let index = null
                 if (auxptyid == 1) {
                     // 部门
-                    index = this.setInitIndex(newObj, this.data.submitData.submitterDepartmentId)
+                    let submitterDepartmentId = ''
+                    if(this.data.selectedAuxpty && this.data.selectedAuxpty[auxptyid]) {
+                        submitterDepartmentId = this.data.selectedAuxpty[auxptyid].id
+                    }else{
+                        submitterDepartmentId = this.data.submitData.submitterDepartmentId
+                    }
+                    index = this.setInitIndex(newObj, submitterDepartmentId)
                 }
                 if (auxptyid == 2 && this.data.submitData.applicantType == 10) {
                     index = this.setInitIndex(newObj, this.data.submitData.applicantId)
@@ -1222,11 +1230,11 @@ Page({
     goSubjectPage() {
         const subjectList = wx.getStorageSync('subjectList')
         console.log(subjectList)
-        if(subjectList.length) {
+        if (subjectList.length) {
             wx.navigateTo({
                 url: '/pages/subjectPage/index'
             })
-        }else{
+        } else {
             wx.showModal({
                 content: '未找到借款类型',
                 confirmText: '好的',
@@ -1277,7 +1285,7 @@ Page({
             confirmButtonText: '是',
             cancelButtonText: '否',
             success: res => {
-                if(res.confirm) {
+                if (res.confirm) {
                     this.addLoading()
                     request({
                         hideLoading: this.hideLoading,
@@ -1285,11 +1293,11 @@ Page({
                         method: 'GET',
                         success: res => {
                             console.log(res)
-                            if(res.data.success) {
+                            if (res.data.success) {
                                 wx.navigateBack({
                                     delta: 1
                                 })
-                            }else{
+                            } else {
                                 wx.showModal({
                                     content: '借款单删除失败',
                                     confirmText: '好的',
@@ -1309,14 +1317,14 @@ Page({
             url: app.globalData.url + 'dingtalkController.do?getProcessinstanceJson&billType=4&billId=' + billId + '&accountbookId=' + accountbookId,
             method: 'GET',
             success: res => {
-                if(res.data && res.data.length) {
-                    const { title, operationRecords, tasks, ccUserids } = res.data[0]
+                if (res.data && res.data.length) {
+                    const {title, operationRecords, tasks, ccUserids} = res.data[0]
                     const taskArr = tasks.filter(item => {
-                        if(item.taskStatus === 'RUNNING') {
-                            if(item.userid.split(',')[2]){
+                        if (item.taskStatus === 'RUNNING') {
+                            if (item.userid.split(',')[2]) {
                                 item.userName = item.userid.split(',')[2]
                                 item.realName = item.userid.split(',')[0].length > 1 ? item.userid.split(',')[0].slice(-2) : item.userid.split(',')[0]
-                            }else{
+                            } else {
                                 item.userName = item.userid.split(',')[0].length > 1 ? item.userid.split(',')[0].slice(-2) : item.userid.split(',')[0]
                                 item.realName = item.userid.split(',')[0].length > 1 ? item.userid.split(',')[0].slice(-2) : item.userid.split(',')[0]
                             }
@@ -1329,7 +1337,7 @@ Page({
 
                     // 抄送人
                     let cc = []
-                    if(ccUserids && ccUserids.length) {
+                    if (ccUserids && ccUserids.length) {
                         cc = ccUserids.map(item => {
                             return {
                                 userName: item.split(',')[0],
@@ -1340,28 +1348,28 @@ Page({
                     }
 
                     const operationArr = operationRecords.filter(item => {
-                        if(item.userid.split(',')[2]){
+                        if (item.userid.split(',')[2]) {
                             item.userName = item.userid.split(',')[2]
                             item.realName = item.userid.split(',')[0].length > 1 ? item.userid.split(',')[0].slice(-2) : item.userid.split(',')[0]
-                        }else{
+                        } else {
                             item.userName = item.userid.split(',')[0].length > 1 ? item.userid.split(',')[0].slice(-2) : item.userid.split(',')[0]
                             item.realName = item.userid.split(',')[0].length > 1 ? item.userid.split(',')[0].slice(-2) : item.userid.split(',')[0]
                         }
                         console.log(item.realName)
                         item.avatar = item.userid.split(',')[1]
-                        if(item.operationType === 'START_PROCESS_INSTANCE') {
+                        if (item.operationType === 'START_PROCESS_INSTANCE') {
                             item.operationName = '发起审批'
-                        } else if(item.operationType !== 'NONE') {
+                        } else if (item.operationType !== 'NONE') {
                             item.operationName = '审批人'
                         }
-                        if(item.operationResult === 'AGREE') {
+                        if (item.operationResult === 'AGREE') {
                             item.resultName = '（已同意）'
-                        }else if(item.operationResult === 'REFUSE') {
+                        } else if (item.operationResult === 'REFUSE') {
                             item.resultName = '（已拒绝）'
-                        }else{
+                        } else {
                             item.resultName = ''
                         }
-                        if(item.operationType !== 'NONE') {
+                        if (item.operationType !== 'NONE') {
                             return item
                         }
                     })

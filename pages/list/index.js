@@ -1,6 +1,7 @@
 var app = getApp()
 app.globalData.loadingCount = 0
 import {formatNumber, request} from '../../util/getErrorMessage'
+
 Page({
     data: {
         startX: 0, //开始坐标
@@ -19,60 +20,62 @@ Page({
             60: "已提交付款",
             80: "已付款"
         },
-            applicantType: {
-                10: "职员",
-                20: "供应商",
-                30: "客户"
-            },
-            active: ''
+        applicantType: {
+            10: "职员",
+            20: "供应商",
+            30: "客户"
         },
-        //手指触摸动作开始 记录起点X坐标
-        touchstart: function (e) {
-            //开始触摸时 重置所有删除
-            this.data.list.forEach(function (v, i) {
+        active: ''
+    },
+    //手指触摸动作开始 记录起点X坐标
+    touchstart: function (e) {
+        console.log(e)
+        //开始触摸时 重置所有删除
+        this.data.list.forEach(function (v, i) {
             if (v.isTouchMove)//只操作为true的
                 v.isTouchMove = false;
-            })
-            this.setData({
+        })
+        this.setData({
             startX: e.changedTouches[0].clientX,
             startY: e.changedTouches[0].clientY,
             list: this.data.list
-            })
-        },
-        //滑动事件处理
-        touchmove: function (e) {
-            var that = this,
+        })
+    },
+    //滑动事件处理
+    touchmove: function (e) {
+        console.log(e)
+        var that = this,
             index = e.currentTarget.dataset.index,//当前索引
             startX = that.data.startX,//开始X坐标
             startY = that.data.startY,//开始Y坐标
             touchMoveX = e.changedTouches[0].clientX,//滑动变化坐标
             touchMoveY = e.changedTouches[0].clientY,//滑动变化坐标
             //获取滑动角度
-            angle = that.angle({ X: startX, Y: startY }, { X: touchMoveX, Y: touchMoveY });
-            that.data.list.forEach(function (v, i) {
+            angle = that.angle({X: startX, Y: startY}, {X: touchMoveX, Y: touchMoveY});
+        that.data.list.forEach(function (v, i) {
             v.isTouchMove = false
             //滑动超过30度角 return
             if (Math.abs(angle) > 30) return;
             if (i == index) {
                 if (touchMoveX > startX) //右滑
-                v.isTouchMove = false
+                    v.isTouchMove = false
                 else //左滑
-                v.isTouchMove = true
+                    v.isTouchMove = true
             }
-            })
-            //更新数据
-            that.setData({
+        })
+        //更新数据
+        that.setData({
             list: that.data.list
-            })
-        },
-        /**
-         * 计算滑动角度
-         * @param {Object} start 起点坐标
-         * @param {Object} end 终点坐标
+        })
+    },
+    /**
+     * 计算滑动角度
+     * @param {Object} start 起点坐标
+     * @param {Object} end 终点坐标
      */
     angle: function (start, end) {
         var _X = end.X - start.X,
-        _Y = end.Y - start.Y
+            _Y = end.Y - start.Y
         //返回角度 /Math.atan()返回数字的反正切值
         return 360 * Math.atan(_Y / _X) / (2 * Math.PI);
     },
@@ -122,14 +125,14 @@ Page({
             method: 'GET',
             success: res => {
                 let arr = []
-                if(this.data.flag === 'J') {
+                if (this.data.flag === 'J') {
                     arr = res.data.rows.map(item => {
                         return {
                             ...item,
                             amount: formatNumber(item.amount)
                         }
                     })
-                }else{
+                } else {
                     arr = res.data.rows.map(item => {
                         return {
                             ...item,
@@ -137,6 +140,9 @@ Page({
                         }
                     })
                 }
+                arr.forEach(item => {
+                    item.isTouchMove = false
+                })
                 this.setData({
                     list: arr,
                 })
@@ -168,14 +174,14 @@ Page({
             success: res => {
                 console.log(res)
                 let arr = []
-                if(flag === 'J') {
+                if (flag === 'J') {
                     arr = res.data.rows.map(item => {
                         return {
                             ...item,
                             amount: formatNumber(item.amount)
                         }
                     })
-                }else{
+                } else {
                     arr = res.data.rows.map(item => {
                         return {
                             ...item,
@@ -183,6 +189,9 @@ Page({
                         }
                     })
                 }
+                arr.forEach(item => {
+                    item.isTouchMove = false
+                })
                 this.setData({
                     list: arr
                 })
@@ -194,19 +203,20 @@ Page({
         })
     },
     addLoading() {
-        if(app.globalData.loadingCount < 1) {
+        if (app.globalData.loadingCount < 1) {
             wx.showLoading({
-                content: '加载中...'
+                title: '加载中...',
+                mask: true
             })
         }
-        app.globalData.loadingCount +=1
+        app.globalData.loadingCount += 1
     },
     hideLoading() {
-        if(app.globalData.loadingCount <= 1) {
+        if (app.globalData.loadingCount <= 1) {
             wx.hideLoading()
             app.globalData.loadingCount = 0
-        }else{
-            app.globalData.loadingCount-=1
+        } else {
+            app.globalData.loadingCount -= 1
         }
     },
     onAddShow() {
@@ -259,9 +269,9 @@ Page({
         const query = wx.getStorageSync('query')
         console.log(query)
 
-        if(query) {
+        if (query) {
             // 如果是审批驳回的，返回20，进未完成tab
-            if(query.type == 25) {
+            if (query.type == 25) {
                 query.type = 20
             }
             wx.removeStorage({
@@ -274,22 +284,22 @@ Page({
         var id = e.currentTarget.dataset.id
         const status = e.currentTarget.dataset.status
         console.log(this.data.type, 'type')
-        if(this.data.type.indexOf('B') != -1) {
-            if(status == 10 || status == 25) {
+        if (this.data.type.indexOf('B') != -1) {
+            if (status == 10 || status == 25) {
                 wx.navigateTo({
                     url: '../addBaoxiao/index?type=edit&id=' + id
                 })
-            }else{
+            } else {
                 wx.navigateTo({
                     url: '../viewBaoxiao/index?id=' + id
                 })
             }
-        }else{
-            if(status == 10 || status == 25) {
+        } else {
+            if (status == 10 || status == 25) {
                 wx.navigateTo({
                     url: '../addJiekuan/index?type=edit&id=' + id
                 })
-            }else{
+            } else {
                 wx.navigateTo({
                     url: '../viewJiekuan/index?id=' + id
                 })
@@ -300,9 +310,9 @@ Page({
         const {id, flag, status} = e.currentTarget.dataset
         console.log(status, 'deleteBill')
         let url = ''
-        if(flag === 'J') {
+        if (flag === 'J') {
             url = app.globalData.url + 'borrowBillController.do?doBatchDel&ids=' + id
-        }else{
+        } else {
             url = app.globalData.url + 'reimbursementBillController.do?doBatchDel&ids=' + id
         }
         wx.confirm({
@@ -314,7 +324,7 @@ Page({
                 this.setData({
                     x: 0
                 })
-                if(res.confirm) {
+                if (res.confirm) {
                     this.addLoading()
                     request({
                         hideLoading: this.hideLoading,
@@ -322,12 +332,12 @@ Page({
                         method: 'GET',
                         success: res => {
                             console.log(res)
-                            if(res.data.success) {
+                            if (res.data.success) {
                                 this.onLoad({
                                     flag,
                                     type: status == 25 ? 20 : status
                                 })
-                            }else{
+                            } else {
                                 wx.showModal({
                                     content: '单据删除失败',
                                     confirmText: '好的',

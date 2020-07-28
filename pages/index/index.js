@@ -56,7 +56,8 @@ Page({
     addLoading() {
         if (app.globalData.loadingCount < 1) {
             wx.showLoading({
-                content: '加载中...'
+                title: '加载中...',
+                mask: true
             })
         }
         app.globalData.loadingCount += 1
@@ -113,63 +114,64 @@ Page({
     },
     onShow() {
         if(app.globalData.isWxWork) {
-            // this.addLoading()
-            // wx.qy.login({
-            //     success: (res) => {
-            //         this.hideLoading()
-            //         this.addLoading()
-            //         console.log(res.code, '授权码')
-            //         request({
-            //             hideLoading: this.hideLoading,
-            //             url: app.globalData.url + "loginController.do?loginDingTalk&code=" + res.code ,
-            //             method: 'GET',
-            //             success: res => {
-            //                 if (res.data.success) {
-            //                     if(res.data.obj) {
-            //                         app.globalData.realName = res.data.obj.realName
-            //                         app.globalData.applicantId = res.data.obj.id
-            //                         // 请求借款列表
-            //                         this.getJiekuanList()
-            //                         // 请求报销列表
-            //                         this.getBaoxiaoList()
-            //                     }else{
-            //                         loginFiled(res.data.msg)
-            //                     }
-            //                 } else {
-            //                     loginFiled(res.data.msg)
-            //                 }
-            //             },
-            //             fail: res => {
-            //                 console.log(res)
-            //             }
-            //         })
-            //     },
-            //     fail: res => {
-            //         console.log(res ,'获取授权码失败')
-            //         wx.showModal({
-            //             content: '当前组织没有该小程序',
-            //             confirmText: '好的',
-            //             showCancel: false,
-            //             success: res => {
-            //                 wx.reLaunch({
-            //                     url: '/pages/error/index'
-            //                 })
-            //             }
-            //         })
-            //     }
-            // })
-        }else{
-            this.hideLoading()
-            wx.showModal({
-                content: '当前小程序只能在企业微信使用',
-                confirmText: '好的',
-                showCancel: false,
-                success: res => {
-                    wx.reLaunch({
-                        url: '/pages/error/index'
+            this.addLoading()
+            wx.qy.login({
+                success: (res) => {
+                    this.hideLoading()
+                    this.addLoading()
+                    request({
+                        hideLoading: this.hideLoading,
+                        url: app.globalData.url + "loginController.do?loginWeiXin&code=" + res.code + '&corpId=' + app.globalData.corpId,
+                        method: 'GET',
+                        success: res => {
+                            if (res.data.success) {
+                                if(res.data.obj) {
+                                    // session写入缓存
+                                    wx.setStorageSync('sessionId', res.header['Set-Cookie'])
+                                    app.globalData.realName = res.data.obj.realName
+                                    app.globalData.applicantId = res.data.obj.id
+                                    // 请求借款列表
+                                    this.getJiekuanList()
+                                    // 请求报销列表
+                                    this.getBaoxiaoList()
+                                }else{
+                                    loginFiled(res.data.msg)
+                                }
+                            } else {
+                                loginFiled(res.data.msg)
+                            }
+                        },
+                        fail: res => {
+                            console.log(res)
+                        }
+                    })
+                },
+                fail: res => {
+                    console.log(res ,'获取授权码失败')
+                    wx.showModal({
+                        content: '当前组织没有该小程序',
+                        confirmText: '好的',
+                        showCancel: false,
+                        success: res => {
+                            wx.reLaunch({
+                                url: '/pages/error/index'
+                            })
+                        }
                     })
                 }
             })
+        }else{
+            this.hideLoading()
+            // wx.showModal({
+            //     content: '当前小程序只能在企业微信使用',
+            //     confirmText: '好的',
+            //     showCancel: false,
+            //     success: res => {
+            //         wx.reLaunch({
+            //             url: '/pages/error/index'
+            //         })
+            //     }
+            // })
         }
         // 页面显示
         var animation = wx.createAnimation({

@@ -12,6 +12,7 @@ Page({
         wx.getStorage({
             key: 'auxptyList',
             success: res => {
+                console.log(res, '获取辅助核算')
                 this.setData({
                     auxptyList: res.data,
                     searchResult: res.data
@@ -20,9 +21,10 @@ Page({
         })
     },
     goBack(e) {
+        console.log(e)
         const id = e.currentTarget.dataset.id
         const name = e.currentTarget.dataset.name
-        const auxptyId = e.currentTarget.dataset.auxptyId
+        const auxptyId = e.currentTarget.dataset.auxptyid
         const obj = {
             id,
             name,
@@ -33,6 +35,7 @@ Page({
             data: obj,
             success: res => {
                 console.log('设置辅助核算成功...')
+                console.log(obj)
                 wx.navigateBack({
                     delta: 1
                 })

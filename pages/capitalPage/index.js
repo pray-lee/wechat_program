@@ -23,10 +23,7 @@ Page({
         const id = e.currentTarget.dataset.id
         const name = e.currentTarget.dataset.name
         const obj = {id, name}
-        wx.setStorageSync({
-            key: 'capital',
-            data: obj,
-        })
+        wx.setStorageSync('capital', obj)
         console.log('设置资金计划成功...')
         wx.navigateBack({
             delta: 1

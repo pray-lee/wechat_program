@@ -104,12 +104,21 @@ Page({
                             }
                         })
                     } else {
-                        this.setData({
-                            submitData: {
-                                ...this.data.submitData,
-                                [`${name}[${index}].${keys}`]: item[keys]
-                            }
-                        })
+                        if (keys === 'subjectExtraConf' && typeof item[keys] === 'object') {
+                            this.setData({
+                                submitData: {
+                                    ...this.data.submitData,
+                                    [`${name}[${index}].${keys}`]: JSON.stringify(item[keys])
+                                }
+                            })
+                        } else {
+                            this.setData({
+                                submitData: {
+                                    ...this.data.submitData,
+                                    [`${name}[${index}].${keys}`]: item[keys]
+                                }
+                            })
+                        }
                     }
                 }
             })
@@ -118,7 +127,8 @@ Page({
     addLoading() {
         if (app.globalData.loadingCount < 1) {
             wx.showLoading({
-                content: '加载中...'
+                title: '加载中...',
+                mask: true
             })
         }
         app.globalData.loadingCount++
@@ -468,7 +478,7 @@ Page({
             count: 9,
             success: res => {
                 console.log(res)
-                this.uploadFile(res.filePaths)
+                this.uploadFile(res.tempFilePaths)
             },
             fail: res => {
                 console.log('用户取消操作')
@@ -625,12 +635,12 @@ Page({
         this.addLoading()
         request({
             hideLoading: this.hideLoading,
-            url: app.globalData.url + 'accountbookController.do?getAccountbooksJsonByUserId&agentId=' + app.globalData.agentId,
+            url: app.globalData.url + 'accountbookController.do?getAccountbooksJsonByUserId&corpId=' + app.globalData.corpId,
             method: 'GET',
             success: res => {
                 console.log(res.data, 'accountbookList')
                 console.log(data)
-                if(res.data.success) {
+                if(res.data.success && res.data.obj.length) {
                     var accountbookIndex = 0
                     var taxpayerType = null;
                     var accountbookId = !!data ? data.accountbookId : res.data.obj[0].id

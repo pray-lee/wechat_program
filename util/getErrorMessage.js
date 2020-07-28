@@ -48,7 +48,7 @@ const login = (app) => {
     wx.getAuthCode({
         success: (res) => {
             wx.httpRequest({
-                url: app.globalData.url + "loginController.do?loginDingTalk&code=" + res.authCode + '&agentId=' + app.globalData.agentId,
+                url: app.globalData.url + "loginController.do?loginDingTalk&code=" + res.authCode + '&corpId=' + app.globalData.corpId,
                 method: "GET",
                 dataType: "json",
                 success: res => {
@@ -78,18 +78,23 @@ const login = (app) => {
 }
 
 const request = option => {
+    console.log(wx.getStorageSync('sessionId'))
     wx.request({
         url: option.url,
         dataType: 'json',
         data: option.data,
+        header: {
+            'cookie': wx.getStorageSync('sessionId'),
+            'content-type': 'application/x-www-form-urlencoded'
+        },
         method: option.method,
         success: res => {
             if (typeof res.data !== 'string' || res.data.indexOf('主框架') === -1) {
                 option.success(res)
             }else{
-                // wx.reLaunch({
-                //     url: '/pages/index/index'
-                // })
+                wx.reLaunch({
+                    url: '/pages/index/index'
+                })
             }
         },
         fail: res => {

@@ -131,7 +131,7 @@ Page({
     },
     onExtraDateFocus(e) {
         var idx = e.currentTarget.dataset.index
-        var extraIdx = e.currentTarget.dataset.extraIndex
+        var extraIdx = e.currentTarget.dataset.extraindex
         // wx.datePicker({
         //     format: 'yyyy-MM-dd',
         //     currentDate: moment().format('YYYY-MM-DD'),
@@ -156,7 +156,7 @@ Page({
     },
     onExtraBlur(e) {
         var idx = e.currentTarget.dataset.index
-        var extraIdx = e.currentTarget.dataset.extraIndex
+        var extraIdx = e.currentTarget.dataset.extraindex
         var name = e.currentTarget.dataset.name
         console.log(name)
         var tempData = clone(this.data.baoxiaoDetail)
@@ -173,7 +173,7 @@ Page({
     },
     onExtraInput(e) {
         var idx = e.currentTarget.dataset.index
-        var extraIdx = e.currentTarget.dataset.extraIndex
+        var extraIdx = e.currentTarget.dataset.extraindex
         var tempData = clone(this.data.baoxiaoDetail)
         tempData.extraMessage[extraIdx][idx] = e.detail.value
         // 算附加信息金额
@@ -250,7 +250,8 @@ Page({
     addLoading() {
         if (app.globalData.loadingCount < 1) {
             wx.showLoading({
-                content: '加载中...'
+                title: '加载中...',
+                mask: true
             })
         }
         app.globalData.loadingCount++

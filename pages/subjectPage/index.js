@@ -22,13 +22,10 @@ Page({
     goBack(e) {
         const id = e.currentTarget.dataset.id
         const name = e.currentTarget.dataset.name
-        const subjectExtraId = e.currentTarget.dataset.extraId
+        const subjectExtraId = e.currentTarget.dataset.extraid
         const obj = {id, name, subjectExtraId}
         console.log(obj, 'goBack')
-        wx.setStorageSync({
-            key: 'subject',
-            data: obj,
-        })
+        wx.setStorageSync('subject', obj)
         console.log('设置科目id成功')
         wx.navigateBack({
             delta: 1

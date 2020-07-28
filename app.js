@@ -15,7 +15,10 @@ App({
         // login(this)
     },
     globalData: {
-        "url": "https://www.caika.net/CaiKa/",
-        "appId": 'wx07c16a39cd177974'
+        "url": "https://www.caika.net/Test/",
+        // "appId": 'wx07c16a39cd177974',
+        "corpId": "wwc5c826092131ecb7"
+        // 企业微信官方测试
+        // "corpId": "ww17f8d10783494584",
     }
 });

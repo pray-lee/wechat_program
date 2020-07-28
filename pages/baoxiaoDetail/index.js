@@ -338,7 +338,8 @@ Page({
     addLoading() {
         if (app.globalData.loadingCount < 1) {
             wx.showLoading({
-                content: '加载中...'
+                title: '加载中...',
+                mask: true
             })
         }
         app.globalData.loadingCount++
@@ -385,7 +386,7 @@ Page({
         }
     },
     openExtraInfo(e) {
-        var extraId = e.currentTarget.dataset.extraId
+        var extraId = e.currentTarget.dataset.extraid
         if (this.data.baoxiaoDetail.subjectExtraId) {
             this.getExtraInfo(extraId)
         }
@@ -415,10 +416,7 @@ Page({
                         key: 'subjectExtraConf',
                         data: JSON.parse(res.data.obj),
                         success: res => {
-                            wx.setStorageSync({
-                                key: 'extraBaoxiaoDetail',
-                                data: this.data.baoxiaoDetail
-                            })
+                            wx.setStorageSync('extraBaoxiaoDetail', this.data.baoxiaoDetail)
                             wx.navigateTo({
                                 url: '/pages/extra/index'
                             })
