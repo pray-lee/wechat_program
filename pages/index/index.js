@@ -70,12 +70,12 @@ Page({
             app.globalData.loadingCount -= 1
         }
     },
-    onLoad(query) {
-        console.log(app.globalData)
-        this.setData({
-            isPhoneXSeries: app.globalData.isPhoneXSeries
-        })
-    },
+    // onLoad(query) {
+    //     console.log(app.globalData)
+    //     this.setData({
+    //         isPhoneXSeries: app.globalData.isPhoneXSeries
+    //     })
+    // },
     onReady() {
     },
     getJiekuanList() {

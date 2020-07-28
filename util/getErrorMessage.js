@@ -78,13 +78,13 @@ const login = (app) => {
 }
 
 const request = option => {
-    console.log(wx.getStorageSync('sessionId'))
+    const sessionId = wx.getStorageSync('sessionId')
     wx.request({
         url: option.url,
         dataType: 'json',
         data: option.data,
         header: {
-            'cookie': wx.getStorageSync('sessionId'),
+            'cookie': sessionId,
             'content-type': 'application/x-www-form-urlencoded'
         },
         method: option.method,

@@ -187,11 +187,12 @@ Page({
         this.setApplicationAmount()
     },
     deleteExtra(e) {
-        wx.confirm({
+        wx.showModal({
             title: '温馨提示',
-            content: '是否删除当前附加信息?',
-            confirmButtonText: '是',
-            cancelButtonText: '否',
+            content: '确认删除该附加信息吗?',
+            confirmText: '是',
+            cancelText: '否',
+            cancelColor: '#ff5252',
             success: (result) => {
                 if (result.confirm) {
                     this.clearScrollView()

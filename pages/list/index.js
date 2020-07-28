@@ -29,7 +29,6 @@ Page({
     },
     //手指触摸动作开始 记录起点X坐标
     touchstart: function (e) {
-        console.log(e)
         //开始触摸时 重置所有删除
         this.data.list.forEach(function (v, i) {
             if (v.isTouchMove)//只操作为true的
@@ -43,7 +42,6 @@ Page({
     },
     //滑动事件处理
     touchmove: function (e) {
-        console.log(e)
         var that = this,
             index = e.currentTarget.dataset.index,//当前索引
             startX = that.data.startX,//开始X坐标
@@ -315,11 +313,12 @@ Page({
         } else {
             url = app.globalData.url + 'reimbursementBillController.do?doBatchDel&ids=' + id
         }
-        wx.confirm({
+        wx.showModal({
             title: '温馨提示',
             content: '确认删除该单据吗?',
-            confirmButtonText: '是',
-            cancelButtonText: '否',
+            confirmText: '是',
+            cancelText: '否',
+            cancelColor: '#ff5252',
             success: res => {
                 this.setData({
                     x: 0

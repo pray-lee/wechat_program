@@ -1279,11 +1279,12 @@ Page({
                 flag: 'J'
             }
         })
-        wx.confirm({
+        wx.showModal({
             title: '温馨提示',
             content: '确认删除该单据吗?',
-            confirmButtonText: '是',
-            cancelButtonText: '否',
+            confirmText: '是',
+            cancelText: '否',
+            cancelColor: '#ff5252',
             success: res => {
                 if (res.confirm) {
                     this.addLoading()
