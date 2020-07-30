@@ -269,7 +269,8 @@ page {
 }
 .progress-right{
   color:#c7c7cd;
-  font-weight:200
+  font-weight:200;
+  font-size: 24rpx;
 }
 .status-content{
   margin-left: 25rpx;

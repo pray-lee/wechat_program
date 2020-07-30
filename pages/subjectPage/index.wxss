@@ -34,5 +34,6 @@
   height: 100%;
   font-size: 28rpx;
   border-radius: 4px;
-  padding: 24rpx;
+  padding: 12rpx;
+  background:#fff
 }
