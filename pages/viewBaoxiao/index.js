@@ -63,9 +63,10 @@ Page({
         this.addLoading()
         request({
             hideLoading: this.hideLoading,
-            url: app.globalData.url + 'dingtalkController.do?getProcessinstanceJson&billType=9&billId=' + billId + '&accountbookId=' + accountbookId,
+            url: app.globalData.url + 'weixinController.do?getProcessinstanceJson&billType=9&billId=' + billId + '&accountbookId=' + accountbookId,
             method: 'GET',
             success: res => {
+                console.log(res, '审批流')
                 if(res.data && res.data.length) {
                     const { title, operationRecords, tasks, ccUserids } = res.data[0]
                     const taskArr = tasks.filter(item => {

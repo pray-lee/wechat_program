@@ -231,12 +231,18 @@ Page({
                     let index = null
                     if (auxptyid == 1) {
                         // 部门
-                        index = this.setInitIndex(newObj, this.data.baoxiaoDetail.submitterDepartmentId)
+                        let submitterDepartmentId = ''
+                        if(this.data.baoxiaoDetail.selectedAuxpty && this.data.baoxiaoDetail.selectedAuxpty[auxptyid]) {
+                            submitterDepartmentId = this.data.baoxiaoDetail.selectedAuxpty[auxptyid].id
+                        }else{
+                            submitterDepartmentId = this.data.baoxiaoDetail.submitterDepartmentId
+                        }
+                        index = this.setInitIndex(newObj, submitterDepartmentId)
                     }
                     if (auxptyid == 2 && this.data.baoxiaoDetail.applicantType == 10) {
                         index = this.setInitIndex(newObj, this.data.baoxiaoDetail.applicantId)
                     }
-                    if (auxptyid == 3 && this.data.baoxiaoDetail.baoxiaoDetailype == 20) {
+                    if (auxptyid == 3 && this.data.baoxiaoDetail.applicantType == 20) {
                         index = this.setInitIndex(newObj, this.data.baoxiaoDetail.applicantId)
                     }
                     if (auxptyid == 4 && this.data.baoxiaoDetail.applicantType == 30) {

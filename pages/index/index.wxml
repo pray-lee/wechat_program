@@ -11,9 +11,7 @@
                     </view>
                     <view class="content">
                         <text wx:if="{{jiekuan.remark}}" class="left">{{jiekuan.remark}}</text>
-                        <text wx:else class="left">
-                            [无事由]
-                        </text>
+                        <text wx:else class="left">[无事由]</text>
                         <text class="right">￥{{jiekuan.amount}}</text>
                     </view>
                 </view>
@@ -58,9 +56,7 @@
                     </view>
                     <view class="content">
                         <text wx:if="{{baoxiao.remark}}" class="left">{{baoxiao.remark}}</text>
-                        <text wx:else class="left">
-                            [无事由]
-                        </text>
+                        <text wx:else class="left">[无事由]</text>
                         <text class="right">￥{{baoxiao.totalAmount}}</text>
                     </view>
                 </view>

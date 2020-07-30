@@ -39,8 +39,8 @@ const formatNumber = (num) => {
 
 const validFn = message => {
     wx.showToast({
-        type: 'none',
-        content: message
+        icon: 'none',
+        title: message
     })
 }
 
@@ -92,6 +92,12 @@ const request = option => {
             if (typeof res.data !== 'string' || res.data.indexOf('主框架') === -1) {
                 option.success(res)
             }else{
+                wx.removeStorage({
+                    key: 'sessionId',
+                    success: res => {
+                        console.log('清除sessionId成功')
+                    }
+                })
                 wx.reLaunch({
                     url: '/pages/index/index'
                 })

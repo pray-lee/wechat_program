@@ -149,7 +149,7 @@ Page({
         })
         // 删除辅助核算的信息，然后通过formatSubmitData重新赋值
         Object.keys(this.data.submitData).forEach(item => {
-            if(item.indexOf('billDetailList') != -1) {
+            if(item.indexOf('billDetailList') !== -1) {
                 delete this.data.submitData[item]
             }
         })
@@ -375,6 +375,8 @@ Page({
     },
     getBaoxiaoDetailFromStorage() {
         const index = wx.getStorageSync('index')
+        console.log(index, 'indexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+        console.log(index)
         this.setData({
             submitData: {
                 ...this.data.submitData,
@@ -385,9 +387,12 @@ Page({
             success: res => {
                 const baoxiaoDetail = res.data
                 if (!!baoxiaoDetail) {
+                    // 处理wxml模板表达式不识别
+                    baoxiaoDetail.forEach(item => {
+                        item.subjectName = item.subjectName.split('_').pop()
+                    })
                     let baoxiaoList = clone(this.data.baoxiaoList)
-                    console.log(index)
-                    if (!!index || index == 0) {
+                    if (!!index || index === 0) {
                         baoxiaoList.splice(index, 1)
                         wx.removeStorage({
                             key: 'index',
@@ -428,7 +433,7 @@ Page({
     // 删除得时候把submitData里面之前存的报销列表数据清空
     clearListSubmitData(submitData) {
         Object.keys(submitData).forEach(key => {
-            if (key.indexOf('billDetailList') != -1) {
+            if (key.indexOf('billDetailList') !== -1) {
                 delete submitData[key]
             }
         })
@@ -448,7 +453,7 @@ Page({
     // 删除得时候把submitData里面之前存的报销列表数据清空
     clearFileList(submitData) {
         Object.keys(submitData).forEach(key => {
-            if (key.indexOf('billFiles') != -1) {
+            if (key.indexOf('billFiles') !== -1) {
                 delete submitData[key]
             }
         })
@@ -497,8 +502,7 @@ Page({
                 promiseList.push(new Promise((resolve, reject) => {
                     wx.uploadFile({
                         url: app.globalData.url + 'aliyunController/uploadImages.do',
-                        fileType: 'image',
-                        fileName: item,
+                        name: item,
                         filePath: item,
                         formData: {
                             accountbookId: this.data.submitData.accountbookId,
@@ -525,7 +529,12 @@ Page({
                 console.log(res)
                 var billFilesList = []
                 res.forEach(item => {
-                    billFilesList.push(item)
+                    const obj = {
+                        name: item.name,
+                        size: item.size,
+                        uri: item.uri
+                    }
+                    billFilesList.push(obj)
                 })
                 this.setData({
                     submitData: {
@@ -915,6 +924,7 @@ Page({
             method: 'GET',
             dataType: 'json',
             success: res => {
+                console.log(res, '获取报销单编辑回显')
                 if (res.data.obj) {
                     this.setRenderData(res.data.obj)
                     this.getProcessInstance(id, res.data.obj.accountbookId)
@@ -1277,7 +1287,7 @@ Page({
     },
     clearBorrowList(submitData) {
         Object.keys(submitData).forEach(key => {
-            if (key.indexOf('borrowBillList') != -1) {
+            if (key.indexOf('borrowBillList') !== -1) {
                 delete submitData[key]
             }
         })

@@ -1,5 +1,5 @@
 <view class="form-wrapper">
-    <form onSubmit="formSubmit">
+    <form bindsubmit="formSubmit">
         <scroll-view scroll-y class="form-scroll-wrapper {{isPhoneXSeries ? 'iphoneX' : ''}}">
             <view class="title">申请方信息</view>
             <view class="block-wrapper">
@@ -99,7 +99,7 @@
                             <view class="delete-baoxiao-item" bindtap="deleteBaoxiaoDetail"
                                   data-id="{{item.billDetailId}}" data-index="{{index}}"></view>
                             <view class="form-row-content baoxiaoDetail-left" bindtap="showBaoxiaoDetail" data-index="{{index}}">
-                                <view class="subject-title">{{item.subjectName.split('_')[item.subjectName.split('_').length-1]}}</view>
+                                <view class="subject-title">{{item.subjectName}}</view>
                                 <view class="remark-title">事由：</view>
                                 <view class="remark-content" wx:if="{{item.remark}}">{{item.remark}}</view>
                                 <view class="remark-content" wx:else>无</view>

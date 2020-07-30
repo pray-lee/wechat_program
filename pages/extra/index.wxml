@@ -1,9 +1,9 @@
 <!--   附加信息   -->
 <view class="form-wrapper">
     <view class="add-extra-page" bindtap="onClick">
-    <form onSubmit="onExtraSubmit">
-        <scroll-view scroll-y class="form-scroll-wrapper {{isPhoneXSeries ? 'iphoneX' : ''}}" onScroll="onScroll" scroll-into-view="{{scrollId}}" scroll-with-animation>
-            <view class="baoxiao-item" wx:if="{{baoxiaoDetail.extraList.length}}" wx:for="{{baoxiaoDetail.extraList}}" wx:key="index" id="{{index + 1}}">
+    <form bindsubmit="onExtraSubmit">
+        <scroll-view scroll-y class="form-scroll-wrapper {{isPhoneXSeries ? 'iphoneX' : ''}}" onScroll="onScroll" scroll-into-view="floor-{{scrollId}}" scroll-with-animation>
+            <view class="baoxiao-item" wx:if="{{baoxiaoDetail.extraList.length}}" wx:for="{{baoxiaoDetail.extraList}}" wx:key="index" id="floor-{{index + 1}}">
                 <view class="baoxiao-item-title">
                     <view class="title">附加信息详情（{{index + 1}}）</view>
                 </view>
@@ -19,8 +19,7 @@
                                     </picker>
                                 </block>
                                 <block wx:else>
-                                <input wx:if="{{extraDetail.field== '金额'}}" type="digit" class="input" bindinput="onExtraInput" value="{{baoxiaoDetail.extraMessage[index][idx]}}" placeholder="{{extraDetail.field}}" data-name="{{extraDetail.field}}"
-                                       bindblur="onExtraBlur" data-index="{{idx}}" data-extraIndex="{{index}}" data-name="{{item.field}}"/>
+                                <input wx:if="{{extraDetail.field== '金额'}}" type="digit" class="input" bindinput="onExtraInput" value="{{baoxiaoDetail.extraMessage[index][idx]}}" placeholder="{{extraDetail.field}}" data-name="{{extraDetail.field}}" bindblur="onExtraBlur" data-index="{{idx}}" data-extraIndex="{{index}}" data-name="{{item.field}}"/>
                                 <input wx:else class="input" bindinput="onExtraInput" value="{{baoxiaoDetail.extraMessage[index][idx]}}" placeholder="{{extraDetail.field}}" data-name="{{extraDetail.field}}"
                                        bindblur="onExtraBlur" data-index="{{idx}}" data-extraIndex="{{index}}" data-name="{{item.field}}"/>
                                 </block>
@@ -54,7 +53,7 @@
         </view>
         <view class="btn-area {{isPhoneXSeries ? 'iphoneX' : ''}}" hidden="{{btnHidden}}">
             <button class="submit-btn cancel-extra save-draft" bindtap="cancelExtra">取消</button>
-            <button formType="submit" class="submit-btn">保存信息</button>
+            <button form-type="submit" class="submit-btn">保存信息</button>
         </view>
         </form>
     </view>

@@ -5,34 +5,35 @@ Page({
     },
     onLoad() {
         const tempImportList = wx.getStorageSync('tempImportList')
-        console.log(tempImportList)
+        tempImportList.forEach(item => {
+            item.dataString = JSON.stringify(item)
+        })
         this.setData({
             tempImportList
         })
     },
     onCheckboxChange(e) {
-        console.log(this.data.importList)
         console.log(e)
     },
     onCheckboxSubmit(e) {
-        var arr = e.detail.value
+        var arr = e.detail.value.tempImportListValue
+        arr = arr.map(item => {
+            return JSON.parse(item)
+        })
         var newArr = []
-        for (var i in arr) {
-            if (arr[i].length) {
-                var temp = {
-                    ...arr[i][0],
-                    billDetailId: arr[i][0].id,
-                    applicationAmount: arr[i][0].unverifyAmount,
-                    remark: arr[i][0].remark
-                }
-                newArr.push(temp)
+        for (let i = 0; i < arr.length; i++) {
+            var temp = {
+                ...arr[i],
+                billDetailId: arr[i].id,
+                applicationAmount: arr[i].unverifyAmount,
+                remark: arr[i].remark
             }
+            newArr.push(temp)
         }
         wx.setStorage({
             key: 'importList',
             data: newArr,
             success: res => {
-                console.log('选择借款列表成功')
                 wx.removeStorage({
                     key: 'tempImportList',
                     success: res => {

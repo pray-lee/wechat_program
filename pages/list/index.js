@@ -156,11 +156,14 @@ Page({
         var type = query.type
         // 区分是借款还是报销
         var flag = query.flag
+        var isJ = flag === 'J' ? true : false
+        console.log(isJ)
         this.setData({
             isPhoneXSeries: app.globalData.isPhoneXSeries,
             type: type + flag,
             active: type,
-            flag
+            flag,
+            isJ
         })
         // 页面加载完成,设置请求地址
         var url = this.setUrl(type + flag)
@@ -186,6 +189,8 @@ Page({
                             totalAmount: formatNumber(item.totalAmount)
                         }
                     })
+                    console.log(arr, 'arrsssssss')
+                    console.log(this.data.type)
                 }
                 arr.forEach(item => {
                     item.isTouchMove = false
@@ -282,7 +287,7 @@ Page({
         var id = e.currentTarget.dataset.id
         const status = e.currentTarget.dataset.status
         console.log(this.data.type, 'type')
-        if (this.data.type.indexOf('B') != -1) {
+        if (this.data.type.indexOf('B') !== -1) {
             if (status == 10 || status == 25) {
                 wx.navigateTo({
                     url: '../addBaoxiao/index?type=edit&id=' + id
@@ -307,6 +312,8 @@ Page({
     deleteBill(e) {
         const {id, flag, status} = e.currentTarget.dataset
         console.log(status, 'deleteBill')
+        console.log(flag, 'deleteBill')
+        console.log(id, 'deleteBill')
         let url = ''
         if (flag === 'J') {
             url = app.globalData.url + 'borrowBillController.do?doBatchDel&ids=' + id

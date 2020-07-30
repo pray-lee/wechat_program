@@ -110,7 +110,7 @@ Page({
         console.log(this.data.submitData)
         Object.keys(this.data.submitData).forEach(item => {
             console.log(item)
-            if (item.indexOf('billApEntityList[') != -1) {
+            if (item.indexOf('billApEntityList[') !== -1) {
                 delete this.data.submitData[item]
             }
         })
@@ -416,7 +416,7 @@ Page({
     // 删除得时候把submitData里面之前存的报销列表数据清空
     clearListSubmitData(submitData, name) {
         Object.keys(submitData).forEach(key => {
-            if (key.indexOf(name) != -1) {
+            if (key.indexOf(name) !== -1) {
                 delete submitData[key]
             }
         })
@@ -525,14 +525,14 @@ Page({
                     this.addLoading()
                     wx.uploadFile({
                         url: app.globalData.url + 'aliyunController/uploadImages.do',
-                        fileType: 'image',
-                        fileName: item,
+                        name: item,
                         filePath: item,
                         formData: {
                             accountbookId: this.data.submitData.accountbookId,
                             submitterDepartmentId: this.data.submitData.submitterDepartmentId
                         },
                         success: res => {
+                            console.log(res.data, '上传')
                             const result = JSON.parse(res.data)
                             if (result.obj && result.obj.length) {
                                 const file = result.obj[0]
@@ -542,6 +542,7 @@ Page({
                             }
                         },
                         fail: res => {
+                            console.log(res, '.........')
                             reject(res)
                         },
                         complete: res => {
@@ -554,7 +555,13 @@ Page({
                 // 提交成功的处理逻辑
                 var billFilesList = []
                 res.forEach(item => {
-                    billFilesList.push(item)
+                    console.log(item, '上传成功的文件')
+                    const obj = {
+                        name: item.name,
+                        uri: item.uri,
+                        size: item.size
+                    }
+                    billFilesList.push(obj)
                 })
                 this.setData({
                     submitData: {

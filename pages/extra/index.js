@@ -40,6 +40,9 @@ Page({
     },
     onShow() {
     },
+    onClick() {
+        console.log('clicked')
+    },
     setScrollView(id) {
         console.log(id)
         this.setData({
@@ -50,9 +53,6 @@ Page({
         this.setData({
             scrollId: ''
         })
-    },
-    onClick() {
-        console.log('clicked')
     },
     onAddExtra(e) {
         this.onClick()
@@ -269,6 +269,7 @@ Page({
         for(let i = 0; i < array.length; i++) {
             if(array[i] == '') {
                 validFn(`请输入详情${index+1}的${conf[i].field}`)
+                console.log(conf[i].field)
                 return false
             }
         }

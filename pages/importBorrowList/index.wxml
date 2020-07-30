@@ -1,11 +1,11 @@
 <!--增加导入借款单弹框-->
 <view class="add-borrow-page">
-    <form onSubmit="onCheckboxSubmit">
+    <form bindsubmit="onCheckboxSubmit">
         <scroll-view class="jiekuandan {{isPhoneXSeries ? 'iphoneX' : ''}}" scroll-y>
             <block wx:if="{{tempImportList.length}}">
-                <checkbox-group bindchange="onCheckboxChange" name="{{item.id}}" wx:key="index" wx:for="{{tempImportList}}">
-                    <label class="checkbox-label">
-                        <checkbox value="{{item}}" class="checkbox"></checkbox>
+                <checkbox-group bindchange="onCheckboxChange" name="tempImportListValue">
+                    <label class="checkbox-label" wx:key="index" wx:for="{{tempImportList}}">
+                        <checkbox value="{{item.dataString}}" class="checkbox"></checkbox>
                         <view class="import-borrow-item">
                             <view class="form-row">
                                 <view class="import-borrow-item-left">
@@ -26,7 +26,7 @@
             </block>
         </scroll-view>
         <view class="btn-area">
-            <button formType="submit" class="import-borrow-list-btn">导入借款</button>
+            <button form-type="submit" class="import-borrow-list-btn">导入借款</button>
         </view>
     </form>
 </view>

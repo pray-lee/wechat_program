@@ -15,7 +15,7 @@
                                 <view class="content1">
                                     <text wx:if="{{!!item.remark}}" class="remark">{{item.remark}}</text>
                                     <text wx:else>[无事由]</text>
-                                    <text class="right" wx:if="{{type.indexOf('J') != -1}}">￥{{item.amount}}</text>
+                                    <text class="right" wx:if="{{isJ}}">￥{{item.amount}}</text>
                                     <text wx:else class="right">￥{{item.totalAmount}}</text>
                                 </view>
                                 <view class="bill-number">
@@ -23,7 +23,7 @@
                                     {{item.billCode}}
                                 </view>
                             </view>
-                            <view class="del" bindtap="deleteBill" data-id="{{item.id}}" data-flag="{{type.indexOf('J') != -1 ? 'J' : 'B'}}" data-status="{{item.status}}">删除</view>
+                            <view class="del" bindtap="deleteBill" data-id="{{item.id}}" data-flag="{{flag}}" data-status="{{item.status}}">删除</view>
                         </view>
                     </movable-view>
                 </movable-area>
@@ -35,7 +35,7 @@
                                 <view class="content1">
                                     <text wx:if="{{!!item.remark}}" class="remark">{{item.remark}}</text>
                                     <text wx:else>[无事由]</text>
-                                    <text class="right" wx:if="{{type.indexOf('J') != -1}}">￥{{item.amount}}</text>
+                                    <text class="right" wx:if="{{isJ}}">￥{{item.amount}}</text>
                                     <text wx:else class="right">￥{{item.totalAmount}}</text>
                                 </view>
                                 <view class="bill-number">
@@ -43,7 +43,7 @@
                                     {{item.billCode}}
                                 </view>
                             </view>
-                            <view class="del" bindtap="deleteBill" data-id="{{item.id}}" data-flag="{{type.indexOf('J') != -1 ? 'J' : 'B'}}" data-status="{{item.status}}">删除</view>
+                            <view class="del" bindtap="deleteBill" data-id="{{item.id}}" data-flag="{{flag}}" data-status="{{item.status}}">删除</view>
                         </view>
                     </movable-view>
                 </movable-area>

@@ -114,52 +114,65 @@ Page({
     },
     onShow() {
         if(app.globalData.isWxWork) {
-            this.addLoading()
-            wx.qy.login({
-                success: (res) => {
-                    this.hideLoading()
-                    this.addLoading()
-                    request({
-                        hideLoading: this.hideLoading,
-                        url: app.globalData.url + "loginController.do?loginWeiXin&code=" + res.code + '&corpId=' + app.globalData.corpId,
-                        method: 'GET',
-                        success: res => {
-                            if (res.data.success) {
-                                if(res.data.obj) {
-                                    // session写入缓存
-                                    wx.setStorageSync('sessionId', res.header['Set-Cookie'])
-                                    app.globalData.realName = res.data.obj.realName
-                                    app.globalData.applicantId = res.data.obj.id
-                                    // 请求借款列表
-                                    this.getJiekuanList()
-                                    // 请求报销列表
-                                    this.getBaoxiaoList()
-                                }else{
+            const sessionId = wx.getStorageSync('sessionId')
+            if(!sessionId) {
+                this.addLoading()
+                wx.qy.login({
+                    success: (res) => {
+                        this.hideLoading()
+                        this.addLoading()
+                        request({
+                            hideLoading: this.hideLoading,
+                            url: app.globalData.url + "loginController.do?loginWeiXin&code=" + res.code + '&corpId=' + app.globalData.corpId,
+                            method: 'GET',
+                            success: res => {
+                                if (res.data.success) {
+                                    if(res.data.obj) {
+                                        // session写入缓存
+                                        wx.setStorageSync('sessionId', res.header['Set-Cookie'])
+                                        wx.setStorageSync('realName', res.data.obj.realName)
+                                        wx.setStorageSync('applicantId', res.data.obj.id)
+                                        app.globalData.realName = res.data.obj.realName
+                                        app.globalData.applicantId = res.data.obj.id
+                                        // 请求借款列表
+                                        this.getJiekuanList()
+                                        // 请求报销列表
+                                        this.getBaoxiaoList()
+                                    }else{
+                                        loginFiled(res.data.msg)
+                                    }
+                                } else {
                                     loginFiled(res.data.msg)
                                 }
-                            } else {
-                                loginFiled(res.data.msg)
+                            },
+                            fail: res => {
+                                console.log(res)
                             }
-                        },
-                        fail: res => {
-                            console.log(res)
-                        }
-                    })
-                },
-                fail: res => {
-                    console.log(res ,'获取授权码失败')
-                    wx.showModal({
-                        content: '当前组织没有该小程序',
-                        confirmText: '好的',
-                        showCancel: false,
-                        success: res => {
-                            wx.reLaunch({
-                                url: '/pages/error/index'
-                            })
-                        }
-                    })
-                }
-            })
+                        })
+                    },
+                    fail: res => {
+                        this.hideLoading()
+                        console.log(res ,'获取授权码失败')
+                        wx.showModal({
+                            content: '当前组织没有该小程序',
+                            confirmText: '好的',
+                            showCancel: false,
+                            success: res => {
+                                wx.reLaunch({
+                                    url: '/pages/error/index'
+                                })
+                            }
+                        })
+                    }
+                })
+            }else{
+                app.globalData.realName = wx.getStorageSync('realName')
+                app.globalData.applicantId = wx.getStorageSync('applicantId')
+                // 请求借款列表
+                this.getJiekuanList()
+                // 请求报销列表
+                this.getBaoxiaoList()
+            }
         }else{
             this.hideLoading()
             // wx.showModal({

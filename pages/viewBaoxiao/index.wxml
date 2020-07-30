@@ -1,5 +1,5 @@
 <view class="form-wrapper" bindtap="onClick">
-    <form onSubmit="formSubmit">
+    <form bindsubmit="formSubmit">
         <scroll-view scroll-y class="form-scroll-wrapper {{isPhoneXSeries ? 'iphoneX' : ''}}">
             <view class="title">申请方信息</view>
             <view class="block-wrapper">
