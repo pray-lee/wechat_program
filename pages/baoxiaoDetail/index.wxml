@@ -23,7 +23,7 @@
             <view class="form-line" wx:if="{{baoxiaoDetail.subjectAuxptyList.length}}"/>
             <view class="form-row" wx:if="{{!baoxiaoDetail.subjectExtraId}}">
                 <view class="form-row-label"><text class="require">*</text>申请报销金额</view>
-                <input class="input" type="digit" placeholder="申请报销金额" value="{{baoxiaoDetail.applicationAmount}}" bindblur="onBaoxiaoBlur"
+                <input class="input" type="digit" placeholder="申请报销金额" placeholder-class="placeholder" value="{{baoxiaoDetail.applicationAmount}}" bindblur="onBaoxiaoBlur"
                        data-name="applicationAmount"/>
             </view>
             <view class="form-row" wx:else bindtap="openExtraInfo" data-extraId="{{baoxiaoDetail.subjectExtraId}}" >
@@ -53,7 +53,7 @@
             <view class="form-line" wx:if="{{baoxiaoDetail.invoiceType == 2}}"/>
             <view class="form-row">
                 <view class="form-row-label">备注</view>
-                <input class="input" placeholder="备注" bindblur="onBaoxiaoBlur" data-name="remark"
+                <input class="input" placeholder="备注" placeholder-class="placeholder" bindblur="onBaoxiaoBlur" data-name="remark"
                        value="{{baoxiaoDetail.remark}}"/>
             </view>
         </view>

@@ -360,6 +360,16 @@ page {
 .cc-wrapper .cc-item{
   margin-right: 30rpx;
 }
+.placeholder{
+  color:#c7c7cd
+}
+.invoice-wrapper{
+  display:flex;
+  align-items: center;
+}
+.invoice-wrapper .form-row-label{
+  margin-bottom:0
+}
 
 
 

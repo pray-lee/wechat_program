@@ -71,7 +71,8 @@ Page({
             status: 20,
             userName: '',
             billCode: '',
-            auxpropertyNames: ''
+            auxpropertyNames: '',
+            remark: ''
         },
         baoxiaoList: [],
         importList: [],
@@ -156,10 +157,11 @@ Page({
         // 处理一下提交格式
         this.formatSubmitData(this.data.baoxiaoList, 'billDetailList')
         // 提交的时候删除借款科目
-        this.data.importList.forEach(item => {
+        const tempData = clone(this.data.importList)
+        tempData.forEach(item => {
             delete item['subject.fullSubjectName']
         })
-        this.formatSubmitData(this.data.importList, 'borrowBillList')
+        this.formatSubmitData(tempData, 'borrowBillList')
         this.formatSubmitData(this.data.submitData.billFilesObj, 'billFiles')
         console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
         console.log(this.data)

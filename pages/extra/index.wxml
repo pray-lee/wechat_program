@@ -19,8 +19,8 @@
                                     </picker>
                                 </block>
                                 <block wx:else>
-                                <input wx:if="{{extraDetail.field== '金额'}}" type="digit" class="input" bindinput="onExtraInput" value="{{baoxiaoDetail.extraMessage[index][idx]}}" placeholder="{{extraDetail.field}}" data-name="{{extraDetail.field}}" bindblur="onExtraBlur" data-index="{{idx}}" data-extraIndex="{{index}}" data-name="{{item.field}}"/>
-                                <input wx:else class="input" bindinput="onExtraInput" value="{{baoxiaoDetail.extraMessage[index][idx]}}" placeholder="{{extraDetail.field}}" data-name="{{extraDetail.field}}"
+                                <input wx:if="{{extraDetail.field== '金额'}}" type="digit" class="input" bindinput="onExtraInput" value="{{baoxiaoDetail.extraMessage[index][idx]}}" placeholder="{{extraDetail.field}}" placeholder-class="placeholder" data-name="{{extraDetail.field}}" bindblur="onExtraBlur" data-index="{{idx}}" data-extraIndex="{{index}}" data-name="{{item.field}}"/>
+                                <input wx:else class="input" bindinput="onExtraInput" value="{{baoxiaoDetail.extraMessage[index][idx]}}" placeholder="{{extraDetail.field}}" placeholder-class="placeholder" data-name="{{extraDetail.field}}"
                                        bindblur="onExtraBlur" data-index="{{idx}}" data-extraIndex="{{index}}" data-name="{{item.field}}"/>
                                 </block>
                             </view>

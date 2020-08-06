@@ -60,7 +60,7 @@
                 <view class="form-row">
                     <view class="form-row-label"><text class="require">*</text>事由</view>
                     <view class="form-row-content">
-                        <input class="input" value="{{submitData.remark}}" placeholder="请输入事由" data-name="remark" bindblur="bindblur"/>
+                        <input class="input" value="{{submitData.remark}}" placeholder="请输入事由" placeholder-class="placeholder" data-name="remark" bindblur="bindblur"/>
                     </view>
                 </view>
                 <view class="form-line"/>
@@ -80,7 +80,7 @@
                     <view class="form-row-content auxpty-wrapper" wx:for="{{subjectAuxptyList}}" wx:key="index" data-id="{{item.auxptyId}}" bindtap="goAuxptyPage">
                             <view class="mock-input left ellipsis">{{item.auxptyName}}</view>
                             <view class="mock-input right ellipsis" wx:if="{{!!selectedAuxpty && selectedAuxpty[item.auxptyId]}}">{{selectedAuxpty[item.auxptyId].name}}</view>
-                            <view class="mock-input right ellipsis" wx:else>请选择</view>
+                            <view class="mock-input right ellipsis nodata" wx:else>请选择</view>
 <!--默认-->
 
                     </view>
@@ -209,14 +209,14 @@
         <view class="form-row">
             <view class="form-row-label"><text class="require">*</text>借款金额</view>
             <view class="form-row-content">
-                <input class="input" type="digit" placeholder="借款金额" bindinput="bindKeyInput" data-type="borrowAmount" value="{{borrowAmount}}"/>
+                <input class="input" type="digit" placeholder="借款金额" placeholder-class="placeholder" bindinput="bindKeyInput" data-type="borrowAmount" value="{{borrowAmount}}"/>
             </view>
         </view>
         <view class="form-line"/>
         <view class="form-row">
             <view class="form-row-label">备注</view>
             <view class="form-row-content">
-                <input class="input" placeholder="请输入备注" bindinput="bindKeyInput" data-type="remark" value="{{remark}}"/>
+                <input class="input" placeholder="请输入备注" placeholder-class="placeholder" bindinput="bindKeyInput" data-type="remark" value="{{remark}}"/>
             </view>
         </view>
         <view class="form-line"/>

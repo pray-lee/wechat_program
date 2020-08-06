@@ -103,3 +103,17 @@
     margin-left: 20rpx;
     text-align:right
 }
+input:-moz-placeholder { /* Mozilla Firefox 4 to 18*/
+    color: rgb(136,136,136);
+}
+input::-moz-placeholder {/* Mozilla Firefox 19+*/
+    color: rgb(136,136,136);
+}
+
+input:-ms-input-placeholder{
+    color: rgb(136,136,136);
+}
+
+input::-webkit-input-placeholder{
+    color: rgb(136,136,136);
+}

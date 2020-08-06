@@ -1,6 +1,6 @@
 <view class="info-wrapper">
     <view class="search-wrapper">
-        <input type="text" placeholder="搜索" bindinput="bindinput" />
+        <input type="text" placeholder="搜索" placeholder-class="placeholder" bindinput="bindinput" />
     </view>
     <scroll-view scroll-y class="scroll-info-list {{isPhoneXSeries ? 'iphoneX' : ''}}">
         <view class="info-item" wx:for="{{searchResult}}" wx:key="index" data-id="{{item.id}}" data-name="{{item.name}}" data-extraId="{{item.subjectExtraId}}" bindtap="goBack">

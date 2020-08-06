@@ -65,7 +65,8 @@ Page({
             amount: 0,
             status: 20,
             userName: '',
-            billCode: ''
+            billCode: '',
+            remark: ''
         }
     },
     formatSubmitData(array, name) {
@@ -478,7 +479,8 @@ Page({
             remark: this.data.remark
         }
         var billDetailListObj = []
-        if (borrowAmountIndex != null) {
+        console.log(typeof borrowAmountIndex, 'borrowAmountIndex')
+        if (typeof borrowAmountIndex === 'number') {
             billDetailListObj = clone(this.data.submitData['billDetailListObj'])
             billDetailListObj.splice(borrowAmountIndex, 1, obj)
             wx.removeStorage({
