@@ -114,8 +114,19 @@ Page({
     onBaoxiaoBlur(e) {
         var tempData = clone(this.data.baoxiaoDetail)
         var name = e.currentTarget.dataset.name
+        const numberReg = /^\d+(\.\d+)?$/
         tempData[name] = e.detail.value
         if (name === 'applicationAmount') {
+            if(!numberReg.test(e.detail.value)) {
+                wx.showModal({
+                    content: '请输入合法的报销金额',
+                    confirmText: '确定',
+                    showCancel: false,
+                    success: res => {
+                        return
+                    }
+                })
+            }
             tempData['formatApplicationAmount'] = formatNumber(Number(e.detail.value).toFixed(2))
         }
         this.setData({

@@ -160,6 +160,23 @@ Page({
         var name = e.currentTarget.dataset.name
         console.log(name)
         var tempData = clone(this.data.baoxiaoDetail)
+        // 验证数字
+        const field = tempData.extraList[extraIdx].conf[idx].field
+        const numberReg = /^\d+(\.\d+)?$/
+        if (field == '金额') {
+            app.globalData.caculateIndex = idx
+            // 验证数字
+            if(!numberReg.test(e.detail.value)) {
+                wx.showModal({
+                    content: '请输入合法金额',
+                    confirmText: '确定',
+                    showCancel: false,
+                    success: res => {
+                        return
+                    }
+                })
+            }
+        }
         tempData.extraMessage[extraIdx][idx] = e.detail.value
         this.setData({
             baoxiaoDetail: tempData

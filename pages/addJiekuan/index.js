@@ -463,9 +463,10 @@ Page({
     handleAddBorrow() {
         console.log(this.data.submitData)
         const borrowAmountIndex = wx.getStorageSync('borrowAmountIndex')
-        if (this.data.borrowAmount === '') {
+        const numberReg = /^\d+(\.\d+)?$/
+        if (this.data.borrowAmount === '' || !numberReg.test(this.data.borrowAmount)) {
             wx.showModal({
-                content: '请输入借款金额',
+                content: '请输入合法的借款金额',
                 confirmText: '确定',
                 showCancel: false,
                 success: res => {
