@@ -60,7 +60,8 @@
                 <view class="form-row">
                     <view class="form-row-label"><text class="require">*</text>事由</view>
                     <view class="form-row-content">
-                        <input class="input" value="{{submitData.remark}}" placeholder="请输入事由" placeholder-class="placeholder" data-name="remark" bindblur="bindblur"/>
+                        <input wx:if="{{maskHidden}}" class="input" value="{{submitData.remark}}" placeholder="请输入事由" placeholder-class="placeholder" data-name="remark" bindblur="bindblur"/>
+                        <view wx:else class="mock-input nodata" style="height: 1.4rem;line-height: 1.4rem">请输入事由</view>
                     </view>
                 </view>
                 <view class="form-line"/>
