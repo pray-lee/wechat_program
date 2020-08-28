@@ -948,6 +948,8 @@ Page({
         //fileList
         if (data.billFiles.length) {
             var billFilesObj = data.billFiles.map(item => {
+                delete item.createDate
+                delete item.updateDate
                 return item
             })
         }
