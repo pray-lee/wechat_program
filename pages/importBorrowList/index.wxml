@@ -7,17 +7,20 @@
                     <label class="checkbox-label" wx:key="index" wx:for="{{tempImportList}}">
                         <checkbox value="{{item.dataString}}" class="checkbox"></checkbox>
                         <view class="import-borrow-item">
-                            <view class="form-row">
-                                <view class="import-borrow-item-left">
-                                    <view class="import-borrow-remark">{{item.auxpropertyNames}}</view>
-                                    <view class="import-borrow-info">
-                                        <view class="import-borrow-time">{{item.businessDateTime}}</view>
+                            <view class="form-row" style="display:flex;align-items: center">
+                                <view>
+                                    <view class="import-borrow-item-left">
+                                        <view class="import-borrow-remark">{{item.auxpropertyNames}}</view>
+                                        <view class="import-borrow-info">
+                                            <view class="import-borrow-time">{{item.businessDateTime}}</view>
+                                        </view>
+                                    </view>
+                                    <view class="import-borrow-item-right">
+                                        ￥
+                                        <text>{{item.unverifyAmount}}</text>
                                     </view>
                                 </view>
-                                <view class="import-borrow-item-right">
-                                    ￥
-                                    <text>{{item.unverifyAmount}}</text>
-                                </view>
+                                <view class="ellipsis" style="width:12em;text-align:right">{{item.remark}}</view>
                             </view>
                             <view class="form-line"/>
                         </view>
