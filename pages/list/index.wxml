@@ -10,7 +10,7 @@
                 <movable-area class='movable-area' wx:if="{{item.status == 25 || item.status == 10}}">
                     <movable-view direction="horizontal" class='movable-view'>
                         <view class="touch-item {{item.isTouchMove ? 'touch-move-active' : ''}}" data-index="{{index}}" bindtouchstart="touchstart" bindtouchmove="touchmove">
-                            <view class="content" bindtap="goToEdit" data-id="{{item.id}}" data-status="{{item.status}}">
+                            <view class="content" bindtap="goToEdit" data-id="{{item.id}}" data-status="{{item.status}}" style="display:block">
                                 <view class="status error">{{statusObj[item.status]}}</view>
                                 <view class="content1">
                                     <text wx:if="{{!!item.remark}}" class="remark">{{item.remark}}</text>
