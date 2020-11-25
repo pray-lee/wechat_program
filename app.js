@@ -15,11 +15,7 @@ App({
         // login(this)
     },
     globalData: {
-        // "url": "https://www.caika.net/saas/",
-        "url": "http://192.168.1.121:8080/jeecg/",
-        // "appId": 'wx07c16a39cd177974',
-        "corpId": "wwc5c826092131ecb7"
-        // 企业微信官方测试
-        // "corpId": "ww17f8d10783494584",
+        url: "https://www.caika.net/saas/",
+        corpId: "wwc5c826092131ecb7"
     }
 });

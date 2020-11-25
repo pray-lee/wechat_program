@@ -1,0 +1,69 @@
+@import '../components/errorView/index.wxss';
+
+.scroll-view{
+    height: calc(100vh - 200rpx)
+}
+.scroll-view.iphoneX{
+    height: calc(100vh - 268rpx)
+}
+.list-item {
+    margin:0px auto;
+    margin-bottom: 20rpx;
+    background:#fff;
+}
+
+.movable-area{
+  width: 100%;
+  height: 140rpx;
+}
+.movable-view{
+  width: 100%;
+  height: 100%;
+}
+.touch-item {
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  overflow: hidden
+}
+.content {
+  width: 100%;
+  padding: 30rpx 50rpx;
+  line-height: 18px;
+  margin-right:0;
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+  -webkit-transform: translateX(160px);
+  transform: translateX(160px);
+  margin-left: -160px;
+  font-weight:normal
+}
+.move-wrapper {
+  background-color: orangered;
+  width: 160px;
+  display: flex;
+  color: #fff;
+  -webkit-transform: translateX(160px);
+  transform: translateX(160px);
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+}
+.move-block{
+  width: 80px;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+.edit{
+  background:#3276c3;
+}
+.touch-move-active .content,
+.touch-move-active .move-wrapper {
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+}
+.contacts{
+  margin-right: 20rpx
+}

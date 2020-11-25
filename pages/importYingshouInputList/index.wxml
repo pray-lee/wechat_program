@@ -1,0 +1,77 @@
+<!--   导入应收单修改   -->
+<view class="form-wrapper">
+    <view class="add-extra-page" bindtap="onClick">
+    <form>
+        <scroll-view scroll-y class="form-scroll-wrapper {{isPhoneXSeries ? 'iphoneX' : ''}}" onScroll="onScroll" scroll-into-view="{{scrollId}}" scroll-with-animation>
+            <view class="baoxiao-item" wx:if="{{importList.length}}" wx:for="{{importList}}" id="{{index + 1}}" wx:key="index">
+                <view class="baoxiao-item-title">
+                    <view class="title">{{item.billCode || item.receivablebillCode}}</view>
+                </view>
+                <view class="block-wrapper">
+                    <view class="form-row" bindtap="showContent">
+                        <view class="form-row-label"><text class="require">*</text>销售类型</view>
+                        <view class="form-row-content">
+                            <view class="mock-input">{{item['subjectEntity.fullSubjectName']}}</view>
+                        </view>
+                    </view>
+                    <view class="form-line"/>
+                    <view class="form-row" bindtap="showContent">
+                        <view class="form-row-label"><text class="require">*</text>核算维度</view>
+                        <view class="form-row-content">
+                            <view class="mock-input">{{item['auxpropertyNames']}}</view>
+                        </view>
+                    </view>
+                    <view class="form-line"/>
+                    <block wx:if="{{!item.billCode}}">
+                        <view class="form-row">
+                            <view class="form-row-label"><text class="require">*</text>开票内容</view>
+                            <view wx:if="{{!!remarks.length}}" class="form-row-content">
+                                <picker class="picker-style" bindchange="bindObjPickerChange" value="{{item.remarkIndex}}" range="{{remarks}}"
+                                        data-list="remarks" range-key="remark" data-index="remarkIndex" data-id="{{item.id}}">
+                                    <view class="row-extra">{{remarks[item.remarkIndex].remark}}</view>
+                                </picker>
+                            </view>
+                            <view wx:else class="mock-input nodata">暂无开票内容</view>
+                        </view>
+                        <view class="form-line"/>
+                    </block>
+                    <block wx:if="{{item.billCode}}">
+                        <view class="form-row" bindtap="showContent">
+                            <view class="form-row-label"><text class="require">*</text>发票类型</view>
+                            <view class="form-row-content">
+                                <view class="mock-input">{{item.invoiceType == '1' ? '普票' : '专票'}}</view>
+                            </view>
+                        </view>
+                        <view class="form-line"/>
+                        <block wx:if="{{item.invoiceType == '2'}}">
+                            <view class="form-row">
+                                <view class="form-row-label"><text class="require">*</text>税率（%）</view>
+                                <view class="form-row-content">
+                                    <view class="mock-input">{{item.taxRate}}</view>
+                                </view>
+                            </view>
+                            <view class="form-line"/>
+                        </block>
+                    </block>
+                    <view class="form-row-wrapper">
+                        <view class="form-row">
+                            <view class="form-row-label"><text class="require">*</text>开票金额（含税）（可申请余额: {{item.readOnlyAmount}}）</view>
+                            <view class="form-row-content">
+                                <input type="digit" class="input" data-index="{{index}}" data-id="{{item.id}}" bindinput="bindinput" bindblur="onBlur" value="{{item.applicationAmount}}" placeholder="开票金额"/>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="form-line"/>
+                    <view data-id="{{item.id}}" bindtap="deleteImportInputList" class="form-row" style="min-height: 10rpx; display:flex;justify-content: center;align-items: center">
+                        <view class="delete-icon">删除</view>
+                    </view>
+                </view>
+            </view>
+        </scroll-view>
+        <view class="btn-area {{isPhoneXSeries ? 'iphoneX' : ''}}" hidden="{{btnHidden}}">
+            <button class="submit-btn cancel-extra save-draft" bindtap="suppleImportList">补充导入</button>
+            <button class="submit-btn" bindtap="saveImportList">保存信息</button>
+        </view>
+        </form>
+    </view>
+</view>

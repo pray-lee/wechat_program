@@ -1,0 +1,43 @@
+<view class="app">
+    <scroll-view scroll-y="{{true}}" class="scroll-view {{isPhoneXSeries ? 'iphoneX' : ''}}" scroll-top="{{scrollTop}}"
+                 onScroll="onScroll">
+        <view class="list-wrapper" wx:if="{{!!list.length}}">
+            <view class="list-item" wx:for="{{list}}" wx:key="index">
+                <movable-area class='movable-area'>
+                    <movable-view direction="horizontal" class='movable-view'>
+                        <view class="touch-item {{item.isTouchMove ? 'touch-move-active' : ''}}"
+                              data-index="{{index}}" bindtouchstart="touchstart" bindtouchmove="touchmove">
+                            <view class="content" style="display:block" bindtap="selectExpress" data-id="{{item.id}}">
+                                <view>
+                                    <text class="contacts">{{item.contacts}}</text>
+                                    <text> {{item.telephone}}</text>
+                                </view>
+                                <view>
+                                    {{item.address}}
+                                </view>
+                            </view>
+                            <view class="move-wrapper">
+                                <view class="move-block edit" bindtap="update" data-id="{{item.id}}">编辑</view>
+                                <view class="move-block del" bindtap="delete" data-id="{{item.id}}">删除</view>
+                            </view>
+                        </view>
+                    </movable-view>
+                </movable-area>
+            </view>
+        </view>
+        <view wx:else>
+            <view class="a-error-view-wrapper">
+                <image
+                        class="a-error-view-pic"
+                        src="../../images/error-view/empty.png"
+                />
+                <view class="a-error-view-title">暂无物流信息</view>
+            </view>
+        </view>
+    </scroll-view>
+    <view class="btn-area-wrapper {{isPhoneXSeries ? 'iphoneX' : ''}}">
+        <view class="add-btn" bindtap="addExpressInfo">
+            新建物流信息
+        </view>
+    </view>
+</view>

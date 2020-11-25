@@ -1,0 +1,49 @@
+.custom-info{
+    position:absolute;
+    top:0px;
+    left:0px;
+    right:0px;
+    bottom:0px;
+    overflow:hidden;
+    background:#fff;
+}
+.form-row-label {
+    min-width: 6em;
+    font-size: 24rpx;
+    margin-right: 10rpx;
+    margin-bottom: 10rpx;
+    text-align: left;
+    color: #666;
+    line-height: 40rpx;
+    display:flex;
+    align-items: center;
+}
+
+.form-row-content {
+    height:44rpx;
+    line-height: 44rpx;
+    flex: 1;
+    font-size: 28rpx;
+    position:relative;
+}
+.btn-area{
+    display:flex;
+    position:fixed;
+    bottom:0;
+    left:0;
+    z-index:999;
+    width: 100%;
+}
+.borrow-submit{
+    flex:1;
+    text-align: center;
+    background:#3276c3;
+    color:#fff;
+    font-size: 32rpx;
+    height: 100rpx;
+    line-height: 100rpx;
+}
+.once{
+    background:#fff;
+    color:#3276c3;
+}

@@ -15711,7 +15711,7 @@ __DEFINE__(1595298048424, function(require, module, exports) {
      * @memberOf _
      * @category Util
      * @param {Function|Object} [object=lodash] The destination object.
-     * @param {Object} source The object of functions to add.
+     * @param {Object} source The object of functions to awx.
      * @param {Object} [options={}] The options object.
      * @param {boolean} [options.chain=true] Specify whether mixins are chainable.
      * @returns {Function|Object} Returns `object`.

@@ -4,7 +4,7 @@ Page({
             type: 'empty',
             title: '什么都没有了',
             button: '返回',
-            onButtonTap: 'handleBack',
+            onButtbindtap: 'handleBack',
             href: '/pages/index/index',
         },
     },
@@ -13,7 +13,7 @@ Page({
             url: '/pages/index/index'
         })
     },
-    handleErrorButtonTap(e) {
+    handleErrorButtbindtap(e) {
         const { dataset } = e.currentTarget;
         if (dataset.href) {
             wx.redirectTo({url: dataset.href});

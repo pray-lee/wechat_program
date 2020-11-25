@@ -7,7 +7,7 @@ export default {
   //       console.log(res.authCode)
   //   },
   //   fail: (er)=>{
-  //       wx.showModal({content: JSON.stringify(er)})
+  //       wx.alert({content: JSON.stringify(er)})
   //   }
   //   })
   //   // 请求access_token

@@ -1143,10 +1143,8 @@ Page({
     },
     onDisabled() {
         wx.showToast({
-            type: 'none',
-            content: '当前单据状态不可被编辑',
-            success: () => {
-            },
+            icon: 'none',
+            title: '当前单据状态不可被编辑'
         });
     },
     // 回显数据设置
@@ -1221,7 +1219,7 @@ Page({
                 invoice: data.invoice,
                 subjectId: data.subjectId,
                 subjectName: data.subject ? data.subject.fullSubjectName : '',
-                businessDateTime: data.businessDateTime,
+                businessDateTime: data.businessDateTime.split(' ')[0],
                 amount: data.amount.toFixed(2),
                 formatAmount: formatNumber(data.amount),
                 remark: data.remark,

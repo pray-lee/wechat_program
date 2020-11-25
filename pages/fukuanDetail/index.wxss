@@ -1,0 +1,105 @@
+.form-wrapper{
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    overflow:hidden
+}
+.form-scroll-wrapper{
+    height: calc(100vh - 100rpx)
+}
+.form-scroll-wrapper.iphoneX{
+    height: calc(100vh - 168rpx)
+}
+.add-hesuanweidu-page{
+    transform:translateY('605rpx')
+}
+.import-borrow-list-btn{
+    position:fixed;
+    z-index:1000;
+    bottom:0px;
+    left:0px;
+    text-align:center;
+    background:rgb(50, 118, 195);
+    color:rgb(255, 255, 255);
+    font-size:0.32rem;
+    width:100%;
+    height:1rem;
+    line-height:1rem;
+    text-align:center;
+    border:0px;
+    border-radius:0px;
+}
+.btn-area{
+    display:flex;
+    position:fixed;
+    bottom:0;
+    left:0;
+    z-index:999;
+    width: 100%;
+    height: 100rpx;
+    background:#fff;
+}
+.btn-area.iphoneX{
+  padding-bottom: 68rpx
+}
+.btn-area button{
+    width: 100%;
+    border:0;
+    background:#3276c3;
+    border-radius: 0;
+    color:#fff;
+    font-size: 32rpx;
+    height: 100rpx;
+    line-height: 100rpx
+}
+.btn-area .save-draft{
+     background:#fff;
+     color:#1f65d8;
+ }
+.add-hesuanweidu-page{
+    z-index: 1000
+}
+.block-wrapper{
+    background:#fff;
+}
+.mock-input{
+    height: 44rpx;
+    line-height: 44rpx;
+    width: 100%;
+    color:#333;
+}
+.mock-input.nodata{
+    color:#c7c7cd
+}
+.title{
+    margin:0 40rpx;
+    padding: 20rpx 20rpx 20rpx 0;
+    font-size: 24rpx;
+    color:#999
+}
+.invoice-wrapper{
+    display:flex;
+    justify-content: space-between;
+}
+.extra-icon{
+    width: 44rpx;
+    height: 47rpx;
+    position:absolute;
+    right: 40rpx;
+    top:80rpx
+}
+.auxpty-wrapper{
+    padding: .1rem 0;
+    display:flex;
+    justify-content: space-between;
+    align-items:center
+}
+.auxpty-wrapper .left{
+    min-width: 5em;
+}
+.auxpty-wrapper .right{
+    margin-left: 20rpx;
+    text-align:right
+}

@@ -1,0 +1,45 @@
+<view class="form-wrapper" bindtap="onClick">
+    <view class="title" wx:if="{{!!fukuanDetail.billId && fukuanDetail.billCode}}">{{fukuanDetail.billCode}}</view>
+    <scroll-view scroll-y class="form-scroll-wrapper">
+        <view class="block-wrapper">
+             <view class="form-row" bindtap="disabled">
+                <view class="form-row-label"><text class="require">*</text>费用类型</view>
+                <view class="form-row-content">
+                        <view class="mock-input">{{fukuanDetail['subject.fullSubjectName']}}</view>
+                </view>
+            </view>
+            <view class="form-line"/>
+            <view class="form-row" bindtap="disabled">
+                <view class="form-row-label"><text class="require">*</text>核算维度</view>
+                <view class="form-row-content">
+                    <view class="mock-input">{{fukuanDetail['auxpropertyNames']}}</view>
+                </view>
+            </view>
+            <view class="form-line"/>
+            <view class="form-row" bindtap="disabled">
+                <view class="form-row-label"><text class="require">*</text>发票类型</view>
+                <view class="form-row-content">
+                    <view class="mock-input">{{fukuanDetail['invoiceType'] == '1' ? '普票' : '专票'}}</view>
+                </view>
+            </view>
+            <view class="form-line"/>
+            <block wx:if="{{fukuanDetail['invoiceType'] == '2'}}">
+                <view class="form-row" bindtap="disabled">
+                    <view class="form-row-label"><text class="require">*</text>税率（%）</view>
+                    <view class="form-row-content">
+                        <view class="mock-input">{{fukuanDetail['taxRate']}}</view>
+                    </view>
+                </view>
+                <view class="form-line"/>
+            </block>
+            <view class="form-row">
+                <view class="form-row-label"><text class="require">*</text>开票金额（含税）<view wx:if="{{!!fukuanDetail.billId && fukuanDetail.billCode}}">（可申请余额：{{fukuanDetail.formatUnverifyAmount}}）</view></view>
+                <input class="input" type="digit" placeholder="开票金额" value="{{fukuanDetail.applicationAmount}}" bindblur="onKaipiaoBlur"
+                       data-name="applicationAmount"/>
+            </view>
+        </view>
+    </scroll-view>
+    <view class="btn-area {{isPhoneXSeries ? 'iphoneX' : ''}}" hidden="{{btnHidden}}">
+        <button bindtap="submitFukuanDetail" class="submit-btn">保存</button>
+    </view>
+</view>

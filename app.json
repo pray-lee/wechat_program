@@ -16,7 +16,21 @@
     "pages/viewJiekuan/index",
     "pages/viewBaoxiao/index",
     "pages/viewBaoxiaoDetail/index",
-    "pages/viewExtra/index"
+    "pages/viewExtra/index",
+    "pages/addKaipiao/index",
+    "pages/updateCustomerInfo/index",
+    "pages/express/index",
+    "pages/addExpressInfo/index",
+    "pages/kaipiaoDetail/index",
+    "pages/importYingshouList/index",
+    "pages/customerList/index",
+    "pages/importYingshouInputList/index",
+    "pages/addFukuan/index",
+    "pages/fukuanDetail/index",
+    "pages/viewKaipiao/index",
+    "pages/viewKaipiaoDetail/index",
+    "pages/viewFukuan/index",
+    "pages/viewFukuanDetail/index"
   ],
   "window": {
     "backgroundTextStyle":"light",

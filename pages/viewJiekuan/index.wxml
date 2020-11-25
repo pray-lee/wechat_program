@@ -66,7 +66,7 @@
                 <view class="form-line"/>
                 <view class="form-row" wx:if="{{result.billApEntityList.length}}" wx:key="index">
                     <view class="form-row-label"><text class="require">*</text>核算维度</view>
-                    <view class="form-row-content auxpty-wrapper" wx:for="{{result.billApEntityList}}">
+                    <view class="form-row-content auxpty-wrapper" wx:for="{{result.billApEntityList}}" wx:key="index">
                             <view class="mock-input left ellipsis">{{item.auxptyName}}</view>
                             <view class="mock-input right ellipsis" wx:if="{{item.auxptyDetailName}}">{{item.auxptyDetailName}}</view>
                             <view class="mock-input right ellipsis" wx:else>无</view>
@@ -76,7 +76,7 @@
                 <view class="form-row">
                     <view class="form-row-label"><text class="require">*</text>业务日期</view>
                     <view class="form-row-content">
-                        <view data-name="businessDateTime">{{result.businessDateTime}}</view>
+                        <view data-name="businessDateTime">{{result.businessDateTime.split(' ')[0]}}</view>
                     </view>
                     <image src="../../images/date-icon.png" mode="scaleToFill" class="date-icon"></image>
                 </view>

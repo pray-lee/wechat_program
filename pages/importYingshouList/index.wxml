@@ -1,0 +1,60 @@
+<!--增加导入借款单弹框-->
+<view class="add-borrow-page">
+    <view class="search-wrapper">
+        <input type="text" placeholder="销售类型或者备注" bindinput="bindinput"/>
+    </view>
+    <view class="date-wrapper">
+        <view class="start">
+            <image src="../../images/date-icon.png" mode="scaleToFill" class="date-icon"></image>
+            <view bindtap="startTimeChange" class="select-date">{{startTime ? startTime : '起始'}}</view>
+            <view class="del-date" bindtap="clearStartTime">清空</view>
+        </view>
+        <view class="end">
+            <image src="../../images/date-icon.png" mode="scaleToFill" class="date-icon"></image>
+            <view bindtap="endTimeChange" class="select-date">{{endTime ? endTime : '结束'}}</view>
+            <view class="del-date" bindtap="clearEndTime">清空</view>
+        </view>
+    </view>
+    <form>
+        <view class="selectAll-wrapper">
+            <label class="checkbox-label" style="padding-left: 0">
+                <checkbox bindtap="onAllSelect" class="checkbox" checked="{{isAllSelect}}"/>
+                <text class="checkbox-text">全选</text>
+            </label>
+            <view class="total-wrapper">
+                已选{{num}}笔，{{totalAmount}}元
+            </view>
+        </view>
+        <scroll-view class="jiekuandan {{isPhoneXSeries ? 'iphoneX' : ''}}" scroll-y>
+            <block wx:if="{{filterList.length}}">
+                <checkbox-group name="checkList">
+                    <label class="checkbox-label" name="{{item.id}}" wx:for="{{filterList}}" wx:key="index">
+                        <checkbox bindtap="onCheckboxChange" data-index="{{index}}" value="{{item}}" class="checkbox" checked="{{item.checked}}"></checkbox>
+                        <view class="import-borrow-item">
+                            <view class="form-row" style="display:flex;align-items: center">
+                                <view>
+                                    <view class="import-borrow-item-left">
+                                        <view class="import-borrow-remark" wx:if="{{item['subjectEntity.fullSubjectName']}}">{{item['subjectEntity.fullSubjectName']}}</view>
+                                        <view class="import-borrow-remark" wx:if="{{item['subject.fullSubjectName']}}">{{item['subject.fullSubjectName']}}</view>
+                                        <view class="import-borrow-info">
+                                            <view class="import-borrow-time">业务日期：{{item.businessDateTime.split(' ')[0]}}</view>
+                                        </view>
+                                    </view>
+                                </view>
+                                <view class="import-borrow-item-right">
+                                    ￥
+                                    <text>{{item.unverifyAmount}}</text>
+                                </view>
+                            </view>
+                            <view class="ellipsis" style="max-width:85vw;color:#b8b9bb;font-size: 22rpx;">备注：{{item.remark || '无'}}</view>
+                            <view class="form-line"/>
+                        </view>
+                    </label>
+                </checkbox-group>
+            </block>
+        </scroll-view>
+        <view class="btn-area">
+            <button bindtap="onCheckboxSubmit" class="import-borrow-list-btn">导入单据</button>
+        </view>
+    </form>
+</view>

@@ -1,49 +1,65 @@
 <view class="app">
-    <view class="tabs">
-        <view class="tab" data-active="10" style="color: {{active == 10 ? '#1f65d8' : '#333'}}; border-bottom-color: {{active == 10 ? '#1f65d8' : 'transparent'}}" bindtap="getData">草稿箱</view>
-        <view class="tab" data-active="20" style="color: {{active == 20 ? '#1f65d8' : '#333'}}; border-bottom-color: {{active == 20 ? '#1f65d8' : 'transparent'}}" bindtap="getData">未完成</view>
-        <view class="tab" data-active="80" style="color: {{active == 80 ? '#1f65d8' : '#333'}}; border-bottom-color: {{active == 80 ? '#1f65d8' : 'transparent'}}" bindtap="getData">已完成</view>
+    <view class="all-bill">
+        <view bindtap="toggleHidden">
+            <text>{{selectedText ? selectedText : '全部'}}</text>
+            <view class="down-arrow-wrapper" animation="{{animationInfoImg}}">
+                <image class="down-arrow" mode="scaleToFill" src="../../images/down-arrow.png"></image>
+            </view>
+        </view>
+        <view class="select-bill-wrapper" animation="{{animationInfoTopList}}" topHidden="{{topHidden}}">
+            <view style="background-color: {{selectedType == 'ALL'?'#ccc' : '#fff'}}" class="bill-btn" bindtap="getAllList">全部</view>
+            <view style="background-color: {{selectedType == 'J'?'#ccc' : '#fff'}}" class="bill-btn J" bindtap="getSingleList" data-type="J">借款单</view>
+            <view style="background-color: {{selectedType == 'B'?'#ccc' : '#fff'}}" class="bill-btn B" bindtap="getSingleList" data-type="B">报销单</view>
+            <view style="background-color: {{selectedType == 'K'?'#ccc' : '#fff'}}" class="bill-btn K" bindtap="getSingleList" data-type="K">开票申请单</view>
+            <view style="background-color: {{selectedType == 'F'?'#ccc' : '#fff'}}" class="bill-btn F" bindtap="getSingleList" data-type="F">付款申请单</view>
+        </view>
     </view>
+    <view class="search-wrapper">
+        <input type="text" placeholder="搜索事由或者单号" bindinput="bindinput" />
+    </view>
+    <view class="see-complete-bill" bindtap="getListByListStatus">{{isComplete ? '查看已完成单据':'查看未完成单据'}}</view>
     <scroll-view scroll-y="{{true}}" class="scroll-view {{isPhoneXSeries ? 'iphoneX' : ''}}" scroll-top="{{scrollTop}}" onScroll="onScroll">
         <view class="list-wrapper">
-            <view class="list-item" wx:for="{{list}}" wx:key="index">
+            <view class="list-item" wx:for="{{filterList}}" wx:key="index">
                 <movable-area class='movable-area' wx:if="{{item.status == 25 || item.status == 10}}">
                     <movable-view direction="horizontal" class='movable-view'>
                         <view class="touch-item {{item.isTouchMove ? 'touch-move-active' : ''}}" data-index="{{index}}" bindtouchstart="touchstart" bindtouchmove="touchmove">
-                            <view class="content" bindtap="goToEdit" data-id="{{item.id}}" data-status="{{item.status}}" style="display:block">
-                                <view class="status error">{{statusObj[item.status]}}</view>
+                            <view class="content" data-type="{{item.billType}}" bindtap="goToEdit" data-id="{{item.id}}" data-status="{{item.status}}" style="display:block">
                                 <view class="content1">
-                                    <text wx:if="{{!!item.remark}}" class="remark">{{item.remark}}</text>
-                                    <text wx:else>[无事由]</text>
-                                    <text class="right" wx:if="{{isJ}}">￥{{item.amount}}</text>
-                                    <text wx:else class="right">￥{{item.totalAmount}}</text>
+                                    <view class="status error {{item.billType.toLowerCase()}}">{{statusObj[item.status]}}</view>
+                                    <view class="right">￥{{item.formatAmount || item.formatTotalAmount}}</view>
+                                </view>
+                                <view class="content1">
+                                    <view wx:if="{{!!item.remark}}" class="remark">{{item.remark}}</view>
+                                    <view wx:else class="remark">[无事由]</view>
                                 </view>
                                 <view class="bill-number">
-                                    <text class="bill-number-span">单据编号</text>
-                                    {{item.billCode}}
+                                    <text class="bill-number-span">{{item.billName}}</text>
+                                    {{item.billCode || item.invoicebillCode}}
                                 </view>
                             </view>
-                            <view class="del" bindtap="deleteBill" data-id="{{item.id}}" data-flag="{{flag}}" data-status="{{item.status}}">删除</view>
+                            <view class="del" bindtap="deleteBill" data-id="{{item.id}}" data-type="{{item.billType}}" data-status="{{item.status}}">删除</view>
                         </view>
                     </movable-view>
                 </movable-area>
                 <movable-area wx:else class="movable-area">
                     <movable-view direction="horizontal" class='movable-view'>
                         <view class="touch-item {{item.isTouchMove ? 'touch-move-active' : ''}}" data-index="{{index}}">
-                            <view class="content" bindtap="goToEdit" data-id="{{item.id}}" data-status="{{item.status}}">
-                                <view class="status error">{{statusObj[item.status]}}</view>
+                            <view class="content" data-type="{{item.billType}}" bindtap="goToEdit" data-id="{{item.id}}" data-status="{{item.status}}" style="display:block">
                                 <view class="content1">
-                                    <text wx:if="{{!!item.remark}}" class="remark">{{item.remark}}</text>
-                                    <text wx:else>[无事由]</text>
-                                    <text class="right" wx:if="{{isJ}}">￥{{item.amount}}</text>
-                                    <text wx:else class="right">￥{{item.totalAmount}}</text>
+                                    <view class="status error {{item.billType.toLowerCase()}}">{{statusObj[item.status]}}</view>
+                                    <view class="right">￥{{item.formatTotalAmount || item.formatAmount}}</view>
+                                </view>
+                                <view class="content1">
+                                    <view wx:if="{{!!item.remark}}" class="remark">{{item.remark}}</view>
+                                    <view wx:else class="remark">[无事由]</view>
                                 </view>
                                 <view class="bill-number">
-                                    <text class="bill-number-span">单据编号</text>
-                                    {{item.billCode}}
+                                    <text class="bill-number-span">{{item.billName}}</text>
+                                    {{item.billCode || item.invoicebillCode}}
                                 </view>
                             </view>
-                            <view class="del" bindtap="deleteBill" data-id="{{item.id}}" data-flag="{{flag}}" data-status="{{item.status}}">删除</view>
+                            <view class="del" bindtap="deleteBill" data-id="{{item.id}}" data-type="{{item.billType}}" data-status="{{item.status}}">删除</view>
                         </view>
                     </movable-view>
                 </movable-area>
@@ -57,13 +73,24 @@
     </view>
     <!-- 新增单据弹框 -->
     <view class="add-page" animation="{{animationInfo}}">
-        <view class="add-item" bindtap="onShowAddJiekuan">
-            <image class="add-img" mode="scaleToFill" src="../../images/jiekuan-icon.png"></image>
-            <view>借款单</view>
-        </view>
-        <view class="add-item" bindtap="onShowAddBaoxiao">
-            <image class="add-img" mode="scaleToFill" src="../../images/baoxiao-icon.png"></image>
-            <view>报销单</view>
+        <view class="title">单据类别</view>
+        <view class="add-page-wrapper">
+            <view class="add-item J" bindtap="onShowAddJiekuan">
+                <!--            <image class="add-img" mode="scaleToFill" src="../../images/jiekuan-icon.png"></image>-->
+                <view>借款单</view>
+            </view>
+            <view class="add-item B" bindtap="onShowAddBaoxiao">
+                <!--            <image class="add-img" mode="scaleToFill" src="../../images/jiekuan-icon.png"></image>-->
+                <view>报销单</view>
+            </view>
+            <view class="add-item K" bindtap="onShowAddKaipiao">
+                <!--            <image class="add-img" mode="scaleToFill" src="../../images/jiekuan-icon.png"></image>-->
+                <view>开票申请单</view>
+            </view>
+            <view class="add-item F" bindtap="onShowAddFukuan">
+                <!--            <image class="add-img" mode="scaleToFill" src="../../images/jiekuan-icon.png"></image>-->
+                <view>付款申请单</view>
+            </view>
         </view>
     </view>
     <view class="mask" hidden="{{maskHidden}}" bindtap="onAddHide"></view>

@@ -9,7 +9,7 @@
         <view
                 class="a-error-view-button"
                 hover-class="a-error-view-button-hover"
-                bindtap="{{errorData.onButtonTap || 'handleErrorButtonTap'}}"
+                bindtap="{{errorData.onButtbindtap || 'handleErrorButtbindtap'}}"
                 data-href="{{errorData.href}}"
         >{{errorData.button}}</view>
     </view>
