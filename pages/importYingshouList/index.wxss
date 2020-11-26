@@ -3,10 +3,10 @@
     transform: translateY(0)
 }
 .jiekuandan {
-    height: calc(100vh - 380rpx)
+    height: calc(100vh - 400rpx)
 }
 .jiekuandan.iphoneX{
-    height: calc(100vh - 448rpx)
+    height: calc(100vh - 468rpx)
 }
 .import-borrow-item{
     flex: 1

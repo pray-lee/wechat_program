@@ -330,6 +330,7 @@ Page({
                 billCode: data.billCode,
                 remark: data.remark,
                 deliveryMode: data.deliveryMode,
+                invoiceType: customerDetail.invoiceType || 1,
                 contacts: (data.contacts ? data.contacts : null),
                 telephone: (data.telephone ? data.telephone : null),
                 address: (data.address ? data.address : null),
@@ -531,6 +532,11 @@ Page({
                             kaipiaoList: kaipiaoList.concat(kaipiaoDetail)
                         })
                     }
+                    // 处理一下科目名称显示
+                    this.data.kaipiaoList.map(item => ({
+                        ...item,
+                        subjectName: item.subjectName.indexOf(' ') != -1 ? item.subjectName.split(' ')[item.subjectName.split(' ').length - 1] : item.subjectName
+                    }))
                     this.setTotalAmount()
                     wx.removeStorage({
                         key: 'newKaipiaoDetailArr',

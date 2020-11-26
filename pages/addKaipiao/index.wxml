@@ -49,9 +49,11 @@
                         <text class="require">*</text>
                         业务日期
                     </view>
-                    <view class="form-row-content">
-                        <view data-name="businessDateTime">{{submitData.businessDateTime}}</view>
-                    </view>
+                    <picker mode="date" bindchange="onBusinessFocus" value="{{submitData.businessDateTime}}">
+                        <view class="form-row-content">
+                            <view>{{submitData.businessDateTime}}</view>
+                        </view>
+                    </picker>
                     <image src="../../images/date-icon.png" mode="scaleToFill" class="date-icon"></image>
                 </view>
             </view>

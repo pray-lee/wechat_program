@@ -20,6 +20,7 @@ Page({
         // 每一项加一个checked属性
         tempImportList.forEach(item => {
             item.checked = false
+            item.businessDateTime = item.businessDateTime.split(' ')[0]
         })
         this.setData({
             tempImportList,
@@ -33,29 +34,17 @@ Page({
         // 过滤
         this.searchResultUseInput(e.detail.value)
     },
-    startTimeChange() {
-        wx.datePicker({
-            format: 'yyyy-MM-dd',
-            currentDate: moment().format('YYYY-MM-DD'),
-            success: (res) => {
-                this.setData({
-                    startTime: res.date
-                })
-                this.searchResultUseTime(res.date, this.data.endTime)
-            }
-        });
+    startTimeChange(e) {
+        this.setData({
+            startTime: e.detail.value
+        })
+        this.searchResultUseTime(e.detail.value, this.data.endTime)
     },
-    endTimeChange() {
-        wx.datePicker({
-            format: 'yyyy-MM-dd',
-            currentDate: moment().format('YYYY-MM-DD'),
-            success: (res) => {
-                this.setData({
-                    endTime: res.date,
-                });
-                this.searchResultUseTime(this.data.startTime, res.date)
-            },
-        });
+    endTimeChange(e) {
+        this.setData({
+            endTime: e.detail.value
+        })
+        this.searchResultUseTime(this.data.startTime, e.detail.value)
     },
     clearStartTime() {
         this.setData({
@@ -70,19 +59,15 @@ Page({
         this.searchResultUseTime(this.data.startTime, '')
     },
     onCheckboxChange(e) {
-        console.log(e)
-        // 设置checked属性
-        const checked = e.detail.value
-        const idx = e.currentTarget.dataset.index
         const tempData = clone(this.data.filterList)
-        tempData.forEach((item,index) => {
-            if(index === idx) {
-                item.checked = !!checked ? true : false
-            }
+        tempData.forEach(item => {
+            item.checked = false
+        })
+        e.detail.value.forEach(index => {
+            tempData[index].checked = true
         })
         // 全选联动
         let isAllSelect = false
-        console.log(tempData.every(item => !!item.checked))
         if(tempData.every(item => item.checked)){
             isAllSelect = true
         }else{
@@ -96,8 +81,7 @@ Page({
     },
     // 全选
     onAllSelect(e) {
-        console.log(e, '全选')
-        const checked = e.detail.value
+        const checked = e.detail.value.length
         let filterList = []
         if(!!checked) {
             filterList = this.data.filterList.map(item => ({
