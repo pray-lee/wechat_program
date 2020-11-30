@@ -259,6 +259,7 @@ Page({
             })
             this.setApplicationAmount(this.data.fukuanList)
             this.setTotalAmount()
+            this.handleSubjectName()
         }
     },
     getBorrowIdFromStorage() {
@@ -295,6 +296,17 @@ Page({
             });
         }
     },
+    handleSubjectName() {
+        const fukuanList = this.data.fukuanList.map(item => {
+            return {
+                ...item,
+                subjectName: item.subjectName.indexOf('_') != -1 ? item.subjectName.split('_')[item.subjectName.split('_').length - 1] : item.subjectName
+            }
+        })
+        this.setData({
+            fukuanList
+        })
+    },
     // 获取导入的应付单
     getImportFukuanListFromStorage() {
         const fukuanList = wx.getStorageSync('importCommonList')
@@ -327,6 +339,7 @@ Page({
             }
             this.setApplicationAmount(this.data.fukuanList)
             this.setTotalAmount()
+            this.handleSubjectName()
             wx.removeStorageSync('importCommonList')
         }
     },
@@ -871,6 +884,7 @@ Page({
                 console.log(res, '付款单编辑的数据')
                 if (res.data.obj) {
                     this.setRenderData(res.data.obj)
+                    this.handleSubjectName()
                     this.getProcessInstance(id, res.data.obj.accountbookId)
                 }
             }
@@ -1153,7 +1167,7 @@ Page({
         this.addLoading()
         request({
             hideLoading: this.hideLoading,
-            url: app.globalData.url + 'dingtalkController.do?getProcessinstanceJson&billType=9&billId=' + billId + '&accountbookId=' + accountbookId,
+            url: app.globalData.url + 'dingtalkController.do?getProcessinstanceJson&billType=3&billId=' + billId + '&accountbookId=' + accountbookId,
             method: 'GET',
             success: res => {
                 if(res.data && res.data.length) {

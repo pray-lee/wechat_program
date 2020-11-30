@@ -145,9 +145,9 @@ Page({
             })
             return
         }
-        wx.removeStorageSync({
-            key: 'tempImportList'
-        })
+        wx.removeStorageSync(
+            'tempImportList'
+        )
         this.data.importList.forEach(item => {
             item.formatApplicationAmount = formatNumber(Number(item.applicationAmount).toFixed(2))
             item.billId = item.id

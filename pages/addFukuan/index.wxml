@@ -114,7 +114,7 @@
                             <view bindtap="showFukuanDetail" data-index="{{index}}"
                                   class="form-row-content baoxiaoDetail-left" data-index="{{index}}">
                                 <view class="subject-title">
-                                    {{item.subjectName.split('_')[item.subjectName.split('_').length-1]}}
+                                    {{item.subjectName}}
                                 </view>
                                 <view class="remark-title">事由：</view>
                                 <view class="remark-content" wx:if="{{item.remark}}">{{item.remark}}</view>

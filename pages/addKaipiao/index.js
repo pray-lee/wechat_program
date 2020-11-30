@@ -502,6 +502,7 @@ Page({
     },
     getKaipiaoDetailFromStorage() {
         const index = wx.getStorageSync('index')
+        console.log(index, 'index')
         this.setData({
             submitData: {
                 ...this.data.submitData,
@@ -514,7 +515,7 @@ Page({
                 console.log(kaipiaoDetail, 'kaipiaoDetail..........')
                 if (!!kaipiaoDetail) {
                     let kaipiaoList = clone(this.data.kaipiaoList)
-                    if (!!index || index == 0) {
+                    if (!!index || index === 0) {
                         kaipiaoList.splice(index, 1)
                         wx.removeStorage({
                             key: 'index',
@@ -533,10 +534,13 @@ Page({
                         })
                     }
                     // 处理一下科目名称显示
-                    this.data.kaipiaoList.map(item => ({
+                    const tempList = this.data.kaipiaoList.map(item => ({
                         ...item,
-                        subjectName: item.subjectName.indexOf(' ') != -1 ? item.subjectName.split(' ')[item.subjectName.split(' ').length - 1] : item.subjectName
+                        subjectName: item.subjectName.indexOf('_') != -1 ? item.subjectName.split('_')[item.subjectName.split('_').length - 1] : item.subjectName
                     }))
+                    this.setData({
+                        kaipiaoList: tempList
+                    })
                     this.setTotalAmount()
                     wx.removeStorage({
                         key: 'newKaipiaoDetailArr',
@@ -545,7 +549,20 @@ Page({
                         }
                     })
                 }
+                this.handleBillId()
             }
+        })
+    },
+    handleBillId() {
+        // 特殊处理, 如果billId是null,不传
+        const kaipiaoList = this.data.kaipiaoList.map(item => {
+            if(item.billId == null) {
+                delete item['billId']
+            }
+            return item
+        })
+        this.setData({
+            kaipiaoList
         })
     },
     getImportYingshouList() {
@@ -850,7 +867,9 @@ Page({
                             var obj = {}
                             var subjectId = item.subjectId
                             obj.accountbookId = accountbookId
-                            obj.billId = item.billId
+                            if(item.billId) {
+                                obj.billId = item.billId
+                            }
                             obj.receivablebillCode = item.invoicebillDetailCode
                             obj.subjectId = item.subjectId
                             obj.subjectName = item.subjectEntity.fullSubjectName
@@ -977,6 +996,9 @@ Page({
         if (expressInfo) {
             delete expressInfo['createDate']
             delete expressInfo['id']
+            delete expressInfo['updateDate']
+            delete expressInfo['updateTime']
+            delete expressInfo['updateBy']
             this.setData({
                 submitData: {
                     ...this.data.submitData,
