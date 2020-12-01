@@ -101,7 +101,7 @@
                             <view class="form-row-content baoxiaoDetail-left" bindtap="showBaoxiaoDetail" data-index="{{index}}">
                                 <view class="subject-title">{{item.subjectName}}</view>
                                 <view class="remark-title">事由：</view>
-                                <view class="remark-content" wx:if="{{item.remark}}">{{item.remark}}</view>
+                                <view class="remark-content" wx:if="{{item.remark && item.remark !== 'null'}}">{{item.remark}}</view>
                                 <view class="remark-content" wx:else>无</view>
                             </view>
                             <view class="form-row-content ellipsis borrow-remark baoxiaoDetail-right" bindtap="showBaoxiaoDetail" data-index="{{index}}">{{item.formatApplicationAmount}}</view>
@@ -131,7 +131,7 @@
                                 <view class="subject-title">{{item["subject.fullSubjectName"]}}</view>
                                 <view class="remark-title">未核销金额：{{item.formatUnverifyAmount}}</view>
                                 <view class="remark-title">事由：</view>
-                                <view class="remark-content" wx:if="{{item.remark}}">{{item.remark}}</view>
+                                <view class="remark-content" wx:if="{{item.remark && item.remark !== 'null'}}">{{item.remark}}</view>
                                 <view class="remark-content" wx:else>无</view>
                             </view>
                             <view class="form-row-content ellipsis borrow-remark baoxiaoDetail-right">
@@ -208,7 +208,7 @@
                             <view class="status-content">
                                 <view class="progress-status">{{item.operationName}}</view>
                                 <view class="progress-user">{{item.userName}}{{item.resultName}}</view>
-                                <view class="progress-user" wx:if="{{item.remark}}">"{{item.remark}}"</view>
+                                <view class="progress-user" wx:if="{{item.remark && item.remark !== 'null'}}">"{{item.remark}}"</view>
                             </view>
                         </view>
                         <view class="progress-right">{{item.date}}</view>

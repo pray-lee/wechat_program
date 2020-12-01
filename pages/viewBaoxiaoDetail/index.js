@@ -6,7 +6,8 @@ const app = getApp()
 Page({
     data: {
         isPhoneXSeries: false,
-        baoxiaoDetail: null
+        baoxiaoDetail: null,
+        noticeHidden: true
     },
     onLoad() {
         this.setData({
@@ -16,7 +17,9 @@ Page({
             key: 'baoxiaoDetail',
             success: res => {
                 const baoxiaoDetail = clone(res.data)
-                console.log(baoxiaoDetail, '..........')
+                this.setData({
+                    noticeHidden: baoxiaoDetail.invoiceType == 2 ? false : true
+                })
                 this.setData({
                     baoxiaoDetail
                 })

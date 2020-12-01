@@ -15,7 +15,8 @@
         </view>
     </view>
     <view class="search-wrapper">
-        <input type="text" placeholder="搜索事由或者单号" bindinput="bindinput" />
+        <input type="text" placeholder="搜索事由或者单号" bindinput="bindinput" value="{{inputValue}}" value="{{inputValue}}"/>
+        <image bindtap="clearWord" src="../../images/delete.png" mode="scaleToFill" class="delete-icon" bindtap="clearWord"></image>
     </view>
     <view class="see-complete-bill" bindtap="getListByListStatus">{{isComplete ? '查看已完成单据':'查看未完成单据'}}</view>
     <scroll-view scroll-y="{{true}}" class="scroll-view {{isPhoneXSeries ? 'iphoneX' : ''}}" scroll-top="{{scrollTop}}" onScroll="onScroll">
@@ -30,7 +31,7 @@
                                     <view class="right">￥{{item.formatAmount || item.formatTotalAmount}}</view>
                                 </view>
                                 <view class="content1">
-                                    <view wx:if="{{!!item.remark}}" class="remark">{{item.remark}}</view>
+                                    <view wx:if="{{!!item.remark && item.remark !== 'null'}}" class="remark">{{item.remark}}</view>
                                     <view wx:else class="remark">[无事由]</view>
                                 </view>
                                 <view class="bill-number">
@@ -51,7 +52,7 @@
                                     <view class="right">￥{{item.formatTotalAmount || item.formatAmount}}</view>
                                 </view>
                                 <view class="content1">
-                                    <view wx:if="{{!!item.remark}}" class="remark">{{item.remark}}</view>
+                                    <view wx:if="{{!!item.remark && item.remark !== 'null'}}" class="remark">{{item.remark}}</view>
                                     <view wx:else class="remark">[无事由]</view>
                                 </view>
                                 <view class="bill-number">

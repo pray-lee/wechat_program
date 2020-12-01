@@ -117,3 +117,9 @@ input:-ms-input-placeholder{
 input::-webkit-input-placeholder{
     color: rgb(136,136,136);
 }
+.notice-content{
+    font-size:25rpx;
+    padding:40rpx;
+    line-height:38rpx;
+    color:rgb(153, 153, 153);
+}

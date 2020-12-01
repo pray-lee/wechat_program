@@ -76,7 +76,7 @@
                 <view class="form-row">
                     <view class="form-row-label"><text class="require">*</text>业务日期</view>
                     <view class="form-row-content">
-                        <view data-name="businessDateTime">{{result.businessDateTime.split(' ')[0]}}</view>
+                        <view data-name="businessDateTime">{{result.businessDateTime}}</view>
                     </view>
                     <image src="../../images/date-icon.png" mode="scaleToFill" class="date-icon"></image>
                 </view>
@@ -108,7 +108,7 @@
                             </view>
                             <view class="borrow-line"></view>
                             <block>
-                                <view wx:if="{{item.remark}}" class="form-row-content">
+                                <view wx:if="{{item.remark && item.remark !== 'null'}}" class="form-row-content">
                                     <text>{{item.remark}}</text>
                                 </view>
                                 <view wx:else class="form-row-content">无</view>
@@ -160,7 +160,7 @@
                             <view class="status-content">
                                 <view class="progress-status">{{item.operationName}}</view>
                                 <view class="progress-user">{{item.userName}}{{item.resultName}}</view>
-                                <view class="progress-user" wx:if="{{item.remark}}">"{{item.remark}}"</view>
+                                <view class="progress-user" wx:if="{{item.remark && item.remark !== 'null'}}">"{{item.remark}}"</view>
                             </view>
                         </view>
                         <view class="progress-right">{{item.date}}</view>

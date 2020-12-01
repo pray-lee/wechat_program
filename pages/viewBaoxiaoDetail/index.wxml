@@ -46,6 +46,41 @@
                 <view class="mock-input">{{baoxiaoDetail.remark}}</view>
             </view>
         </view>
+        <view class="notice-content" hidden="{{noticeHidden}}">
+            <view>
+                注意：以下票据类型请选择专票及相应的税率
+            </view>
+            <view>
+                1、 增值税专用发票：发票上注明的税率
+            </view>
+            <view>
+                2、 打车电子发票（注意必须是电子票，纸质普票和出租车专用机打发票均不可以）：发票上注明的税率
+            </view>
+            <view>
+                3、 通行费电子普通发票：发票上注明的税率
+            </view>
+            <view>
+                4、 机动车销售统一发票：发票上注明的税率
+            </view>
+            <view>
+                5、 飞机票（不含国际航班）：9%
+            </view>
+            <view>
+                6、 火车票：9%
+            </view>
+            <view>
+                7、 公路、水路等其他客运票（须注明身份信息）：3%
+            </view>
+            <view>
+                8、 过桥、闸通行费纸质发票：5%
+            </view>
+            <view>
+                9、 海关进口增值税专用缴款书：咨询财务人员
+            </view>
+            <view>
+                10、 农产品收购发票或销售发票：咨询财务人员
+            </view>
+        </view>
 
     </scroll-view>
 </view>

@@ -4,6 +4,7 @@ Page({
         isPhoneXSeries: false,
         capitalList: [],
         searchResult: [],
+        inputValue: ''
     },
     onLoad() {
         this.setData({
@@ -29,11 +30,20 @@ Page({
             delta: 1
         })
     },
+    clearWord() {
+        this.setData({
+            inputValue: ''
+        })
+        this.searchFn('')
+    },
     bindinput(e) {
         const value = e.detail.value
         if(!!app.globalData.timeOutInstance) {
             clearTimeout(app.globalData.timeOutInstance)
         }
+        this.setData({
+            inputValue: value
+        })
         this.searchFn(value)
     },
     searchFn(value) {

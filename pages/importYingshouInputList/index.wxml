@@ -15,13 +15,15 @@
                         </view>
                     </view>
                     <view class="form-line"/>
-                    <view class="form-row" bindtap="showContent">
-                        <view class="form-row-label"><text class="require">*</text>核算维度</view>
-                        <view class="form-row-content">
-                            <view class="mock-input">{{item['auxpropertyNames']}}</view>
+                    <block wx:if="{{!!item.auxpropertyNames}}">
+                        <view class="form-row" bindtap="showContent">
+                            <view class="form-row-label"><text class="require">*</text>核算维度</view>
+                            <view class="form-row-content">
+                                <view class="mock-input">{{item['auxpropertyNames']}}</view>
+                            </view>
                         </view>
-                    </view>
-                    <view class="form-line"/>
+                        <view class="form-line"/>
+                    </block>
                     <block wx:if="{{!item.billCode}}">
                         <view class="form-row">
                             <view class="form-row-label"><text class="require">*</text>开票内容</view>

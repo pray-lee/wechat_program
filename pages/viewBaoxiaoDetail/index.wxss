@@ -7,10 +7,10 @@
     overflow:hidden
 }
 .form-scroll-wrapper{
-    height: calc(100vh - 100rpx)
+    height: calc(100vh)
 }
 .form-scroll-wrapper.iphoneX{
-    height: calc(100vh - 168rpx)
+    height: calc(100vh - 68rpx)
 }
 .add-hesuanweidu-page{
     transform:translateY('605rpx')
@@ -97,4 +97,10 @@
 .auxpty-wrapper .right{
     margin-left: 20rpx;
     text-align:right
+}
+.notice-content{
+    font-size:25rpx;
+    padding:40rpx;
+    line-height:38rpx;
+    color:rgb(153, 153, 153);
 }

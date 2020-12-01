@@ -26,6 +26,7 @@
     border-radius: 50%;
 }
 .search-wrapper{
+    position:relative;
     margin-bottom: 20rpx
 }
 .search-wrapper input{

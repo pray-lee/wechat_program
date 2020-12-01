@@ -63,6 +63,7 @@
     line-height: 100rpx
 }
 .search-wrapper{
+    position:relative;
     background:#f1f1f1;
     padding: 25rpx;
     padding-bottom: 0

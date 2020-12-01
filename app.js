@@ -16,6 +16,8 @@ App({
     },
     globalData: {
         url: "https://www.caika.net/saas/",
-        corpId: "wwc5c826092131ecb7"
+        // corpId: "wwc5c826092131ecb7",
+        corpId: "wwbc109332dfcce85c",
+        tenantCode: 'db_ck_demo'
     }
 });

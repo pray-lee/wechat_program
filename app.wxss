@@ -299,6 +299,15 @@ page {
   right: 40rpx;
   top: 50rpx;
 }
+.delete-icon{
+  width: 44rpx;
+  height: 41.2rpx;
+  position:absolute;
+  right: 40rpx;
+  top: 50%;
+  margin-top: -20.5rpx;
+  z-index: 99999
+}
 .btn-area{
   /*box-sizing: border-box;*/
   border-top: 1px solid #3276c3

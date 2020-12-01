@@ -44,6 +44,7 @@ Page({
             success: res => {
                 const result = clone(res.data.obj)
                 result.amount = formatNumber(Number(result.amount).toFixed(2))
+                result.businessDateTime = result.businessDateTime.split(' ')[0]
                 result.billDetailList.forEach(item => {
                     item.borrowAmount = formatNumber(Number(item.borrowAmount).toFixed(2))
                 })

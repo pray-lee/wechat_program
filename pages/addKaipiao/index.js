@@ -130,11 +130,18 @@ Page({
         } else {
             url = app.globalData.url + 'invoicebillController.do?doUpdate'
         }
+        // 处理一下 null 变成字符串的问题
+        const submitData = clone(this.data.submitData)
+        for(let i in submitData) {
+            if(submitData[i] == null) {
+                delete submitData[i]
+            }
+        }
         request({
             hideLoading: this.hideLoading,
             url,
             method: 'POST',
-            data: this.data.submitData,
+            data: submitData,
             success: res => {
                 if (res.data && typeof res.data == 'string') {
                     getErrorMessage(res.data)
@@ -1012,6 +1019,12 @@ Page({
                     console.log('清除快递信息成功...')
                 }
             })
+        }else{
+            if(!this.data.submitData.contacts) {
+                this.setData({
+                    deliveryMode: 0
+                })
+            }
         }
     },
     // 获取某个账簿的税率

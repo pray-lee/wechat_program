@@ -233,7 +233,7 @@ input::-webkit-input-placeholder{
     height: 30rpx;
 }
 .title-word{
-    width: 7em;
+    width: 8em;
     margin-right: 20rpx;
     text-align:left
 }

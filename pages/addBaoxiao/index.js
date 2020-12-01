@@ -966,7 +966,7 @@ Page({
                 submitDate: moment().format('YYYY-MM-DD'),
                 applicantType: data.applicantType,
                 invoice: data.invoice,
-                businessDateTime: data.businessDateTime,
+                businessDateTime: data.businessDateTime.split(' ')[0],
                 applicationAmount: data.applicationAmount,
                 formatApplicationAmount: formatNumber(Number(data.applicationAmount).toFixed(2)),
                 verificationAmount: data.verificationAmount,

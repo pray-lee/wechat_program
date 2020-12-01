@@ -42,8 +42,14 @@ Page({
                 if (res.data.obj) {
                     console.log(res.data.obj, 'obj')
                     const result = clone(res.data.obj)
+                    result.businessDateTime = result.businessDateTime.split(' ')[0]
                     result.billDetailList.forEach(item => {
                         item.formatApplicationAmount = formatNumber(Number(item.applicationAmount).toFixed(2))
+                        if(item.subjectEntity.fullSubjectName.indexOf('_') !== -1){
+                            item.subjectName = item.subjectEntity.fullSubjectName.split('_')[item.subjectEntity.fullSubjectName.split('_').length-1]
+                        }else{
+                            item.subjectName = item.subject.fullSubjectName
+                        }
                     })
                     this.setData({
                         result

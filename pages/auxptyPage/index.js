@@ -4,6 +4,7 @@ Page({
         isPhoneXSeries: false,
         auxptyList: [],
         searchResult: [],
+        inputValue: ''
     },
     onLoad() {
         this.setData({
@@ -47,7 +48,16 @@ Page({
         if(!!app.globalData.timeOutInstance) {
             clearTimeout(app.globalData.timeOutInstance)
         }
+        this.setData({
+            inputValue: value
+        })
         this.searchFn(value)
+    },
+    clearWord() {
+        this.setData({
+            inputValue: ''
+        })
+        this.searchFn('')
     },
     searchFn(value) {
         app.globalData.timeOutInstance = setTimeout(() => {

@@ -7,6 +7,7 @@ Page({
     data: {
         isPhoneXSeries: false,
         btnHidden: false,
+        noticeHidden: true,
         baoxiaoDetail: {},
         baoxiaoArr: [],
     },
@@ -21,6 +22,11 @@ Page({
             this.setData({
                 baoxiaoDetail: initBaoxiaoDetail
             })
+            const taxpayerType = this.data.baoxiaoDetail.taxpayerType
+            // 显示提示信息，如果有账簿有税率的话
+            this.setData({
+                noticeHidden: taxpayerType == 2 ? false : true
+            })
         } else {
             if (isEdit) {
                 this.getSubjectAuxptyList(baoxiaoDetail.subjectId, baoxiaoDetail.accountbookId, false)
@@ -32,7 +38,8 @@ Page({
                 })
             }
             this.setData({
-                baoxiaoDetail: baoxiaoDetail
+                baoxiaoDetail: baoxiaoDetail,
+                noticeHidden: baoxiaoDetail.noticeHidden
             })
             console.log(baoxiaoDetail, '..................')
         }
@@ -141,15 +148,19 @@ Page({
             baoxiaoItem.taxRageArr = baoxiaoItem.taxRageObject.taxRageArr
             baoxiaoItem.taxRageIndex = 0
             baoxiaoItem.taxRate = baoxiaoItem.taxRageObject.taxRageArr[0].id
+            baoxiaoItem.noticeHidden = false
             this.setData({
-                baoxiaoDetail: baoxiaoItem
+                baoxiaoDetail: baoxiaoItem,
+                noticeHidden: false
             })
         } else {
             baoxiaoItem.taxRageArr = []
             baoxiaoItem.taxRageIndex = 0
             baoxiaoItem.taxRate = ''
+            baoxiaoItem.noticeHidden = true
             this.setData({
-                baoxiaoDetail: baoxiaoItem
+                baoxiaoDetail: baoxiaoItem,
+                noticeHidden: true
             })
         }
     },

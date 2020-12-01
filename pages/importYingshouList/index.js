@@ -11,12 +11,14 @@ Page({
         endTime: '',
         isAllSelect:false,
         totalAmount: '0.00',
-        num: 0
+        num: 0,
+        inputValue: ''
     },
     onLoad() {
     },
     onShow() {
         let tempImportList = wx.getStorageSync('tempImportList')
+        console.log(tempImportList, 'tempImportList')
         // 每一项加一个checked属性
         tempImportList.forEach(item => {
             item.checked = false
@@ -31,8 +33,17 @@ Page({
     onHide() {
     },
     bindinput(e) {
+        this.setData({
+            inputValue: e.detail.value
+        })
         // 过滤
         this.searchResultUseInput(e.detail.value)
+    },
+    clearWord() {
+        this.setData({
+            inputValue: ''
+        })
+        this.searchResultUseInput('')
     },
     startTimeChange(e) {
         this.setData({
@@ -157,7 +168,7 @@ Page({
                 unverifyAmount: arr[i].unverifyAmount,
                 readOnlyAmount: formatNumber(Number(arr[i].unverifyAmount).toFixed(2)),
                 amount: arr[i].amount,
-                remark: '',
+                remark: arr[i].remark,
                 'subjectEntity.fullSubjectName': arr[i]['subjectEntity.fullSubjectName'] || arr[i]['subject.fullSubjectName'],
                 'auxpropertyNames': arr[i].auxpropertyNames
             }

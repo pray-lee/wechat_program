@@ -183,7 +183,7 @@
                             <view class="status-content">
                                 <view class="progress-status">{{item.operationName}}</view>
                                 <view class="progress-user">{{item.userName}}{{item.resultName}}</view>
-                                <view class="progress-user" wx:if="{{item.remark}}">"{{item.remark}}"</view>
+                                <view class="progress-user" wx:if="{{item.remark && item.remark !== 'null'}}">"{{item.remark}}"</view>
                             </view>
                         </view>
                         <view class="progress-right">{{item.date}}</view>

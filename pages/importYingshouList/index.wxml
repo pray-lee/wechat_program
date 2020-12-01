@@ -1,7 +1,8 @@
 <!--增加导入借款单弹框-->
 <view class="add-borrow-page">
     <view class="search-wrapper">
-        <input type="text" placeholder="销售类型或者备注" bindinput="bindinput"/>
+        <input type="text" placeholder="销售类型或者备注" bindinput="bindinput" value="{{inputValue}}"/>
+        <image src="../../images/delete.png" mode="scaleToFill" class="delete-icon" bindtap="clearWord"></image>
     </view>
     <view class="date-wrapper">
         <view class="start">

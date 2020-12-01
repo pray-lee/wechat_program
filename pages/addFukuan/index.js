@@ -127,11 +127,18 @@ Page({
         } else {
             url = app.globalData.url + 'paymentBillController.do?doUpdate&id=' + this.data.billId
         }
+        // 处理一下 null 变成字符串的问题
+        const submitData = clone(this.data.submitData)
+        for(let i in submitData) {
+            if(submitData[i] == null) {
+                delete submitData[i]
+            }
+        }
         request({
             hideLoading: this.hideLoading,
             url,
             method: 'POST',
-            data: this.data.submitData,
+            data: submitData,
             success: res => {
                 if (res.data && typeof res.data == 'string') {
                     getErrorMessage(res.data)
@@ -1167,26 +1174,12 @@ Page({
         this.addLoading()
         request({
             hideLoading: this.hideLoading,
-            url: app.globalData.url + 'dingtalkController.do?getProcessinstanceJson&billType=3&billId=' + billId + '&accountbookId=' + accountbookId,
+            url: app.globalData.url + 'weixinController.do?getProcessinstanceJson&billType=3&billId=' + billId + '&accountbookId=' + accountbookId,
             method: 'GET',
             success: res => {
+                console.log(res, '审批流')
                 if(res.data && res.data.length) {
-                    const { title, operationRecords, tasks, ccUserids } = res.data[0]
-                    const taskArr = tasks.filter(item => {
-                        if(item.taskStatus === 'RUNNING') {
-                            if(item.userid.split(',')[2]){
-                                item.userName = item.userid.split(',')[2]
-                                item.realName = item.userid.split(',')[0].length > 1 ? item.userid.split(',')[0].slice(-2) : item.userid.split(',')[0]
-                            }else{
-                                item.userName = item.userid.split(',')[0].length > 1 ? item.userid.split(',')[0].slice(-2) : item.userid.split(',')[0]
-                                item.realName = item.userid.split(',')[0].length > 1 ? item.userid.split(',')[0].slice(-2) : item.userid.split(',')[0]
-                            }
-                            item.avatar = item.userid.split(',')[1]
-                            item.resultName = '（审批中）'
-                            item.operationName = '审批人'
-                            return item
-                        }
-                    })
+                    const { operationRecords, ccUserids } = res.data[0]
 
                     // 抄送人
                     let cc = []
@@ -1201,35 +1194,27 @@ Page({
                     }
 
                     const operationArr = operationRecords.filter(item => {
-                        if(item.userid.split(',')[2]){
-                            item.userName = item.userid.split(',')[2]
-                            item.realName = item.userid.split(',')[0].length > 1 ? item.userid.split(',')[0].slice(-2) : item.userid.split(',')[0]
-                        }else{
-                            item.userName = item.userid.split(',')[0].length > 1 ? item.userid.split(',')[0].slice(-2) : item.userid.split(',')[0]
-                            item.realName = item.userid.split(',')[0].length > 1 ? item.userid.split(',')[0].slice(-2) : item.userid.split(',')[0]
-                        }
+                        item.userName = item.userid.split(',')[0]
                         item.avatar = item.userid.split(',')[1]
-                        if(item.operationType === 'START_PROCESS_INSTANCE') {
-                            item.operationName = '发起审批'
-                        } else if(item.operationType !== 'NONE') {
-                            item.operationName = '审批人'
-                        }
-                        if(item.operationResult === 'AGREE') {
+                        // if(item.operationType === 'START_PROCESS_INSTANCE') {
+                        //     item.operationName = '发起审批'
+                        // } else if(item.operationType !== 'NONE') {
+                        //     item.operationName = '审批人'
+                        // }
+                        if(item.operationResult == 1) {
+                            item.resultName = '（审批中）'
+                        }else if(item.operationResult == 2) {
                             item.resultName = '（已同意）'
-                        }else if(item.operationResult === 'REFUSE') {
-                            item.resultName = '（已拒绝）'
+                        }else if(item.operationResult == 3){
+                            item.resultName = '（已驳回）'
                         }else{
-                            item.resultName = ''
+                            item.resultName = '（已转审）'
                         }
-                        if(item.operationType !== 'NONE') {
-                            return item
-                        }
+                        return item
                     })
                     this.setData({
                         process: {
-                            title,
                             operationRecords: operationArr,
-                            tasks: taskArr,
                             cc
                         }
                     })

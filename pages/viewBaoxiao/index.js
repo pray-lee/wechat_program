@@ -43,10 +43,12 @@ Page({
             method: 'GET',
             success: res => {
                 if (res.data.obj) {
+                    console.log(res.data.obj, '..........................')
                     const result = clone(res.data.obj)
                     result.applicationAmount = formatNumber(Number(result.applicationAmount).toFixed(2))
                     result.verificationAmount = formatNumber(Number(result.verificationAmount).toFixed(2))
                     result.totalAmount = formatNumber(Number(result.totalAmount).toFixed(2))
+                    result.businessDateTime = result.businessDateTime.split(' ')[0]
                     result.billDetailList.forEach(item => {
                         item.formatApplicationAmount = formatNumber(Number(item.applicationAmount).toFixed(2))
                     })
