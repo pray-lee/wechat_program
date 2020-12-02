@@ -46,7 +46,7 @@
                             <view wx:if="{{borrowIndex > 0}}" class="mock-input">
                                 {{borrowList[borrowIndex].name}}
                             </view>
-                            <view wx:else class="mock-input nodata">请选择客户</view>
+                            <view wx:else class="mock-input nodata">请选择供应商</view>
                             <block wx:if="{{submitData.incomeBankAccount}}">
                                 <view wx:if="{{submitData.incomeBankAccount}}" class="mock-input ellipsis">
                                     {{submitData.incomeBankAccount}}
@@ -83,7 +83,7 @@
                     </view>
                 </view>
                 <view class="form-line"/>
-                <view class="form-row" bindtap="onBusinessFocus">
+                <view class="form-row">
                     <view class="form-row-label">
                         <text class="require">*</text>
                         业务日期
@@ -103,9 +103,8 @@
                 </view>
             </view>
             <!-- 增加报销详情-->
-            <view class="title"></view>
+            <view class="title">付款申请详情</view>
             <view class="block-wrapper">
-                <view class="title special-title">付款申请详情</view>
                 <view class="baoxiao-list">
                     <view class="baoxiao-item" wx:for="{{fukuanList}}" wx:key="index" wx:if="{{fukuanList.length}}">
                         <view class="form-row">
@@ -133,9 +132,8 @@
             </view>
 
             <!--核销借款-->
-            <view class="title"></view>
+            <view class="title">核销借款</view>
             <view class="block-wrapper">
-                <view class="title special-title">核销借款</view>
                 <view class="borrow-list">
                     <view class="borrow-item" wx:for="{{importList}}" wx:key="index">
                         <view class="form-row">
@@ -169,10 +167,9 @@
                     <view class="add-borrow-btn" bindtap="getImportBorrowList">添加核销借款</view>
                 </view>
             </view>
-            <view class="title"></view>
+            <view class="title">附件上传</view>
             <!--上传附件-->
             <view class="block-wrapper">
-                <view class="title special-title">附件上传</view>
                 <view class="file-list">
                     <view class="file-item" wx:if="{{submitData.billFilesObj.length}}"
                           wx:for="{{submitData.billFilesObj}}" wx:key="index">

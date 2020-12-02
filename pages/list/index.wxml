@@ -15,8 +15,10 @@
         </view>
     </view>
     <view class="search-wrapper">
-        <input type="text" placeholder="搜索事由或者单号" bindinput="bindinput" value="{{inputValue}}" value="{{inputValue}}"/>
-        <image bindtap="clearWord" src="../../images/delete.png" mode="scaleToFill" class="delete-icon" bindtap="clearWord"></image>
+        <view class="search-content">
+            <input type="text" placeholder="搜索事由或者单号" bindinput="bindinput" value="{{inputValue}}" value="{{inputValue}}"/>
+            <image bindtap="clearWord" src="../../images/delete.png" mode="scaleToFill" class="input-delete-icon" bindtap="clearWord"></image>
+        </view>
     </view>
     <view class="see-complete-bill" bindtap="getListByListStatus">{{isComplete ? '查看已完成单据':'查看未完成单据'}}</view>
     <scroll-view scroll-y="{{true}}" class="scroll-view {{isPhoneXSeries ? 'iphoneX' : ''}}" scroll-top="{{scrollTop}}" onScroll="onScroll">

@@ -23,6 +23,7 @@ Page({
         tempImportList.forEach(item => {
             item.checked = false
             item.businessDateTime = item.businessDateTime.split(' ')[0]
+            item.formatUnverifyAmount = formatNumber(Number(item.unverifyAmount).toFixed(2))
         })
         this.setData({
             tempImportList,

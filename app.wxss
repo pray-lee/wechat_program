@@ -299,14 +299,14 @@ page {
   right: 40rpx;
   top: 50rpx;
 }
-.delete-icon{
+.input-delete-icon{
   width: 44rpx;
   height: 41.2rpx;
   position:absolute;
-  right: 40rpx;
+  right: 0rpx;
   top: 50%;
   margin-top: -20.5rpx;
-  z-index: 99999
+  z-index: 99
 }
 .btn-area{
   /*box-sizing: border-box;*/
@@ -417,6 +417,9 @@ page {
 .cc-wrapper .cc-item{
   margin-right: 30rpx;
 }
-
-
-
+.search-content{
+  position:relative;
+  background: #fff;
+  padding-right: 60rpx;
+  border-radius: 9rpx
+}

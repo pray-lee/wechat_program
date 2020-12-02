@@ -51,7 +51,7 @@
                     </view>
                     <view class="form-row-content" style="min-height: 44rpx;height: auto">
                         <view class="mock-input" wx:if="{{result.remark}}">{{result.remark}}</view>
-                        <view class="mock-input nodata">暂无事由</view>
+                        <view class="mock-input nodata" wx:else>暂无事由</view>
                     </view>
                 </view>
                 <view class="form-line"/>
@@ -72,9 +72,8 @@
                 </view>
             </view>
             <!-- 增加报销详情-->
-            <view class="title"></view>
+            <view class="title">付款申请详情</view>
             <view class="block-wrapper">
-                <view class="title special-title">付款申请详情</view>
                 <view class="baoxiao-list">
                     <view class="baoxiao-item" wx:for="{{result.billDetailList}}"
                           wx:if="{{result.billDetailList.length}}" wx:key="index">
@@ -99,9 +98,8 @@
 
             <!--核销借款-->
             <block wx:if="{{result.borrowBillList.length}}">
-                <view class="title"></view>
+                <view class="title">核销借款</view>
                 <view class="block-wrapper">
-                    <view class="title special-title">核销借款</view>
                     <view class="borrow-list">
                         <view class="borrow-item" wx:for="{{result.borrowBillList}}" wx:key="index">
                             <view class="form-row">
@@ -123,10 +121,9 @@
                 </view>
             </block>
             <block wx:if="{{result.billFiles.length}}">
-                <view class="title"></view>
+                <view class="title">附件上传</view>
                 <!--上传附件-->
                 <view class="block-wrapper">
-                    <view class="title special-title">附件上传</view>
                     <view class="file-list">
                         <view class="file-item" wx:if="{{result.billFiles.length}}"
                               wx:for="{{result.billFiles}}" wx:key="index">

@@ -231,21 +231,13 @@ Page({
             }
         })
     },
-    onBusinessFocus() {
-        // wx.datePicker({
-        //     format: 'yyyy-MM-dd',
-        //     currentDate: moment().format('YYYY-MM-DD'),
-        //     success: (res) => {
-        //         this.setData({
-        //             submitData: {
-        //                 ...this.data.submitData,
-        //                 businessDateTime: res.date
-        //             }
-        //         })
-        //         // 解除focus不触发的解决办法。
-        //         // this.onClick()
-        //     },
-        // })
+    onBusinessFocus(e) {
+        this.setData({
+            submitData: {
+                ...this.data.submitData,
+                businessDateTime: e.detail.value
+            }
+        })
     },
     // 获取修改后的付款详情
     getFukuanDetailFromStorage() {

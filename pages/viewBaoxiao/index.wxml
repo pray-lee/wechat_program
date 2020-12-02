@@ -71,9 +71,8 @@
                 </view>
             </view>
             <!-- 增加报销详情-->
-            <view class="title"></view>
+            <view class="title">报销详情</view>
             <view class="block-wrapper">
-                <view class="title special-title">报销详情</view>
                 <view class="baoxiao-list">
                     <view class="baoxiao-item" wx:for="{{result.billDetailList}}" wx:key="index" wx:if="{{result.billDetailList.length}}">
                         <view class="form-row">
@@ -91,9 +90,8 @@
 
             <!--核销借款-->
             <block wx:if="{{result.borrowBillList.length}}">
-                <view class="title"></view>
+                <view class="title">核销借款</view>
                 <view class="block-wrapper">
-                    <view class="title special-title">核销借款</view>
                     <view class="borrow-list">
                         <view class="borrow-item" wx:for="{{result.borrowBillList}}" wx:key="index">
                             <view class="form-row">
@@ -117,9 +115,8 @@
             </block>
             <!--上传附件-->
             <block wx:if="{{result.billFiles.length}}">
-                <view class="title"></view>
+                <view class="title">附件上传</view>
                 <view class="block-wrapper">
-                    <view class="title special-title">附件上传</view>
                     <view class="file-list">
                         <view class="file-item" wx:for="{{result.billFiles}}" wx:key="index">
                             <view class="form-row">

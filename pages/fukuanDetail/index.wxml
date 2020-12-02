@@ -9,13 +9,15 @@
                 </view>
             </view>
             <view class="form-line"/>
-            <view class="form-row" bindtap="disabled">
-                <view class="form-row-label"><text class="require">*</text>核算维度</view>
-                <view class="form-row-content">
-                    <view class="mock-input">{{fukuanDetail['auxpropertyNames']}}</view>
+            <block wx:if="{{!!fukuanDetail.auxpropertyNames}}">
+                <view class="form-row" bindtap="disabled">
+                    <view class="form-row-label"><text class="require">*</text>核算维度</view>
+                    <view class="form-row-content">
+                        <view class="mock-input">{{fukuanDetail['auxpropertyNames']}}</view>
+                    </view>
                 </view>
-            </view>
-            <view class="form-line"/>
+                <view class="form-line"/>
+            </block>
             <view class="form-row" bindtap="disabled">
                 <view class="form-row-label"><text class="require">*</text>发票类型</view>
                 <view class="form-row-content">

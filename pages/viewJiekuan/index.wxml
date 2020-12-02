@@ -97,9 +97,8 @@
                 </view>
             </view>
 <!-- 增加借款详情-->
-            <view class="title"></view>
+            <view class="title">借款列表</view>
             <view class="block-wrapper">
-                <view class="title special-title">借款列表</view>
                 <view class="borrow-list">
                     <view class="borrow-item" wx:for="{{result.billDetailList}}" wx:key="index">
                         <view class="form-row">
@@ -118,9 +117,8 @@
                 </view>
             </view>
             <block wx:if="{{result.billFiles.length}}">
-                <view class="title"></view>
+                <view class="title">附件上传</view>
                 <view class="block-wrapper">
-                    <view class="title special-title">附件上传</view>
                     <view class="file-list">
                         <view class="file-item" wx:for="{{result.billFiles}}" wx:key="index">
                             <view class="form-row">

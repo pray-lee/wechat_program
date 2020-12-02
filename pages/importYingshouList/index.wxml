@@ -1,8 +1,10 @@
 <!--增加导入借款单弹框-->
 <view class="add-borrow-page">
     <view class="search-wrapper">
-        <input type="text" placeholder="销售类型或者备注" bindinput="bindinput" value="{{inputValue}}"/>
-        <image src="../../images/delete.png" mode="scaleToFill" class="delete-icon" bindtap="clearWord"></image>
+        <view class="search-content">
+            <input type="text" placeholder="销售类型或者备注" bindinput="bindinput" value="{{inputValue}}"/>
+            <image src="../../images/delete.png" mode="scaleToFill" class="input-delete-icon" bindtap="clearWord"></image>
+        </view>
     </view>
     <view class="date-wrapper">
         <view class="start">
@@ -54,7 +56,7 @@
                                 </view>
                                 <view class="import-borrow-item-right">
                                     ￥
-                                    <text>{{item.unverifyAmount}}</text>
+                                    <text>{{item.formatUnverifyAmount}}</text>
                                 </view>
                             </view>
                             <view class="ellipsis" style="max-width:85vw;color:#b8b9bb;font-size: 22rpx;">备注：{{item.remark || '无'}}</view>

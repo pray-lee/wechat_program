@@ -21,11 +21,11 @@
     font-size: 24rpx;
     color:#999
 }
-.special-title{
-    font-size: 28rpx;
-    padding-left: 14rpx;
-    color:#333;
-}
+/*.special-title{*/
+/*    font-size: 28rpx;*/
+/*    padding-left: 14rpx;*/
+/*    color:#333;*/
+/*}*/
 .btn-area{
     display:flex;
     position:fixed;
@@ -121,7 +121,7 @@
 }
 
 .baoxiao-item{
-    margin: 20rpx 0
+    /*margin: 20rpx 0*/
 }
 .baoxiao-item-title{
     background:#f1f1f1;

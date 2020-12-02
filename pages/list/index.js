@@ -172,7 +172,11 @@ Page({
             selectedType: 'ALL',
             selectedText: '全部'
         })
-        this.getAll('ALL')
+        if(!this.data.isComplete) {
+            this.getComplete('ALL')
+        }else{
+            this.getAll('ALL')
+        }
     },
     getAll(selectedType) {
         if (selectedType == 'ALL') {
@@ -572,6 +576,7 @@ Page({
         })
     },
     clearWord() {
+        wx.hideKeyboard()
         this.setData({
             inputValue: ''
         })

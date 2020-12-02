@@ -59,21 +59,12 @@ Page({
             }
         })
     },
-    onBusinessFocus() {
-        console.log(this.data.submitData, 'onBusinessFocus')
-        wx.datePicker({
-            format: 'yyyy-MM-dd',
-            currentDate: moment().format('YYYY-MM-DD'),
-            success: (res) => {
-                this.setData({
-                    submitData: {
-                        ...this.data.submitData,
-                        businessDateTime: res.date
-                    }
-                })
-                // 解除focus不触发的解决办法。
-                // this.onClick()
-            },
+    onBusinessFocus(e) {
+        this.setData({
+            submitData: {
+                ...this.data.submitData,
+                businessDateTime: e.detail.value
+            }
         })
     },
     addLoading() {
@@ -576,6 +567,9 @@ Page({
         const importList = wx.getStorageSync('importCommonList')
         console.log(importList, 'importList')
         if (!!importList && importList.length) {
+            importList.forEach(item => {
+                item.subjectName = item.subjectName.indexOf('_') != -1 ? item.subjectName.split('_')[item.subjectName.split('_').length - 1]  : item.subjectName
+            })
             // 之前导入的单据
             let oldList = this.data.kaipiaoList.concat()
             if (oldList.length) {
@@ -879,7 +873,7 @@ Page({
                             }
                             obj.receivablebillCode = item.invoicebillDetailCode
                             obj.subjectId = item.subjectId
-                            obj.subjectName = item.subjectEntity.fullSubjectName
+                            obj.subjectName = item.subjectEntity.fullSubjectName.indexOf('_') != -1 ? item.subjectEntity.fullSubjectName.split('_')[item.subjectEntity.fullSubjectName.split('_').length - 1] : item.subjectEntity.fullSubjectName
                             obj.trueSubjectId = item.trueSubjectId
                             obj.trueSubjectName = item.subjectEntity.trueSubjectName
                             obj.applicationAmount = item.applicationAmount
