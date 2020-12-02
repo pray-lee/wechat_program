@@ -17,10 +17,13 @@ App({
     globalData: {
         url: "https://www.caika.net/saas/",
         // 财咖
-        corpId: "wwc5c826092131ecb7",
-        tenantCode: 'db_ck_online'
+        // corpId: "wwc5c826092131ecb7",
+        // tenantCode: 'db_ck_online'
         // demo
         // corpId: "wwbc109332dfcce85c",
         // tenantCode: 'db_ck_demo'
+        // 上方股份
+        corpId: "wwd1120d9b6c216447",
+        tenantCode: 'db_ck_medicine'
     }
 });

@@ -576,7 +576,6 @@ Page({
         })
     },
     clearWord() {
-        wx.hideKeyboard()
         this.setData({
             inputValue: ''
         })
