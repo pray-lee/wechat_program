@@ -9,7 +9,7 @@
     <view class="form-row">
         <view class="form-row-label"><text class="require">*</text>联系方式</view>
         <view class="form-row-content">
-            <input class="input" value="{{expressInfo.telephone}}" type="digit" placeholder="联系方式" bindinput="bindKeyInput" data-type="telephone"/>
+            <input class="input" value="{{expressInfo.telephone}}" placeholder="联系方式" bindinput="bindKeyInput" data-type="telephone"/>
         </view>
     </view>
     <view class="form-line"/>

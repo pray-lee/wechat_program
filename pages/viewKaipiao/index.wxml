@@ -23,6 +23,32 @@
                     </view>
                 </view>
             </view>
+            <view class="title">单据信息</view>
+            <view class="block-wrapper">
+                <view class="form-row">
+                    <view class="form-row-label">
+                        <text class="require">*</text>
+                        事由
+                    </view>
+                    <view class="form-row-content">
+                        <view wx:if="{{result.remark}}" class="mock-input">
+                            {{result.remark}}
+                        </view>
+                        <view wx:else class="mock-input nodata">暂无事由</view>
+                    </view>
+                </view>
+                <view class="form-line"></view>
+                <view class="form-row" bindtap="onBusinessFocus">
+                    <view class="form-row-label">
+                        <text class="require">*</text>
+                        业务日期
+                    </view>
+                    <view class="form-row-content">
+                        <view data-name="businessDateTime">{{result.businessDateTime}}</view>
+                    </view>
+                    <image src="../../images/date-icon.png" mode="scaleToFill" class="date-icon"></image>
+                </view>
+            </view>
             <view class="title">客户开票信息</view>
             <view class="block-wrapper">
                 <view class="form-row" bindtap="goCustomerList">
@@ -79,16 +105,6 @@
                     </view>
                 </view>
                 <view class="form-line"></view>
-                <view class="form-row" bindtap="onBusinessFocus">
-                    <view class="form-row-label">
-                        <text class="require">*</text>
-                        业务日期
-                    </view>
-                    <view class="form-row-content">
-                        <view data-name="businessDateTime">{{result.businessDateTime}}</view>
-                    </view>
-                    <image src="../../images/date-icon.png" mode="scaleToFill" class="date-icon"></image>
-                </view>
             </view>
             <!-- 增加借款详情-->
 <!--            <view class="title"></view>-->
@@ -113,9 +129,20 @@
                     </view>
                 </view>
             </view>
-            <block wx:if="{{!!result.contacts && result.contacts != 'null'}}">
                 <view class="title">其他信息</view>
                 <view class="block-wrapper">
+                    <view class="form-row">
+                        <view class="form-row-label">
+                            <text class="require">*</text>
+                            发票移交方式
+                        </view>
+                        <view class="form-row-content">
+                            <view class="mock-input" wx:if="{{result.deliveryMode == 1}}">快递</view>
+                            <view class="mock-input" wx:else>自取</view>
+                        </view>
+                    </view>
+                    <view class="form-line"></view>
+                    <block wx:if="{{!!result.contacts && result.contacts != 'null'}}">
                         <view class="form-line"/>
                         <view class="form-row" bindtap="getExpressList">
                             <view class="form-row-label">
@@ -130,8 +157,8 @@
                                 <view>{{result.address}}</view>
                             </view>
                         </view>
+                    </block>
                 </view>
-            </block>
             <block wx:if="{{result.billFiles.length}}">
                 <view class="title">附件上传</view>
                 <view class="block-wrapper">

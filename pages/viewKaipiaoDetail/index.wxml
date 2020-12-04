@@ -18,7 +18,7 @@
             </view>
             <view class="form-line"/>
             <view class="form-row">
-                <view class="form-row-label">开票内容</view>
+                <view class="form-row-label"><text class="require">*</text>开票内容</view>
                 <view class="form-row-content">
                     <view class="mock-input" wx:if="{{kaipiaoDetail.remark}}">{{kaipiaoDetail.remark}}</view>
                     <view wx:else class="mock-input nodata">暂无开票内容</view>

@@ -11,7 +11,6 @@ Page({
         process: null,
         type: '',
         btnHidden: false,
-
         accountbookIndex: 0,
         accountbookList: [],
         departmentIndex: 0,
@@ -190,12 +189,14 @@ Page({
             }
         })
         if (name === 'taxRate') {
-            this.setData({
-                submitData: {
-                    ...this.data.submitData,
-                    taxRate: this.data[listName][value]
-                }
-            })
+            if(this.data[listName][value] != '请选择') {
+                this.setData({
+                    submitData: {
+                        ...this.data.submitData,
+                        taxRate: this.data[listName][value]
+                    }
+                })
+            }
         }
         // --------------------------------------------------------
         if (name === 'accountbookId') {
@@ -1014,7 +1015,7 @@ Page({
                 }
             })
         }else{
-            if(!this.data.submitData.contacts) {
+            if(!this.data.submitData.contacts && this.data.submitData.contacts != 'null') {
                 this.setData({
                     deliveryMode: 0
                 })

@@ -116,7 +116,7 @@
                 </view>
             </view>
 <!-- 增加借款详情-->
-            <view class="title">借款列表</view>
+            <view class="title">借款详情</view>
             <view class="block-wrapper">
                 <view class="borrow-list">
                     <view class="borrow-item" wx:for="{{submitData.billDetailListObj}}" wx:key="index">
