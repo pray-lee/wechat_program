@@ -415,7 +415,6 @@ Page({
             url: app.globalData.url + 'reimbursementBillExtraController.do?getDetail&subjectExtraId=' + extraId,
             method: 'GET',
             success: res => {
-                console.log(res, '附加信息............')
                 if (res.data.success) {
                     this.setData({
                         subjectExtraConf: JSON.parse(res.data.obj),

@@ -1314,6 +1314,7 @@ Page({
             var obj = {}
             obj.field = item
             obj.type = tempData.type[index]
+            obj.collectStatus = tempData.collectStatus[index] || '0'
             array.push(obj)
             if (obj.type == 2) {
                 extraMessage.push(moment().format('YYYY-MM-DD'))

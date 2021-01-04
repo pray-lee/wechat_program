@@ -43,6 +43,7 @@ Page({
             var obj = {}
             obj.field = item
             obj.type = tempData.type[index]
+            obj.collectStatus = tempData.collectStatus[index] || '0'
             array.push(obj)
         })
         return array

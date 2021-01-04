@@ -24,6 +24,7 @@ Page({
                 this.setData({
                     subjectExtraConf: res.data,
                 })
+                console.log(this.data.subjectExtraConf, 'subjectExtraConf')
                 wx.getStorage({
                     key: 'extraBaoxiaoDetail',
                     success: res1 => {
@@ -81,7 +82,8 @@ Page({
             })
             // 看哪一个是附加信息金额
             this.data.baoxiaoDetail.extraList[0].conf.forEach((item, index) => {
-                if (item.field == '金额') {
+                console.log(item)
+                if (item.collectStatus == '1') {
                     app.globalData.caculateIndex = index
                 }
             })
@@ -117,6 +119,7 @@ Page({
             var obj = {}
             obj.field = item
             obj.type = tempData.type[index]
+            obj.collectStatus = tempData.collectStatus[index] || '0'
             array.push(obj)
             if (obj.type == 2) {
                 extraMessage.push(moment().format('YYYY-MM-DD'))
@@ -161,9 +164,9 @@ Page({
         console.log(name)
         var tempData = clone(this.data.baoxiaoDetail)
         // 验证数字
-        const field = tempData.extraList[extraIdx].conf[idx].field
+        const field = tempData.extraList[extraIdx].conf[idx].collectStatus
         const numberReg = /^\d+(\.\d+)?$/
-        if (field == '金额') {
+        if (field == '1') {
             app.globalData.caculateIndex = idx
             // 验证数字
             if(!numberReg.test(e.detail.value)) {
@@ -194,8 +197,8 @@ Page({
         var tempData = clone(this.data.baoxiaoDetail)
         tempData.extraMessage[extraIdx][idx] = e.detail.value
         // 算附加信息金额
-        const field = tempData.extraList[extraIdx].conf[idx].field
-        if (field == '金额') {
+        const field = tempData.extraList[extraIdx].conf[idx].collectStatus
+        if (field == '1') {
             app.globalData.caculateIndex = idx
         }
         this.setData({
