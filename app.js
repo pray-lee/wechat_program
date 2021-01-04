@@ -18,7 +18,7 @@ App({
         // "url": "https://www.caika.net/saas/",
         // "url": "http://192.168.1.121:8080/jeecg/",
         // "appId": 'wx07c16a39cd177974',
-        // 沃土生物
+        // 沃土生物l
         "url": "https://www.caika.net/wtsw/",
         "corpId": "ww239da829e102ac9d"
         // 企业微信官方测试
