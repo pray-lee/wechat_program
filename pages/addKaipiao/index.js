@@ -127,6 +127,7 @@ Page({
                 delete submitData[i]
             }
         }
+        console.log(submitData, 'submitData')
         request({
             hideLoading: this.hideLoading,
             url,
@@ -1002,6 +1003,7 @@ Page({
             delete expressInfo['updateTime']
             delete expressInfo['updateBy']
             this.setData({
+                deliveryMode: 1,
                 submitData: {
                     ...this.data.submitData,
                     ...expressInfo,
@@ -1017,7 +1019,11 @@ Page({
         }else{
             if(!this.data.submitData.contacts && this.data.submitData.contacts != 'null') {
                 this.setData({
-                    deliveryMode: 0
+                    deliveryMode: 0,
+                    submitData: {
+                        ...this.data.submitData,
+                        deliveryMode: 0
+                    }
                 })
             }
         }

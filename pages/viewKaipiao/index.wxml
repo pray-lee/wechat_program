@@ -142,7 +142,7 @@
                         </view>
                     </view>
                     <view class="form-line"></view>
-                    <block wx:if="{{!!result.contacts && result.contacts != 'null'}}">
+                    <block wx:if="{{result.deliveryMode == 1}}">
                         <view class="form-line"/>
                         <view class="form-row" bindtap="getExpressList">
                             <view class="form-row-label">

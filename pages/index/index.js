@@ -144,6 +144,7 @@ Page({
                 this.addLoading()
                 wx.qy.login({
                     success: (res) => {
+                        console.log(res, 'res')
                         this.hideLoading()
                         this.addLoading()
                         request({

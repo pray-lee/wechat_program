@@ -35,8 +35,7 @@ Page({
             touchMoveY = e.changedTouches[0].clientY,//滑动变化坐标
             //获取滑动角度
             angle = that.angle({X: startX, Y: startY}, {X: touchMoveX, Y: touchMoveY});
-        that.data.list.forEach(function (v, i) {
-            v.isTouchMove = false
+        that.data.list.forEach(function (v, i) { v.isTouchMove = false
             //滑动超过30度角 return
             if (Math.abs(angle) > 30) return;
             if (i == index) {

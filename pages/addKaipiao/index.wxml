@@ -182,7 +182,7 @@
                             </radio-group>
                         </view>
                     </view>
-                    <block wx:if="{{!!submitData.contacts && submitData.contacts !== 'null'}}">
+                    <block wx:if="{{submitData.deliveryMode == 1}}">
                         <view class="form-line"/>
                         <view class="form-row" bindtap="getExpressList">
                             <view class="form-row-label">
