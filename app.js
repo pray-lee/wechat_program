@@ -17,14 +17,14 @@ App({
     globalData: {
         url: "https://www.caika.net/saas/",
         // 沃土
-        // corpId: 'ww239da829e102ac9d',
-        // tenantCode: 'db_ck_wtsw',
+        corpId: 'ww239da829e102ac9d',
+        tenantCode: 'db_ck_wtsw',
         // 北京凡影
         // corpId: 'wwbc0416559b69864b',
         // tenantCode: 'db_ck_fykj2021'
         // 财咖
-        corpId: "wwc5c826092131ecb7",
-        tenantCode: 'db_ck_online2021'
+        // corpId: "wwc5c826092131ecb7",
+        // tenantCode: 'db_ck_online2021'
         // demo
         // corpId: "wwbc109332dfcce85c",
         // tenantCode: 'db_ck_demo'
