@@ -8,6 +8,7 @@ Page({
         animationInfo: {},
         maskHidden: true,
         list: [],
+        oaList: [],
         statusObj: {
             10: "待提交",
             20: "待审批",
@@ -21,6 +22,29 @@ Page({
             20: "供应商",
             30: "客户"
         },
+    },
+    gotoOaList() {
+        wx.navigateTo({
+            url: '/pages/oaList/index'
+        })
+    },
+    getOaList() {
+        const url = `${app.globalData.url}oaTaskController.do?todoDatagrid&field=id,applicationAmount,accountbookId,billType,billCode,taskName,billId,createDate,processInstanceId,remark,status`
+        this.addLoading()
+        request({
+            hideLoading: this.hideLoading,
+            url,
+            method: 'POST',
+            success: res => {
+                console.log(res, 'oaList')
+                if(res.statusCode === 200) {
+                    const billTypes = ['4', '9', '3']
+                    this.setData({
+                        oaList: res.data.rows.filter(item => billTypes.includes(item.billType))
+                    })
+                }
+            }
+        })
     },
     onAddShow() {
         var animation = wx.createAnimation({
@@ -160,6 +184,9 @@ Page({
                                         wx.setStorageSync('applicantId', res.data.obj.id)
                                         app.globalData.realName = res.data.obj.realName
                                         app.globalData.applicantId = res.data.obj.id
+                                        // ============= 获取待办事项================
+                                        this.getOaList()
+                                        // ============= 获取待办事项================
                                         Promise.all([
                                             this.getJiekuanList(),
                                             this.getBaoxiaoList(),
@@ -172,7 +199,8 @@ Page({
                                                 list: item.list.map(list => ({
                                                     ...list,
                                                     billType: item.type,
-                                                    billName: item.name
+                                                    billName: item.name,
+                                                    billClass: item.type.toLowerCase()
                                                 }))
                                             }))
                                             // 合并四种单子
@@ -181,7 +209,7 @@ Page({
                                                 sortList.push(...item.list)
                                             })
                                             // 合并之后排序，并且去前三个
-                                            let sortableList = sortList.sort((a, b) => a.createDate < b.createDate ? 1 : -1 ).slice(0, 3)
+                                            let sortableList = sortList.sort((a, b) => a.createDate < b.createDate ? 1 : -1 ).slice(0, 2)
                                             sortableList = sortableList.map(item => {
                                                 if(item.totalAmount) {
                                                     item.formatTotalAmount = formatNumber(Number(item.totalAmount).toFixed(2))
@@ -222,6 +250,9 @@ Page({
                     }
                 })
             }else{
+                // ============= 获取待办事项================
+                this.getOaList()
+                // ============= 获取待办事项================
                 app.globalData.realName = wx.getStorageSync('realName')
                 app.globalData.applicantId = wx.getStorageSync('applicantId')
                 Promise.all([
@@ -236,7 +267,8 @@ Page({
                         list: item.list.map(list => ({
                             ...list,
                             billType: item.type,
-                            billName: item.name
+                            billName: item.name,
+                            billClass: item.type.toLowerCase()
                         }))
                     }))
                     // 合并四种单子
@@ -245,7 +277,7 @@ Page({
                         sortList.push(...item.list)
                     })
                     // 合并之后排序，并且去前三个
-                    let sortableList = sortList.sort((a, b) => a.createDate < b.createDate ? 1 : -1 ).slice(0, 3)
+                    let sortableList = sortList.sort((a, b) => a.createDate < b.createDate ? 1 : -1 ).slice(0, 2)
                     sortableList = sortableList.map(item => {
                         if(item.totalAmount) {
                             item.formatTotalAmount = formatNumber(Number(item.totalAmount).toFixed(2))
@@ -257,6 +289,7 @@ Page({
                     this.setData({
                         list: sortableList
                     })
+                    console.log(this.data.list, 'list')
                 })
             }
         }else{

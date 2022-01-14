@@ -15,10 +15,13 @@ App({
         // login(this)
     },
     globalData: {
-        url: "https://www.caika.net/saas/",
+        // url: "https://www.caika.net/saas/",
+        url: "https://www.caika.net/test/",
+        "corpId": "wwbc109332dfcce85c",
+        "tenantCode": "db_ck_oa",
         // 沃土
-        corpId: 'ww239da829e102ac9d',
-        tenantCode: 'db_ck_wtsw',
+        // corpId: 'ww239da829e102ac9d',
+        // tenantCode: 'db_ck_wtsw',
         // 北京凡影
         // corpId: 'wwbc0416559b69864b',
         // tenantCode: 'db_ck_fykj2021'

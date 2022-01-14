@@ -30,7 +30,10 @@
     "pages/viewKaipiao/index",
     "pages/viewKaipiaoDetail/index",
     "pages/viewFukuan/index",
-    "pages/viewFukuanDetail/index"
+    "pages/viewFukuanDetail/index",
+    "pages/oaList/index",
+    "pages/deptList/index",
+    "pages/approvalUserList/index"
   ],
   "window": {
     "backgroundTextStyle":"light",

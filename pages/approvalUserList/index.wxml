@@ -1,0 +1,81 @@
+<view class="info-wrapper">
+    <view class="big-wrapper">
+        <view class="search-wrapper">
+            <view class="search-content">
+                <input bindblur="onBlur" type="text" placeholder="搜索" bindinput="onInput" value="{{inputValue}}" />
+                <image src="../../images/delete.png" mode="scaleToFill" class="input-delete-icon" bindtap="clearWord"></image>
+            </view>
+        </view>
+        <scroll-view wx:if="{{isFocus}}" scroll-y class="scroll-info-list {{isPhoneXSeries ? 'iphoneX' : ''}}">
+            <block wx:if="{{searchResult && searchResult.length}}">
+                <!--      单选多选      -->
+                <block wx:if="{{allowMulti}}">
+                    <label class="checkbox info-item user-item" wx:for="{{searchResult}}" wx:key="index" key="label-{{index}}">
+                        <checkbox bindtap="searchCheckboxChange" data-index="{{index}}" data-value="{{item.id + '_' + item.name}}" checked="{{item.checked}}"/>
+                        <text class="dept-name user-name">{{item.name}}</text>
+                    </label>
+                </block>
+                <block wx:else>
+                    <label class="radio info-item user-item" wx:for="{{userList}}" wx:key="index" key="label-{{index}}">
+                        <radio bindtap="radioChange" data-index="{{index}}" checked="{{item.checked}}"/>
+                        <text class="dept-name user-name">{{item.name}}</text>
+                    </label>
+                </block>
+            </block>
+        </scroll-view>
+        <scroll-view wx:else scroll-y class="scroll-info-list {{isPhoneXSeries ? 'iphoneX' : ''}}">
+            <view>
+                <view class="depart-wrapper">
+                    <block wx:if="{{subDepartList && subDepartList.length}}">
+                        <block wx:for="{{subDepartList}}" wx:key="idnex">
+                            <view class="info-item">
+                                <view class="dept-name">{{item.name}}</view>
+                                <view class="line">|</view>
+                                <view class="next" bindtap="getNext" data-userList="{{item.userList}}" data-subDepartList="{{item.subDepartList}}">下级</view>
+                            </view>
+                        </block>
+                    </block>
+                </view>
+                <view class="user-wrapper">
+                    <block wx:if="{{userList && userList.length}}">
+                        <block wx:if="{{allowMulti}}">
+                                <label class="checkbox info-item user-item" wx:for="{{userList}}" wx:key="index" key="label-{{index}}">
+                                    <checkbox bindtap="checkboxChange" data-index="{{index}}" data-value="{{item.id + '_' + item.name}}" checked="{{item.checked}}"/>
+                                    <text class="dept-name user-name">{{item.name}}</text>
+                                </label>
+                        </block>
+                        <block wx:else>
+                            <label class="radio info-item user-item" wx:for="{{userList}}" wx:key="index" key="label-{{index}}">
+                                <radio bindtap="radioChange" data-index="{{index}}" checked="{{item.checked}}"/>
+                                <text class="dept-name user-name">{{item.name}}</text>
+                            </label>
+                        </block>
+                    </block>
+                </view>
+            </view>
+        </scroll-view>
+        <view class="btn-area {{isPhoneXSeries ? 'iphoneX' : ''}}">
+            <view class="select-user-wrapper">
+                <view class="select-user" bindtap="showSelectedUserList">
+                    <view style="width: 4.5em">已选择：</view>
+                    <view class="bottom-user-wrapper">
+                        <view class="user-name" wx:for="{{bottomUserList}}" wx:key="index">{{item.showName}}</view>
+                    </view>
+                </view>
+                <button class="sure-btn" bindtap="goBack">确定</button>
+            </view>
+        </view>
+    </view>
+    <view class="select-user-list" animation="{{animationInfo}}">
+        <scroll-view scroll-y class="scroll-user-list {{isPhoneXSeries ? 'iphoneX' : ''}}">
+            <view class="info-item" wx:for="{{bottomUserList}}" wx:key="index">
+                <view class="dept-name">{{item.name}}</view>
+                <view class="line">|</view>
+                <view class="next" bindtap="removeUser" data-id="{{item.id}}">移除</view>
+            </view>
+        </scroll-view>
+        <view class="btn-area {{isPhoneXSeries ? 'iphoneX' : ''}}">
+            <button bindtap="hideSelectedUserList" class="submit-btn">返回</button>
+        </view>
+    </view>
+</view>

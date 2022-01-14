@@ -1,0 +1,24 @@
+<view class="app">
+    <view class="see-complete-bill" bindtap="toggleUndo">
+        <view class="div {{undo ? 'active' : ''}}">待办事项</view>
+        <view class="div {{undo ? '' : 'active'}}">已办事项</view>
+    </view>
+    <scroll-view scroll-y="{{true}}" class="scroll-view {{isPhoneXSeries ? 'iphoneX' : ''}}" scroll-top="{{scrollTop}}">
+        <view class="list-wrapper">
+            <view class="list-item">
+                <view class="main-item" wx:for="{{list}}" wx:key="index" bindtap="gotoBillDetail" data-showOaOperate="{{undo ? true : false}}" data-billId="{{item.billId}}" data-type="{{item.billType}}" data-id="{{item.id}}" data-processInstanceId="{{item.processInstanceId}}">
+                    <view class="content">
+                        <view class="left status error {{item.billClass}}">
+                            <text>{{item.taskName}}</text>
+                        </view>
+                        <text class="right approval-time">{{item.createDate}}</text>
+                    </view>
+                    <view class="content content-bottom">
+                        <text class="left">{{item.billName}}</text>
+                        <text class="right">{{item.billCode || item.invoicebillCode}}</text>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </scroll-view>
+</view>

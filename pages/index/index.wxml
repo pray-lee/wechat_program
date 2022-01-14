@@ -6,7 +6,7 @@
             <view class="main" wx:if="{{list.length}}">
                 <view class="main-item" wx:for="{{list}}" wx:key="index" bindtap="goToEdit" data-type="{{item.billType}}" data-id="{{item.id}}" data-status="{{item.status}}">
                     <view class="content">
-                        <view class="left status error {{item.billType.toLowerCase()}}">
+                        <view class="left status error {{item.billClass}}">
                             <text>{{statusObj[item.status] || '审批状态'}}</text>
                         </view>
                         <text class="right" wx:if="{{item.totalAmount}}">￥{{item.formatTotalAmount || '0.00'}}</text>
@@ -33,6 +33,7 @@
             </view>
         </view>
     </view>
+    <view wx:if="{{oaList.length}}" bindtap="gotoOaList" class="undo-entry">待办事项<text style="color:#00c458;padding-left: 30rpx;">{{oaList.length}}</text></view>
     <view class="btn-area-wrapper {{isPhoneXSeries ? 'iphoneX' : ''}}">
         <view class="add-btn" bindtap="onAddShow">
             新增单据

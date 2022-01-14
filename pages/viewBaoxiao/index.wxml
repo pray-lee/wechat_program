@@ -1,6 +1,6 @@
 <view class="form-wrapper" bindtap="onClick">
     <form bindsubmit="formSubmit">
-        <scroll-view scroll-y class="form-scroll-wrapper {{isPhoneXSeries ? 'iphoneX' : ''}}">
+        <scroll-view scroll-y class="form-scroll-wrapper {{judgeShowOperate ? 'show-oa-operate' : ''}} {{isPhoneXSeries ? 'iphoneX' : ''}}">
             <view class="title">申请方信息</view>
             <view class="block-wrapper">
                 <view class="form-row">
@@ -129,6 +129,104 @@
                     </view>
                 </view>
             </block>
+            <!--     财咖审批流程图       -->
+            <block wx:if="{{caikaProcess && caikaProcess.length}}">
+                <view class="title">审批流程</view>
+                <view class="block-wrapper">
+                    <view class="progress">
+                        <view class="view-progress-box" wx:for="{{caikaProcess}}" wx:key="index">
+                            <view class="view-progress-left">
+                                <view class="view-avatar-wrapper">
+                                    <view class="view-avatar-block">
+                                        <view class="view-avatar">
+                                            <image wx:if="{{item.children.length && item.activityType == 'userTask'}}" src="../../images/approval.png" class="view-avatar view-avatar-bg"></image>
+                                            <image wx:if="{{item.children.length && item.activityType == 'serviceTask'}}" src="../../images/copy1.png" class="view-avatar view-avatar-bg"></image>
+                                            <view wx:if="{{!item.children.length}}" class="view-avatar view-avatar-bg">{{item.assigneeNameSlice}}</view>
+                                        </view>
+                                        <image wx:if="{{item.status == 2}}" src="../../images/success.png" class="view-avatar-icon"></image>
+                                        <image wx:if="{{item.status == 1}}" src="../../images/3.png" class="view-avatar-icon"></image>
+                                        <image wx:if="{{item.status == -1 || item.status == -2}}" src="../../images/reject.png" class="view-avatar-icon"></image>
+                                    </view>
+                                    <view wx:if="{{item.status == 0 || item.status == 1}}" class="view-status-dotted-line"></view>
+                                    <view wx:else class="view-status-line"></view>
+                                </view>
+                                <view class="view-status-content">
+                                    <view class="view-progress-status">{{item.activityName}}</view>
+                                    <view wx:if="{{item.children.length && item.activityType == 'userTask'}}" class="view-progress-user">{{item.children.length}}人{{item.signType == 'and' ? '会签' : '或签'}}{{statusObj[item.status] ? '（' + statusObj[item.status] + '）' : ''}}</view>
+                                    <view wx:if="{{item.children.length && item.activityType == 'serviceTask'}}" class="view-progress-user">抄送{{item.children.length}}人</view>
+                                    <view wx:if="{{!item.children.length}}" class="view-progress-user">{{item.assigneeName}}{{statusObj[item.status] ? '（' + statusObj[item.status] + '）' : ''}}</view>
+                                    <view wx:if="{{item.comment}}" class="view-progress-user view-progress-content">{{item.comment}}</view>
+                                    <view class="show-user-list" wx:if="{{item.showUserList}}">
+                                        <block wx:if="{{item.children.length}}">
+                                            <view class="user-block" wx:for="{{item.children}}" wx:key="index" wx:for-item="user">
+                                                <view class="user-bg">{{user.assigneeNameSlice}}</view>
+                                                <view class="user-name">{{user.assigneeName}}</view>
+                                            </view>
+                                        </block>
+                                    </view>
+                                </view>
+                            </view>
+                            <view class="progress-right" wx:if="{{item.children.length}}">
+                                <view bindtap="toggleUserList" data-index="{{index}}" wx:if="{{item.showUserList}}" class="toggle-user-list down"></view>
+                                <view bindtap="toggleUserList" data-index="{{index}}" wx:else class="toggle-user-list up"></view>
+                                <view wx:if="{{item.endTime}}">{{item.endTime}}</view>
+                            </view>
+                            <view wx:else class="progress-right">
+                                <view wx:if="{{item.endTime}}">{{item.endTime}}</view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </block>
+            <!--     审批历史       -->
+            <block wx:if="{{historyOaList && historyOaList.length}}">
+                <view class="title">审批历史</view>
+                <view class="block-wrapper">
+                    <view class="progress">
+                        <view class="view-progress-box" wx:for="{{historyOaList}}" wx:key="index">
+                            <view class="view-progress-left">
+                                <view class="view-avatar-wrapper">
+                                    <view class="view-avatar-block">
+                                        <view class="view-avatar">
+                                            <image wx:if="{{item.children.length && item.activityType == 'userTask'}}" src="../../images/approval.png" class="view-avatar view-avatar-bg"></image>
+                                            <image wx:if="{{item.children.length && item.activityType == 'serviceTask'}}" src="../../images/copy1.png" class="view-avatar view-avatar-bg"></image>
+                                            <view wx:if="{{!item.children.length}}" class="view-avatar view-avatar-bg">{{item.assigneeNameSlice}}</view>
+                                        </view>
+                                        <image wx:if="{{item.status == 2}}" src="../../images/success.png" class="view-avatar-icon"></image>
+                                        <image wx:if="{{item.status == 1}}" src="../../images/3.png" class="view-avatar-icon"></image>
+                                        <image wx:if="{{item.status == -1 || item.status == -2}}" src="../../images/reject.png" class="view-avatar-icon"></image>
+                                    </view>
+                                    <view wx:if="{{item.status == 0 || item.status == 1}}" class="view-status-dotted-line"></view>
+                                    <view wx:else class="view-status-line"></view>
+                                </view>
+                                <view class="view-status-content">
+                                    <view class="view-progress-status">{{item.activityName}}</view>
+                                    <view wx:if="{{item.children.length && item.activityType == 'userTask'}}" class="view-progress-user">{{item.children.length}}人{{item.signType == 'and' ? '会签' : '或签'}}{{statusObj[item.status] ? '（' + statusObj[item.status] + '）' : ''}}</view>
+                                    <view wx:if="{{item.children.length && item.activityType == 'serviceTask'}}" class="view-progress-user">抄送{{item.children.length}}人</view>
+                                    <view wx:if="{{!item.children.length}}" class="view-progress-user">{{item.assigneeName}}{{statusObj[item.status] ? '（' + statusObj[item.status] + '）' : ''}}</view>
+                                    <view wx:if="{{item.comment}}" class="view-progress-user view-progress-content">{{item.comment}}</view>
+                                    <view class="show-user-list" wx:if="{{item.showUserList}}">
+                                        <block wx:if="{{item.children.length}}">
+                                            <view class="user-block" wx:for="{{item.children}}" wx:for-item="user">
+                                                <view class="user-bg">{{user.assigneeNameSlice}}</view>
+                                                <view class="user-name">{{user.assigneeName}}</view>
+                                            </view>
+                                        </block>
+                                    </view>
+                                </view>
+                            </view>
+                            <view class="progress-right" wx:if="{{item.children.length}}">
+                                <view bindtap="toggleHistoryList" data-index="{{index}}" wx:if="{{item.showUserList}}" class="toggle-user-list down"></view>
+                                <view bindtap="toggleHistoryList" data-index="{{index}}" wx:else class="toggle-user-list up"></view>
+                                <view wx:if="{{item.endTime}}">{{item.endTime}}</view>
+                            </view>
+                            <view wx:else class="progress-right">
+                                <view wx:if="{{item.endTime}}">{{item.endTime}}</view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </block>
             <view class="title"></view>
             <view class="block-wrapper submit-info-wrapper">
                 <view class="total">
@@ -186,5 +284,22 @@
                 </view>
             </block>
         </scroll-view>
+        <block wx:if="{{judgeShowOperate}}">
+            <view class="title"></view>
+            <view class="btn-area {{isPhoneXSeries ? 'iphoneX' : ''}}">
+                <button class="reject" bindtap="onCommentShow" data-type="reject">驳回</button>
+                <button class="approval" bindtap="onCommentShow" data-type="approval">同意</button>
+            </view>
+        </block>
     </form>
+    <view class="add-comment-page" animation="{{animationInfo}}" hidden="{{dialogHidden}}">
+        <view class="title">批复意见</view>
+        <view class="comment-wrapper">
+            <textarea maxlength="140" bindinput="commentInput" class="comment-input" placeholder="请输入内容"></textarea>
+        </view>
+        <view class="oa-submit-btn-wrapper {{isPhoneXSeries ? 'iphoneX' : ''}}">
+            <view class="oa-submit {{approvalType === 'reject' ? 'reject' : 'approval'}}" bindtap="submitOa">{{ approvalType === 'reject' ? '驳回' : '同意'}}</view>
+        </view>
+    </view>
+    <view class="oa-mask" hidden="{{maskHidden}}" bindtap="onCommentHide"></view>
 </view>
