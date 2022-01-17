@@ -36,7 +36,6 @@ Page({
             url,
             method: 'POST',
             success: res => {
-                console.log(res, 'oaList')
                 if(res.statusCode === 200) {
                     const billTypes = ['4', '9', '3']
                     this.setData({

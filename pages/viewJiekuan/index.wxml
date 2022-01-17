@@ -290,5 +290,4 @@
         </view>
     </view>
     <view class="oa-mask" hidden="{{maskHidden}}" bindtap="onCommentHide"></view>
-
 </view>
