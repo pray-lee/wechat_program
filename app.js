@@ -16,9 +16,9 @@ App({
     },
     globalData: {
         // url: "https://www.caika.net/saas/",
-        url: "https://www.caika.net/test/",
+        url: "https://www.caika.net/ucommune-test/",
         "corpId": "wwbc109332dfcce85c",
-        "tenantCode": "db_ck_oa",
+        "tenantCode": "db_ck_ucommune_test",
         // 沃土
         // corpId: 'ww239da829e102ac9d',
         // tenantCode: 'db_ck_wtsw',
