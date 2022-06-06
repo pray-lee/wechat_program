@@ -101,7 +101,7 @@ Page({
     },
     hideLoading() {
         app.globalData.loadingCount--
-        if (app.globalData.loadingCount === 0) {
+        if (app.globalData.loadingCount <= 0) {
             wx.hideLoading()
         }
     },

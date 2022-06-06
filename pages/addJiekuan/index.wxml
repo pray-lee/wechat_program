@@ -138,7 +138,7 @@
                    <view class="form-row">
                        <view class="form-row-label"><text class="require">*</text>汇率</view>
                            <view class="form-row-content">
-                                <input disabled="{{exchangeRateDisabled}}" class="input" value="{{submitData.exchangeRate}}" placeholder="请输入汇率" onInput="bindExchangeRateInput"/>
+                                <input disabled="{{exchangeRateDisabled}}" class="input" value="{{submitData.exchangeRate}}" placeholder="请输入汇率" bindinput="bindExchangeRateInput"/>
                            </view>
                        </view>
                    <view class="form-line"/>

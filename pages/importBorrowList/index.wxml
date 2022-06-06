@@ -17,7 +17,7 @@
                                     </view>
                                     <view class="import-borrow-item-right">
                                         ￥
-                                        <text>{{item.unverifyAmount}}</text>
+                                        <text>{{item[amountField.unverifyAmount]}}</text>
                                     </view>
                                 </view>
                                 <view class="ellipsis" style="width:12em;text-align:right">{{item.remark}}</view>

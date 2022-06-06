@@ -1,10 +1,21 @@
 const app = getApp()
 Page({
     data: {
-        tempImportList: []
+        tempImportList: [],
+        amountField: {
+            unverifyAmount: 'unverifyAmount'
+        }
     },
     onLoad() {
         const tempImportList = wx.getStorageSync('tempImportList')
+        const multiCurrency = wx.getStorageSync('multiCurrency')
+        if(multiCurrency) {
+            this.setData({
+                amountField: {
+                    unverifyAmount: 'originUnverifyAmount'
+                }
+            })
+        }
         tempImportList.forEach(item => {
             item.dataString = JSON.stringify(item)
         })
@@ -25,7 +36,7 @@ Page({
             var temp = {
                 ...arr[i],
                 billDetailId: arr[i].id,
-                applicationAmount: arr[i].unverifyAmount,
+                applicationAmount: arr[i][this.data.amountField.unverifyAmount],
                 remark: arr[i].remark
             }
             newArr.push(temp)

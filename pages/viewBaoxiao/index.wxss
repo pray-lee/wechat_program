@@ -239,7 +239,7 @@ input::-webkit-input-placeholder{
     height: 30rpx;
 }
 .title-word{
-    width: 7em;
+    width: 9em;
     margin-right: 20rpx;
     text-align:left
 }
