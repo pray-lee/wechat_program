@@ -11,7 +11,7 @@
                     <view class="form-row" bindtap="showContent">
                         <view class="form-row-label"><text class="require">*</text>销售类型</view>
                         <view class="form-row-content">
-                            <view class="mock-input">{{item['subjectEntity.fullSubjectName']}}</view>
+                            <view class="mock-input">{{item['subjectName']}}</view>
                         </view>
                     </view>
                     <view class="form-line"/>

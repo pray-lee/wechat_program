@@ -146,7 +146,7 @@
                             <!--                             </view> -->
                             <!--                             <view class="borrow-line"></view> -->
                             <view class="form-row-content baoxiaoDetail-left">
-                                <view class="subject-title">{{item["subject.fullSubjectName"]}}</view>
+                                <view class="subject-title">{{item["subjectName"]}}</view>
                                 <view class="remark-title">未核销金额：{{item.formatUnverifyAmount}}</view>
                                 <view class="remark-title">事由：</view>
                                 <view class="remark-content" wx:if="{{item.remark && item.remark !== 'null'}}">{{item.remark}}</view>

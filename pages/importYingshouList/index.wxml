@@ -48,7 +48,7 @@
                                 <view>
                                     <view class="import-borrow-item-left">
                                         <view class="import-borrow-remark" wx:if="{{item['subjectEntity.fullSubjectName']}}">{{item['subjectEntity.fullSubjectName']}}</view>
-                                        <view class="import-borrow-remark" wx:if="{{item['subject.fullSubjectName']}}">{{item['subject.fullSubjectName']}}</view>
+                                        <view class="import-borrow-remark" wx:if="{{item['subjectName']}}">{{item['subjectName']}}</view>
                                         <view class="import-borrow-info">
                                             <view class="import-borrow-time">业务日期：{{item.businessDateTime}}</view>
                                         </view>

@@ -1220,7 +1220,7 @@ Page({
         }
         this.addLoading()
         request({
-            url: app.globalData.url + 'payableBillController.do?datagrid&supplierId='+this.data.submitData.applicantId+'&query=import&field=id,billCode,accountbookId,accountbookEntity.accountbookName,submitterId,user.realName,submitterDepartmentId,departDetailEntity.depart.departName,supplierId,supplierDetail.supplier.supplierName,invoiceType,subjectId,trueSubjectId,subject.fullSubjectName,trueSubject.fullSubjectName,auxpropertyNames,taxRate,amount,unverifyAmount,submitDateTime,businessDateTime,remark,',
+            url: app.globalData.url + 'payableBillController.do?datagrid&supplierId='+this.data.submitData.applicantId+'&query=import&field=id,billCode,accountbookId,accountbookName,submitterId,submitterName,submitterDepartmentId,departName,supplierId,supplierName,invoiceType,subjectId,trueSubjectId,subjectName,trueSubjectName,auxpropertyNames,taxRate,amount,unverifyAmount,submitDateTime,businessDateTime,remark,',
             method: 'GET',
             success: res => {
                 if(res.data.rows.length) {

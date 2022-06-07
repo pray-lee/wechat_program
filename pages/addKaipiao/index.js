@@ -467,7 +467,7 @@ Page({
         }
         this.addLoading()
         request({
-            url: app.globalData.url + 'receivableBillController.do?datagrid&customerDetailId=' + this.data.customerDetail.id + '&taxRate=' + this.data.taxRateArr[this.data.taxRateIndex] + '&invoiceType=' + this.data.submitData.invoiceType + '&query=import&field=id,receivablebillCode,accountbookId,accountbookEntity.accountbookName,submitterId,user.realName,submitterDepartmentId,departDetailEntity.depart.departName,customerDetailId,customerDetailEntity.customer.customerName,invoiceType,subjectId,trueSubjectId,subjectEntity.fullSubjectName,trueSubjectEntity.fullSubjectName,auxpropertyNames,taxRate,amount,unverifyAmount,submitDateTime,businessDateTime,remark,',
+            url: app.globalData.url + 'receivableBillController.do?datagrid&customerDetailId=' + this.data.customerDetail.id + '&taxRate=' + this.data.taxRateArr[this.data.taxRateIndex] + '&invoiceType=' + this.data.submitData.invoiceType + '&query=import&field=id,receivablebillCode,accountbookId,accountbookName,submitterId,submitterName,submitterDepartmentId,departName,customerDetailId,customerName,invoiceType,subjectId,trueSubjectId,subjectName,trueSubjectEntity.fullSubjectName,auxpropertyNames,taxRate,amount,unverifyAmount,submitDateTime,businessDateTime,remark,',
             method: 'GET',
             success: res => {
                 if (res.data.rows.length) {

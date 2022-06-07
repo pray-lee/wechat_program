@@ -5,7 +5,7 @@
              <view class="form-row" bindtap="disabled">
                 <view class="form-row-label"><text class="require">*</text>费用类型</view>
                 <view class="form-row-content">
-                        <view class="mock-input">{{fukuanDetail['subject.fullSubjectName']}}</view>
+                        <view class="mock-input">{{fukuanDetail['subjectName']}}</view>
                 </view>
             </view>
             <view class="form-line"/>
