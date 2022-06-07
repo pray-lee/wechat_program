@@ -1,0 +1,132 @@
+.app{
+    background:#fff;
+}
+.scroll-ocr-list{
+    height: calc(100vh - 158rpx);
+}
+.scroll-ocr-list.iphoneX{
+    height: calc(100vh - 226rpx)
+}
+.btn-area{
+    display:flex;
+    position:fixed;
+    bottom:0;
+    left:0;
+    z-index:990;
+    width: 100%;
+    height: 100rpx;
+    background:#fff;
+}
+.btn-area.iphoneX{
+    padding-bottom: 68rpx;
+}
+.btn-area button{
+    flex: 1;
+    border:0;
+    background:#3276c3;
+    border-radius: 0;
+    color:#fff;
+    font-size: 32rpx;
+    height: 100rpx;
+    line-height: 100rpx
+}
+.content1{
+    display:flex;
+    justify-content: space-between;
+}
+.remark{
+    font-size: 24rpx;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    max-width: 85vw
+}
+
+.movable-area{
+    width: 100%;
+    height: 190rpx;
+}
+.movable-view{
+    width: 100%;
+    height: 100%;
+}
+.touch-item {
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    overflow: hidden
+}
+.content {
+    width: 100%;
+    padding: 25rpx 50rpx;
+    line-height: 22px;
+    margin-right:0;
+    -webkit-transition: all 0.4s;
+    transition: all 0.4s;
+    -webkit-transform: translateX(90px);
+    transform: translateX(90px);
+    margin-left: -90px
+}
+.del {
+    background-color: orangered;
+    width: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    -webkit-transform: translateX(90px);
+    transform: translateX(90px);
+    -webkit-transition: all 0.4s;
+    transition: all 0.4s;
+}
+.touch-move-active .content,
+.touch-move-active .del {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+}
+.status.error.invoice-type_01::before {
+    background:#ff5252
+}
+.status.error.invoice-type_04::before {
+    background:#ff5252
+}
+.status.error.invoice-type_08::before {
+    background:#ff5252
+}
+.status.error.invoice-type_10::before {
+    background:#ff5252
+}
+.status.error.invoice-type_11::before {
+    background:#ff5252
+}
+.status.error.invoice-type_95::before {
+    background:#3276c3
+}
+.status.error.invoice-type_92::before {
+    background:deepskyblue;
+}
+.status.error.invoice-type_93::before {
+    background:yellow;
+}
+.status.error.invoice-type_91::before {
+    background:green;
+}
+.status.error.invoice-type_88::before {
+    background: purple;
+}
+.status.error.invoice-type_94::before {
+    background: purple;
+}
+.status.error.invoice-type_98::before {
+    background: black;
+}
+.status.error.invoice-type_97::before {
+    background: grey;
+}
+.content1{
+    display:flex;
+    justify-content: space-between;
+}

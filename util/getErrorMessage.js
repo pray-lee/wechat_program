@@ -85,7 +85,7 @@ const request = option => {
         data: option.data,
         header: {
             'cookie': sessionId,
-            'content-type': 'application/x-www-form-urlencoded',
+            'Content-Type': option.headers ? option.headers['Content-Type'] : 'application/x-www-form-urlencoded',
         },
         method: option.method,
         success: res => {

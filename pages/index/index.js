@@ -28,6 +28,11 @@ Page({
             url: '/pages/oaList/index'
         })
     },
+    gotoInvoiceList() {
+        wx.navigateTo({
+            url: '/pages/invoiceList/index'
+        })
+    },
     getOaList() {
         const url = `${app.globalData.url}oaTaskController.do?todoDatagrid&field=id,applicationAmount,accountbookId,billType,billCode,taskName,billId,createDate,processInstanceId,remark,status`
         this.addLoading()

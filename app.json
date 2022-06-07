@@ -33,7 +33,10 @@
     "pages/viewFukuanDetail/index",
     "pages/oaList/index",
     "pages/deptList/index",
-    "pages/approvalUserList/index"
+    "pages/approvalUserList/index",
+    "pages/invoiceList/index",
+    "pages/invoiceInput/index",
+    "pages/invoiceSelect/index"
   ],
   "window": {
     "backgroundTextStyle":"light",
