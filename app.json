@@ -36,7 +36,8 @@
     "pages/approvalUserList/index",
     "pages/invoiceList/index",
     "pages/invoiceInput/index",
-    "pages/invoiceSelect/index"
+    "pages/invoiceSelect/index",
+    "pages/invoiceListSelect/index"
   ],
   "window": {
     "backgroundTextStyle":"light",

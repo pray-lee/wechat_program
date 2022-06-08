@@ -398,7 +398,8 @@ Page({
     addLoading() {
         if (app.globalData.loadingCount < 1) {
             wx.showLoading({
-                content: '加载中...'
+                title: '加载中...',
+                mask: true,
             })
         }
         app.globalData.loadingCount += 1
