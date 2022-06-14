@@ -7,7 +7,9 @@ Page({
     data: {
         isPhoneXSeries: false,
         baoxiaoDetail: null,
-        noticeHidden: true
+        noticeHidden: true,
+        // 发票
+        ocrList: []
     },
     onLoad() {
         this.setData({
@@ -17,6 +19,11 @@ Page({
             key: 'baoxiaoDetail',
             success: res => {
                 const baoxiaoDetail = clone(res.data)
+                // ==========发票相关=========
+                if(baoxiaoDetail.invoiceInfoId) {
+                    this.getInvoiceDetailById(baoxiaoDetail.invoiceInfoId)
+                }
+                // ==========================
                 this.setData({
                     noticeHidden: baoxiaoDetail.invoiceType == 2 ? false : true
                 })
@@ -47,6 +54,65 @@ Page({
             success: res => {
                 wx.navigateTo({
                     url: '/pages/viewExtra/index'
+                })
+            }
+        })
+    },
+    addLoading() {
+        if (app.globalData.loadingCount < 1) {
+            wx.showLoading({
+                title: '加载中...',
+                mask: true
+            })
+        }
+        app.globalData.loadingCount++
+    },
+    hideLoading() {
+        app.globalData.loadingCount--
+        if (app.globalData.loadingCount <= 0) {
+            wx.hideLoading()
+        }
+    },
+    getInvoiceDetailById(ids) {
+        this.addLoading()
+        request({
+            hideLoading: this.hideLoading(),
+            method: 'GET',
+            url: app.globalData.url + 'invoiceInfoController.do?getInvoiceInfoByIds',
+            data: {
+                ids,
+            },
+            success: res => {
+                if(res.data.success) {
+                    if(res.data.obj.length) {
+                        res.data.obj.forEach(item => {
+                            item.formatJshj = formatNumber(Number(item.jshj).toFixed(2))
+                        })
+                    }
+                    this.setData({
+                        ocrList: res.data.obj
+                    })
+                }else{
+                    wx.showModal({
+                        content: '获取发票详情失败',
+                        confirmText: '好的',
+                        showCancel: false,
+                    })
+                }
+            },
+            fail: err => {
+                console.log(err, 'error')
+            }
+        })
+    },
+    goToInvoiceDetail(e) {
+        const index = e.currentTarget.dataset.index
+        wx.setStorage({
+            key: 'invoiceDetail',
+            data: this.data.ocrList[index],
+            success: res => {
+                wx.navigateTo({
+                    url: '/pages/invoiceInput/index'
                 })
             }
         })

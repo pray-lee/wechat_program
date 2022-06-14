@@ -299,3 +299,12 @@ input::-webkit-input-placeholder{
     display:flex;
     align-items: center;
 }
+.has-invoice{
+    margin-top: 5rpx;
+    padding: 5rpx;
+    text-align:center;
+    color:#3276c3;
+    border: 1px solid #3276c3;
+    width: 5em;
+    border-radius: 8rpx;
+}

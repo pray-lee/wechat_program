@@ -1672,6 +1672,8 @@ Page({
                                 obj.applicationAmount = item.applicationAmount
                                 obj.formatApplicationAmount = formatNumber(Number(item.applicationAmount).toFixed(2))
                             }
+                            // 发票
+                            obj.invoiceInfoId = item.invoiceInfoId
                             // 附加信息
                             if (!!item.extraMessage) {
                                 obj.extraMessage = JSON.parse(item.extraMessage)
@@ -2288,7 +2290,7 @@ Page({
                 })
             }
         } else {
-            this.clearCurrencyData()
+            this.clearCurrencyData(data)
         }
     },
     // 报销类型

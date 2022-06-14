@@ -348,7 +348,7 @@
                 </view>
                 <view class="form-line"/>
             </block>
-            <block wx:if="{{type == '88'}}">
+            <block wx:if="{{type == '88' || type == '94'}}">
                 <view class="form-row">
                     <view class="form-row-label"><text class="require"></text>姓名</view>
                     <view class="form-row-content">
