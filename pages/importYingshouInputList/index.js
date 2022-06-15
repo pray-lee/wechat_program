@@ -1,6 +1,6 @@
 import moment from "moment";
 import {cloneDeep as clone} from "lodash";
-import {formatNumber, validFn} from "../../util/getErrorMessage";
+import {formatNumber, validFn, request} from "../../util/getErrorMessage";
 
 const app = getApp()
 Page({
@@ -30,7 +30,7 @@ Page({
         accountbookId: '',
         origin: ''
     },
-    onLoad() {
+    onLoad(query) {
         this.setData({
             isPhoneXSeries: app.globalData.isPhoneXSeries
         })

@@ -12,9 +12,15 @@ Page({
         isAllSelect:false,
         totalAmount: '0.00',
         num: 0,
-        inputValue: ''
+        inputValue: '',
+        // 发票
+        origin: '',
     },
-    onLoad() {
+    onLoad(query) {
+        if(query && query.origin)
+            this.setData({
+                origin: query.origin
+            })
     },
     onShow() {
         let tempImportList = wx.getStorageSync('tempImportList')
@@ -195,7 +201,7 @@ Page({
                         totalAmount: '0.00'
                     })
                     wx.navigateTo({
-                        url: '/pages/importYingshouInputList/index'
+                        url: '/pages/importYingshouInputList/index?origin=' + this.data.origin
                     })
                 }
             })

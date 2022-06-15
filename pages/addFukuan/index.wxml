@@ -108,7 +108,7 @@
                 <view class="baoxiao-list">
                     <view class="baoxiao-item" wx:for="{{fukuanList}}" wx:key="index" wx:if="{{fukuanList.length}}">
                         <view class="form-row">
-                            <view class="delete-baoxiao-item" bindtap="deleteBaoxiaoDetail"
+                            <view class="delete-baoxiao-item" bindtap="deleteFukuanDetail"
                                   data-id="{{item.billDetailId}}" data-index="{{index}}"></view>
                             <view bindtap="showFukuanDetail" data-index="{{index}}"
                                   class="form-row-content baoxiaoDetail-left" data-index="{{index}}">
@@ -118,6 +118,7 @@
                                 <view class="remark-title">事由：</view>
                                 <view class="remark-content" wx:if="{{item.remark && item.remark !== 'null'}}">{{item.remark}}</view>
                                 <view class="remark-content" wx:else>无</view>
+                                <view class="remark-content has-invoice" a:if="{{item.invoiceInfoId}}">已有发票</view>
                             </view>
                             <view bindtap="showFukuanDetail" data-index="{{index}}"
                                   class="form-row-content ellipsis borrow-remark baoxiaoDetail-right"
