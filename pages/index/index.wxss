@@ -1,4 +1,3 @@
-@import '../components/errorView/index.wxss';
 .baoxiao-container, .jiekuan-container{
   padding: 40rpx;
   background:#fff;

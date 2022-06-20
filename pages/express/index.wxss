@@ -1,5 +1,3 @@
-@import '../components/errorView/index.wxss';
-
 .scroll-view{
     height: calc(100vh - 200rpx)
 }
