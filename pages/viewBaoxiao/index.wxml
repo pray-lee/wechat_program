@@ -81,7 +81,7 @@
                 </view>
            </view>
 <!--      外币        -->
-            <block a:if="{{multiCurrency}}">
+            <block wx:if="{{multiCurrency}}">
                 <view class="title">外币信息</view>
                 <view class="block-wrapper">
                    <view class="form-row">
@@ -118,7 +118,7 @@
                                 <view class="remark-title">备注：</view>
                                 <view class="remark-content" wx:if="{{item.remark && item.remark !== 'null'}}">{{item.remark}}</view>
                                 <view class="remark-content" wx:else>无</view>
-                                <view class="remark-content has-invoice" a:if="{{item.invoiceInfoId}}">已有发票</view>
+                                <view class="remark-content has-invoice" wx:if="{{item.invoiceInfoId}}">已有发票</view>
                             </view>
                             <view class="form-row-content ellipsis borrow-remark baoxiaoDetail-right" bindtap="showBaoxiaoDetail" data-index="{{index}}">{{item.formatApplicationAmount}}</view>
                         </view>

@@ -239,9 +239,9 @@ Page({
             })
             // ============ 审批流 =========
             this.setData({
-                oaModule: this.findAccountbookOaModule(this.data[listName][value], this.data.accountbookList)
+                oaModule: this.findAccountbookOaModule(this.data[listName][value].id, this.data.accountbookList)
             })
-            this.showOaProcessByBillType(this.data[listName][value], 4)
+            this.showOaProcessByBillType(this.data[listName][value].id, 4)
             // ============ 审批流 =========
             this.getDepartmentList(this.data[listName][value].id)
             this.getBorrowBillList(this.data[listName][value].id, 10, null, null, true)

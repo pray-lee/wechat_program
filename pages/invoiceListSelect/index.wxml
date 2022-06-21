@@ -29,7 +29,7 @@
         <view wx:if="{{filterList.length}}" class="list-wrapper">
             <view class="list-item" wx:for="{{filterList}}">
                 <label for="" class="label">
-                    <checkbox key="{{index + '_' + item.invoiceType}}" bindchange="selectInvoice" data-index="{{index}}" checked="{{!!item.checked}}"></checkbox>
+                    <checkbox key="{{index + '_' + item.invoiceType}}" bindtap="selectInvoice" data-index="{{index}}" checked="{{!!item.checked}}"></checkbox>
                     <movable-area class='movable-area'>
                         <movable-view direction="horizontal" class='movable-view'>
                             <view class="touch-item" data-index="{{index}}">

@@ -241,12 +241,12 @@ Page({
         })
     },
     selectInvoice(e) {
-        const value = e.detail.value
         const index = e.currentTarget.dataset.index
-        this.data.filterList[index].checked = value
+        this.data.filterList[index].checked = true
     },
     saveInvoice() {
         const list = this.data.filterList.filter(item => !!item.checked)
+        console.log(list, 'list.........')
         wx.setStorage({
             key: 'ocrListFromList',
             data: list,

@@ -69,7 +69,7 @@ Page({
         wx.removeStorageSync('invoiceImportListTag')
         const importList = wx.getStorageSync('importList')
         const savedImportList = wx.getStorageSync('savedImportList') || []
-        importList.forEach(item => item.applicationAmount = item.unverifyAmount)
+        importList && importList.forEach(item => item.applicationAmount = item.unverifyAmount)
         if(importList.length) {
             let oldList = savedImportList.concat()
             if(oldList.length) {
@@ -144,7 +144,7 @@ Page({
             this.getSelectOcrListFromStorage()
             this.getBillInvoiceDetail()
             this.getOcrListFromListFromStorage()
-        })
+        }, 300)
         // =======================
         this.getRemarksFromStorage()
         if(!wx.getStorageSync('invoiceImportListTag')) {
@@ -427,6 +427,7 @@ Page({
     // 从上传识别之后的列表选
     getSelectOcrListFromStorage() {
         const ocrList = wx.getStorageSync('selectOcrList')
+        debugger
         if(ocrList) {
             this.saveInvoice(ocrList)
             wx.removeStorage({

@@ -118,7 +118,7 @@
                                 <view class="remark-title">事由：</view>
                                 <view class="remark-content" wx:if="{{item.remark && item.remark !== 'null'}}">{{item.remark}}</view>
                                 <view class="remark-content" wx:else>无</view>
-                                <view class="remark-content has-invoice" a:if="{{item.invoiceInfoId}}">已有发票</view>
+                                <view class="remark-content has-invoice" wx:if="{{item.invoiceInfoId}}">已有发票</view>
                             </view>
                             <view bindtap="showFukuanDetail" data-index="{{index}}"
                                   class="form-row-content ellipsis borrow-remark baoxiaoDetail-right"

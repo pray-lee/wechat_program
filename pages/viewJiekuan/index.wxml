@@ -97,7 +97,7 @@
                 </view>
             </view>
 <!--      外币        -->
-            <view a:if="{{multiCurrency}}">
+            <view wx:if="{{multiCurrency}}">
                 <view class="title">外币信息</view>
                 <view class="block-wrapper">
                    <view class="form-row">
