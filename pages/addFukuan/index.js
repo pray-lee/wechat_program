@@ -329,7 +329,7 @@ Page({
         const fukuanList = this.data.fukuanList.map(item => {
             return {
                 ...item,
-                subjectName: item.trueSubjectName.indexOf('_') != -1 ? item.trueSubjectName.split('_')[item.trueSubjectName.split('_').length - 1] : item.trueSubjectName
+                subjectName: item.subjectName.indexOf('_') != -1 ? item.subjectName.split('_')[item.subjectName.split('_').length - 1] : item.subjectName
             }
         })
         this.setData({

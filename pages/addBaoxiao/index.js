@@ -959,7 +959,7 @@ Page({
     getOaParams(fields, billType) {
         let params = ''
         fields.forEach(item => {
-            if(this.data.submitData[item]) {
+            if(this.data.submitData[item] || this.data.submitData[item] === 0) {
                 params += '&' + item + '=' + this.data.submitData[item]
             }else{
                 params += '&applicationAmount=' + this.data.submitData.applicationAmount
@@ -977,7 +977,6 @@ Page({
             method: 'GET',
             success: res => {
                 if(res.data && res.data.length) {
-                    debugger
                     const nodeList = res.data.map(node => {
                         node.oaBillUserList = node.oaBillUserList ? node.oaBillUserList : []
                         return {
@@ -1529,7 +1528,6 @@ Page({
                 originFormatApplicationAmount: '',
             }
         })
-        console.log(importList, 'importList setRenderData')
         //fileList
         if (data.billFiles.length) {
             var billFilesObj = data.billFiles.map(item => {
@@ -1546,7 +1544,7 @@ Page({
         this.setData({
             ...this.data,
             // baoxiaoList,
-            importList,
+            importList: clone(importList),
             status: data.status,
             submitData: {
                 ...this.data.submitData,
@@ -2308,6 +2306,7 @@ Page({
                 borrowBillList = data.borrowBillList.map(item => {
                     return {
                         ...item,
+                        'subject.fullSubjectName':item.subject.fullSubjectName,
                         originApplicationAmount: item.originApplicationAmount ? item.originApplicationAmount : item.applicationAmount,
                         originFormatApplicationAmount: item.originApplicationAmount ? formatNumber(Number(item.originApplicationAmount).toFixed(2)) : formatNumber(Number(item.applicationAmount).toFixed(2))
                     }
