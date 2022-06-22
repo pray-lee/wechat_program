@@ -135,6 +135,16 @@ Page({
         }
     },
     formSubmit(e) {
+        // ============= 处理外币提交=================
+        if(!this.data.submitData.isMultiCurrency) {
+            this.setData({
+                submitData: {
+                    ...this.data.submitData,
+                    isMultiCurrency: 0
+                }
+            })
+        }
+        // ============= 处理外币提交=================
         // ==================处理审批流数据==================
         if(this.data.nodeList.length) {
             this.setData({
@@ -229,6 +239,9 @@ Page({
         }
         // --------------------------------------------------------
         if (name === 'accountbookId') {
+            // 删除借款详情
+            this.clearBillDetailList()
+            this.showOaUserNodeListUseField(['accountbookId', 'submitterDepartmentId', 'billDetailListObj'])
             this.clearSubjectData()
             this.setData({
                 applicantIndex: 0,
@@ -296,6 +309,22 @@ Page({
                 ...this.data.submitData,
                 [e.currentTarget.dataset.name]: e.detail.value
             },
+        })
+    },
+    clearBillDetailList() {
+        this.clearListSubmitData(this.data.submitData, 'billDetailList')
+        this.showOaUserNodeListUseField(['accountbookId', 'submitterDepartmentId', 'billDetailListObj'])
+        this.setData({
+            submitData: {
+                ...this.data.submitData,
+                billDetailListObj: [],
+                amount: '',
+                originAmount: '',
+                formatAmount: '',
+                originFormatAmount: '',
+                totalAmount: '',
+                formatTotalAmount: ''
+            }
         })
     },
     clearSubjectData() {
@@ -607,8 +636,6 @@ Page({
         })
     },
     handleAddBorrow() {
-        console.log(this.data.submitData)
-        console.log(this.data, 'handleAddBorrow')
         const borrowAmountIndex = wx.getStorageSync('borrowAmountIndex')
         const numberReg = /^\d+(\.\d+)?$/
         if (this.data[this.data.amountField.borrowAmount] === '' || !numberReg.test(this.data[this.data.amountField.borrowAmount])) {

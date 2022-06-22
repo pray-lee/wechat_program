@@ -180,6 +180,16 @@ Page({
         }
     },
     formSubmit(e) {
+        // ============= 处理外币提交=================
+        if(!this.data.submitData.isMultiCurrency) {
+            this.setData({
+                submitData: {
+                    ...this.data.submitData,
+                    isMultiCurrency: 0
+                }
+            })
+        }
+        // ============= 处理外币提交=================
         // ==================处理审批流数据==================
         if(this.data.nodeList.length) {
             this.setData({
@@ -208,9 +218,10 @@ Page({
         // 提交的时候删除借款科目
         const tempData = clone(this.data.importList)
         tempData.forEach(item => {
+            console.log(item, this.data.multiCurrency)
             if(this.data.multiCurrency) {
-                delete [item.applicationAmount]
-                delete [item.formatApplicationAmount]
+                delete item.applicationAmount
+                delete item.formatApplicationAmount
             }
             delete item['subject.fullSubjectName']
             delete item['billApXlsList']
@@ -295,6 +306,7 @@ Page({
         }
         // --------------------------------------------------------
         if (name === 'accountbookId') {
+            this.showOaUserNodeListUseField(['accountbookId', 'submitterDepartmentId', 'baoxiaoList', 'totalAmount', 'reimbursementType'])
             // 重新获取科目以后，就要置空报销列表
             this.setData({
                 baoxiaoList: [],
@@ -483,6 +495,15 @@ Page({
             success: res => {
                 const importList = res.data
                 if (!!importList && importList.length) {
+                    // 外币
+                    if (this.data.multiCurrency) {
+                        importList.forEach(item => {
+                            item.originApplicationAmount = item.applicationAmount
+                            item.originFormatApplicationAmount = item.formatApplicationAmount
+                            item.applicationAmount = ''
+                            item.formatApplicationAmount = ''
+                        })
+                    }
                     console.log('获取选择的借款列表成功', importList)
                     const newImportList = this.caculateImportList(importList)
                     console.log(newImportList, 'newImportList')
@@ -956,6 +977,7 @@ Page({
             method: 'GET',
             success: res => {
                 if(res.data && res.data.length) {
+                    debugger
                     const nodeList = res.data.map(node => {
                         node.oaBillUserList = node.oaBillUserList ? node.oaBillUserList : []
                         return {
@@ -1507,6 +1529,7 @@ Page({
                 originFormatApplicationAmount: '',
             }
         })
+        console.log(importList, 'importList setRenderData')
         //fileList
         if (data.billFiles.length) {
             var billFilesObj = data.billFiles.map(item => {

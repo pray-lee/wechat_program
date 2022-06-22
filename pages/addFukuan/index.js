@@ -212,6 +212,7 @@ Page({
         }
         // --------------------------------------------------------
         if (name === 'accountbookId') {
+            this.showOaUserNodeListUseField(['accountbookId', 'submitterDepartmentId', 'fukuanList', 'totalAmount'])
             // 重新获取科目以后，就要置空报销列表
             this.setData({
                 fukuanList: [],

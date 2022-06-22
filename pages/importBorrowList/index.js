@@ -31,6 +31,7 @@ Page({
         arr = arr.map(item => {
             return JSON.parse(item)
         })
+        console.log(arr, 'arr')
         var newArr = []
         for (let i = 0; i < arr.length; i++) {
             var temp = {
