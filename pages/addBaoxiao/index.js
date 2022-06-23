@@ -8,6 +8,8 @@ var app = getApp()
 app.globalData.loadingCount = 0
 Page({
     data: {
+        // 增加申请人
+        realName: '',
         // 报销类型
         reimbursementType: null,
         reimbursementList: [],
@@ -772,6 +774,10 @@ Page({
         });
     },
     onLoad(query) {
+        // 增加申请人
+        this.setData({
+            realName: app.globalData.realName
+        })
         app.globalData.loadingCount = 0
         this.getTaxRageArr()
         this.getInvoiceTypeArr()
@@ -1798,6 +1804,8 @@ Page({
                         // 外币
                         if(this.data.multiCurrency) {
                             wx.setStorageSync('multiCurrency', this.data.multiCurrency)
+                        }else{
+                            wx.removeStorageSync('multiCurrency')
                         }
                         wx.setStorage({
                             key: 'tempImportList',
@@ -1932,6 +1940,7 @@ Page({
                 }
             })
         }
+        this.showOaUserNodeListUseField(['accountbookId', 'submitterDepartmentId', 'baoxiaoList', 'totalAmount', 'reimbursementType'])
     },
     clearBorrowList(submitData) {
         Object.keys(submitData).forEach(key => {

@@ -22,6 +22,15 @@
                         <view class="mock-input">{{result.departDetailEntity.depart.departName}}</view>
                     </view>
                 </view>
+                <block wx:if="{{result.submitterName || realName}}">
+                    <view class="form-line"/>
+                    <view class="form-row">
+                        <view class="form-row-label picker"><text class="require">*</text>申请人</view>
+                        <view class="form-row-content">
+                            <view class="mock-input">{{result.submitterName || realName}}</view>
+                        </view>
+                    </view>
+                </block>
             </view>
             <view class="title">单据信息</view>
             <view class="block-wrapper">

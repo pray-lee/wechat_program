@@ -20,6 +20,13 @@
                         </picker>
                     </view>
                 </view>
+                <view class="form-line"/>
+                <view class="form-row">
+                    <view class="form-row-label picker"><text class="require">*</text>申请人</view>
+                    <view class="form-row-content">
+                        <view class="mock-input">{{realName}}</view>
+                    </view>
+                </view>
             </view>
             <view class="title">收款方信息</view>
             <view class="block-wrapper">
@@ -155,8 +162,8 @@
                                 <text>{{item[amountField.formatBorrowAmount]}}</text>
                             </view>
                             <view class="borrow-line"></view>
-                            <view class="form-row-content" bindtap="editBorrowDetail" data-index="{{index}}">
-                                <text>{{item.remark}}</text>
+                            <view class="form-row-content remark" bindtap="editBorrowDetail" data-index="{{index}}">
+                                <text class="remark">{{item.remark}}</text>
                             </view>
                         </view>
                         <view class="form-line"/></view>

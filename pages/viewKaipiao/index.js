@@ -5,6 +5,8 @@ var app = getApp()
 app.globalData.loadingCount = 0
 Page({
     data: {
+        // 增加申请人
+        realName: '',
         result: null,
         isPhoneXSeries: false,
     },
@@ -30,6 +32,10 @@ Page({
         })
     },
     onLoad(query) {
+        // 增加申请人
+        this.setData({
+            realName: app.globalData.realName
+        })
         this.setData({
             isPhoneXSeries: app.globalData.isPhoneXSeries
         })

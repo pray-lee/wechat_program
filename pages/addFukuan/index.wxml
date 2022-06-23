@@ -43,7 +43,7 @@
                             供应商名称
                         </view>
                         <view class="form-row-content" style="height:auto">
-                            <view wx:if="{{borrowIndex > 0}}" class="mock-input">
+                            <view wx:if="{{borrowIndex >= 0}}" class="mock-input">
                                 {{borrowList[borrowIndex].name}}
                             </view>
                             <view wx:else class="mock-input nodata">请选择供应商</view>

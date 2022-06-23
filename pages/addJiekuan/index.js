@@ -8,6 +8,8 @@ var app = getApp()
 app.globalData.loadingCount = 0
 Page({
     data: {
+        // 增加申请人
+        realName: '',
         // =============外币相关============
         multiCurrency: false,
         currencyTypeIndex: 0,
@@ -771,6 +773,10 @@ Page({
         })
     },
     onLoad(query) {
+        // 增加申请人
+        this.setData({
+            realName: app.globalData.realName
+        })
         app.globalData.loadingCount = 0
         this.setData({
             isPhoneXSeries: app.globalData.isPhoneXSeries,

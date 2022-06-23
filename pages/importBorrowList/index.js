@@ -15,6 +15,12 @@ Page({
                     unverifyAmount: 'originUnverifyAmount'
                 }
             })
+        }else{
+            this.setData({
+                amountField: {
+                    unverifyAmount: 'unverifyAmount'
+                }
+            })
         }
         tempImportList.forEach(item => {
             item.dataString = JSON.stringify(item)
@@ -22,6 +28,7 @@ Page({
         this.setData({
             tempImportList
         })
+        console.log(this.data.amountField, 'amountFied')
     },
     onCheckboxChange(e) {
         console.log(e)
