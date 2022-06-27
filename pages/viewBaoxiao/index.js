@@ -1,4 +1,4 @@
-import {formatNumber, request} from "../../util/getErrorMessage";
+import {loginFiled, formatNumber, request} from "../../util/getErrorMessage";
 import '../../util/handleLodash'
 import {cloneDeep as clone} from 'lodash'
 
@@ -69,8 +69,8 @@ Page({
     },
     getDetail(query) {
         if(app.globalData.isWxWork) {
-            // const sessionId = wx.getStorageSync('sessionId')
-            // if(!sessionId) {
+            const sessionId = wx.getStorageSync('sessionId')
+            if(!sessionId) {
                 this.addLoading()
                 wx.qy.login({
                     success: res => {
@@ -112,9 +112,9 @@ Page({
                         })
                     }
                 })
-            // }else{
-            //     this.getDetailById(query)
-            // }
+            }else{
+                this.getDetailById(query)
+            }
         }
     },
     onLoad(query) {
