@@ -70,8 +70,8 @@ Page({
     },
     getDetail(query) {
        if(app.globalData.isWxWork) {
-           const sessionId = wx.getStorageSync('sessionId')
-           if(!sessionId) {
+           // const sessionId = wx.getStorageSync('sessionId')
+           // if(!sessionId) {
                this.addLoading()
                wx.qy.login({
                    success: res => {
@@ -83,10 +83,10 @@ Page({
                            method: 'GET',
                            success: res => {
                                if (res.data.success) {
-                                   if(res.data.obj) {
+                                   if (res.data.obj) {
                                        app.globalData.realName = res.data.obj.realName
                                        this.getDetailById(query)
-                                   }else{
+                                   } else {
                                        loginFiled(res.data.msg)
                                    }
                                } else {
@@ -100,7 +100,7 @@ Page({
                    },
                    fail: res => {
                        this.hideLoading()
-                       console.log(res ,'获取授权码失败')
+                       console.log(res, '获取授权码失败')
                        wx.showModal({
                            content: '当前组织没有该小程序',
                            confirmText: '好的',
@@ -113,9 +113,9 @@ Page({
                        })
                    }
                })
-           }else{
-               this.getDetailById(query)
-           }
+           // }else{
+           //     this.getDetailById(query)
+           // }
        }
     },
     onLoad(query) {

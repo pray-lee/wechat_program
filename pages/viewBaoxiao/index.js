@@ -69,8 +69,8 @@ Page({
     },
     getDetail(query) {
         if(app.globalData.isWxWork) {
-            const sessionId = wx.getStorageSync('sessionId')
-            if(!sessionId) {
+            // const sessionId = wx.getStorageSync('sessionId')
+            // if(!sessionId) {
                 this.addLoading()
                 wx.qy.login({
                     success: res => {
@@ -112,9 +112,9 @@ Page({
                         })
                     }
                 })
-            }else{
-                this.getDetailById(query)
-            }
+            // }else{
+            //     this.getDetailById(query)
+            // }
         }
     },
     onLoad(query) {
