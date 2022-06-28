@@ -58,6 +58,7 @@ Page({
             applicationAmount: 0,
             formatApplicationAmount: 0,
             formatTotalAmount: 0,
+            totalAmount: 0,
             formatVerificationAmount: 0,
             status: 20,
             userName: '',
@@ -379,7 +380,6 @@ Page({
 
             this.setApplicationAmount(this.data.fukuanList)
             this.setTotalAmount()
-            this.showOaUserNodeListUseField(['accountbookId', 'submitterDepartmentId', 'fukuanList', 'totalAmount'])
             this.handleSubjectName()
             wx.removeStorageSync('importCommonList')
         }
@@ -470,7 +470,6 @@ Page({
         })
         this.setApplicationAmount(fukuanList)
         this.setTotalAmount()
-        this.showOaUserNodeListUseField(['accountbookId', 'submitterDepartmentId', 'fukuanList', 'totalAmount'])
     },
     // 删除得时候把submitData里面之前存的报销列表数据清空
     clearFileList(submitData) {
@@ -1533,6 +1532,9 @@ Page({
         var verificationAmount = this.setBorrowAmount(this.data.importList) || 0
         // 应付款金额
         var totalAmount = Number(applicationAmount) - Number(verificationAmount)
+        if(totalAmount != this.data.submitData.totalAmount) {
+            this.showOaUserNodeListUseField(['accountbookId', 'submitterDepartmentId', 'fukuanList', 'totalAmount'])
+        }
         this.setData({
             submitData: {
                 ...this.data.submitData,
@@ -1540,7 +1542,6 @@ Page({
                 formatTotalAmount: formatNumber(Number(totalAmount).toFixed(2))
             }
         })
-        this.showOaUserNodeListUseField(['accountbookId', 'submitterDepartmentId', 'fukuanList', 'totalAmount'])
     },
     clearBorrowList(submitData) {
         Object.keys(submitData).forEach(key => {

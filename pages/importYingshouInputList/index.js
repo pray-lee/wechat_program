@@ -427,7 +427,6 @@ Page({
     // 从上传识别之后的列表选
     getSelectOcrListFromStorage() {
         const ocrList = wx.getStorageSync('selectOcrList')
-        debugger
         if(ocrList) {
             this.saveInvoice(ocrList)
             wx.removeStorage({

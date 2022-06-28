@@ -101,6 +101,7 @@ Page({
             formatApplicationAmount: 0,
             originApplicationAmount: '',
             originFormatApplicationAmount: '',
+            totalAmount: 0,
             formatTotalAmount: 0,
             formatVerificationAmount: 0,
             status: 20,
@@ -602,7 +603,6 @@ Page({
                     })
                     this.setApplicationAmount(baoxiaoList)
                     this.setTotalAmount()
-                    this.showOaUserNodeListUseField(['accountbookId', 'submitterDepartmentId', 'baoxiaoList', 'totalAmount', 'reimbursementType'])
                 }
             }
         })
@@ -648,7 +648,6 @@ Page({
         }
         this.setApplicationAmount(baoxiaoList)
         this.setTotalAmount()
-        this.showOaUserNodeListUseField(['accountbookId', 'submitterDepartmentId', 'baoxiaoList', 'totalAmount', 'reimbursementType'])
     },
     // 删除得时候把submitData里面之前存的报销列表数据清空
     clearFileList(submitData) {
@@ -971,6 +970,7 @@ Page({
     getOaParams(fields, billType) {
         let params = ''
         fields.forEach(item => {
+            console.log(this.data.submitData[item], 'params')
             if(this.data.submitData[item] || this.data.submitData[item] === 0) {
                 params += '&' + item + '=' + this.data.submitData[item]
             }else{
@@ -1932,6 +1932,9 @@ Page({
         var verificationAmount = this.setBorrowAmount(this.data.importList) || 0
         // 应付款金额
         var totalAmount = Number(applicationAmount) - Number(verificationAmount)
+        if(totalAmount != this.data.submitData.totalAmount) {
+            this.showOaUserNodeListUseField(['accountbookId', 'submitterDepartmentId', 'baoxiaoList', 'totalAmount', 'reimbursementType'])
+        }
         if (this.data.multiCurrency) {
             this.setData({
                 submitData: {
@@ -1950,7 +1953,6 @@ Page({
                 }
             })
         }
-        this.showOaUserNodeListUseField(['accountbookId', 'submitterDepartmentId', 'baoxiaoList', 'totalAmount', 'reimbursementType'])
     },
     clearBorrowList(submitData) {
         Object.keys(submitData).forEach(key => {
