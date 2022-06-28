@@ -307,6 +307,7 @@ Page({
             this.setData({
                 searchResult:this.data.searchResult
             })
+            console.log(this.data.isFocus, 'isFocus')
         }, 300)
     }
 })

@@ -30,6 +30,13 @@
                         </picker>
                     </view>
                 </view>
+                <view class="form-line"/>
+                <view class="form-row">
+                    <view class="form-row-label picker"><text class="require">*</text>申请人</view>
+                    <view class="form-row-content">
+                        <view class="mock-input">{{realName}}</view>
+                    </view>
+                </view>
             </view>
             <view class="title">供应商信息</view>
             <view class="block-wrapper">

@@ -121,7 +121,6 @@ Page({
     },
     // 把baoxiaoList的数据，重组一下，拼在submitData里提交
     formatSubmitData(array, name) {
-        console.log(array, 'array')
         array.forEach((item, index) => {
             Object.keys(item).forEach(keys => {
                 if (item[keys] instanceof Array && keys.indexOf('billDetail') !== -1 && keys.indexOf('extraMessage') < 0 && keys.indexOf('subjectExtraConf') < 0) {
@@ -214,17 +213,24 @@ Page({
             if(item.indexOf('billDetailList') !== -1) {
                 delete this.data.submitData[item]
             }
+            if(this.data.submitData[item] === null) {
+                delete this.data.submitData[item]
+            }
         })
         // 处理一下提交格式
         this.formatSubmitData(this.data.baoxiaoList, 'billDetailList')
         // 提交的时候删除借款科目
         const tempData = clone(this.data.importList)
         tempData.forEach(item => {
-            console.log(item, this.data.multiCurrency)
             if(this.data.multiCurrency) {
                 delete item.applicationAmount
                 delete item.formatApplicationAmount
             }
+            Object.keys(item).forEach(key => {
+                if(item[key] === null) {
+                    delete item[key]
+                }
+            })
             delete item['subject.fullSubjectName']
             delete item['billApXlsList']
             delete item['billTrueApXlsList']
@@ -1586,7 +1592,7 @@ Page({
             this.setRenderProgress(JSON.parse(data.oaBillUserNodeListJson))
             clearTimeout(t)
             t = null
-        }, 1000)
+        })
     },
     // 辅助核算请求url分类
     getAuxptyUrl(accountbookId, auxptyid) {
@@ -1700,7 +1706,9 @@ Page({
                                 obj.formatApplicationAmount = formatNumber(Number(item.applicationAmount).toFixed(2))
                             }
                             // 发票
-                            obj.invoiceInfoId = item.invoiceInfoId
+                            if(item.invoiceInfoId && item.invoiceInfoId !== 'null') {
+                                obj.invoiceInfoId = item.invoiceInfoId
+                            }
                             // 附加信息
                             if (!!item.extraMessage) {
                                 obj.extraMessage = JSON.parse(item.extraMessage)
@@ -1795,7 +1803,9 @@ Page({
             if(this.data.multiCurrency) {
                 url = app.globalData.url + 'borrowBillController.do?dataGridManager&accountbookId=' + this.data.submitData.accountbookId + '&applicantType=' + this.data.submitData.applicantType + '&applicantId=' + this.data.submitData.applicantId + '&currencyTypeId=' + this.data.submitData.currencyTypeId + '&invoice=' + invoice + '&query=import&field=id,billCode,accountbookId,departDetail.id,departDetail.depart.departName,applicantId,applicantName,subjectId,subject.fullSubjectName,auxpropertyNames,submitter.id,submitter.realName,invoice,contractNumber,currencyTypeId,amount,originAmount,unverifyAmount,originUnverifyAmount,remark,businessDateTime,submitDate'
             }
+            this.addLoading()
             request({
+                hideLoading: this.hideLoading,
                 url,
                 method: 'GET',
                 success: res => {
