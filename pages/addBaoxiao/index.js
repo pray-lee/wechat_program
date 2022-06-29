@@ -970,11 +970,11 @@ Page({
     getOaParams(fields, billType) {
         let params = ''
         fields.forEach(item => {
-            console.log(this.data.submitData[item], 'params')
             if(this.data.submitData[item] || this.data.submitData[item] === 0) {
                 params += '&' + item + '=' + this.data.submitData[item]
             }else{
-                params += '&applicationAmount=' + this.data.submitData.applicationAmount
+                const applicationAmount = this.data.submitData.applicationAmount ? this.data.submitData.applicationAmount : 0
+                params += '&applicationAmount=' + applicationAmount
             }
         })
         params = '&billType=' + billType + params

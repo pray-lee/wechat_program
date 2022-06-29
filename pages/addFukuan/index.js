@@ -786,7 +786,8 @@ Page({
             if(this.data.submitData[item]) {
                 params += '&' + item + '=' + this.data.submitData[item]
             }else{
-                params += '&applicationAmount=' + this.data.submitData.applicationAmount
+                const applicationAmount = this.data.submitData.applicationAmount ? this.data.submitData.applicationAmount : 0
+                params += '&applicationAmount=' + applicationAmount
             }
         })
         params = '&billType=' + billType + params

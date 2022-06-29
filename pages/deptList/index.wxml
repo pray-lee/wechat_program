@@ -9,16 +9,16 @@
         <block wx:if="{{searchResult && searchResult.length}}">
             <!--      单选多选      -->
             <block wx:if="{{allowMulti}}">
-                <label class="checkbox info-item user-item" wx:for="{{searchResult}}" wx:key="index" key="label-{{index}}">
+                <view class="checkbox info-item user-item" wx:for="{{searchResult}}" wx:key="index" key="label-{{index}}">
                     <checkbox bindtap="searchCheckboxChange" data-index="{{index}}" data-value="{{item.id + '_' + item.name}}" checked="{{item.checked}}"/>
                     <text class="dept-name user-name">{{item.name}}</text>
-                </label>
+                </view>
             </block>
             <block wx:else>
-                <label class="radio info-item user-item" wx:for="{{searchResult}}" wx:key="index" key="label-{{index}}">
+                <view class="radio info-item user-item" wx:for="{{searchResult}}" wx:key="index" key="label-{{index}}">
                     <radio bindtap="searchRadioChange" data-index="{{index}}" checked="{{item.checked}}"/>
                     <text class="dept-name user-name">{{item.name}}</text>
-                </label>
+                </view>
             </block>
         </block>
     </scroll-view>
