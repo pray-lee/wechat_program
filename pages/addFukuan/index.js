@@ -1533,9 +1533,8 @@ Page({
         var verificationAmount = this.setBorrowAmount(this.data.importList) || 0
         // 应付款金额
         var totalAmount = Number(applicationAmount) - Number(verificationAmount)
-        if(totalAmount != this.data.submitData.totalAmount) {
-            this.showOaUserNodeListUseField(['accountbookId', 'submitterDepartmentId', 'fukuanList', 'totalAmount'])
-        }
+        // 记录一下计算之前的totalAmount
+        var oldTotalAmount = this.data.submitData.totalAmount
         this.setData({
             submitData: {
                 ...this.data.submitData,
@@ -1543,6 +1542,9 @@ Page({
                 formatTotalAmount: formatNumber(Number(totalAmount).toFixed(2))
             }
         })
+        if(totalAmount != oldTotalAmount) {
+            this.showOaUserNodeListUseField(['accountbookId', 'submitterDepartmentId', 'fukuanList', 'totalAmount'])
+        }
     },
     clearBorrowList(submitData) {
         Object.keys(submitData).forEach(key => {

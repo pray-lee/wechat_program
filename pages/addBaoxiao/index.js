@@ -27,6 +27,8 @@ Page({
             formatUnverifyAmount: 'formatUnverifyAmount',
             verificationAmount: 'verificationAmount',
             formatVerificationAmount: 'formatVerificationAmount',
+            totalAmount: 'totalAmount',
+            formatTotalAmount: 'formatTotalAmount'
         },
         // =============审批流相关============
         oaModule: null,
@@ -1576,6 +1578,8 @@ Page({
                 originFormatApplicationAmount: formatNumber(Number(data.originApplicationAmount).toFixed(2)),
                 originVerificationAmount: data.originVerificationAmount,
                 originFormatVerificationAmount: formatNumber(Number(data.originVerificationAmount).toFixed(2)),
+                originTotalAmount: data.originTotalAmount,
+                originFormatTotalAmount:formatNumber(Number(data.originTotalAmount).toFixed(2)),
                 exchangeRate: data.exchangeRate,
                 // 报销类型
                 reimbursementType: data.reimbursementType || '',
@@ -1932,9 +1936,8 @@ Page({
         var verificationAmount = this.setBorrowAmount(this.data.importList) || 0
         // 应付款金额
         var totalAmount = Number(applicationAmount) - Number(verificationAmount)
-        if(totalAmount != this.data.submitData.totalAmount) {
-            this.showOaUserNodeListUseField(['accountbookId', 'submitterDepartmentId', 'baoxiaoList', 'totalAmount', 'reimbursementType'])
-        }
+        // 记录一下计算之前的总数
+        var oldTotalAmount = this.data.submitData[this.data.amountField.totalAmount]
         if (this.data.multiCurrency) {
             this.setData({
                 submitData: {
@@ -1952,6 +1955,10 @@ Page({
                     formatTotalAmount: formatNumber(Number(totalAmount).toFixed(2)),
                 }
             })
+        }
+        debugger
+        if(totalAmount != oldTotalAmount) {
+            this.showOaUserNodeListUseField(['accountbookId', 'submitterDepartmentId', 'baoxiaoList', 'totalAmount', 'reimbursementType'])
         }
     },
     clearBorrowList(submitData) {
@@ -2251,7 +2258,9 @@ Page({
                 verificationAmount: multiCurrency ? 'originVerificationAmount' : 'verificationAmount',
                 formatVerificationAmount: multiCurrency ? 'originFormatVerificationAmount' : 'formatVerificationAmount',
                 unverifyAmount: multiCurrency ? 'originUnverifyAmount' : 'unverifyAmount',
-                formatUnverifyAmount: multiCurrency ? 'originFormatUnverifyAmount' : 'formatUnverifyAmount'
+                formatUnverifyAmount: multiCurrency ? 'originFormatUnverifyAmount' : 'formatUnverifyAmount',
+                totalAmount: multiCurrency ? 'originTotalAmount' : 'totalAmount',
+                formatTotalAmount: multiCurrency ? 'originFormatTotalAmount' : 'formatTotalAmount',
             }
         })
         if (multiCurrency) {
