@@ -1956,7 +1956,6 @@ Page({
                 }
             })
         }
-        debugger
         if(totalAmount != oldTotalAmount) {
             this.showOaUserNodeListUseField(['accountbookId', 'submitterDepartmentId', 'baoxiaoList', 'totalAmount', 'reimbursementType'])
         }
