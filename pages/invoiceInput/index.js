@@ -10,6 +10,7 @@ Page({
         fromDetail: false,
         fromStorage: false,
         fromEditStorage: false,
+        accountbookDisabled: false,
         isPhoneXSeries: false,
         scrollTop: 0,
         type: 'zzs',
@@ -124,7 +125,11 @@ Page({
                     if(res.data.obj.length) {
                         if(res.data.obj[0].invoiceFileEntityList.length) {
                             this.setData({
-                                imgUrl: res.data.obj[0].invoiceFileEntityList[0].uri
+                                imgUrl: res.data.obj[0].invoiceFileEntityList[0].uri,
+                                submitData: {
+                                    ...this.data.submitData,
+                                    invoiceDetailEntityList: res.data.obj[0].invoiceDetailEntityList
+                                }
                             })
                         }
                     }
@@ -319,44 +324,53 @@ Page({
         this.addLoading()
         request({
             hideLoading: this.hideLoading,
-            url: app.globalData.url + 'accountbookController.do?getAccountbooksJsonByUserId&corpId=' + app.globalData.corpId,
+            url: app.globalData.url + 'invoiceConfigController.do?getAccountbookListByUserId&userId=' + app.globalData.applicantId,
             method: 'GET',
             success: res => {
-                if(res.data.success && res.data.obj.length) {
-                    var accountbookIndex = 0
-                    var accountbookId = res.data.obj[0].id
-                    var accountbookIdStorage = wx.getStorageSync('accountbookId')
-                    if(accountbookIdStorage) {
-                        res.data.obj.forEach((item, index) => {
-                            if (item.id === accountbookIdStorage) {
-                                accountbookIndex = index
-                                accountbookId = accountbookIdStorage
-                            }
-                        })
-                        wx.removeStorage({
-                            key: 'accountbookId',
-                            success: () => {}
-                        })
-                    }
-                    this.setData({
-                        accountbookList: res.data.obj,
-                        accountbookIndex: accountbookIndex,
-                        submitData: {
-                            ...this.data.submitData,
-                            accountbookId
-                        }
-                    })
-                }else{
-                    wx.showModal({
-                        content: res.data.msg,
-                        confirmText: '好的',
-                        showCancel: false,
-                        success: res => {
-                            wx.reLaunch({
-                                url: '/pages/index/index'
+                if(res.status === 200) {
+                    if(res.data && res.data.length) {
+                        var accountbookIndex = 0
+                        var accountbookId = res.data[0].id
+                        var accountbookIdStorage = wx.getStorageSync('accountbookId')
+                        if(accountbookIdStorage) {
+                            this.setData({
+                                accountbookDisabled: true
+                            })
+                            res.data.forEach((item, index) => {
+                                if (item.id === accountbookIdStorage) {
+                                    accountbookIndex = index
+                                    accountbookId = accountbookIdStorage
+                                }
+                            })
+                            wx.removeStorage({
+                                key: 'accountbookId',
+                                success: () => {}
+                            })
+                        }else{
+                            this.setData({
+                                accountbookDisabled: false
                             })
                         }
-                    })
+                        this.setData({
+                            accountbookList: res.data,
+                            accountbookIndex: accountbookIndex,
+                            submitData: {
+                                ...this.data.submitData,
+                                accountbookId
+                            }
+                        })
+                    }else{
+                        wx.showModal({
+                            content: res.data.msg,
+                            confirmText: '好的',
+                            showCancel: false,
+                            success: res => {
+                                wx.reLaunch({
+                                    url: '/pages/index/index'
+                                })
+                            }
+                        })
+                    }
                 }
             },
         })

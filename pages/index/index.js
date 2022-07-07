@@ -29,6 +29,7 @@ Page({
         })
     },
     gotoInvoiceList() {
+        wx.removeStorageSync('accountbookId')
         wx.navigateTo({
             url: '/pages/invoiceList/index'
         })

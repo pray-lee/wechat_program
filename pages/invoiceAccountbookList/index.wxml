@@ -1,0 +1,13 @@
+<view class="info-wrapper">
+    <view class="search-wrapper">
+        <view class="search-content">
+            <input type="text" placeholder="搜索" bindinput="onInput" value="{{inputValue}}" />
+            <image src="../../images/delete.png" mode="scaleToFill" class="input-delete-icon" bindtap="clearWord"></image>
+        </view>
+    </view>
+    <scroll-view scroll-y class="scroll-info-list {{isPhoneXSeries ? 'iphoneX' : ''}}">
+        <view class="info-item" wx:for="{{searchResult}}" wx:key="index" data-id="{{item.id}}" bindtap="goBack">
+            {{item.accountbookName}}
+        </view>
+    </scroll-view>
+</view>

@@ -77,6 +77,7 @@ Page({
         })
         this.getSelectOcrListFromStorage()
         this.getAddDetailFromStorage()
+        this.getInvoiceAccountbookIdFromStorage()
     },
     onHide() {
 
@@ -279,15 +280,54 @@ Page({
         })
     },
     handleUpload() {
-        wx.chooseImage({
-            count: 9,
+        this.goToInvoiceAccountbookList()
+    },
+    goToInvoiceAccountbookList() {
+        this.addLoading()
+        request({
+            hideLoading: this.hideLoading,
+            url: app.globalData.url + 'invoiceConfigController.do?getAccountbookListByUserId&userId=' + app.globalData.applicantId,
+            method: 'GET',
             success: res => {
-                this.uploadFile(res.tempFilePaths)
-            },
-            fail: res => {
-                console.log('用户取消操作')
+                if (res.status === 200) {
+                    if(res.data && res.data.length) {
+                        wx.setStorage({
+                            key: 'invoiceAccountbookList',
+                            data: res.data,
+                            success: res => {
+                                wx.navigateTo({
+                                    url: "/pages/invoiceAccountbookList/index"
+                                })
+                            }
+                        })
+                    }else{
+                        wx.showModal({
+                            content: '当前用户没有开通发票模块',
+                            confirmText: '好的',
+                            showCancel: false,
+                        })
+                    }
+                }
             }
         })
+    },
+    getInvoiceAccountbookIdFromStorage() {
+        const accountbookId = wx.getStorageSync('invoiceAccountbookId')
+        if(accountbookId) {
+            wx.chooseImage({
+                count: 9,
+                success: res => {
+                    this.uploadFile(res.tempFilePaths, accountbookId)
+                },
+                fail: res => {
+                    console.log('用户取消操作')
+                }
+            })
+            wx.removeStorage({
+                key: 'invoiceAccountbookId',
+                success: () => {}
+            })
+        }
     },
     invoiceInput() {
         wx.navigateTo({
@@ -298,7 +338,7 @@ Page({
      *
      * @param 上传图片字符串列表
      */
-    uploadFile(array) {
+    uploadFile(array, accountbookId) {
         if (array.length) {
             let promiseList = []
             array.forEach(item => {
@@ -309,7 +349,7 @@ Page({
                         name: item,
                         filePath: item,
                         formData: {
-                            accountbookId: 'accountbook-invoice',
+                            accountbookId,
                             submitterDepartmentId: 'department-invoice'
                         },
                         success: res => {
@@ -340,7 +380,7 @@ Page({
                         size: item.size
                     })
                 })
-                this.doOCR(billFilesList)
+                this.doOCR(billFilesList, accountbookId)
             }).catch(error => {
                 wx.showModal({
                     content: '上传失败',
@@ -353,14 +393,14 @@ Page({
             })
         }
     },
-    doOCR(fileList) {
+    doOCR(fileList, accountbookId) {
         this.addLoading()
         request({
             hideLoading: this.hideLoading,
             url: app.globalData.url + 'invoiceInfoController.do?doOCR',
             data: {
                 fileList: JSON.stringify(fileList),
-                // accountbookId: '0333'
+                accountbookId
             },
             method: 'POST',
             success: res => {
@@ -374,7 +414,7 @@ Page({
                                 data:res.data.obj,
                                 success: () => {
                                     wx.navigateTo({
-                                        url: '/pages/invoiceSelect/index'
+                                        url: '/pages/invoiceSelect/index?invoiceAccountbookId' + accountbookId
                                     })
                                 }
                             })

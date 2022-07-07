@@ -244,3 +244,16 @@ input::-webkit-input-placeholder{
     border-color: grey;
     color: grey;
 }
+.budge-wrapper{
+    display:flex;
+    align-items: center
+}
+.budge{
+    width: 60rpx;
+    height: 60rpx;
+    background:url(../../images/budget.png) center right no-repeat;
+    background-size: 60rpx 60rpx;
+}
+.subject-name{
+    width: 80%
+}

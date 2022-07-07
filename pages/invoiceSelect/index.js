@@ -10,6 +10,7 @@ Page({
         list: [],
         accountbookIndex: 0,
         accountbookList: [],
+        accountbookDisabled: false,
     },
     //手指触摸动作开始 记录起点X坐标
     touchstart: function (e) {
@@ -64,49 +65,66 @@ Page({
     onShow() {
         this.getEditInvoiceDetailFromStorage()
     },
-    onLoad() {
+    onLoad(query) {
         this.setData({
             isPhoneXSeries: app.globalData.isPhoneXSeries,
         })
-        this.getAccountbookList()
+        this.getAccountbookList(query.invoiceAccountbookId)
         this.getOcrListFromStorage()
     },
     onHide() {},
-    getAccountbookList() {
+    getAccountbookList(invoiceAccountbookId) {
         this.addLoading()
         request({
             hideLoading: this.hideLoading,
-            url: app.globalData.url + 'accountbookController.do?getAccountbooksJsonByUserId&corpId=' + app.globalData.corpId,
+            url: app.globalData.url + 'invoiceConfigController.do?getAccountbookListByUserId&userId=' + app.globalData.applicantId,
             method: 'GET',
             success: res => {
-                if(res.data.success && res.data.obj.length) {
-                    var accountbookIndex = 0
-                    const accountbookId = wx.getStorageSync('accountbookId')
-                    if(accountbookId) {
-                        res.data.obj.forEach((item, index) => {
-                            if (item.id === accountbookId) {
-                                accountbookIndex = index
-                            }
-                        })
-                        // dd.removeStorage({
-                        //     key: 'accountbookId'
-                        // })
-                    }
-                    this.setData({
-                        accountbookList: res.data.obj,
-                        accountbookIndex: accountbookIndex,
-                    })
-                }else{
-                    wx.showModal({
-                        content: res.data.msg,
-                        confirmText: '好的',
-                        showCancel: false,
-                        success: res => {
-                            wx.reLaunch({
-                                url: '/pages/index/index'
+                if(res.status === 200) {
+                    if(res.data && res.data.length) {
+                        var accountbookIndex = 0
+                        var accountbookId = res.data[0].id
+                        const accountbookIdStorage = wx.getStorageSync('accountbookId')
+                        if(accountbookIdStorage) {
+                            this.setData({
+                                accountbookDisabled: true
+                            })
+                            res.data.forEach((item, index) => {
+                                if (item.id === accountbookIdStorage) {
+                                    accountbookIndex = index
+                                    accountbookId = accountbookIdStorage
+                                }
+                            })
+                            wx.removeStorage({
+                                key: 'accountbookId'
+                            })
+                        }else{
+                            res.data.forEach((item, index) => {
+                                if (item.id === invoiceAccountbookId) {
+                                    accountbookIndex = index
+                                    accountbookId = invoiceAccountbookId
+                                }
+                            })
+                            this.setData({
+                                accountbookDisabled: false
                             })
                         }
-                    })
+                        this.setData({
+                            accountbookList: res.data,
+                            accountbookIndex: accountbookIndex,
+                        })
+                    }else{
+                        wx.showModal({
+                            content: res.data.msg,
+                            confirmText: '好的',
+                            showCancel: false,
+                            success: res => {
+                                wx.reLaunch({
+                                    url: '/pages/index/index'
+                                })
+                            }
+                        })
+                    }
                 }
             },
         })

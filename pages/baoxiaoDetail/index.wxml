@@ -4,11 +4,14 @@
 <!--            <text>报销详情</text>-->
 <!--        </view>-->
         <view class="block-wrapper">
-             <view class="form-row" bindtap="goSubjectPage">
+             <view class="form-row">
                 <view class="form-row-label"><text class="require">*</text>费用类型：</view>
-                <view class="form-row-content">
+                <view class="form-row-content budge-wrapper">
+                    <view class="subject-name" bindtap="goSubjectPage">
                         <view wx:if="{{baoxiaoDetail.subjectId}}" class="mock-input">{{baoxiaoDetail.subjectName}}</view>
                         <view wx:else class="mock-input nodata">请选择费用类型</view>
+                    </view>
+                    <view class="form-row-content budge" bindtap="getBudgetDetail"></view>
                 </view>
             </view>
             <view class="form-line"/>
