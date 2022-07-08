@@ -1,4 +1,5 @@
 import moment from "moment";
+import '../../util/handleLodash'
 import {cloneDeep as clone} from 'lodash'
 import {getErrorMessage, submitSuccess, formatNumber, validFn, request} from "../../util/getErrorMessage";
 

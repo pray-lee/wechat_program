@@ -413,7 +413,7 @@ Page({
                                 data:res.data.obj,
                                 success: () => {
                                     wx.navigateTo({
-                                        url: '/pages/invoiceSelect/index?invoiceAccountbookId' + accountbookId
+                                        url: '/pages/invoiceSelect/index?invoiceAccountbookId=' + accountbookId
                                     })
                                 }
                             })

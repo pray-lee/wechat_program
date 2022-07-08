@@ -268,7 +268,7 @@ Page({
             url: app.globalData.url + 'invoiceConfigController.do?getInvoiceConfigByAccountbook&accountbookId=' + this.data.accountbookId,
             method: 'GET',
             success: res => {
-                if(res.status == 200) {
+                if(res.statusCode == 200) {
                     if(res.data) {
                         this.animation.translateY(0).step()
                         this.setData({

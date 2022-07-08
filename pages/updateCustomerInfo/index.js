@@ -1,4 +1,5 @@
 const app = getApp()
+import '../../util/handleLodash'
 import {cloneDeep as clone} from 'lodash'
 import {request, validFn} from '../../util/getErrorMessage'
 Page({

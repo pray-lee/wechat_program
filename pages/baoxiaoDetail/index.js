@@ -123,7 +123,8 @@ Page({
             url: app.globalData.url + 'invoiceConfigController.do?getInvoiceConfigByAccountbook&accountbookId=' + this.data.baoxiaoDetail.accountbookId,
             method: 'GET',
             success: res => {
-                if(res.status == 200) {
+                if(res.statusCode == 200) {
+                    console.log(res, 'res')
                     if(res.data) {
                         this.animation.translateY(0).step()
                         this.setData({
@@ -139,11 +140,6 @@ Page({
                     }
                 }
             }
-        })
-        this.animation.translateY(0).step()
-        this.setData({
-            animationInfo: this.animation.export(),
-            maskHidden: false
         })
     },
     onAddHide() {
