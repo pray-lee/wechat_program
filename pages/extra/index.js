@@ -24,7 +24,6 @@ Page({
                 this.setData({
                     subjectExtraConf: res.data,
                 })
-                console.log(this.data.subjectExtraConf, 'extraConfg')
                 wx.getStorage({
                     key: 'extraBaoxiaoDetail',
                     success: res1 => {

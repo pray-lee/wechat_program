@@ -49,7 +49,6 @@ Page({
         }
     },
     getOaList() {
-        console.log(app.globalData.loadingCount, 'count-loading.....')
         const url = this.data.undo ?
             app.globalData.url + 'oaTaskController.do?todoDatagrid&field=id,applicationAmount,accountbookId,billType,billCode,taskName,billId,createDate,processInstanceId,remark,status'
             :

@@ -76,7 +76,6 @@ Page({
         })
     },
     selectExpress(e) {
-        console.log(e)
         const id = e.currentTarget.dataset.id
         const expressInfo = this.data.list.filter(item => item.id === id)[0]
         wx.setStorage({
@@ -134,7 +133,6 @@ Page({
                 })
             }
         })
-        console.log()
     },
     delete(e) {
         const id = e.currentTarget.dataset.id
@@ -155,7 +153,6 @@ Page({
                         url,
                         method: 'GET',
                         success: res => {
-                            console.log(res)
                             if (res.data.success) {
                                 // 删除成功
                                 this.onLoad()

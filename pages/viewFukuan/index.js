@@ -86,13 +86,11 @@ Page({
                                 }
                             },
                             fail: res => {
-                                console.log(res)
                             }
                         })
                     },
                     fail: res => {
                         this.hideLoading()
-                        console.log(res ,'获取授权码失败')
                         wx.showModal({
                             content: '当前组织没有该小程序',
                             confirmText: '好的',
@@ -139,7 +137,6 @@ Page({
             success: res => {
                 if(res.data.obj) {
                     const result = clone(res.data.obj)
-                    console.log(result, 'result')
                     result.applicationAmount = formatNumber(Number(result.applicationAmount).toFixed(2))
                     result.verificationAmount = formatNumber(Number(result.verificationAmount).toFixed(2))
                     result.totalAmount = formatNumber(Number(result.totalAmount).toFixed(2))
@@ -174,7 +171,6 @@ Page({
                     this.setData({
                         historyOaList: historyOaList.map(item => ({...item, showUserList: false, assigneeNameSlice: item.assigneeName.slice(-2)}))
                     })
-                    console.log(this.data.historyOaList)
                 }
             }
         })
@@ -203,7 +199,6 @@ Page({
                 if(res.data) {
                     this.judgeShowOaOperate(res.data)
                     const caikaProcess = this.handleData(res.data)
-                    console.log(caikaProcess, 'caikaProcess')
                     this.setData({
                         // caikaProcess: caikaProcess.map(item => ({...item, showUserList: false}))
                         caikaProcess: caikaProcess.map(item => {

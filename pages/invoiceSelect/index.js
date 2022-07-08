@@ -80,7 +80,7 @@ Page({
             url: app.globalData.url + 'invoiceConfigController.do?getAccountbookListByUserId&userId=' + app.globalData.applicantId,
             method: 'GET',
             success: res => {
-                if(res.status === 200) {
+                if(res.statusCode === 200) {
                     if(res.data && res.data.length) {
                         var accountbookIndex = 0
                         var accountbookId = res.data[0].id

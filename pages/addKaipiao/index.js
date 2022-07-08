@@ -51,7 +51,6 @@ Page({
         this.data.kaipiaoList.forEach(item => {
             amount += Number(item.applicationAmount)
         })
-        console.log(amount, 'amount总价')
         this.setData({
             submitData: {
                 ...this.data.submitData,
@@ -113,9 +112,6 @@ Page({
         this.formatSubmitData(this.data.submitData.billFilesObj, 'billFiles')
         // 处理快递信息
         this.formatExpress()
-        console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-        console.log(this.data)
-        console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
         this.addLoading()
         var url = ''
         if (this.data.type === 'add') {
@@ -130,7 +126,6 @@ Page({
                 delete submitData[i]
             }
         }
-        console.log(submitData, 'submitData')
         request({
             hideLoading: this.hideLoading,
             url,
@@ -149,7 +144,6 @@ Page({
                 if (res.data && typeof res.data == 'string') {
                     getErrorMessage(res.data)
                 }
-                console.log(res, 'fail')
             }
         })
     },
@@ -496,8 +490,6 @@ Page({
                 }
             },
             fail: err => {
-                console.log(app.globalData.url + 'receivableBillController.do?datagrid&customerDetailId=' + this.data.customerDetail.id + '&taxRate=' + this.data.taxRateArr[this.data.taxRateIndex] + '&invoiceType=' + this.data.submitData.invoiceType + '&query=import&field=id,receivablebillCode,accountbookId,accountbookName,submitterId,submitterName,submitterDepartmentId,departName,customerDetailId,customerName,invoiceType,subjectId,trueSubjectId,subjectEntity.fullSubjectName,trueSubjectEntity.fullSubjectName,auxpropertyNames,taxRate,amount,unverifyAmount,submitDateTime,businessDateTime,remark,')
-                console.log('failed', err)
             }
         })
     },
@@ -505,7 +497,6 @@ Page({
     },
     getKaipiaoDetailFromStorage() {
         const index = wx.getStorageSync('index')
-        console.log(index, 'index')
         this.setData({
             submitData: {
                 ...this.data.submitData,
@@ -515,7 +506,6 @@ Page({
             key: 'newKaipiaoDetailArr',
             success: res => {
                 const kaipiaoDetail = res.data
-                console.log(kaipiaoDetail, 'kaipiaoDetail..........')
                 if (!!kaipiaoDetail) {
                     let kaipiaoList = clone(this.data.kaipiaoList)
                     if (!!index || index === 0) {
@@ -523,7 +513,6 @@ Page({
                         wx.removeStorage({
                             key: 'index',
                             success: res => {
-                                console.log('清除index成功')
                             }
                         })
                         kaipiaoList.splice(index, 0, kaipiaoDetail[0])
@@ -548,7 +537,6 @@ Page({
                     wx.removeStorage({
                         key: 'newKaipiaoDetailArr',
                         success: res => {
-                            console.log('清除newkaipiaoDetailArr成功...')
                         }
                     })
                 }
@@ -570,7 +558,6 @@ Page({
     },
     getImportYingshouList() {
         const importList = wx.getStorageSync('importCommonList')
-        console.log(importList, 'importList')
         if (!!importList && importList.length) {
             importList.forEach(item => {
                 item.subjectName = item.subjectName.indexOf('_') != -1 ? item.subjectName.split('_')[item.subjectName.split('_').length - 1]  : item.subjectName
@@ -653,7 +640,6 @@ Page({
                 this.uploadFile(res.tempFilePaths)
             },
             fail: res => {
-                console.log('用户取消操作')
             }
         })
     },
@@ -662,7 +648,6 @@ Page({
      * @param 上传图片字符串列表
      */
     uploadFile(array) {
-        console.log(array, 'array')
         if (array.length) {
             let promiseList = []
             array.forEach(item => {
@@ -678,7 +663,6 @@ Page({
                         },
                         success: res => {
                             const result = JSON.parse(res.data)
-                            console.log(result)
                             if (result.obj && result.obj.length) {
                                 const file = result.obj[0]
                                 resolve(file)
@@ -708,13 +692,11 @@ Page({
                     }
                 })
             }).catch(error => {
-                console.log(error, 'catch')
                 wx.showModal({
                     content: '上传失败',
                     confirmText: '好的',
                     showCancel: false,
                     success: res => {
-                        console.log(res, '上传失败')
                     }
                 })
             })
@@ -865,7 +847,6 @@ Page({
                         key: 'subjectList',
                         data: arr,
                         success: res => {
-                            console.log('写入科目成功....')
                         }
                     })
                     this.setData({

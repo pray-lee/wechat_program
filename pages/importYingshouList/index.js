@@ -24,7 +24,6 @@ Page({
     },
     onShow() {
         let tempImportList = wx.getStorageSync('tempImportList')
-        console.log(tempImportList, 'tempImportList')
         // 每一项加一个checked属性
         tempImportList.forEach(item => {
             item.checked = false
@@ -131,7 +130,6 @@ Page({
     },
     searchResultUseTime(startTime, endTime) {
         startTime = startTime.replace(/\-/g, "/")
-        console.log(startTime, 'startTime')
         startTime = new Date(startTime).getTime()
         endTime = endTime.replace(/\-/g, "/")
         endTime = new Date(endTime).getTime()
@@ -158,7 +156,6 @@ Page({
             const str = (item['subjectEntity.fullSubjectName'] || item['subject.fullSubjectName']) + (item.remark || '无')
             return str.indexOf(text) != -1
         })
-        console.log(filterList)
         this.setData({
             filterList,
             isAllSelect: false

@@ -93,13 +93,11 @@ Page({
                                 }
                             },
                             fail: res => {
-                                console.log(res)
                             }
                         })
                     },
                     fail: res => {
                         this.hideLoading()
-                        console.log(res ,'获取授权码失败')
                         wx.showModal({
                             content: '当前组织没有该小程序',
                             confirmText: '好的',
@@ -145,7 +143,6 @@ Page({
             method: 'GET',
             success: res => {
                 if (res.data.obj) {
-                    console.log(res.data.obj, '..........................')
                     const result = clone(res.data.obj)
                     // 报销类型
                     this.getReimbursementName(result.reimbursementType)
@@ -171,7 +168,6 @@ Page({
                     this.setData({
                         historyOaList: historyOaList.map(item => ({...item, showUserList: false, assigneeNameSlice: item.assigneeName.slice(-2)}))
                     })
-                    console.log(this.data.historyOaList)
                 }
             }
         })
@@ -200,11 +196,9 @@ Page({
                 if(res.data) {
                     this.judgeShowOaOperate(res.data)
                     const caikaProcess = this.handleData(res.data)
-                    console.log(caikaProcess, 'caikaProcess')
                     this.setData({
                         // caikaProcess: caikaProcess.map(item => ({...item, showUserList: false}))
                         caikaProcess: caikaProcess.map(item => {
-                            console.log(item ,' item')
                             if(!item.children) {
                                 return {
                                     ...item,
@@ -418,7 +412,6 @@ Page({
             url: app.globalData.url + 'weixinController.do?getProcessinstanceJson&billType=9&billId=' + billId + '&accountbookId=' + accountbookId,
             method: 'GET',
             success: res => {
-                console.log(res, '审批流')
                 if(res.data && res.data.length && typeof res.data !== 'string') {
                     const { operationRecords, ccUserids } = res.data[0]
 
@@ -467,7 +460,6 @@ Page({
         const index = e.currentTarget.dataset.index
         const tempData = clone(this.data.result.billDetailList[index])
         tempData.taxpayerType = this.data.result.accountbook.taxpayerType
-        console.log(tempData, 'viewBaoxiao')
         wx.setStorage({
             key: 'baoxiaoDetail',
             data: tempData,

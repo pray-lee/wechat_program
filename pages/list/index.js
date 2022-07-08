@@ -126,7 +126,6 @@ Page({
                 isComplete: false,
             })
         }
-        console.log(this.data, '/////////')
     },
     getListByListStatus() {
         // 已完成，未完成的单据
@@ -524,9 +523,7 @@ Page({
         })
     },
     deleteBill(e) {
-        console.log(this.data, 'before')
         const {id, type, status} = e.currentTarget.dataset
-        console.log(status, 'deleteBill')
         let url = ''
         switch (type) {
             case 'J':
@@ -583,16 +580,13 @@ Page({
         this.handleFilter('')
     },
     onChangeEnd(e) {
-        console.log(e)
         this.setData({
             x: 300
         })
     },
     onChange(e) {
-        console.log(e)
     },
     bindinput(e) {
-        console.log(this.data.list)
         const text = e.detail.value
         this.handleFilter(text)
         this.setData({

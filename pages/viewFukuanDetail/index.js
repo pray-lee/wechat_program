@@ -26,7 +26,6 @@ Page({
         wx.removeStorage({
             key: 'fukuanDetail',
             success: res => {
-                console.log('删除查看付款详情成功....')
             }
         })
     },
@@ -86,7 +85,6 @@ Page({
                 }
             },
             fail: err => {
-                console.log(err, 'error')
             }
         })
     },

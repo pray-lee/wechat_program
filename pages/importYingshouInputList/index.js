@@ -158,7 +158,6 @@ Page({
         const tempData = clone(this.data.importList)
         tempData.forEach(item => {
             if(item.id === id) {
-                console.log(item)
                 item.applicationAmount = value
                 if(Number(value) > Number(item.unverifyAmount)) {
                     wx.showModal({
@@ -310,7 +309,7 @@ Page({
             url: app.globalData.url + 'invoiceConfigController.do?getAccountbookListByUserId&userId=' + app.globalData.applicantId,
             method: 'GET',
             success: res => {
-                if (res.status === 200) {
+                if (res.statusCode === 200) {
                     if(res.data && res.data.length) {
                         wx.setStorage({
                             key: 'invoiceAccountbookList',

@@ -318,7 +318,6 @@ Page({
                 }
             })
         }
-        console.log(this.data.submitData)
     },
     getAccountbookList() {
         this.addLoading()
@@ -327,7 +326,8 @@ Page({
             url: app.globalData.url + 'invoiceConfigController.do?getAccountbookListByUserId&userId=' + app.globalData.applicantId,
             method: 'GET',
             success: res => {
-                if(res.status === 200) {
+                console.log(res)
+                if(res.statusCode === 200) {
                     if(res.data && res.data.length) {
                         var accountbookIndex = 0
                         var accountbookId = res.data[0].id
@@ -361,12 +361,12 @@ Page({
                         })
                     }else{
                         wx.showModal({
-                            content: res.data.msg,
+                            content: '当前用户没有开通发票模块',
                             confirmText: '好的',
                             showCancel: false,
                             success: res => {
-                                wx.reLaunch({
-                                    url: '/pages/index/index'
+                                wx.navigateBack({
+                                    delta: 1
                                 })
                             }
                         })

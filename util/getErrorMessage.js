@@ -12,7 +12,6 @@ const getErrorMessage = string => {
 }
 
 const submitSuccess = () => {
-    console.log('submit success...')
     wx.reLaunch({
         url: '/pages/index/index'
     })
@@ -55,12 +54,10 @@ const login = (app) => {
                     if (res.data.success) {
 
                     } else {
-                        console.log(res.data.msg)
                         loginFiled(res.data.msg)
                     }
                 },
                 fail: res => {
-                    console.log(res, 'fail')
                     if (res.error == 19) {
                         loginFiled()
                     }
@@ -71,7 +68,6 @@ const login = (app) => {
             })
         },
         fail: res => {
-            console.log(res, 'outer failed')
             loginFiled('当前组织没有该小程序')
         }
     })
@@ -95,7 +91,6 @@ const request = option => {
                 wx.removeStorage({
                     key: 'sessionId',
                     success: res => {
-                        console.log('清除sessionId成功')
                     }
                 })
                 wx.reLaunch({

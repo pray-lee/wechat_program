@@ -46,5 +46,6 @@
     "navigationBarTitleText": "财咖报销",
     "navigationBarTextStyle":"white"
   },
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
 }

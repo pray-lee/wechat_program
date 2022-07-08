@@ -91,7 +91,6 @@ Page({
     },
     renderBottomUserList() {
         const selectedUsers = wx.getStorageSync('selectedUsers') || []
-        console.log(selectedUsers)
         let bottomUserList = []
         if(selectedUsers.length) {
             bottomUserList = selectedUsers[this.getSelectedIndex()]
@@ -122,7 +121,6 @@ Page({
         })
         const checkedValues = this.data.userList.filter(item => !!item.checked)
         const selectedUserList = this.getStorageUserList()
-        console.log(selectedUserList)
         this.handleUserList(selectedUserList, checkedValues)
         this.renderBottomUserList()
     },
@@ -307,7 +305,6 @@ Page({
             this.setData({
                 searchResult:this.data.searchResult
             })
-            console.log(this.data.isFocus, 'isFocus')
         }, 300)
     }
 })

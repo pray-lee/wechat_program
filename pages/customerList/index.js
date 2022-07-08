@@ -22,7 +22,6 @@ Page({
     },
     goBack(e) {
         const id = e.currentTarget.dataset.customerid
-        console.log(e.currentTarget.dataset)
         const obj = this.data.customerList.filter(item => item.customerId === id)[0]
         const newObj = {
             id: obj.id,
@@ -36,7 +35,6 @@ Page({
             taxCode: obj.customer.taxCode
         }
         wx.setStorageSync('customerDetail', newObj)
-        console.log('客户设置成功')
         wx.navigateBack({
             delta: 1
         })

@@ -174,7 +174,6 @@ Page({
                 this.addLoading()
                 wx.qy.login({
                     success: (res) => {
-                        console.log(res, 'res')
                         this.hideLoading()
                         this.addLoading()
                         request({
@@ -236,13 +235,11 @@ Page({
                                 }
                             },
                             fail: res => {
-                                console.log(res)
                             }
                         })
                     },
                     fail: res => {
                         this.hideLoading()
-                        console.log(res ,'获取授权码失败')
                         wx.showModal({
                             content: '当前组织没有该小程序',
                             confirmText: '好的',
@@ -295,7 +292,6 @@ Page({
                     this.setData({
                         list: sortableList
                     })
-                    console.log(this.data.list, 'list')
                 })
             }
         }else{
@@ -325,7 +321,6 @@ Page({
         const type = e.currentTarget.dataset.type
         const id = e.currentTarget.dataset.id
         const status = e.currentTarget.dataset.status
-        console.log(type, id)
         switch(type) {
             case 'J':
                 //借款
@@ -402,11 +397,8 @@ Page({
         // 页面被关闭
     },
     onTitleClick() {
-        // 标题被点击
-        console.log('title clicked')
     },
     onPullDownRefresh() {
-        console.log(1121)
         // 页面被下拉
     },
     onReachBottom() {

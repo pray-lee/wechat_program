@@ -1,3 +1,4 @@
+import '../../util/handleLodash'
 import {cloneDeep as clone} from 'lodash'
 
 var app = getApp()
@@ -215,7 +216,6 @@ Page({
             },
             method: 'GET',
             success: res => {
-                console.log(res, '发票列表........')
                 if(res.data.success) {
                     if(res.data.obj.results.length) {
                         res.data.obj.results.forEach(item => {
@@ -289,7 +289,7 @@ Page({
             url: app.globalData.url + 'invoiceConfigController.do?getAccountbookListByUserId&userId=' + app.globalData.applicantId,
             method: 'GET',
             success: res => {
-                if (res.status === 200) {
+                if (res.statusCode === 200) {
                     if(res.data && res.data.length) {
                         wx.setStorage({
                             key: 'invoiceAccountbookList',
@@ -320,7 +320,6 @@ Page({
                     this.uploadFile(res.tempFilePaths, accountbookId)
                 },
                 fail: res => {
-                    console.log('用户取消操作')
                 }
             })
             wx.removeStorage({
@@ -520,7 +519,6 @@ Page({
                 }
             },
             fail: res => {
-                console.log(res, 'error')
             },
             complete: res => {
                 this.onAddHide()
@@ -581,7 +579,6 @@ Page({
                             }
                         },
                         fail: error => {
-                            console.log(error, 'error')
                             wx.showModal({
                                 content: '删除失败',
                                 confirmText: '好的',

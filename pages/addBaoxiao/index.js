@@ -129,7 +129,6 @@ Page({
                 if (item[keys] instanceof Array && keys.indexOf('billDetail') !== -1 && keys.indexOf('extraMessage') < 0 && keys.indexOf('subjectExtraConf') < 0) {
                     item[keys].forEach((arrItem, arrIndex) => {
                         Object.keys(arrItem).forEach(arrKeys => {
-                            console.log(arrKeys, 'arrKeys')
                             this.setData({
                                 submitData: {
                                     ...this.data.submitData,
@@ -243,9 +242,6 @@ Page({
         })
         this.formatSubmitData(tempData, 'borrowBillList')
         this.formatSubmitData(this.data.submitData.billFilesObj, 'billFiles')
-        console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-        console.log(this.data)
-        console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
         this.addLoading()
         var url = ''
         if (this.data.type === 'add') {
@@ -271,7 +267,6 @@ Page({
                 if (res.data && typeof res.data == 'string') {
                     getErrorMessage(res.data)
                 }
-                console.log(res, 'fail')
             }
         })
     },
@@ -338,7 +333,6 @@ Page({
             this.setData({
                 oaModule: this.findAccountbookOaModule(this.data[listName][value].id, this.data.accountbookList)
             })
-            console.log(this.data[listName][value], 'accountbook...........')
             this.showOaProcessByBillType(this.data[listName][value].id, 9)
             // ============ 审批流 =========
             this.setTotalAmount()
@@ -393,7 +387,6 @@ Page({
         }
     },
     bindblur(e) {
-        console.log(e, 'blur')
         this.setData({
             submitData: {
                 ...this.data.submitData,
@@ -483,7 +476,6 @@ Page({
         // 从缓存里获取借款人id
         const borrowId = wx.getStorageSync('borrowId')
         if (!!borrowId) {
-            console.log('借款人id已经获取', borrowId)
             var borrowIndex = null
             this.data.borrowList.forEach((item, index) => {
                 if (item.id === borrowId) {
@@ -515,9 +507,7 @@ Page({
                             item.formatApplicationAmount = ''
                         })
                     }
-                    console.log('获取选择的借款列表成功', importList)
                     const newImportList = this.caculateImportList(importList)
-                    console.log(newImportList, 'newImportList')
                     this.setData({
                         importList: newImportList
                     })
@@ -529,7 +519,6 @@ Page({
         wx.removeStorage({
             key: 'importList',
             success: res => {
-                console.log('清除imoprtList成功...')
             }
         })
     },
@@ -587,7 +576,6 @@ Page({
                         wx.removeStorage({
                             key: 'index',
                             success: res => {
-                                console.log('清除index成功')
                             }
                         })
                         baoxiaoList.splice(index, 0, baoxiaoDetail[0])
@@ -611,7 +599,6 @@ Page({
         wx.removeStorage({
             key: 'newBaoxiaoDetailArr',
             success: res => {
-                console.log('清除newbaoxiaoDetailArr成功...')
             }
         })
     },
@@ -683,11 +670,9 @@ Page({
         wx.chooseImage({
             count: 9,
             success: res => {
-                console.log(res)
                 this.uploadFile(res.tempFilePaths)
             },
             fail: res => {
-                console.log('用户取消操作')
             }
         })
     },
@@ -727,7 +712,6 @@ Page({
             Promise.all(promiseList).then(res => {
                 // 提交成功的处理逻辑
                 this.hideLoading()
-                console.log(res)
                 var billFilesList = []
                 res.forEach(item => {
                     const obj = {
@@ -745,7 +729,6 @@ Page({
                 })
             }).catch(error => {
                 this.hideLoading()
-                console.log(error, 'catch')
                 wx.showModal({
                     content: '上传失败',
                     confirmText: '好的',
@@ -759,11 +742,9 @@ Page({
     },
     downloadFile(e) {
         var url = e.currentTarget.dataset.url
-        console.log(url)
         wx.downloadFile({
             url,
             success({filePath}) {
-                console.log(filePath)
                 wx.previewImage({
                     urls: [filePath]
                 })
@@ -771,7 +752,6 @@ Page({
         })
     },
     onHide() {
-        console.log('onHide...............')
         // 清理借款人缓存
         wx.removeStorage({
             key: 'borrowId',

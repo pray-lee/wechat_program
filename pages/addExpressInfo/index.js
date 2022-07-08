@@ -8,7 +8,6 @@ Page({
     onLoad(query) {
         if(!!query.type && query.type === 'edit') {
             const expressInfo = wx.getStorageSync('expressInfo')
-            console.log(expressInfo, '.....')
             this.setData({
                 expressInfo,
                 type: query.type
@@ -16,7 +15,6 @@ Page({
         }
     },
     updateInfo() {
-        console.log('修改客户信息')
     },
     bindKeyInput(e) {
         this.setData({
@@ -25,7 +23,6 @@ Page({
                 [e.currentTarget.dataset.type]: e.detail.value
             }
         })
-        console.log(this.data.expressInfo)
     },
     addLoading() {
         if (app.globalData.loadingCount < 1) {
@@ -56,7 +53,6 @@ Page({
         const url = app.globalData.url + (this.data.type === 'edit' ?
             'customerSpecialDeliveryController.do?doUpdate' :
             'customerSpecialDeliveryController.do?doAdd' )
-        console.log(url, 'url')
         request({
             hideLoading: this.hideLoading,
             url: url,

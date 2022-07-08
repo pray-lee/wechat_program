@@ -25,9 +25,7 @@ Page({
         const name = e.currentTarget.dataset.name
         const subjectExtraId = e.currentTarget.dataset.extraid
         const obj = {id, name, subjectExtraId}
-        console.log(obj, 'goBack')
         wx.setStorageSync('subject', obj)
-        console.log('设置科目id成功')
         wx.navigateBack({
             delta: 1
         })

@@ -585,7 +585,7 @@ Page({
             url: app.globalData.url + 'invoiceConfigController.do?getAccountbookListByUserId&userId=' + app.globalData.applicantId,
             method: 'GET',
             success: res => {
-                if (res.status === 200) {
+                if (res.statusCode === 200) {
                     if(res.data && res.data.length) {
                         wx.setStorage({
                             key: 'invoiceAccountbookList',

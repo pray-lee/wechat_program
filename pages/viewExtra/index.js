@@ -29,7 +29,6 @@ Page({
                     extraMessage,
                     applicationAmount: formatNumber(Number(applicationAmount).toFixed(2))
                 }
-                console.log(tempData)
                 this.setData({
                     baoxiaoDetail: tempData,
                 })

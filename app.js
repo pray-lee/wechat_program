@@ -2,7 +2,6 @@ import {login} from "./util/getErrorMessage";
 
 App({
     onLaunch(options) {
-        console.log('running....')
         // 获取设备信息
         const {model, environment} = wx.getSystemInfoSync()
         const isIphoneXSeries = model.indexOf('iPhone X') !== -1

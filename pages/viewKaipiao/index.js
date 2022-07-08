@@ -47,7 +47,6 @@ Page({
             method: 'GET',
             success: res => {
                 if (res.data.obj) {
-                    console.log(res.data.obj, 'obj')
                     const result = clone(res.data.obj)
                     result.businessDateTime = result.businessDateTime.split(' ')[0]
                     result.billDetailList.forEach(item => {
@@ -68,7 +67,6 @@ Page({
     showKaipiaoDetail(e) {
         const index = e.currentTarget.dataset.index
         const tempData = clone(this.data.result.billDetailList[index])
-        console.log(tempData, 'viewKaipiao')
         wx.setStorage({
             key: 'kaipiaoDetail',
             data: tempData,

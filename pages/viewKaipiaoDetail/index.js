@@ -14,14 +14,12 @@ Page({
             key: 'kaipiaoDetail',
             success: (res) => {
                 const kaipiaoDetail = clone(res.data)
-                console.log(kaipiaoDetail, '..........')
                 this.setData({
                     kaipiaoDetail
                 })
                 wx.removeStorage({
                     key: 'kaipiaoDetail',
                     success: res => {
-                        console.log('删除查看开票详情成功....')
                     }
                 })
             }
