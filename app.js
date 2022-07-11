@@ -15,9 +15,9 @@ App({
     },
     globalData: {
         // url: "https://www.caika.net/saas/",
-        url: "https://www.caika.net/ucommune-test/",
-        "corpId": "wwbc109332dfcce85c",
-        "tenantCode": "db_ck_ucommune_test",
+        // url: "https://www.caika.net/ucommune-test/",
+        // "corpId": "wwbc109332dfcce85c",
+        // "tenantCode": "db_ck_ucommune_test",
         // 沃土
         // corpId: 'ww239da829e102ac9d',
         // tenantCode: 'db_ck_wtsw',
@@ -32,6 +32,7 @@ App({
         // corpId: "wwbc109332dfcce85c",
         // tenantCode: 'db_ck_demo'
         // 上方股份
+        // url: "https://www.caika.net/caika/",
         // corpId: "wwd1120d9b6c216447",
         // tenantCode: 'db_ck_medicine'
         // 中杰超润
@@ -41,9 +42,11 @@ App({
         // corpId: "wwb785d3a227d6f3e5",
         // tenantCode: 'db_ck_gyry',
         // 旧城
+        // url: "https://www.caika.net/caika/",
         // corpId: "wwa718a47febbbb5df",
         // tenantCode: "db_ck_education"
         // 大华
+        // url: "https://www.caika.net/caika/",
         // corpId: "wwe16e82bb20ce2d17",
         // tenantCode: "db_ck_kh2021"
     }
