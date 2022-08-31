@@ -1,6 +1,6 @@
 import '../../util/handleLodash'
 import {cloneDeep as clone} from 'lodash'
-import {loginFiled, formatNumber, request} from "../../util/getErrorMessage";
+import {previewFile as preview, loginFiled, formatNumber, request} from "../../util/getErrorMessage";
 
 var app = getApp()
 Page({
@@ -63,10 +63,7 @@ Page({
         }
     },
     previewFile(e) {
-        var url = e.currentTarget.dataset.url
-        wx.previewImage({
-            urls: [url],
-        })
+        preview(e.currentTarget.dataset.url)
     },
     getDetail(query) {
        if(app.globalData.isWxWork) {

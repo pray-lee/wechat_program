@@ -38,7 +38,8 @@
     "pages/invoiceInput/index",
     "pages/invoiceSelect/index",
     "pages/invoiceListSelect/index",
-    "pages/invoiceAccountbookList/index"
+    "pages/invoiceAccountbookList/index",
+    "pages/webview/index"
   ],
   "window": {
     "backgroundTextStyle":"light",

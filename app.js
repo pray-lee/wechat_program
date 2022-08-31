@@ -15,9 +15,9 @@ App({
     },
     globalData: {
         // 云尊府
-        url: "https://www.caika.net/saas/",
-        corpId: 'ww94bc2d53a7db24a6',
-        tenantCode: 'db_ck_yzf',
+        // url: "https://www.caika.net/saas/",
+        // corpId: 'ww94bc2d53a7db24a6',
+        // tenantCode: 'db_ck_yzf',
         // url: "https://www.caika.net/saas/",
         // url: "https://www.caika.net/ucommune-test/",
         // "corpId": "wwbc109332dfcce85c",
@@ -29,12 +29,13 @@ App({
         // corpId: 'wwbc0416559b69864b',
         // tenantCode: 'db_ck_fykj2021'
         // 财咖
-        // url: "https://www.caika.net/caika/",
-        // corpId: "wwc5c826092131ecb7",
-        // tenantCode: 'db_ck_online2021'
+        url: "https://www.caika.net/test/",
+        corpId: "wwc5c826092131ecb7",
+        tenantCode: 'db_ck_online2021'
         // demo
+        // url: 'https://www.caika.net/test/',
         // corpId: "wwbc109332dfcce85c",
-        // tenantCode: 'db_ck_demo'
+        // tenantCode: 'db_ck_oa'
         // 上方股份
         // url: "https://www.caika.net/caika/",
         // corpId: "wwd1120d9b6c216447",

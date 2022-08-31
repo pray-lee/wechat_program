@@ -17,6 +17,19 @@ const submitSuccess = () => {
     })
 }
 
+const previewFile = url => {
+    const imgArr = ['jpg', 'jpeg', 'png', 'gif']
+    if(imgArr.some(item => url.indexOf(item) !== -1)) {
+        wx.previewImage({
+            urls:[url]
+        })
+    }else{
+        wx.navigateTo({
+            url: '/pages/webview/index?url=' + url
+        })
+    }
+}
+
 const loginFiled = (msg = "") => {
     wx.showModal({
         title: '登录失败',
@@ -121,5 +134,6 @@ export {
     formatNumber,
     validFn,
     login,
-    request
+    request,
+    previewFile
 }
