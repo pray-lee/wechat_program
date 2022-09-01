@@ -1,5 +1,5 @@
 import {cloneDeep as clone} from "lodash";
-import {formatNumber, request} from "../../util/getErrorMessage";
+import {previewFile as preview, formatNumber, request} from "../../util/getErrorMessage";
 
 var app = getApp()
 app.globalData.loadingCount = 0
@@ -26,10 +26,7 @@ Page({
         }
     },
     previewFile(e) {
-        var url = e.currentTarget.dataset.url
-        wx.previewImage({
-            urls: [url],
-        })
+        preview(e.currentTarget.dataset.url)
     },
     onLoad(query) {
         // 增加申请人

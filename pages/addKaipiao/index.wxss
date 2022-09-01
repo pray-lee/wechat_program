@@ -104,7 +104,8 @@
     align-items: center;
 }
 .borrow-item .form-row-content, .file-list .form-row-content, .baoxiao-item .form-row-content{
-    text-align:center
+    text-align:center;
+    margin-left: 40rpx;
 }
 .delete-borrow, .delete-file, .delete-baoxiao-item{
     width: 60rpx;

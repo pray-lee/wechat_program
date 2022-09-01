@@ -1,7 +1,7 @@
 import moment from "moment";
 import '../../util/handleLodash'
 import {cloneDeep as clone} from 'lodash'
-import {getErrorMessage, submitSuccess, formatNumber, validFn, request} from "../../util/getErrorMessage";
+import {previewFile as preview, getErrorMessage, submitSuccess, formatNumber, validFn, request} from "../../util/getErrorMessage";
 
 var app = getApp()
 app.globalData.loadingCount = 0
@@ -436,6 +436,7 @@ Page({
         return newImportList
     },
     onShow() {
+        this.getUploadFileListFromStorage()
         this.getSelectedUserListFromStorage()
         // 从缓存获取修改的付款详情
         this.getFukuanDetailFromStorage()
@@ -489,83 +490,12 @@ Page({
         })
     },
     previewFile(e) {
-        var url = e.currentTarget.dataset.url
-        wx.previewImage({
-            urls: [url],
-        })
+        preview(e.currentTarget.dataset.url)
     },
     handleUpload() {
-        wx.chooseImage({
-            count: 9,
-            success: res => {
-                console.log(res)
-                this.uploadFile(res.tempFilePaths)
-            },
-            fail: res => {
-                console.log('用户取消操作')
-            }
+        wx.navigateTo({
+            url: '/pages/webview/index'
         })
-    },
-    /**
-     *
-     * @param 上传图片字符串列表
-     */
-    uploadFile(array) {
-        if (array.length) {
-            this.addLoading()
-            let promiseList = []
-            array.forEach(item => {
-                promiseList.push(new Promise((resolve, reject) => {
-                    wx.uploadFile({
-                        url: app.globalData.url + 'aliyunController/uploadImages.do',
-                        name: item,
-                        filePath: item,
-                        formData: {
-                            accountbookId: this.data.submitData.accountbookId,
-                            submitterDepartmentId: this.data.submitData.submitterDepartmentId
-                        },
-                        success: res => {
-                            const result = JSON.parse(res.data)
-                            if (result.obj && result.obj.length) {
-                                const file = result.obj[0]
-                                resolve(file)
-                            } else {
-                                reject('上传失败')
-                            }
-                        },
-                        fail: res => {
-                            reject(res)
-                        }
-                    })
-                }))
-            })
-            Promise.all(promiseList).then(res => {
-                // 提交成功的处理逻辑
-                this.hideLoading()
-                console.log(res)
-                var billFilesList = []
-                res.forEach(item => {
-                    billFilesList.push(item)
-                })
-                this.setData({
-                    submitData: {
-                        ...this.data.submitData,
-                        billFilesObj: this.data.submitData.billFilesObj.concat(billFilesList)
-                    }
-                })
-            }).catch(error => {
-                this.hideLoading()
-                console.log(error, 'catch')
-                wx.showModal({
-                    content: '上传失败',
-                    confirmText: '好的',
-                    showCancel: false,
-                    success: res => {
-
-                    }
-                })
-            })
-        }
     },
     downloadFile(e) {
         var url = e.currentTarget.dataset.url
@@ -925,6 +855,17 @@ Page({
             nodeIndex,
             selectedUserList:this.data.nodeList[nodeIndex]
         })
+    },
+    getUploadFileListFromStorage() {
+        const uploadFileList = wx.getStorageSync('uploadFileList') || []
+        this.setData({
+            submitData: {
+                ...this.data.submitData,
+                billFilesObj: this.data.submitData.billFilesObj.concat(uploadFileList)
+            }
+        })
+        wx.removeStorage({key: 'uploadFileList'})
+
     },
     getSelectedUserListFromStorage() {
         const selectedUsers = wx.getStorageSync('selectedUsers') || []

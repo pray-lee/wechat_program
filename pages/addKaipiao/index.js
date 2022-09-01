@@ -1,5 +1,5 @@
 import {cloneDeep as clone} from "lodash";
-import {getErrorMessage, submitSuccess, formatNumber, request} from "../../util/getErrorMessage";
+import {previewFile as preview, getErrorMessage, submitSuccess, formatNumber, request} from "../../util/getErrorMessage";
 import moment from "moment";
 
 var app = getApp()
@@ -594,6 +594,7 @@ Page({
         }
     },
     onShow() {
+        this.getUploadFileListFromStorage()
         this.getCustomerDetailFromStorage()
         this.getUpdatedCustomerFromStorage()
         this.getExpressInfoFromStorage()
@@ -634,79 +635,12 @@ Page({
         })
     },
     handleUpload() {
-        wx.chooseImage({
-            count: 9,
-            success: res => {
-                this.uploadFile(res.tempFilePaths)
-            },
-            fail: res => {
-            }
+        wx.navigateTo({
+            url: '/pages/webview/index'
         })
-    },
-    /**
-     *
-     * @param 上传图片字符串列表
-     */
-    uploadFile(array) {
-        if (array.length) {
-            let promiseList = []
-            array.forEach(item => {
-                promiseList.push(new Promise((resolve, reject) => {
-                    this.addLoading()
-                    wx.uploadFile({
-                        url: app.globalData.url + 'aliyunController/uploadImages.do',
-                        name: item,
-                        filePath: item,
-                        formData: {
-                            accountbookId: this.data.submitData.accountbookId,
-                            submitterDepartmentId: this.data.submitData.submitterDepartmentId
-                        },
-                        success: res => {
-                            const result = JSON.parse(res.data)
-                            if (result.obj && result.obj.length) {
-                                const file = result.obj[0]
-                                resolve(file)
-                            } else {
-                                reject('上传失败')
-                            }
-                        },
-                        fail: res => {
-                            reject(res)
-                        },
-                        complete: res => {
-                            this.hideLoading()
-                        }
-                    })
-                }))
-            })
-            Promise.all(promiseList).then(res => {
-                // 提交成功的处理逻辑
-                var billFilesList = []
-                res.forEach(item => {
-                    billFilesList.push(item)
-                })
-                this.setData({
-                    submitData: {
-                        ...this.data.submitData,
-                        billFilesObj: this.data.submitData.billFilesObj.concat(billFilesList)
-                    }
-                })
-            }).catch(error => {
-                wx.showModal({
-                    content: '上传失败',
-                    confirmText: '好的',
-                    showCancel: false,
-                    success: res => {
-                    }
-                })
-            })
-        }
     },
     previewFile(e) {
-        var url = e.currentTarget.dataset.url
-        wx.previewImage({
-            urls: [url],
-        })
+        preview(e.currentTarget.dataset.url)
     },
     onLoad(query) {
         // 增加申请人
@@ -945,6 +879,17 @@ Page({
                 })
             }
         })
+    },
+    getUploadFileListFromStorage() {
+        const uploadFileList = wx.getStorageSync('uploadFileList') || []
+        this.setData({
+            submitData: {
+                ...this.data.submitData,
+                billFilesObj: this.data.submitData.billFilesObj.concat(uploadFileList)
+            }
+        })
+        wx.removeStorage({key: 'uploadFileList'})
+
     },
     // 获取选择的客户信息和客户快递列表
     getCustomerDetailFromStorage() {
