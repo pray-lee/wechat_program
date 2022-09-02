@@ -81,6 +81,9 @@ Page({
                            success: res => {
                                if (res.data.success) {
                                    if(res.data.obj) {
+                                       wx.setStorageSync('sessionId', res.header['Set-Cookie'])
+                                       wx.setStorageSync('realName', res.data.obj.realName)
+                                       wx.setStorageSync('applicantId', res.data.obj.id)
                                        app.globalData.realName = res.data.obj.realName
                                        this.getDetailById(query)
                                    }else{
