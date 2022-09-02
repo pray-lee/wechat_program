@@ -75,7 +75,7 @@ Page({
                         this.addLoading()
                         request({
                             hideLoading: this.hideLoading,
-                            url: app.globalData.url + "loginController.do?loginDingTalk&tenantCode=" + app.globalData.tenantCode + "&code=" + res.code + '&corpId=' + app.globalData.corpId,
+                            url: app.globalData.url + "loginController.do?loginWeiXin&tenantCode=" + app.globalData.tenantCode + "&code=" + res.code + '&corpId=' + app.globalData.corpId,
                             method: 'GET',
                             success: res => {
                                 if (res.data.success) {
