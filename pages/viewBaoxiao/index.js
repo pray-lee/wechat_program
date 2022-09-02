@@ -84,6 +84,7 @@ Page({
                                         wx.setStorageSync('realName', res.data.obj.realName)
                                         wx.setStorageSync('applicantId', res.data.obj.id)
                                         app.globalData.realName = res.data.obj.realName
+                                        app.globalData.applicantId = res.data.obj.id
                                         this.getDetailById(query)
                                     }else{
                                         loginFiled(res.data.msg)
@@ -222,7 +223,7 @@ Page({
     },
     // 通过审批节点判断当前的人，如果是当前人，现实操作蓝，如果不是就不显示
     judgeShowOaOperate(oaList) {
-        const result = oaList.some(item => item.status == 1 && item.assigneeName === app.globalData.realName)
+        const result = oaList.some(item => item.status == 1 && item.assigneeName === (app.globalData.realName || wx.getStorageSync('realName')))
         this.setData({
             judgeShowOperate: result && this.data.submitOaData.id
         })
