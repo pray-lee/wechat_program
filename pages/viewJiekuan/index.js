@@ -63,7 +63,14 @@ Page({
         }
     },
     previewFile(e) {
-        preview(e.currentTarget.dataset.url)
+        const url = e.currentTarget.dataset.url
+        if(app.globalData.platform === 'ios') {
+            preview(url)
+        } else {
+            wx.previewImage({
+                urls: [url],
+            })
+        }
     },
     getDetail(query) {
        if(app.globalData.isWxWork) {

@@ -3,10 +3,12 @@ import {login} from "./util/getErrorMessage";
 App({
     onLaunch(options) {
         // 获取设备信息
-        const {model, environment} = wx.getSystemInfoSync()
+        const {model, environment, platform} = wx.getSystemInfoSync()
         const isIphoneXSeries = model.indexOf('iPhone X') !== -1
         this.globalData.isPhoneXSeries = isIphoneXSeries ? true : false
         this.globalData.isWxWork = environment ? true : false
+        this.globalData.platform = platform
+        console.log(this.globalData.platform)
     },
     onShow(options) {
         // 从后台被 scheme 重新打开

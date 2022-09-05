@@ -661,13 +661,102 @@ Page({
             }
         })
     },
-    previewFile(e) {
-        preview(e.currentTarget.dataset.url)
-    },
     handleUpload() {
-        wx.navigateTo({
-            url: '/pages/webview/index'
-        })
+        if(app.globalData.platform === 'ios') {
+            wx.navigateTo({
+                url: '/pages/webview/index'
+            })
+        }else{
+            wx.chooseImage({
+                count: 9,
+                success: res => {
+                    this.uploadFile(res.tempFilePaths)
+                },
+                fail: res => {
+                    console.log('用户取消操作')
+                }
+            })
+
+        }
+    },
+    /**
+     *
+     * @param 上传图片字符串列表
+     */
+    uploadFile(array) {
+        if (array.length) {
+            let promiseList = []
+            array.forEach(item => {
+                promiseList.push(new Promise((resolve, reject) => {
+                    this.addLoading()
+                    wx.uploadFile({
+                        url: app.globalData.url + 'aliyunController/uploadImages.do',
+                        name: item,
+                        filePath: item,
+                        formData: {
+                            accountbookId: this.data.submitData.accountbookId,
+                            submitterDepartmentId: this.data.submitData.submitterDepartmentId
+                        },
+                        success: res => {
+                            console.log(res.data, '上传')
+                            const result = JSON.parse(res.data)
+                            if (result.obj && result.obj.length) {
+                                const file = result.obj[0]
+                                resolve(file)
+                            } else {
+                                reject('上传失败')
+                            }
+                        },
+                        fail: res => {
+                            console.log(res, '.........')
+                            reject(res)
+                        },
+                        complete: res => {
+                            this.hideLoading()
+                        }
+                    })
+                }))
+            })
+            Promise.all(promiseList).then(res => {
+                // 提交成功的处理逻辑
+                var billFilesList = []
+                res.forEach(item => {
+                    console.log(item, '上传成功的文件')
+                    const obj = {
+                        name: item.name,
+                        uri: item.uri,
+                        size: item.size
+                    }
+                    billFilesList.push(obj)
+                })
+                this.setData({
+                    submitData: {
+                        ...this.data.submitData,
+                        billFilesObj: this.data.submitData.billFilesObj.concat(billFilesList)
+                    }
+                })
+            }).catch(error => {
+                console.log(error, 'catch')
+                wx.showModal({
+                    content: '上传失败',
+                    confirmText: '好的',
+                    showCancel: false,
+                    success: res => {
+                        console.log(res, '上传失败')
+                    }
+                })
+            })
+        }
+    },
+    previewFile(e) {
+        const url = e.currentTarget.dataset.url
+        if(app.globalData.platform === 'ios') {
+            preview(url)
+        } else {
+            wx.previewImage({
+                urls: [url],
+            })
+        }
     },
     downloadFile(e) {
         var url = e.currentTarget.dataset.url

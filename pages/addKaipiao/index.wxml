@@ -1,7 +1,7 @@
 <view class="form-wrapper">
     <form onSubmit="formSubmit" onReset="formReset">
         <scroll-view scroll-y class="form-scroll-wrapper {{isPhoneXSeries ? 'iphoneX' : ''}}">
-            <view class="title">销售方信息</view>
+            <view class="title">销售方信息1111</view>
             <view class="block-wrapper">
                 <view class="form-row">
                     <view class="form-row-label">
