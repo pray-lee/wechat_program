@@ -15,7 +15,7 @@ App({
     },
     globalData: {
         // 云尊府
-        url: "https://www.caika.net/saas/",
+        url: "https://www.caika.net/caika/",
         corpId: 'ww94bc2d53a7db24a6',
         tenantCode: 'db_ck_yzf',
         // url: "https://www.caika.net/saas/",
