@@ -186,11 +186,18 @@ Page({
         } else {
             url = app.globalData.url + 'borrowBillController.do?doUpdate&id=' + this.data.billId
         }
+        // 处理一下 null 变成字符串的问题
+        const submitData = clone(this.data.submitData)
+        for(let i in submitData) {
+            if(submitData[i] == null) {
+                delete submitData[i]
+            }
+        }
         request({
             hideLoading: this.hideLoading,
             url,
             method: 'POST',
-            data: this.data.submitData,
+            data: submitData,
             success: res => {
                 if (res.data && typeof res.data == 'string') {
                     getErrorMessage(res.data)
