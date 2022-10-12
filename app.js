@@ -15,17 +15,19 @@ App({
     },
     globalData: {
         // 云尊府
-        url: "https://www.caika.net/caika/",
-        corpId: 'ww94bc2d53a7db24a6',
-        tenantCode: 'db_ck_yzf',
+        // url: "https://www.caika.net/caika/",
+        // corpId: 'ww94bc2d53a7db24a6',
+        // tenantCode: 'db_ck_yzf',
         // url: "https://www.caika.net/saas/",
         // url: "https://www.caika.net/ucommune-test/",
         // "corpId": "wwbc109332dfcce85c",
         // "tenantCode": "db_ck_ucommune_test",
         // 沃土
+        // url: "https://www.caika.net/saas/",
         // corpId: 'ww239da829e102ac9d',
         // tenantCode: 'db_ck_wtsw',
         // 北京凡影
+        // url: "https://www.caika.net/saas/",
         // corpId: 'wwbc0416559b69864b',
         // tenantCode: 'db_ck_fykj2021'
         // 财咖
@@ -33,6 +35,7 @@ App({
         // corpId: "wwc5c826092131ecb7",
         // tenantCode: 'db_ck_online2021'
         // demo
+        // url: "https://www.caika.net/saas/",
         // corpId: "wwbc109332dfcce85c",
         // tenantCode: 'db_ck_demo'
         // 上方股份
@@ -40,9 +43,11 @@ App({
         // corpId: "wwd1120d9b6c216447",
         // tenantCode: 'db_ck_medicine'
         // 中杰超润
-        // corpId: "ww32d0d93a731b5cba",
-        // tenantCode: 'db_ck_gyry',
+        url: "https://www.caika.net/saas/",
+        corpId: "ww32d0d93a731b5cba",
+        tenantCode: 'db_ck_gyry',
         // 高远瑞研
+        // url: "https://www.caika.net/saas/",
         // corpId: "wwb785d3a227d6f3e5",
         // tenantCode: 'db_ck_gyry',
         // 旧城
