@@ -530,7 +530,7 @@ Page({
         })
     },
     caculateImportList(importList, inputValue, index) {
-        let totalApplicationAmount = Number(this.data.submitData[this.data.amountField.applicationAmount])
+        let totalApplicationAmount = Number(this.data.submitData[this.data.amountField.applicationAmount].toFixed(2))
         const newImportList = importList.map(item => {
             let applicationAmount = NP.minus(totalApplicationAmount, Number(item[this.data.amountField.applicationAmount]))
             if(applicationAmount <= 0 && totalApplicationAmount > 0) {
