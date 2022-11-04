@@ -9,13 +9,23 @@
                 <view class="main-item" wx:for="{{list}}" wx:key="index" bindtap="gotoBillDetail" data-showOaOperate="{{undo ? true : false}}" data-billId="{{item.billId}}" data-type="{{item.billType}}" data-id="{{item.id}}" data-processInstanceId="{{item.processInstanceId}}">
                     <view class="content">
                         <view class="left status error {{item.billClass}}">
-                            <text>{{item.taskName}}</text>
+                            {{item.accountbookName}}
                         </view>
-                        <text class="right approval-time">{{item.createDate}}</text>
+                        <view>
+                            {{item.submitterName}}
+                        </view>
+                        <view>
+                            {{item.billAmount}}
+                        </view>
                     </view>
                     <view class="content content-bottom">
-                        <text class="left">{{item.billName}}</text>
-                        <text class="right">{{item.billCode || item.invoicebillCode}}</text>
+                        <view>
+                            <text class="left">{{item.billName}}</text>
+                            <text class="right">{{item.billCode || item.invoicebillCode}}</text>
+                        </view>
+                        <view>
+                            <text class="right approval-time">{{item.createDate}}</text>
+                        </view>
                     </view>
                 </view>
             </view>
