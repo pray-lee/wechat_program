@@ -14,6 +14,10 @@ App({
         // login(this)
     },
     globalData: {
+        // 即客办公
+        url: "https://www.caika.net/saas/",
+        corpId: 'wwf180a50d5157c473',
+        tenantCode: 'db_ck_jkyl',
         // 云尊府
         // url: "https://www.caika.net/caika/",
         // corpId: 'ww94bc2d53a7db24a6',
@@ -31,9 +35,9 @@ App({
         // corpId: 'wwbc0416559b69864b',
         // tenantCode: 'db_ck_fykj2021'
         // 财咖
-        url: "https://www.caika.net/caika/",
-        corpId: "wwc5c826092131ecb7",
-        tenantCode: 'db_ck_online2021'
+        // url: "https://www.caika.net/caika/",
+        // corpId: "wwc5c826092131ecb7",
+        // tenantCode: 'db_ck_online2021'
         // demo
         // url: "https://www.caika.net/saas/",
         // corpId: "wwbc109332dfcce85c",
