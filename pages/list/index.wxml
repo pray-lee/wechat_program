@@ -95,6 +95,15 @@
                 <view>付款申请单</view>
             </view>
         </view>
+        <view class="title title-jxc">进销存单据</view>
+        <view class="add-page-wrapper">
+            <view class="add-item JCD" bindtap="onShowAddJCD">
+                <view>采购订单</view>
+            </view>
+            <view class="add-item JCR" bindtap="onShowAddJCR">
+                <view>采购入库单</view>
+            </view>
+        </view>
     </view>
     <view class="mask" hidden="{{maskHidden}}" bindtap="onAddHide"></view>
 </view>

@@ -4,7 +4,8 @@
             <view class="title">我的单据</view>
             <view class="completed-bill" bindtap="goList" data-type="complete">查看已完成单据</view>
             <view class="main" wx:if="{{list.length}}">
-                <view class="main-item" wx:for="{{list}}" wx:key="index" bindtap="goToEdit" data-type="{{item.billType}}" data-id="{{item.id}}" data-status="{{item.status}}">
+                <view class="main-item" wx:for="{{list}}" wx:key="index" bindtap="goToEdit"
+                    data-type="{{item.billType}}" data-id="{{item.id}}" data-status="{{item.status}}">
                     <view class="content">
                         <view class="left status error {{item.billClass}}">
                             <text>{{statusObj[item.status] || '审批状态'}}</text>
@@ -24,22 +25,15 @@
             </view>
             <view wx:else>
                 <view class="a-error-view-wrapper error-index">
-                    <image
-                            class="a-error-view-pic"
-                            src="../../images/error-view/empty.png"
-                    />
+                    <image class="a-error-view-pic" src="../../images/error-view/empty.png" />
                     <view class="a-error-view-title">暂无未完成单据</view>
                 </view>
             </view>
         </view>
     </view>
-    <view wx:if="{{oaList.length}}" bindtap="gotoOaList" class="undo-entry">待办事项<text style="color:#00c458;padding-left: 30rpx;">{{oaList.length}}</text></view>
+    <view wx:if="{{oaList.length}}" bindtap="gotoOaList" class="undo-entry">待办事项<text
+            style="color:#00c458;padding-left: 30rpx;">{{oaList.length}}</text></view>
     <view bindtap="gotoInvoiceList" class="undo-entry invoice-list">个人票夹</view>
-    <view class="btn-area-wrapper {{isPhoneXSeries ? 'iphoneX' : ''}}">
-        <view class="add-btn" bindtap="onAddShow">
-            新增单据
-        </view>
-    </view>
     <view class="btn-area-wrapper {{isPhoneXSeries ? 'iphoneX' : ''}}">
         <view class="add-btn" bindtap="onAddShow">
             新增单据
@@ -64,6 +58,15 @@
             <view class="add-item F" bindtap="onShowAddFukuan">
                 <!--            <image class="add-img" mode="scaleToFill" src="../../images/jiekuan-icon.png"></image>-->
                 <view>付款申请单</view>
+            </view>
+        </view>
+        <view class="title title-jxc">进销存单据</view>
+        <view class="add-page-wrapper">
+            <view class="add-item JCD" bindtap="onShowAddJCD">
+                <view>采购订单</view>
+            </view>
+            <view class="add-item JCR" bindtap="onShowAddJCR">
+                <view>采购入库单</view>
             </view>
         </view>
     </view>
