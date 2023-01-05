@@ -13,11 +13,11 @@
 }
 
 .a-error-view-pic-limit {
-    background-image: url('../../images/error-view/limit.png');
+    background-image: url('../../../images/error-view/limit.png');
 }
 
 .a-error-view-pic-empty {
-    background-image: url('../../images/error-view/empty.png');
+    background-image: url('../../../images/error-view/empty.png');
 }
 
 .a-error-view-title {

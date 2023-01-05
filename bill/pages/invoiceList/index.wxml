@@ -1,2 +1,167 @@
-<!--bill/pages/invoiceList/index.wxml-->
-<text>bill/pages/invoiceList/index.wxml</text>
+<view class="app">
+    <view class="all-bill">
+        <view bindtap="toggleHidden">
+            <text class="type-class {{typeClass}}">{{typeText}}</text>
+            <view class="down-arrow-wrapper" animation="{{animationInfoImg}}">
+                <image class="down-arrow" mode="scaleToFill" src="../../../images/down-arrow.png"></image>
+            </view>
+        </view>
+        <view class="select-bill-wrapper" animation="{{animationInfoTopList}}" topHidden="{{topHidden}}">
+            <view class="bill-btn zzs" bindtap="getInvoiceList" data-type="zzs" data-class="zzs">增值税发票</view>
+            <view class="bill-btn de" bindtap="getInvoiceList" data-type="95" data-class="de">定额发票</view>
+            <view class="bill-btn hcp" bindtap="getInvoiceList" data-type="92" data-class="hcp">火车票</view>
+            <view class="bill-btn fjp" bindtap="getInvoiceList" data-type="93" data-class="fjp">飞机行程单</view>
+            <view class="bill-btn czc" bindtap="getInvoiceList" data-type="91" data-class="czc">出租车票</view>
+            <view class="bill-btn ccp" bindtap="getInvoiceList" data-type="88" data-class="ccp">车船票</view>
+            <view class="bill-btn glf" bindtap="getInvoiceList" data-type="98" data-class="glf">过路费</view>
+            <view class="bill-btn tyjdp" bindtap="getInvoiceList" data-type="97" data-class="tyjdp">通用机打发票</view>
+        </view>
+    </view>
+    <view class="search-wrapper">
+        <view class="search-content">
+            <input type="text" placeholder="搜索发票号码/金额/归属公司名称" bindinput="onInput" value="{{inputValue}}" />
+            <image src="../../../images/delete.png" mode="scaleToFill" class="input-delete-icon" bindtap="clearWord"></image>
+        </view>
+    </view>
+    <view class="see-complete-bill" bindtap="getInvoiceListByUseStatus">{{useStatus == 1 ? '查看未使用发票':'查看已使用发票'}}</view>
+    <!-- scroll-view -->
+    <scroll-view scroll-y="{{true}}" class="scroll-view {{isPhoneXSeries ? 'iphoneX' : ''}}" scroll-top="{{scrollTop}}" onScroll="onScroll">
+        <view wx:if="{{filterList.length}}" class="list-wrapper">
+            <view class="list-item" wx:key="{{item.id}}" wx:for="{{filterList}}">
+                <movable-area class='movable-area'>
+                    <movable-view direction="horizontal" class='movable-view'>
+                        <view class="touch-item {{item.isTouchMove ? 'touch-move-active' : ''}}" data-index="{{index}}" bindtouchstart="touchstart" bindtouchmove="touchmove">
+                            <view class="content" data-type="{{item.invoiceType}}" bindtap="goToEdit" data-id="{{item.id}}" data-status="{{item.useStatus}}" style="display:block">
+                                <block wx:if="{{item.invoiceType == '01' || item.invoiceType == '04' || item.invoiceType == '08' || item.invoiceType == '10' || item.invoiceType == '11'}}">
+                                    <view class="content1">
+                                        <view class="status error {{'invoice-type_' + item.invoiceType}}">销方名称：{{item.xhfmc || '无'}}</view>
+                                        <view class="right">{{item.formatJshj || '价税合计：无'}}</view>
+                                    </view>
+                                    <view class="content1">
+                                        <view class="remark">开票日期：{{item.kprq || '无'}}</view>
+                                    </view>
+                                    <view class="bill-number">
+                                        <text class="bill-number-span">增值税发票</text>
+                                    </view>
+                                </block>
+                                <block wx:if="{{item.invoiceType == '95'}}">
+                                    <view class="content1">
+                                        <view class="status error {{'invoice-type_' + item.invoiceType}}">发票代码：{{item.fpdm || '无'}}</view>
+                                        <view class="right">{{item.formatJshj || '金额：无'}}</view>
+                                    </view>
+                                    <view class="content1">
+                                        <view class="remark">发票号码：{{item.fphm || '无'}}</view>
+                                    </view>
+                                    <view class="bill-number">
+                                        <text class="bill-number-span">定额发票</text>
+                                    </view>
+                                </block>
+                                <block wx:if="{{item.invoiceType == '92'}}">
+                                    <view class="content1">
+                                        <view class="status error {{'invoice-type_' + item.invoiceType}}">姓名：{{item.xm || '无'}}</view>
+                                        <view class="right">{{item.formatJshj || '金额：无'}}</view>
+                                    </view>
+                                    <view class="content1">
+                                        <view class="remark">始发站：{{item.cfzd || '无'}}-终点站：{{item.ddzd || '无'}}</view>
+                                    </view>
+                                    <view class="content1">
+                                        <view class="remark">日期：{{item.kprq || '无'}}</view>
+                                    </view>
+                                    <view class="bill-number">
+                                        <text class="bill-number-span">火车票</text>
+                                    </view>
+                                </block>
+                                <block wx:if="{{item.invoiceType == '93'}}">
+                                    <view class="content1">
+                                        <view class="status error {{'invoice-type_' + item.invoiceType}}">姓名：{{item.xm || '无'}}</view>
+                                        <view class="right">{{item.formatJshj || '金额：无'}}</view>
+                                    </view>
+                                    <view class="content1">
+                                        <view class="remark">始发站：{{item.cfzd || '无'}}-终点站：{{item.ddzd || '无'}}</view>
+                                    </view>
+                                    <view class="content1">
+                                        <view class="remark">日期：{{item.kprq || '无'}}</view>
+                                    </view>
+                                    <view class="bill-number">
+                                        <text class="bill-number-span">飞机行程单</text>
+                                    </view>
+                                </block>
+                                <block wx:if="{{item.invoiceType == '91'}}">
+                                    <view class="content1">
+                                        <view class="status error {{'invoice-type_' + item.invoiceType}}">发票代码：{{item.fpdm || '无'}}</view>
+                                        <view class="right">{{item.formatJshj || '金额：无'}}</view>
+                                    </view>
+                                    <view class="content1">
+                                        <view class="remark">发票号码：{{item.fphm || '无'}}</view>
+                                    </view>
+                                    <view class="content1">
+                                        <view class="remark">日期：{{item.kprq || '无'}}</view>
+                                    </view>
+                                    <view class="bill-number">
+                                        <text class="bill-number-span">出租车票</text>
+                                    </view>
+                                </block>
+                                <block wx:if="{{item.invoiceType == '88' || item.invoiceType == '94'}}">
+                                    <view class="content1">
+                                        <view class="status error {{'invoice-type_' + item.invoiceType}}">姓名：{{item.xm || '无'}}</view>
+                                        <view class="right">{{item.formatJshj || '金额：无'}}</view>
+                                    </view>
+                                    <view class="content1">
+                                        <view class="remark">始发站：{{item.cfzd || '无'}}-终点站：{{item.ddzd || '无'}}</view>
+                                    </view>
+                                    <view class="content1">
+                                        <view class="remark">日期：{{item.kprq || '无'}}</view>
+                                    </view>
+                                    <view class="bill-number">
+                                        <text class="bill-number-span">车船票</text>
+                                    </view>
+                                </block>
+                                <block wx:if="{{item.invoiceType == '98'}}">
+                                    <view class="content1">
+                                        <view class="status error {{'invoice-type_' + item.invoiceType}}">入口：{{item.rk || '无'}}-出口：{{item.ck || '无'}}</view>
+                                        <view class="right">{{item.formatJshj || '金额：无'}}</view>
+                                    </view>
+                                    <view class="content1">
+                                        <view class="remark">日期：{{item.kprq || '无'}}</view>
+                                    </view>
+                                    <view class="bill-number">
+                                        <text class="bill-number-span">过路费</text>
+                                    </view>
+                                </block>
+                                <block wx:if="{{item.invoiceType == '97'}}">
+                                    <view class="content1">
+                                        <view class="status error {{'invoice-type_' + item.invoiceType}}">收款方名称：{{item.xhfmc || '无'}}</view>
+                                        <view class="right">{{item.formatJshj || '金额：无'}}</view>
+                                    </view>
+                                    <view class="content1">
+                                        <view class="remark">日期：{{item.kprq || '无'}}</view>
+                                    </view>
+                                    <view class="bill-number">
+                                        <text class="bill-number-span">通用机打发票</text>
+                                    </view>
+                                </block>
+                            </view>
+                            <view class="del" bindtap="deleteInvoice" data-id="{{item.id}}">删除</view>
+                        </view>
+                    </movable-view>
+                </movable-area>
+            </view>
+        </view>
+        <view wx:else class="no-data-bg">
+            <view class="no-data-word">暂无数据</view>
+        </view>
+    </scroll-view>
+    <view class="btn-area-wrapper {{isPhoneXSeries ? 'iphoneX' : ''}}">
+        <view class="add-btn" bindtap="onAddShow">
+            新增发票
+        </view>
+    </view>
+    <!-- 新增单据弹框 -->
+    <view class="add-page " animation="{{animationInfo}}">
+    <view class="invoice-input-type">
+        <view class="invoice-input-btn invoice-file" bindtap="handleUpload">智能拍票</view>
+        <view class="invoice-input-btn invoice-input" bindtap="invoiceInput">手录发票</view>
+    </view>
+    </view>
+    <view class="mask" hidden="{{maskHidden}}" bindtap="onAddHide"></view>
+</view>

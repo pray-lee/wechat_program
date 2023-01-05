@@ -1,2 +1,16 @@
-<!--bill/pages/error/index.wxml-->
-<text>bill/pages/error/index.wxml</text>
+<view class="a-error-view-wrapper">
+            <image
+                    class="a-error-view-pic"
+                    src="../../../images/error-view/error.png"
+            />
+    <view class="a-error-view-title">{{errorData.title}}</view>
+    <view class="a-error-view-result-view">{{errorData.resultView}}</view>
+    <view class="a-error-view-action" wx:if="{{errorData.button}}">
+        <view
+                class="a-error-view-button"
+                hover-class="a-error-view-button-hover"
+                bindtap="{{errorData.onButtbindtap || 'handleErrorButtbindtap'}}"
+                data-href="{{errorData.href}}"
+        >{{errorData.button}}</view>
+    </view>
+</view>

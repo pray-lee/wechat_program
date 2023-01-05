@@ -1,2 +1,139 @@
-<!--bill/pages/viewBaoxiaoDetail/index.wxml-->
-<text>bill/pages/viewBaoxiaoDetail/index.wxml</text>
+<view class="form-wrapper" bindtap="onClick">
+    <scroll-view scroll-y class="form-scroll-wrapper {{isPhoneXSeries ? 'iphoneX' : ''}}">
+        <view class="block-wrapper">
+             <view class="form-row" bindtap="goSubjectPage">
+                <view class="form-row-label"><text class="require">*</text>费用类型：</view>
+                <view class="form-row-content">
+                        <view class="mock-input">{{baoxiaoDetail.subject.fullSubjectName}}</view>
+                </view>
+            </view>
+            <view class="form-line"/>
+            <view class="form-row" wx:if="{{baoxiaoDetail.billDetailApEntityList.length}}">
+                <view class="form-row-label"><text class="require">*</text>核算维度</view>
+                <view class="form-row-content auxpty-wrapper" wx:for="{{baoxiaoDetail.billDetailApEntityList}}" wx:key="index">
+                            <view class="mock-input left ellipsis">{{item.auxptyName}}</view>
+                            <view class="mock-input right ellipsis" wx:if="{{!!item.auxptyDetailName}}">{{item.auxptyDetailName}}</view>
+                            <view class="mock-input nodata right ellipsis" wx:else>无</view>
+                </view>
+            </view>
+            <view class="form-line" wx:if="{{baoxiaoDetail.billDetailApEntityList.length}}"></view>
+            <view class="form-row" wx:if="{{!baoxiaoDetail.extraMessage}}">
+                <view class="form-row-label"><text class="require">*</text>申请报销金额</view>
+<!--                <input class="input" type="digit" placeholder="申请报销金额" value="{{baoxiaoDetail.formatApplicationAmount}}" disabled/>-->
+                <view class="mock-input">{{baoxiaoDetail.formatApplicationAmount}}</view>
+            </view>
+            <view class="form-row" wx:else bindtap="openExtraInfo" data-extraMessage="{{baoxiaoDetail.extraMessage}}" data-extraConf="{{baoxiaoDetail.subjectExtraConf}}">
+                <view class="form-row-label"><text class="require">*</text>申请报销金额</view>
+                <view class="mock-input" wx:if="{{baoxiaoDetail.formatApplicationAmount}}">{{baoxiaoDetail.formatApplicationAmount}}</view>
+                <view class="mock-input nodata" wx:else>无</view>
+                <image class="extra-icon" mode="scaleToFill" src="../../../images/extra-icon.png"></image>
+            </view>
+            <view class="form-line"/>
+            <view class="form-row invoice-wrapper" wx:if="{{baoxiaoDetail.taxpayerType == 2}}">
+                <view class="form-row-label"><text class="require">*</text>是否为专票</view>
+                    <switch disabled bindchange="baoxiaoRadioChange" checked="{{baoxiaoDetail.invoiceType == 2}}" color="#1f76d8"/>
+            </view>
+            <view class="form-line" wx:if="{{baoxiaoDetail.taxpayerType == 2}}"/>
+            <view class="form-row" wx:if="{{baoxiaoDetail.invoiceType == 2}}">
+                <view class="form-row-label"><text class="require">*</text>税率</view>
+                <view class="form-row-content">
+                    <view class="mock-input">{{baoxiaoDetail.taxRate}}</view>
+                </view>
+            </view>
+            <view class="form-line" wx:if="{{baoxiaoDetail.invoiceType == 2}}"/>
+            <view class="form-row">
+                <view class="form-row-label">备注</view>
+                <view class="mock-input">{{baoxiaoDetail.remark}}</view>
+            </view>
+            <view class="form-line"/>
+            <view class="form-row">
+                <view class="form-row-label">发票</view>
+                <view class="invoice-list">
+                    <view class="invoice-item" wx:for="{{ocrList}}" wx:if="{{ocrList.length}}">
+                        <view class="invoice-info" bindtap="goToInvoiceDetail" data-index="{{index}}">
+                            <view class="invoice-left-wrapper">
+                                <block wx:if="{{item.invoiceType == '01' || item.invoiceType == '04' || item.invoiceType == '08' || item.invoiceType == '10' || item.invoiceType == '11'}}">
+                                    <view class="invoice-title">销方名称：{{item.xhfmc || '无'}}</view>
+                                    <view class="invoice-title">开票日期：{{item.kprq || '无'}}</view>
+                                    <view class="invoice-tag {{'invoice-type_' + item.invoiceType}}">增值税发票</view>
+                                </block>
+                                <block wx:if="{{item.invoiceType == '95'}}">
+                                    <view class="invoice-title">发票代码：{{item.fpdm || '无'}}</view>
+                                    <view class="invoice-title">发票号码：{{item.fphm || '无'}}</view>
+                                    <view class="invoice-tag {{'invoice-type_' + item.invoiceType}}">定额发票</view>
+                                </block>
+                                <block wx:if="{{item.invoiceType == '92'}}">
+                                    <view class="invoice-title">始发站：{{item.cfzd || '无'}}-终点站：{{item.ddzd || '无'}}</view>
+                                    <view class="invoice-title">日期：{{item.kprq || '无'}}</view>
+                                    <view class="invoice-tag {{'invoice-type_' + item.invoiceType}}">火车票</view>
+                                </block>
+                                <block wx:if="{{item.invoiceType == '93'}}">
+                                    <view class="invoice-title">始发站：{{item.cfzd || '无'}}-终点站：{{item.ddzd || '无'}}</view>
+                                    <view class="invoice-title">日期：{{item.kprq || '无'}}</view>
+                                    <view class="invoice-tag {{'invoice-type_' + item.invoiceType}}">飞机行程单</view>
+                                </block>
+                                <block wx:if="{{item.invoiceType == '91'}}">
+                                    <view class="invoice-title">发票代码：{{item.fpdm || '无'}}</view>
+                                    <view class="invoice-title">日期：{{item.kprq || '无'}}</view>
+                                    <view class="invoice-tag {{'invoice-type_' + item.invoiceType}}">出租车票</view>
+                                </block>
+                                <block wx:if="{{item.invoiceType == '88' || item.invoiceType == '94'}}">
+                                    <view class="invoice-title">始发站：{{item.cfzd || '无'}}-终点站：{{item.ddzd || '无'}}</view>
+                                    <view class="invoice-title">日期：{{item.kprq || '无'}}</view>
+                                    <view class="invoice-tag {{'invoice-type_' + item.invoiceType}}">车船票</view>
+                                </block>
+                                <block wx:if="{{item.invoiceType == '98'}}">
+                                    <view class="invoice-title">入口：{{item.rk || '无'}}-出口：{{item.ck || '无'}}</view>
+                                    <view class="invoice-title">日期：{{item.kprq || '无'}}</view>
+                                    <view class="invoice-tag {{'invoice-type_' + item.invoiceType}}">过路费</view>
+                                </block>
+                                <block wx:if="{{item.invoiceType == '97'}}">
+                                    <view class="invoice-title">收款方名称：{{item.xhfmc || '无'}}</view>
+                                    <view class="invoice-title">开票日期：{{item.kprq || '无'}}</view>
+                                    <view class="invoice-tag {{'invoice-type_' + item.invoiceType}}">通用机打发票</view>
+                                </block>
+                            </view>
+                            <view class="invoice-right">{{item.formatJshj}}</view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="notice-content" hidden="{{noticeHidden}}">
+            <view>
+                注意：以下票据类型请选择专票及相应的税率
+            </view>
+            <view>
+                1、 增值税专用发票：发票上注明的税率
+            </view>
+            <view>
+                2、 打车电子发票（注意必须是电子票，纸质普票和出租车专用机打发票均不可以）：发票上注明的税率
+            </view>
+            <view>
+                3、 通行费电子普通发票：发票上注明的税率
+            </view>
+            <view>
+                4、 机动车销售统一发票：发票上注明的税率
+            </view>
+            <view>
+                5、 飞机票（不含国际航班）：9%
+            </view>
+            <view>
+                6、 火车票：9%
+            </view>
+            <view>
+                7、 公路、水路等其他客运票（须注明身份信息）：3%
+            </view>
+            <view>
+                8、 过桥、闸通行费纸质发票：5%
+            </view>
+            <view>
+                9、 海关进口增值税专用缴款书：咨询财务人员
+            </view>
+            <view>
+                10、 农产品收购发票或销售发票：咨询财务人员
+            </view>
+        </view>
+
+    </scroll-view>
+</view>

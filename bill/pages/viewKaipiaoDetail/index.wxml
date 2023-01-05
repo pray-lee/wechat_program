@@ -1,2 +1,37 @@
-<!--bill/pages/viewKaipiaoDetail/index.wxml-->
-<text>bill/pages/viewKaipiaoDetail/index.wxml</text>
+<view class="form-wrapper" bindtap="onClick">
+    <scroll-view scroll-y class="form-scroll-wrapper">
+        <view class="block-wrapper">
+             <view class="form-row" bindtap="goSubjectPage">
+                <view class="form-row-label"><text class="require">*</text>销售类型</view>
+                <view class="form-row-content">
+                        <view class="mock-input">{{kaipiaoDetail.subjectEntity.fullSubjectName}}</view>
+                </view>
+            </view>
+            <view class="form-line" wx:if="{{kaipiaoDetail.billDetailApEntityList.length}}"/>
+            <view class="form-row" wx:if="{{kaipiaoDetail.billDetailApEntityList.length}}">
+                <view class="form-row-label"><text class="require">*</text>核算维度</view>
+                <view class="form-row-content auxpty-wrapper" wx:for="{{kaipiaoDetail.billDetailApEntityList}}" bindtap="goAuxptyPage" wx:key="index">
+                            <view class="mock-input left ellipsis">{{item.auxptyName}}</view>
+                            <view class="mock-input right ellipsis" wx:if="{{item.auxptyDetailName}}">{{item.auxptyDetailName}}</view>
+                            <view class="mock-input nodata right ellipsis" wx:else>请选择</view>
+                </view>
+            </view>
+            <view class="form-line"/>
+            <view class="form-row">
+                <view class="form-row-label"><text class="require">*</text>开票内容</view>
+                <view class="form-row-content">
+                    <view class="mock-input" wx:if="{{kaipiaoDetail.remark}}">{{kaipiaoDetail.remark}}</view>
+                    <view wx:else class="mock-input nodata">暂无开票内容</view>
+                </view>
+            </view>
+            <view class="form-line"/>
+            <view class="form-row">
+                <view class="form-row-label"><text class="require">*</text>开票金额（含税）</view>
+                <view class="form-row-content">
+                    <view class="mock-input">{{kaipiaoDetail.formatApplicationAmount}}</view>
+                </view>
+            </view>
+        </view>
+
+    </scroll-view>
+</view>

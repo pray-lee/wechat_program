@@ -1,66 +1,120 @@
-// bill/pages/viewBaoxiaoDetail/index.js
+import {formatNumber, request} from "../../../util/getErrorMessage";
+import '../../../util/handleLodash'
+import {cloneDeep as clone} from 'lodash'
+
+const app = getApp()
 Page({
-
-  /**
-   * 页面的初始数据
-   */
-  data: {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad(options) {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
-  }
+    data: {
+        isPhoneXSeries: false,
+        baoxiaoDetail: null,
+        noticeHidden: true,
+        // 发票
+        ocrList: []
+    },
+    onLoad() {
+        this.setData({
+            isPhoneXSeries: app.globalData.isPhoneXSeries
+        })
+        wx.getStorage({
+            key: 'baoxiaoDetail',
+            success: res => {
+                const baoxiaoDetail = clone(res.data)
+                // ==========发票相关=========
+                if(baoxiaoDetail.invoiceInfoId) {
+                    this.getInvoiceDetailById(baoxiaoDetail.invoiceInfoId)
+                }
+                // ==========================
+                this.setData({
+                    noticeHidden: baoxiaoDetail.invoiceType == 2 ? false : true
+                })
+                this.setData({
+                    baoxiaoDetail
+                })
+                wx.removeStorage({
+                    key: 'baoxiaoDetail',
+                    success: res => {
+                        console.log('删除查看报销详情成功....')
+                    }
+                })
+            }
+        })
+    },
+    openExtraInfo(e) {
+        const extraMessage = this.data.baoxiaoDetail.extraMessage
+        const subjectExtraConf =this.data.baoxiaoDetail.subjectExtraConf
+        console.log(subjectExtraConf, 'subjectExtraConf')
+        const applicationAmount = this.data.baoxiaoDetail.applicationAmount
+        wx.setStorage({
+            key: 'extraObj',
+            data: {
+                extraMessage,
+                subjectExtraConf,
+                applicationAmount
+            },
+            success: res => {
+                wx.navigateTo({
+                    url: '/bill/pages/viewExtra/index'
+                })
+            }
+        })
+    },
+    addLoading() {
+        if (app.globalData.loadingCount < 1) {
+            wx.showLoading({
+                title: '加载中...',
+                mask: true
+            })
+        }
+        app.globalData.loadingCount++
+    },
+    hideLoading() {
+        app.globalData.loadingCount--
+        if (app.globalData.loadingCount <= 0) {
+            wx.hideLoading()
+        }
+    },
+    getInvoiceDetailById(ids) {
+        this.addLoading()
+        request({
+            hideLoading: this.hideLoading(),
+            method: 'GET',
+            url: app.globalData.url + 'invoiceInfoController.do?getInvoiceInfoByIds',
+            data: {
+                ids,
+            },
+            success: res => {
+                if(res.data.success) {
+                    if(res.data.obj.length) {
+                        res.data.obj.forEach(item => {
+                            item.formatJshj = formatNumber(Number(item.jshj).toFixed(2))
+                        })
+                    }
+                    this.setData({
+                        ocrList: res.data.obj
+                    })
+                }else{
+                    wx.showModal({
+                        content: '获取发票详情失败',
+                        confirmText: '好的',
+                        showCancel: false,
+                    })
+                }
+            },
+            fail: err => {
+                console.log(err, 'error')
+            }
+        })
+    },
+    goToInvoiceDetail(e) {
+        const index = e.currentTarget.dataset.index
+        wx.setStorage({
+            key: 'invoiceDetail',
+            data: this.data.ocrList[index],
+            success: res => {
+                wx.navigateTo({
+                    url: '/bill/pages/invoiceInput/index'
+                })
+            }
+        })
+    }
 })

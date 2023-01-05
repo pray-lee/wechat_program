@@ -5,7 +5,6 @@
   "subpackages": [
     {
       "root": "bill",
-      "name": "bill",
       "pages": [
         "pages/list/index",
         "pages/addJiekuan/index",

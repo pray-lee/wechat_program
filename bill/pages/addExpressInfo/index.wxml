@@ -1,2 +1,27 @@
-<!--bill/pages/addExpressInfo/index.wxml-->
-<text>bill/pages/addExpressInfo/index.wxml</text>
+<view class="custom-info">
+    <view class="form-row">
+        <view class="form-row-label"><text class="require">*</text>收件人</view>
+        <view class="form-row-content">
+            <input class="input" value="{{expressInfo.contacts}}" placeholder="请输入收件人" bindinput="bindKeyInput" data-type="contacts"/>
+        </view>
+    </view>
+    <view class="form-line"/>
+    <view class="form-row">
+        <view class="form-row-label"><text class="require">*</text>联系方式</view>
+        <view class="form-row-content">
+            <input class="input" value="{{expressInfo.telephone}}" placeholder="联系方式" bindinput="bindKeyInput" data-type="telephone"/>
+        </view>
+    </view>
+    <view class="form-line"/>
+    <view class="form-row">
+        <view class="form-row-label"><text class="require">*</text>收货地址</view>
+        <view class="form-row-content">
+            <input class="input" value="{{expressInfo.address}}" placeholder="请输入收货地址" bindinput="bindKeyInput" data-type="address"/>
+        </view>
+    </view>
+    <view class="form-line"/>
+    <view class="btn-area {{isPhoneXSeries ? 'iphoneX' : ''}}">
+        <view class="borrow-submit once" bindtap="once" hidden="{{btnHidden}}">仅本次使用</view>
+        <view class="borrow-submit" bindtap="save" hidden="{{btnHidden}}">保存并使用</view>
+    </view>
+</view>

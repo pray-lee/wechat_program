@@ -4,26 +4,32 @@ var __DEFINE__ = function(modId, func, req) { var m = { exports: {}, _tempexport
 var __REQUIRE__ = function(modId, source) { if(!__MODS__[modId]) return require(source); if(!__MODS__[modId].status) { var m = __MODS__[modId].m; m._exports = m._tempexports; var desp = Object.getOwnPropertyDescriptor(m, "exports"); if (desp && desp.configurable) Object.defineProperty(m, "exports", { set: function (val) { if(typeof val === "object" && val !== m._exports) { m._exports.__proto__ = val.__proto__; Object.keys(val).forEach(function (k) { m._exports[k] = val[k]; }); } m._tempexports = val }, get: function () { return m._tempexports; } }); __MODS__[modId].status = 1; __MODS__[modId].func(__MODS__[modId].req, m, m.exports); } return __MODS__[modId].m.exports; };
 var __REQUIRE_WILDCARD__ = function(obj) { if(obj && obj.__esModule) { return obj; } else { var newObj = {}; if(obj != null) { for(var k in obj) { if (Object.prototype.hasOwnProperty.call(obj, k)) newObj[k] = obj[k]; } } newObj.default = obj; return newObj; } };
 var __REQUIRE_DEFAULT__ = function(obj) { return obj && obj.__esModule ? obj.default : obj; };
-__DEFINE__(1654500585757, function(require, module, exports) {
+__DEFINE__(1672891599366, function(require, module, exports) {
 
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
  * @desc 解决浮动运算问题，避免小数点后产生多位数和计算精度损失。
+ *
  * 问题示例：2.3 + 2.4 = 4.699999999999999，1.0 - 0.9 = 0.09999999999999998
  */
 /**
- * 把错误的数据转正
- * strip(0.09999999999999998)=0.1
+ * Correct the given number to specifying significant digits.
+ *
+ * @param num The input number
+ * @param precision An integer specifying the number of significant digits
+ *
+ * @example strip(0.09999999999999998) === 0.1 // true
  */
 function strip(num, precision) {
     if (precision === void 0) { precision = 15; }
     return +parseFloat(Number(num).toPrecision(precision));
 }
 /**
- * Return digits length of a number
- * @param {*number} num Input number
+ * Return digits length of a number.
+ *
+ * @param num The input number
  */
 function digitLength(num) {
     // Get digit length of e
@@ -32,8 +38,10 @@ function digitLength(num) {
     return len > 0 ? len : 0;
 }
 /**
- * 把小数转成整数，支持科学计数法。如果是小数则放大成整数
- * @param {*number} num 输入数
+ * Convert the given number to integer, support scientific notation.
+ * The number will be scale up if it is decimal.
+ *
+ * @param num The input number
  */
 function float2Fixed(num) {
     if (num.toString().indexOf('e') === -1) {
@@ -43,8 +51,9 @@ function float2Fixed(num) {
     return dLen > 0 ? strip(Number(num) * Math.pow(10, dLen)) : Number(num);
 }
 /**
- * 检测数字是否越界，如果越界给出提示
- * @param {*number} num 输入数
+ * Log a warning if the given number is out of bounds.
+ *
+ * @param num The input number
  */
 function checkBoundary(num) {
     if (_boundaryCheckingState) {
@@ -54,91 +63,74 @@ function checkBoundary(num) {
     }
 }
 /**
- * 迭代操作
+ * Create an operation to support rest params.
+ *
+ * @param operation The original operation
  */
-function iteratorOperation(arr, operation) {
-    var num1 = arr[0], num2 = arr[1], others = arr.slice(2);
-    var res = operation(num1, num2);
-    others.forEach(function (num) {
-        res = operation(res, num);
-    });
-    return res;
+function createOperation(operation) {
+    return function () {
+        var nums = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            nums[_i] = arguments[_i];
+        }
+        var first = nums[0], others = nums.slice(1);
+        return others.reduce(function (prev, next) { return operation(prev, next); }, first);
+    };
 }
 /**
- * 精确乘法
+ * Accurate multiplication.
+ *
+ * @param nums The numbers to multiply
  */
-function times() {
-    var nums = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        nums[_i] = arguments[_i];
-    }
-    if (nums.length > 2) {
-        return iteratorOperation(nums, times);
-    }
-    var num1 = nums[0], num2 = nums[1];
+var times = createOperation(function (num1, num2) {
     var num1Changed = float2Fixed(num1);
     var num2Changed = float2Fixed(num2);
     var baseNum = digitLength(num1) + digitLength(num2);
     var leftValue = num1Changed * num2Changed;
     checkBoundary(leftValue);
     return leftValue / Math.pow(10, baseNum);
-}
+});
 /**
- * 精确加法
+ * Accurate addition.
+ *
+ * @param nums The numbers to add
  */
-function plus() {
-    var nums = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        nums[_i] = arguments[_i];
-    }
-    if (nums.length > 2) {
-        return iteratorOperation(nums, plus);
-    }
-    var num1 = nums[0], num2 = nums[1];
+var plus = createOperation(function (num1, num2) {
     // 取最大的小数位
     var baseNum = Math.pow(10, Math.max(digitLength(num1), digitLength(num2)));
     // 把小数都转为整数然后再计算
     return (times(num1, baseNum) + times(num2, baseNum)) / baseNum;
-}
+});
 /**
- * 精确减法
+ * Accurate subtraction.
+ *
+ * @param nums The numbers to subtract
  */
-function minus() {
-    var nums = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        nums[_i] = arguments[_i];
-    }
-    if (nums.length > 2) {
-        return iteratorOperation(nums, minus);
-    }
-    var num1 = nums[0], num2 = nums[1];
+var minus = createOperation(function (num1, num2) {
     var baseNum = Math.pow(10, Math.max(digitLength(num1), digitLength(num2)));
     return (times(num1, baseNum) - times(num2, baseNum)) / baseNum;
-}
+});
 /**
- * 精确除法
+ * Accurate division.
+ *
+ * @param nums The numbers to divide
  */
-function divide() {
-    var nums = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        nums[_i] = arguments[_i];
-    }
-    if (nums.length > 2) {
-        return iteratorOperation(nums, divide);
-    }
-    var num1 = nums[0], num2 = nums[1];
+var divide = createOperation(function (num1, num2) {
     var num1Changed = float2Fixed(num1);
     var num2Changed = float2Fixed(num2);
     checkBoundary(num1Changed);
     checkBoundary(num2Changed);
     // fix: 类似 10 ** -4 为 0.00009999999999999999，strip 修正
     return times(num1Changed / num2Changed, strip(Math.pow(10, digitLength(num2) - digitLength(num1))));
-}
+});
 /**
- * 四舍五入
+ * Accurate rounding method.
+ *
+ * @param num The number to round
+ * @param decimal An integer specifying the decimal digits
  */
-function round(num, ratio) {
-    var base = Math.pow(10, ratio);
+function round(num, decimal) {
+    var base = Math.pow(10, decimal);
     var result = divide(Math.round(Math.abs(times(num, base))), base);
     if (num < 0 && result !== 0) {
         result = times(result, -1);
@@ -147,8 +139,9 @@ function round(num, ratio) {
 }
 var _boundaryCheckingState = true;
 /**
- * 是否进行边界检查，默认开启
- * @param flag 标记开关，true 为开启，false 为关闭，默认为 true
+ * Whether to check the bounds of number, default is enabled.
+ *
+ * @param flag The value to indicate whether is enabled
  */
 function enableBoundaryChecking(flag) {
     if (flag === void 0) { flag = true; }
@@ -178,7 +171,7 @@ exports.enableBoundaryChecking = enableBoundaryChecking;
 exports['default'] = index;
 
 }, function(modId) {var map = {}; return __REQUIRE__(map[modId], modId); })
-return __REQUIRE__(1654500585757);
+return __REQUIRE__(1672891599366);
 })()
 //miniprogram-npm-outsideDeps=[]
 //# sourceMappingURL=index.js.map

@@ -1,2 +1,193 @@
-<!--bill/pages/viewKaipiao/index.wxml-->
-<text>bill/pages/viewKaipiao/index.wxml</text>
+<view class="form-wrapper">
+    <form onSubmit="formSubmit" onReset="formReset">
+        <scroll-view scroll-y class="form-scroll-wrapper {{isPhoneXSeries ? 'iphoneX' : ''}}">
+            <view class="title">销售方信息</view>
+            <view class="block-wrapper">
+                <view class="form-row">
+                    <view class="form-row-label">
+                        <text class="require">*</text>
+                        销售组织
+                    </view>
+                    <view class="form-row-content">
+                        <view class="mock-input">{{result.accountbookEntity.accountbookName}}</view>
+                    </view>
+                </view>
+                <view class="form-line"/>
+                <view class="form-row">
+                    <view class="form-row-label picker">
+                        <text class="require">*</text>
+                        销售部门
+                    </view>
+                    <view class="form-row-content">
+                        <view class="mock-input">{{result.departDetailEntity.depart.departName}}</view>
+                    </view>
+                </view>
+                <block wx:if="{{result.submitterName || realName}}">
+                    <view class="form-line"/>
+                    <view class="form-row">
+                        <view class="form-row-label picker"><text class="require">*</text>申请人</view>
+                        <view class="form-row-content">
+                            <view class="mock-input">{{result.submitterName || realName}}</view>
+                        </view>
+                    </view>
+                </block>
+            </view>
+            <view class="title">单据信息</view>
+            <view class="block-wrapper">
+                <view class="form-row">
+                    <view class="form-row-label">
+                        <text class="require">*</text>
+                        事由
+                    </view>
+                    <view class="form-row-content">
+                        <view wx:if="{{result.remark}}" class="mock-input">
+                            {{result.remark}}
+                        </view>
+                        <view wx:else class="mock-input nodata">暂无事由</view>
+                    </view>
+                </view>
+                <view class="form-line"></view>
+                <view class="form-row" bindtap="onBusinessFocus">
+                    <view class="form-row-label">
+                        <text class="require">*</text>
+                        业务日期
+                    </view>
+                    <view class="form-row-content">
+                        <view data-name="businessDateTime">{{result.businessDateTime}}</view>
+                    </view>
+                    <image src="../../../images/date-icon.png" mode="scaleToFill" class="date-icon"></image>
+                </view>
+            </view>
+            <view class="title">客户开票信息</view>
+            <view class="block-wrapper">
+                <view class="form-row" bindtap="goCustomerList">
+                    <view class="form-row-label">
+                        <text class="require">*</text>
+                        客户名称
+                    </view>
+                    <view class="form-row-content">
+                        <view class="mock-input">{{result.customerDetailEntity.customer.customerName}}</view>
+                    </view>
+                </view>
+                <view class="form-line"/>
+                <view class="form-row" bindtap="goInfoList">
+                    <view class="form-row-label">
+                        <text class="require">*</text>
+                        发票类型
+                    </view>
+                    <view class="form-row-content invoice-wrapper">
+                        <view class="mock-input">{{result.customerDetailEntity.customer.invoiceType == 1 ? "普票" : "专票"}}</view>
+                    </view>
+                </view>
+                <view class="form-line"/>
+                <view class="form-row" bindtap="goInfoList">
+                    <view class="form-row-label">
+                        <text class="require">*</text>
+                        税率
+                    </view>
+                    <view class="form-row-content invoice-wrapper">
+                        <view class="mock-input">{{result.taxRate}}</view>
+                    </view>
+                </view>
+                <view class="form-line"/>
+                <view class="form-row" bindtap="goUpdateCustomer">
+                    <view class="form-row-label">
+                        <text class="require">*</text>
+                        客户开票信息
+                    </view>
+                    <view class="form-row-content express">
+                        <view class="info-content">
+                            <view>纳税人识别号：</view>
+                            <view>{{result.customerDetailEntity.customer.taxCode}}</view>
+                        </view>
+                        <view class="info-content">
+                            <view>地址、电话：</view>
+                            <view>{{result.customerDetailEntity.customer.invoiceAddress || ''}}
+                                {{result.customerDetailEntity.customer.invoicePhone || ''}}
+                            </view>
+                        </view>
+                        <view class="info-content">
+                            <view>开户行及账号：</view>
+                            <view>{{result.customerDetailEntity.customer.bankName}} {{result.customerDetailEntity.customer.bankAccount}}
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class="form-line"></view>
+            </view>
+            <!-- 增加借款详情-->
+<!--            <view class="title"></view>-->
+            <view class="title special-title">开票详情</view>
+            <view class="block-wrapper">
+                <view class="borrow-list">
+                    <view class="baoxiao-item" wx:if="{{result.billDetailList.length}}" wx:for="{{result.billDetailList}}" wx:key="index">
+                        <view class="form-row">
+                            <view class="form-row-content baoxiaoDetail-left" bindtap="showKaipiaoDetail"
+                                  data-index="{{index}}">
+                                <view class="subject-title">
+                                    {{item.subjectName}}
+                                </view>
+                                <view class="remark-title">开票内容：</view>
+                                <view class="remark-content" wx:if="{{item.remark && item.remark !== 'null'}}">{{item.remark}}</view>
+                                <view class="remark-content" wx:else>无</view>
+                            </view>
+                            <view class="form-row-content ellipsis borrow-remark baoxiaoDetail-right"
+                                  bindtap="showKaipiaoDetail" data-index="{{index}}">{{item.formatApplicationAmount}}
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+                <view class="title">其他信息</view>
+                <view class="block-wrapper">
+                    <view class="form-row">
+                        <view class="form-row-label">
+                            <text class="require">*</text>
+                            发票移交方式
+                        </view>
+                        <view class="form-row-content">
+                            <view class="mock-input" wx:if="{{result.deliveryMode == 1}}">快递</view>
+                            <view class="mock-input" wx:else>自取</view>
+                        </view>
+                    </view>
+                    <view class="form-line"></view>
+                    <block wx:if="{{result.deliveryMode == 1}}">
+                        <view class="form-line"/>
+                        <view class="form-row" bindtap="getExpressList">
+                            <view class="form-row-label">
+                                <text class="require">*</text>
+                                快递信息
+                            </view>
+                            <view class="form-row-content express">
+                                <view>
+                                    <text>{{result.contacts}}</text>
+                                    <text style="margin-left: 15rpx">{{result.telephone}}</text>
+                                </view>
+                                <view>{{result.address}}</view>
+                            </view>
+                        </view>
+                    </block>
+                </view>
+            <block wx:if="{{result.billFiles.length}}">
+                <view class="title">附件上传</view>
+                <view class="block-wrapper">
+                    <view class="file-list">
+                        <view class="file-item" wx:for="{{result.billFiles}}" wx:key="index">
+                            <view class="form-row">
+                                <view class="form-row-content ellipsis" bindtap="previewFile" data-url="{{item.uri}}">{{item.name}}</view>
+                                <view class="form-row-content img-wrapper" bindtap="previewFile" data-url="{{item.uri}}">
+                                    <image src="{{item.uri}}" class="img" mode="aspectFill"></image>
+                                </view>
+                            </view>
+                            <view class="form-line"/></view>
+                    </view>
+                </view>
+            </block>
+            <view class="btn-area-wrapper {{isPhoneXSeries ? 'iphoneX' : ''}}" wx:if="{{result.status == '20'}}">
+                <view class="add-btn" bindtap="rollBack">
+                    撤回
+                </view>
+            </view>
+        </scroll-view>
+    </form>
+</view>

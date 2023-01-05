@@ -1,2 +1,37 @@
-<!--bill/pages/viewExtra/index.wxml-->
-<text>bill/pages/viewExtra/index.wxml</text>
+<!--   附加信息   -->
+<view class="form-wrapper">
+    <view class="add-extra-page">
+    <form bindsubmit="onExtraSubmit">
+        <scroll-view scroll-y class="form-scroll-wrapper {{isPhoneXSeries ? 'iphoneX' : ''}}" onScroll="onScroll" scroll-into-view="{{scrollId}}" scroll-with-animation>
+            <view class="baoxiao-item" wx:if="{{baoxiaoDetail.extraList.length}}" wx:for="{{baoxiaoDetail.extraList}}" wx:key="index" id="{{index + 1}}">
+                <view class="baoxiao-item-title">
+                    <view class="title">附加信息详情({{index + 1}})</view>
+                </view>
+                <view class="block-wrapper">
+                    <block wx:for="{{item.conf}}" wx:key="index" wx:for-item="extraDetail" wx:for-index="idx">
+                        <view class="form-row">
+                            <view class="form-row-label"><text class="require">*</text>{{extraDetail.field}}</view>
+                            <view class="form-row-content">
+                                <block wx:if="{{extraDetail.type == 2}}">
+                                    <view bindtap="onExtraDateFocus" data-name="{{item.field}}" data-index="{{idx}}" data-extraIndex="{{index}}">{{baoxiaoDetail.extraMessage[index][idx]}}</view>
+                                </block>
+                                <block wx:else>
+                                <view class="mock-input" data-name="{{extraDetail.field}}" data-index="{{idx}}" data-extraIndex="{{index}}" data-name="{{item.field}}">{{baoxiaoDetail.extraMessage[index][idx]}}</view>
+                                </block>
+                            </view>
+                        </view>
+                        <view class="form-line"/>
+                    </block>
+                </view>
+            </view>
+        </scroll-view>
+        <view class="total">
+            <view style="display:flex;align-items: center">
+                <image src="../../../images/jiekuanTotal-icon.png" mode="scaleToFill" class="jiekuan-icon" />
+                <text>金额合计：</text>
+            </view>
+            <text class="total-word">{{baoxiaoDetail.applicationAmount}}</text>
+        </view>
+        </form>
+    </view>
+</view>

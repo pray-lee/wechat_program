@@ -1,66 +1,94 @@
-// bill/pages/updateCustomerInfo/index.js
+const app = getApp()
+import '../../../util/handleLodash'
+import {cloneDeep as clone} from 'lodash'
+import {request, validFn} from '../../../util/getErrorMessage'
 Page({
-
-  /**
-   * 页面的初始数据
-   */
-  data: {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad(options) {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
-  }
+    data: {
+        customInfo: {},
+    },
+    onLoad() {
+        const updateCustomerDetailData = wx.getStorageSync('updateCustomerDetailData')
+        this.setData({
+            customInfo: updateCustomerDetailData
+        })
+        console.log(updateCustomerDetailData)
+    },
+    bindKeyInput(e) {
+        this.setData({
+            customInfo: {
+                ...this.data.customInfo,
+                [e.currentTarget.dataset.type]: e.detail.value
+            }
+        })
+    },
+    addLoading() {
+        if (app.globalData.loadingCount < 1) {
+            wx.showLoading({
+                title: '加载中...',
+                mask: true,
+            })
+        }
+        app.globalData.loadingCount++
+    },
+    hideLoading() {
+        app.globalData.loadingCount--
+        if (app.globalData.loadingCount <= 0) {
+            wx.hideLoading()
+        }
+    },
+    updateInfo() {
+        if(this.valid(this.data.customInfo)) {
+            const tempData = clone(this.data.customInfo)
+            tempData.id = this.data.customInfo.customerId
+            this.addLoading()
+            request({
+                hideLoading: this.hideLoading,
+                url: app.globalData.url + 'customerDetailController.do?doUpdateForPop',
+                method: 'GET',
+                data: tempData,
+                success: res => {
+                    if(res.data.success) {
+                        // 把更新的信息返回去
+                        wx.setStorage({
+                            key: 'updatedCustomInfo',
+                            data: this.data.customInfo,
+                            success: () => {
+                                console.log('更新成功')
+                                wx.navigateBack({
+                                    delta: 1
+                                })
+                            }
+                        })
+                    }
+                },
+                error: err => {
+                    console.log(err)
+                    validFn('接口请求发生错误')
+                }
+            })
+        }
+    },
+    valid(data) {
+        if(!data.taxCode) {
+            validFn('请填写纳税人识别号')
+            return false
+        }
+        if(!data.invoiceAddress) {
+            validFn('请填写开票地址')
+            return false
+        }
+        if(!data.invoicePhone) {
+            validFn('请填写开票电话')
+            return false
+        }
+        if(!data.bankName) {
+            validFn('请填写开户行名称')
+            return false
+        }
+        if(!data.bankAccount) {
+            validFn('请填写开户行账号')
+            return false
+        }
+        return true
+    }
 })

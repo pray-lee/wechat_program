@@ -31,7 +31,7 @@ Page({
     gotoInvoiceList() {
         wx.removeStorageSync('accountbookId')
         wx.navigateTo({
-            url: '/pages/invoiceList/index'
+            url: '/bill/pages/invoiceList/index'
         })
     },
     getOaList() {
@@ -325,17 +325,17 @@ Page({
             case 'J':
                 //借款
                 if(status == 10 || status == 25) {
-                    this.setPage(`../addJiekuan/index?type=edit&id=${id}`)
+                    this.setPage(`/bill/pages/addJiekuan/index?type=edit&id=${id}`)
                 }else{
-                    this.setPage(`../viewJiekuan/index?id=${id}`)
+                    this.setPage(`/bill/pages/viewJiekuan/index?id=${id}`)
                 }
                 break;
             case 'B':
                 // 报销单
                 if(status == 10 || status == 25) {
-                    this.setPage(`../addBaoxiao/index?type=edit&id=${id}`)
+                    this.setPage(`/bill/pages/addBaoxiao/index?type=edit&id=${id}`)
                 }else{
-                    this.setPage(`../viewBaoxiao/index?id=${id}`)
+                    this.setPage(`/bill/pages/viewBaoxiao/index?id=${id}`)
                 }
                 break;
             case 'K':
@@ -363,30 +363,30 @@ Page({
     },
     goList(e) {
         wx.navigateTo({
-            url: '../list/index?type=' + e.currentTarget.dataset.type
+            url: '/bill/pages/list/index?type=' + e.currentTarget.dataset.type
         })
     },
     onShowAddJiekuan(e) {
         wx.navigateTo({
-            url: '../addJiekuan/index?type=add'
+            url: '/bill/pages/addJiekuan/index?type=add'
         })
         this.onAddHide()
     },
     onShowAddKaipiao(e) {
         wx.navigateTo({
-            url: '../addKaipiao/index?type=add'
+            url: '/bill/pages/addKaipiao/index?type=add'
         })
         this.onAddHide()
     },
     onShowAddFukuan(e) {
         wx.navigateTo({
-            url: '../addFukuan/index?type=add'
+            url: '/bill/pages/addFukuan/index?type=add'
         })
         this.onAddHide()
     },
     onShowAddBaoxiao(e) {
         wx.navigateTo({
-            url: '../addBaoxiao/index?type=add'
+            url: '/bill/pages/addBaoxiao/index?type=add'
         })
         this.onAddHide()
     },

@@ -1,66 +1,46 @@
-// bill/pages/uploadPage/index.js
+var app = getApp()
 Page({
+    data: {
+        uploadSrc: ''
+    },
+    onLoad() {
+        // web-view init
+        this.webViewContext = wx.createWebViewContext('web-view-1')
+        wx.httpRequest({
+            url: app.globalData.url + 'aliyunController.do?getUUID',
+            method: 'GET',
+            dataType: 'json',
+            success: res => {
+                console.log(res)
+                if(res.data.success && !!res.data.obj) {
+                    var uuid = res.data.obj
+                    this.setData({
+                        uploadSrc: app.globalData.url + app.globalData.uploadUrl + uuid
+                    })
+                }
+            },
+            fail: res => {
+                console.log(res, 'error')
+                this.hideLoading()
+            }
 
-  /**
-   * 页面的初始数据
-   */
-  data: {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad(options) {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
-  }
+        })
+    },
+    uploadCallback(data) {
+        console.log(data, 'messsage info...')
+        if(!!data) {
+            // 获取缓存数据
+            wx.setStorage({
+                key: 'fileList',
+                data: data.detail,
+                success: () => {
+                    if(!!data.detail) {
+                        wx.navigateBack({
+                            delta: 1
+                        })
+                    }
+                }
+            })
+        }
+    },
 })

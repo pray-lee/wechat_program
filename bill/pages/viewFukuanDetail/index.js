@@ -1,66 +1,103 @@
-// bill/pages/viewFukuanDetail/index.js
+import {cloneDeep as clone} from "lodash";
+import {formatNumber, request} from "../../../util/getErrorMessage";
+
+const app = getApp()
 Page({
-
-  /**
-   * 页面的初始数据
-   */
-  data: {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad(options) {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
-  }
+    data: {
+        isPhoneXSeries: false,
+        btnHidden: false,
+        fukuanDetail: {},
+        // 发票
+        ocrList: []
+    },
+    onLoad() {
+        this.setData({
+            isPhoneXSeries: app.globalData.isPhoneXSeries
+        })
+        const fukuanDetail = wx.getStorageSync('fukuanDetail')
+        // ==========发票相关=========
+        if(fukuanDetail.invoiceInfoId) {
+            this.getInvoiceDetailById(fukuanDetail.invoiceInfoId)
+        }
+        // ==========================
+        this.setData({
+            fukuanDetail
+        })
+        wx.removeStorage({
+            key: 'fukuanDetail',
+            success: res => {
+            }
+        })
+    },
+    onShow() {
+    },
+    addLoading() {
+        if (app.globalData.loadingCount < 1) {
+            wx.showLoading({
+                title: '加载中...',
+                mask: true,
+            })
+        }
+        app.globalData.loadingCount++
+    },
+    hideLoading() {
+        app.globalData.loadingCount--
+        if (app.globalData.loadingCount <= 0) {
+            wx.hideLoading()
+        }
+    },
+    onKeyboardShow() {
+        this.setData({
+            btnHidden: true
+        })
+    },
+    onKeyboardHide() {
+        this.setData({
+            btnHidden: false
+        })
+    },
+    // 发票
+    getInvoiceDetailById(ids) {
+        this.addLoading()
+        request({
+            hideLoading: this.hideLoading(),
+            method: 'GET',
+            url: app.globalData.url + 'invoiceInfoController.do?getInvoiceInfoByIds',
+            data: {
+                ids,
+            },
+            success: res => {
+                if(res.data.success) {
+                    if(res.data.obj.length) {
+                        res.data.obj.forEach(item => {
+                            item.formatJshj = formatNumber(Number(item.jshj).toFixed(2))
+                        })
+                    }
+                    this.setData({
+                        ocrList: res.data.obj
+                    })
+                }else{
+                    wx.showModal({
+                        content: '获取发票详情失败',
+                        confirmText: '好的',
+                        showCancel: false,
+                    })
+                }
+            },
+            fail: err => {
+            }
+        })
+    },
+    goToInvoiceDetail(e) {
+        const index = e.currentTarget.dataset.index
+        wx.setStorage({
+            key: 'invoiceDetail',
+            data: this.data.ocrList[index],
+            success: res => {
+                wx.navigateTo({
+                    url: '/bill/pages/invoiceInput/index'
+                })
+            }
+        })
+    }
 })
