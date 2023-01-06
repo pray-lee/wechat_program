@@ -45,6 +45,16 @@
         "pages/invoiceListSelect/index",
         "pages/invoiceAccountbookList/index"
       ]
+    },
+    {
+      "root": "jxc",
+      "pages": [
+        "pages/purchaseOrder/index",
+        "pages/purchaseWarehouseOrder/index",
+        "pages/purchaseOrderDetail/index",
+        "pages/list/index",
+        "pages/goodsList/index"
+      ]
     }
   ],
   "window": {

@@ -28,6 +28,11 @@ Page({
             url: '/pages/oaList/index'
         })
     },
+    gotoJxcList() {
+        wx.navigateTo({
+            url: '/jxc/pages/list/index'
+        })
+    },
     gotoInvoiceList() {
         wx.removeStorageSync('accountbookId')
         wx.navigateTo({
