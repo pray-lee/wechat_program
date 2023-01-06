@@ -1,6 +1,7 @@
 <view class="form-wrapper" bindtap="onClick">
     <form onSubmit="formSubmit">
-        <scroll-view scroll-y class="form-scroll-wrapper {{judgeShowOperate ? 'show-oa-operate' : ''}} {{isPhoneXSeries ? 'iphoneX' : ''}}">
+        <scroll-view scroll-y
+            class="form-scroll-wrapper {{judgeShowOperate ? 'show-oa-operate' : ''}} {{isPhoneXSeries ? 'iphoneX' : ''}}">
             <view class="title">申请方信息</view>
             <view class="block-wrapper">
                 <view class="form-row">
@@ -12,7 +13,7 @@
                         <view class="mock-input">{{result.accountbook.accountbookName}}</view>
                     </view>
                 </view>
-                <view class="form-line"/>
+                <view class="form-line" />
                 <view class="form-row">
                     <view class="form-row-label">
                         <text class="require">*</text>
@@ -23,7 +24,7 @@
                     </view>
                 </view>
                 <block wx:if="{{result.submitterName || realName}}">
-                    <view class="form-line"/>
+                    <view class="form-line" />
                     <view class="form-row">
                         <view class="form-row-label picker"><text class="require">*</text>申请人</view>
                         <view class="form-row-content">
@@ -35,9 +36,12 @@
             <view class="title">供应商信息</view>
             <view class="block-wrapper">
                 <view class="form-row" bindtap="goInfoList">
-                    <view class="form-row-content borrowList-wrapper">
-                        <view class="mock-input">{{result.supplierDetail.supplier.supplierName}}</view>
+                    <view class="form-row-content mock-input borrowList-wrapper">
+                        <view class="mock-input form-row-content mock-input">{{result.supplierDetail.supplier.supplierName}}</view>
                     </view>
+                </view>
+                <view class="form-line"></view>
+                <view class="form-row">
                     <view class="form-row-content incomeBankAccount">
                         <view class="mock-input" wx:if="{{!!result.incomeBankAccount}}">{{result.incomeBankAccount}}
                         </view>
@@ -63,7 +67,7 @@
                         <view class="mock-input nodata" wx:else>暂无事由</view>
                     </view>
                 </view>
-                <view class="form-line"/>
+                <view class="form-line" />
                 <view class="form-row" bindtap="onBusinessFocus">
                     <view class="form-row-label">
                         <text class="require">*</text>
@@ -74,10 +78,10 @@
                     </view>
                     <image src="../../../images/date-icon.png" mode="scaleToFill" class="date-icon"></image>
                 </view>
-                <view class="form-line"/>
+                <view class="form-line" />
                 <view class="form-row invoice-wrapper">
                     <view class="form-row-label">是否有发票</view>
-                    <switch disabled checked="{{!!result.invoice}}" color="#1f76d8"/>
+                    <switch disabled checked="{{!!result.invoice}}" color="#1f76d8" />
                 </view>
             </view>
             <!-- 增加报销详情-->
@@ -85,21 +89,22 @@
             <view class="block-wrapper">
                 <view class="baoxiao-list">
                     <view class="baoxiao-item" wx:for="{{result.billDetailList}}"
-                          wx:if="{{result.billDetailList.length}}" wx:key="index">
+                        wx:if="{{result.billDetailList.length}}" wx:key="index">
                         <view class="form-row">
                             <view bindtap="showFukuanDetail" data-index="{{index}}"
-                                  class="form-row-content baoxiaoDetail-left" data-index="{{index}}">
+                                class="form-row-content baoxiaoDetail-left" data-index="{{index}}">
                                 <view class="subject-title">
                                     {{item.subjectName}}
                                 </view>
                                 <view class="remark-title">事由：</view>
-                                <view class="remark-content" wx:if="{{item.remark && item.remark !== 'null'}}">{{item.remark}}</view>
+                                <view class="remark-content" wx:if="{{item.remark && item.remark !== 'null'}}">
+                                    {{item.remark}}</view>
                                 <view class="remark-content" wx:else>无</view>
                                 <view class="remark-content has-invoice" wx:if="{{item.invoiceInfoId}}">已有发票</view>
                             </view>
                             <view bindtap="showFukuanDetail" data-index="{{index}}"
-                                  class="form-row-content ellipsis borrow-remark baoxiaoDetail-right"
-                                  data-index="{{index}}">{{item.formatApplicationAmount}}
+                                class="form-row-content ellipsis borrow-remark baoxiaoDetail-right"
+                                data-index="{{index}}">{{item.formatApplicationAmount}}
                             </view>
                         </view>
                     </view>
@@ -116,7 +121,8 @@
                                 <view class="form-row-content baoxiaoDetail-left">
                                     <view class="subject-title">{{item.subject.fullSubjectName}}</view>
                                     <view class="remark-title">事由：</view>
-                                    <view class="remark-content" wx:if="{{item.remark && item.remark !== 'null'}}">{{item.remark}}</view>
+                                    <view class="remark-content" wx:if="{{item.remark && item.remark !== 'null'}}">
+                                        {{item.remark}}</view>
                                     <view class="remark-content" wx:else>无</view>
                                 </view>
                                 <view class="form-row-content ellipsis borrow-remark baoxiaoDetail-right">
@@ -135,17 +141,18 @@
                 <!--上传附件-->
                 <view class="block-wrapper">
                     <view class="file-list">
-                        <view class="file-item" wx:if="{{result.billFiles.length}}"
-                              wx:for="{{result.billFiles}}" wx:key="index">
+                        <view class="file-item" wx:if="{{result.billFiles.length}}" wx:for="{{result.billFiles}}"
+                            wx:key="index">
                             <view class="form-row">
                                 <view class="form-row-content ellipsis" bindtap="previewFile" data-url="{{item.uri}}">
                                     {{item.name}}
                                 </view>
-                                <view class="form-row-content img-wrapper" bindtap="previewFile" data-url="{{item.uri}}">
+                                <view class="form-row-content img-wrapper" bindtap="previewFile"
+                                    data-url="{{item.uri}}">
                                     <image src="{{item.uri}}" class="img" mode="aspectFill"></image>
                                 </view>
                             </view>
-                            <view class="form-line"/>
+                            <view class="form-line" />
                         </view>
                     </view>
                 </view>
@@ -160,26 +167,44 @@
                                 <view class="view-avatar-wrapper">
                                     <view class="view-avatar-block">
                                         <view class="view-avatar">
-                                            <image wx:if="{{item.children.length && item.activityType == 'userTask'}}" src="../../../images/approval.png" class="view-avatar view-avatar-bg"></image>
-                                            <image wx:if="{{item.children.length && item.activityType == 'serviceTask'}}" src="../../../images/copy1.png" class="view-avatar view-avatar-bg"></image>
-                                            <view wx:if="{{!item.children.length}}" class="view-avatar view-avatar-bg">{{item.assigneeNameSlice}}</view>
+                                            <image wx:if="{{item.children.length && item.activityType == 'userTask'}}"
+                                                src="../../../images/approval.png" class="view-avatar view-avatar-bg">
+                                            </image>
+                                            <image
+                                                wx:if="{{item.children.length && item.activityType == 'serviceTask'}}"
+                                                src="../../../images/copy1.png" class="view-avatar view-avatar-bg">
+                                            </image>
+                                            <view wx:if="{{!item.children.length}}" class="view-avatar view-avatar-bg">
+                                                {{item.assigneeNameSlice}}</view>
                                         </view>
-                                        <image wx:if="{{item.status == 2}}" src="../../../images/success.png" class="view-avatar-icon"></image>
-                                        <image wx:if="{{item.status == 1}}" src="../../../images/3.png" class="view-avatar-icon"></image>
-                                        <image wx:if="{{item.status == -1 || item.status == -2}}" src="../../../images/reject.png" class="view-avatar-icon"></image>
+                                        <image wx:if="{{item.status == 2}}" src="../../../images/success.png"
+                                            class="view-avatar-icon"></image>
+                                        <image wx:if="{{item.status == 1}}" src="../../../images/3.png"
+                                            class="view-avatar-icon"></image>
+                                        <image wx:if="{{item.status == -1 || item.status == -2}}"
+                                            src="../../../images/reject.png" class="view-avatar-icon"></image>
                                     </view>
-                                    <view wx:if="{{item.status == 0 || item.status == 1}}" class="view-status-dotted-line"></view>
+                                    <view wx:if="{{item.status == 0 || item.status == 1}}"
+                                        class="view-status-dotted-line"></view>
                                     <view wx:else class="view-status-line"></view>
                                 </view>
                                 <view class="view-status-content">
                                     <view class="view-progress-status">{{item.activityName}}</view>
-                                    <view wx:if="{{item.children.length && item.activityType == 'userTask'}}" class="view-progress-user">{{item.children.length}}人{{item.signType == 'and' ? '会签' : '或签'}}{{statusObj[item.status] ? '（' + statusObj[item.status] + '）' : ''}}</view>
-                                    <view wx:if="{{item.children.length && item.activityType == 'serviceTask'}}" class="view-progress-user">抄送{{item.children.length}}人</view>
-                                    <view wx:if="{{!item.children.length}}" class="view-progress-user">{{item.assigneeName}}{{statusObj[item.status] ? '（' + statusObj[item.status] + '）' : ''}}</view>
-                                    <view wx:if="{{item.comment}}" class="view-progress-user view-progress-content">{{item.comment}}</view>
+                                    <view wx:if="{{item.children.length && item.activityType == 'userTask'}}"
+                                        class="view-progress-user">{{item.children.length}}人{{item.signType == 'and' ?
+                                        '会签' : '或签'}}{{statusObj[item.status] ? '（' + statusObj[item.status] + '）' :
+                                        ''}}</view>
+                                    <view wx:if="{{item.children.length && item.activityType == 'serviceTask'}}"
+                                        class="view-progress-user">抄送{{item.children.length}}人</view>
+                                    <view wx:if="{{!item.children.length}}" class="view-progress-user">
+                                        {{item.assigneeName}}{{statusObj[item.status] ? '（' + statusObj[item.status] +
+                                        '）' : ''}}</view>
+                                    <view wx:if="{{item.comment}}" class="view-progress-user view-progress-content">
+                                        {{item.comment}}</view>
                                     <view class="show-user-list" wx:if="{{item.showUserList}}">
                                         <block wx:if="{{item.children.length}}">
-                                            <view class="user-block" wx:for="{{item.children}}" wx:key="index" wx:for-item="user">
+                                            <view class="user-block" wx:for="{{item.children}}" wx:key="index"
+                                                wx:for-item="user">
                                                 <view class="user-bg">{{user.assigneeNameSlice}}</view>
                                                 <view class="user-name">{{user.assigneeName}}</view>
                                             </view>
@@ -188,8 +213,10 @@
                                 </view>
                             </view>
                             <view class="progress-right" wx:if="{{item.children.length}}">
-                                <view bindtap="toggleUserList" data-index="{{index}}" wx:if="{{item.showUserList}}" class="toggle-user-list down"></view>
-                                <view bindtap="toggleUserList" data-index="{{index}}" wx:else class="toggle-user-list up"></view>
+                                <view bindtap="toggleUserList" data-index="{{index}}" wx:if="{{item.showUserList}}"
+                                    class="toggle-user-list down"></view>
+                                <view bindtap="toggleUserList" data-index="{{index}}" wx:else
+                                    class="toggle-user-list up"></view>
                                 <view wx:if="{{item.endTime}}">{{item.endTime}}</view>
                             </view>
                             <view wx:else class="progress-right">
@@ -209,23 +236,40 @@
                                 <view class="view-avatar-wrapper">
                                     <view class="view-avatar-block">
                                         <view class="view-avatar">
-                                            <image wx:if="{{item.children.length && item.activityType == 'userTask'}}" src="../../../images/approval.png" class="view-avatar view-avatar-bg"></image>
-                                            <image wx:if="{{item.children.length && item.activityType == 'serviceTask'}}" src="../../../images/copy1.png" class="view-avatar view-avatar-bg"></image>
-                                            <view wx:if="{{!item.children.length}}" class="view-avatar view-avatar-bg">{{item.assigneeNameSlice}}</view>
+                                            <image wx:if="{{item.children.length && item.activityType == 'userTask'}}"
+                                                src="../../../images/approval.png" class="view-avatar view-avatar-bg">
+                                            </image>
+                                            <image
+                                                wx:if="{{item.children.length && item.activityType == 'serviceTask'}}"
+                                                src="../../../images/copy1.png" class="view-avatar view-avatar-bg">
+                                            </image>
+                                            <view wx:if="{{!item.children.length}}" class="view-avatar view-avatar-bg">
+                                                {{item.assigneeNameSlice}}</view>
                                         </view>
-                                        <image wx:if="{{item.status == 2}}" src="../../../images/success.png" class="view-avatar-icon"></image>
-                                        <image wx:if="{{item.status == 1}}" src="../../../images/3.png" class="view-avatar-icon"></image>
-                                        <image wx:if="{{item.status == -1 || item.status == -2}}" src="../../../images/reject.png" class="view-avatar-icon"></image>
+                                        <image wx:if="{{item.status == 2}}" src="../../../images/success.png"
+                                            class="view-avatar-icon"></image>
+                                        <image wx:if="{{item.status == 1}}" src="../../../images/3.png"
+                                            class="view-avatar-icon"></image>
+                                        <image wx:if="{{item.status == -1 || item.status == -2}}"
+                                            src="../../../images/reject.png" class="view-avatar-icon"></image>
                                     </view>
-                                    <view wx:if="{{item.status == 0 || item.status == 1}}" class="view-status-dotted-line"></view>
+                                    <view wx:if="{{item.status == 0 || item.status == 1}}"
+                                        class="view-status-dotted-line"></view>
                                     <view wx:else class="view-status-line"></view>
                                 </view>
                                 <view class="view-status-content">
                                     <view class="view-progress-status">{{item.activityName}}</view>
-                                    <view wx:if="{{item.children.length && item.activityType == 'userTask'}}" class="view-progress-user">{{item.children.length}}人{{item.signType == 'and' ? '会签' : '或签'}}{{statusObj[item.status] ? '（' + statusObj[item.status] + '）' : ''}}</view>
-                                    <view wx:if="{{item.children.length && item.activityType == 'serviceTask'}}" class="view-progress-user">抄送{{item.children.length}}人</view>
-                                    <view wx:if="{{!item.children.length}}" class="view-progress-user">{{item.assigneeName}}{{statusObj[item.status] ? '（' + statusObj[item.status] + '）' : ''}}</view>
-                                    <view wx:if="{{item.comment}}" class="view-progress-user view-progress-content">{{item.comment}}</view>
+                                    <view wx:if="{{item.children.length && item.activityType == 'userTask'}}"
+                                        class="view-progress-user">{{item.children.length}}人{{item.signType == 'and' ?
+                                        '会签' : '或签'}}{{statusObj[item.status] ? '（' + statusObj[item.status] + '）' :
+                                        ''}}</view>
+                                    <view wx:if="{{item.children.length && item.activityType == 'serviceTask'}}"
+                                        class="view-progress-user">抄送{{item.children.length}}人</view>
+                                    <view wx:if="{{!item.children.length}}" class="view-progress-user">
+                                        {{item.assigneeName}}{{statusObj[item.status] ? '（' + statusObj[item.status] +
+                                        '）' : ''}}</view>
+                                    <view wx:if="{{item.comment}}" class="view-progress-user view-progress-content">
+                                        {{item.comment}}</view>
                                     <view class="show-user-list" wx:if="{{item.showUserList}}">
                                         <block wx:if="{{item.children.length}}">
                                             <view class="user-block" wx:for="{{item.children}}" wx:for-item="user">
@@ -237,8 +281,10 @@
                                 </view>
                             </view>
                             <view class="progress-right" wx:if="{{item.children.length}}">
-                                <view bindtap="toggleHistoryList" data-index="{{index}}" wx:if="{{item.showUserList}}" class="toggle-user-list down"></view>
-                                <view bindtap="toggleHistoryList" data-index="{{index}}" wx:else class="toggle-user-list up"></view>
+                                <view bindtap="toggleHistoryList" data-index="{{index}}" wx:if="{{item.showUserList}}"
+                                    class="toggle-user-list down"></view>
+                                <view bindtap="toggleHistoryList" data-index="{{index}}" wx:else
+                                    class="toggle-user-list up"></view>
                                 <view wx:if="{{item.endTime}}">{{item.endTime}}</view>
                             </view>
                             <view wx:else class="progress-right">
@@ -252,21 +298,21 @@
             <view class="block-wrapper submit-info-wrapper">
                 <view class="total">
                     <view style="display:flex;align-items: center">
-                        <image src="../../../images/jiekuanTotal-icon.png" mode="scaleToFill" class="jiekuan-icon"/>
+                        <image src="../../../images/jiekuanTotal-icon.png" mode="scaleToFill" class="jiekuan-icon" />
                         <text class="title-word">申请金额：</text>
                     </view>
                     <text class="total-word">{{result.applicationAmount}}</text>
                 </view>
                 <view class="total">
                     <view style="display:flex;align-items: center">
-                        <image src="../../../images/jiekuanTotal-icon.png" mode="scaleToFill" class="jiekuan-icon"/>
+                        <image src="../../../images/jiekuanTotal-icon.png" mode="scaleToFill" class="jiekuan-icon" />
                         <text class="title-word">核销借款：</text>
                     </view>
                     <text class="total-word">-{{result.verificationAmount || 0}}</text>
                 </view>
                 <view class="total">
                     <view style="display:flex;align-items: center">
-                        <image src="../../../images/jiekuanTotal-icon.png" mode="scaleToFill" class="jiekuan-icon"/>
+                        <image src="../../../images/jiekuanTotal-icon.png" mode="scaleToFill" class="jiekuan-icon" />
                         <text class="title-word">支付总额：</text>
                     </view>
                     <text class="total-word">{{result.totalAmount}}</text>
@@ -280,16 +326,20 @@
                             <view class="avatar-wrapper">
                                 <view class="avatar-block">
                                     <image src="{{item.avatar}}" class="avatar"></image>
-                                    <image class="status-icon" wx:if="{{item.operationResult == 2}}" src="../../../images/1.png"></image>
-                                    <image class="status-icon" wx:if="{{item.operationResult == 3}}" src="../../../images/2.png"></image>
-                                    <image class="status-icon" wx:if="{{item.operationResult == 1}}" src="../../../images/3.png"></image>
+                                    <image class="status-icon" wx:if="{{item.operationResult == 2}}"
+                                        src="../../../images/1.png"></image>
+                                    <image class="status-icon" wx:if="{{item.operationResult == 3}}"
+                                        src="../../../images/2.png"></image>
+                                    <image class="status-icon" wx:if="{{item.operationResult == 1}}"
+                                        src="../../../images/3.png"></image>
                                 </view>
                                 <view class="status-line"></view>
                             </view>
                             <view class="status-content">
                                 <view class="progress-status">{{item.operationName}}</view>
                                 <view class="progress-user">{{item.userName}}{{item.resultName}}</view>
-                                <view class="progress-user" wx:if="{{item.remark && item.remark !== 'null'}}">"{{item.remark}}"</view>
+                                <view class="progress-user" wx:if="{{item.remark && item.remark !== 'null'}}">
+                                    "{{item.remark}}"</view>
                             </view>
                         </view>
                         <view class="progress-right">{{item.date}}</view>
@@ -319,7 +369,8 @@
             <textarea maxlength="140" bindinput="commentInput" class="comment-input" placeholder="请输入内容"></textarea>
         </view>
         <view class="oa-submit-btn-wrapper {{isPhoneXSeries ? 'iphoneX' : ''}}">
-            <view class="oa-submit {{approvalType === 'reject' ? 'reject' : 'approval'}}" bindtap="submitOa">{{ approvalType === 'reject' ? '驳回' : '同意'}}</view>
+            <view class="oa-submit {{approvalType === 'reject' ? 'reject' : 'approval'}}" bindtap="submitOa">{{
+                approvalType === 'reject' ? '驳回' : '同意'}}</view>
         </view>
     </view>
     <view class="oa-mask" hidden="{{maskHidden}}" bindtap="onCommentHide"></view>

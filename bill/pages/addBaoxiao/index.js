@@ -1407,7 +1407,7 @@ Page({
                             incomeBankName: bankName
                         }
                     })
-                    this.setIncomeBankAccount(arr[0].bankAccount)
+                    this.setIncomeBankAccount(arr[incomeBankIndex].bankAccount)
                 } else {
                     this.setData({
                         incomeBankList: [],

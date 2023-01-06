@@ -9,14 +9,14 @@
                         申请组织
                     </view>
                     <view class="form-row-content">
-                        <picker bindchange="bindObjPickerChange" value="{{accountbookIndex}}" range="{{accountbookList}}"
-                                range-key="accountbookName" data-name="accountbookId" data-index="accountbookIndex"
-                                data-list="accountbookList">
+                        <picker bindchange="bindObjPickerChange" value="{{accountbookIndex}}"
+                            range="{{accountbookList}}" range-key="accountbookName" data-name="accountbookId"
+                            data-index="accountbookIndex" data-list="accountbookList">
                             <view class="row-extra">{{accountbookList[accountbookIndex].accountbookName}}</view>
                         </picker>
                     </view>
                 </view>
-                <view class="form-line"/>
+                <view class="form-line" />
                 <view class="form-row">
                     <view class="form-row-label">
                         <text class="require">*</text>
@@ -24,13 +24,13 @@
                     </view>
                     <view class="form-row-content">
                         <picker class="picker-style" bindchange="bindObjPickerChange" value="{{departmentIndex}}"
-                                range="{{departmentList}}" range-key="name" data-name="submitterDepartmentId"
-                                data-list="departmentList" data-index="departmentIndex">
+                            range="{{departmentList}}" range-key="name" data-name="submitterDepartmentId"
+                            data-list="departmentList" data-index="departmentIndex">
                             <view class="row-extra">{{departmentList[departmentIndex].name}}</view>
                         </picker>
                     </view>
                 </view>
-                <view class="form-line"/>
+                <view class="form-line" />
                 <view class="form-row">
                     <view class="form-row-label picker"><text class="require">*</text>申请人</view>
                     <view class="form-row-content">
@@ -42,37 +42,34 @@
             <view class="block-wrapper">
                 <view class="form-row" bindtap="goInfoList">
                     <view class="borrowList-wrapper">
-<!--                        <view wx:if="{{borrowIndex > 0}}" class="mock-input ellipsis">{{borrowList[borrowIndex].name}}-->
-<!--                        </view>-->
-<!--                        <view wx:else class="mock-input"><text class="require">*</text>供应商名称</view>-->
                         <view class="form-row-label">
                             <text class="require">*</text>
                             供应商名称
                         </view>
-                        <view class="form-row-content" style="height:auto">
-                            <view wx:if="{{borrowIndex >= 0}}" class="mock-input">
-                                {{borrowList[borrowIndex].name}}
-                            </view>
-                            <view wx:else class="mock-input nodata">请选择供应商</view>
-                            <block wx:if="{{submitData.incomeBankAccount}}">
-                                <view wx:if="{{submitData.incomeBankAccount}}" class="mock-input ellipsis">
-                                    {{submitData.incomeBankAccount}}
-                                </view>
-                                <view wx:else class="mock-input nodata">暂无银行账号</view>
-                            </block>
-                            <block wx:if="{{incomeBankList.length}}">
-                                <view wx:if="{{incomeBankList.length}}" class="mock-input ellipsis">
-                                    {{incomeBankList[0].bankName}}
-                                </view>
-                                <view wx:else class="mock-input nodata">银行信息暂无.请联系财务部</view>
-                            </block>
+                        <view wx:if="{{borrowIndex > 0}}" class="mock-input form-row-content ellipsis">{{borrowList[borrowIndex].name}}
                         </view>
+                        <view wx:else class="mock-input nodata form-row-content">请选择供应商信息</view>
                     </view>
+                </view>
+                <view class="form-line"></view>
+                <view class="form-row">
                     <block wx:if="{{submitData.incomeBankAccount}}">
+                        <view class="form-row-content incomeBankAccount">
+                            <picker class="picker-style" onChange="bindObjPickerChange" value="{{incomeBankIndex}}"
+                                range="{{incomeBankList}}" range-key="bankName" data-name="incomeBankName"
+                                data-list="incomeBankList" data-index="incomeBankIndex">
+                                <view class="row-extra">{{incomeBankList[incomeBankIndex].bankAccount}}</view>
+                            </picker>
+                        </view>
+                        <view class="form-row-content incomeBankName">
+                            <view wx:if="{{incomeBankList.length}}" class="mock-input ellipsis">
+                                {{incomeBankList[incomeBankIndex].bankName}}</view>
+                            <view wx:else class="mock-input nodata">银行信息暂无.请联系财务部</view>
+                        </view>
                     </block>
-<!--                    <view wx:else class="form-row-content incomeBankName">-->
-<!--                        <view class="mock-input nodata">未匹配收款账户信息</view>-->
-<!--                    </view>-->
+                    <view wx:else class="form-row-content incomeBankName">
+                        <view class="mock-input nodata">未匹配收款账户信息</view>
+                    </view>
                 </view>
             </view>
             <view class="tips">如果没有收款账户信息，请联系系统相关人员添加。</view>
@@ -86,10 +83,10 @@
                     </view>
                     <view class="form-row-content" style="min-height: 44rpx; height: auto">
                         <input class="input" value="{{submitData.remark}}" placeholder="请输入事由" data-name="remark"
-                               bindblur="onBlur"/>
+                            bindblur="onBlur" />
                     </view>
                 </view>
-                <view class="form-line"/>
+                <view class="form-line" />
                 <view class="form-row">
                     <view class="form-row-label">
                         <text class="require">*</text>
@@ -103,10 +100,10 @@
                     <image src="../../../images/date-icon.png" mode="scaleToFill" class="date-icon"></image>
                     <image src="../../../images/date-icon.png" mode="scaleToFill" class="date-icon"></image>
                 </view>
-                <view class="form-line"/>
+                <view class="form-line" />
                 <view class="form-row invoice-wrapper">
                     <view class="form-row-label">是否有发票</view>
-                    <switch bindchange="radioChange" checked="{{!!submitData.invoice}}" color="#1f76d8"/>
+                    <switch bindchange="radioChange" checked="{{!!submitData.invoice}}" color="#1f76d8" />
                 </view>
             </view>
             <!-- 增加报销详情-->
@@ -116,20 +113,21 @@
                     <view class="baoxiao-item" wx:for="{{fukuanList}}" wx:key="index" wx:if="{{fukuanList.length}}">
                         <view class="form-row">
                             <view class="delete-baoxiao-item" bindtap="deleteFukuanDetail"
-                                  data-id="{{item.billDetailId}}" data-index="{{index}}"></view>
+                                data-id="{{item.billDetailId}}" data-index="{{index}}"></view>
                             <view bindtap="showFukuanDetail" data-index="{{index}}"
-                                  class="form-row-content baoxiaoDetail-left" data-index="{{index}}">
+                                class="form-row-content baoxiaoDetail-left" data-index="{{index}}">
                                 <view class="subject-title">
                                     {{item.subjectName}}
                                 </view>
                                 <view class="remark-title">事由：</view>
-                                <view class="remark-content" wx:if="{{item.remark && item.remark !== 'null'}}">{{item.remark}}</view>
+                                <view class="remark-content" wx:if="{{item.remark && item.remark !== 'null'}}">
+                                    {{item.remark}}</view>
                                 <view class="remark-content" wx:else>无</view>
                                 <view class="remark-content has-invoice" wx:if="{{item.invoiceInfoId}}">已有发票</view>
                             </view>
                             <view bindtap="showFukuanDetail" data-index="{{index}}"
-                                  class="form-row-content ellipsis borrow-remark baoxiaoDetail-right"
-                                  data-index="{{index}}">{{item.formatApplicationAmount}}
+                                class="form-row-content ellipsis borrow-remark baoxiaoDetail-right"
+                                data-index="{{index}}">{{item.formatApplicationAmount}}
                             </view>
                         </view>
                     </view>
@@ -145,8 +143,8 @@
                 <view class="borrow-list">
                     <view class="borrow-item" wx:for="{{importList}}" wx:key="index">
                         <view class="form-row">
-                            <view class="delete-borrow" bindtap="deleteBorrowDetail"
-                                  data-id="{{item.billDetailId}}"></view>
+                            <view class="delete-borrow" bindtap="deleteBorrowDetail" data-id="{{item.billDetailId}}">
+                            </view>
                             <!--                             <view class="form-row-content special-content"> -->
                             <!--                                 <input value="{{item.applicationAmount}}" class="input" bindinput="borrowInput" bindblur="borrowBlur" data-index="{{index
                             }}"/> -->
@@ -157,14 +155,15 @@
                                 <view class="subject-title">{{item["subjectName"]}}</view>
                                 <view class="remark-title">未核销金额：{{item.formatUnverifyAmount}}</view>
                                 <view class="remark-title">事由：</view>
-                                <view class="remark-content" wx:if="{{item.remark && item.remark !== 'null'}}">{{item.remark}}</view>
+                                <view class="remark-content" wx:if="{{item.remark && item.remark !== 'null'}}">
+                                    {{item.remark}}</view>
                                 <view class="remark-content" wx:else>无</view>
                             </view>
                             <view class="form-row-content ellipsis borrow-remark baoxiaoDetail-right">
                                 <view class="tip">本次核销金额</view>
                                 <view class="edit-wrapper">
-                                    <input value="{{item.applicationAmount}}" bindinput="borrowInput" bindblur="borrowBlur"
-                                           data-index="{{index}}" type="digit"/>
+                                    <input value="{{item.applicationAmount}}" bindinput="borrowInput"
+                                        bindblur="borrowBlur" data-index="{{index}}" type="digit" />
                                     <image src="../../../images/edit.png" mode="aspectFill" class="edit"></image>
                                 </view>
                             </view>
@@ -180,7 +179,7 @@
             <view class="block-wrapper">
                 <view class="file-list">
                     <view class="file-item" wx:if="{{submitData.billFilesObj.length}}"
-                          wx:for="{{submitData.billFilesObj}}" wx:key="index">
+                        wx:for="{{submitData.billFilesObj}}" wx:key="index">
                         <view class="form-row">
                             <view class="delete-file" bindtap="deleteFile" data-file="{{item.name}}"></view>
                             <view class="form-row-content ellipsis" bindtap="previewFile" data-url="{{item.uri}}">
@@ -190,7 +189,7 @@
                                 <image src="{{item.uri}}" class="img" mode="aspectFill"></image>
                             </view>
                         </view>
-                        <view class="form-line"/>
+                        <view class="form-line" />
                     </view>
                 </view>
                 <view class="upload-wrapper" bindtap="handleUpload">
@@ -211,14 +210,17 @@
                                 </view>
                                 <view class="status-content add-status-content">
                                     <view class="progress-status">{{item.nodeName}}</view>
-                                    <view class="progress-user">{{item.oaBillUserList.length}}人{{item.nodeTypeName}}</view>
+                                    <view class="progress-user">{{item.oaBillUserList.length}}人{{item.nodeTypeName}}
+                                    </view>
                                 </view>
                             </view>
                             <view class="progress-right add-progress-right">
                                 <block wx:if="{{item.oaBillUserList.length > 3}}">
-                                    <view class="user-box" bindtap="showSelectedUserList" data-index="{{index}}" data-allowMulti="{{item.allowMulti}}">
+                                    <view class="user-box" bindtap="showSelectedUserList" data-index="{{index}}"
+                                        data-allowMulti="{{item.allowMulti}}">
                                         <view class="user-avatar">
-                                            <image src="../../../images/approval.png" class="view-avatar view-avatar-bg"></image>
+                                            <image src="../../../images/approval.png"
+                                                class="view-avatar view-avatar-bg"></image>
                                         </view>
                                         <view class="user-word">查看更多</view>
                                     </view>
@@ -226,7 +228,8 @@
                                 </block>
                                 <block wx:elif="{{item.oaBillUserList.length > 0}}">
                                     <view class="user-box">
-                                        <view wx:if="{{item.oaBillUserList[0].removable}}" bindtap="removeUser" data-index="{{index}}" data-id="{{item.oaBillUserList[0].id}}">
+                                        <view wx:if="{{item.oaBillUserList[0].removable}}" bindtap="removeUser"
+                                            data-index="{{index}}" data-id="{{item.oaBillUserList[0].id}}">
                                             <view class="user-avatar">
                                                 {{item.oaBillUserList[0].showUserName}}
                                                 <view class="remove-node"></view>
@@ -242,9 +245,11 @@
                                     </view>
                                     <view class="operate">{{item.operate}}</view>
                                 </block>
-                                <block wx:for="{{item.showOaBillUserList}}" wx:key="index" wx:for-item="user" wx:for-index="idx">
+                                <block wx:for="{{item.showOaBillUserList}}" wx:key="index" wx:for-item="user"
+                                    wx:for-index="idx">
                                     <view class="user-box">
-                                        <view wx:if="{{user.removable}}" bindtap="removeUser" data-index="{{index}}" data-id="{{user.id}}">
+                                        <view wx:if="{{user.removable}}" bindtap="removeUser" data-index="{{index}}"
+                                            data-id="{{user.id}}">
                                             <view class="user-avatar">
                                                 {{user.showUserName}}
                                                 <view class="remove-node"></view>
@@ -261,7 +266,8 @@
                                     <view class="operate">{{item.operate}}</view>
                                 </block>
                                 <block wx:if="{{item.editable}}">
-                                    <view class="user-box" bindtap="getDept" data-index="{{index}}" data-allowMulti="{{item.allowMulti}}">
+                                    <view class="user-box" bindtap="getDept" data-index="{{index}}"
+                                        data-allowMulti="{{item.allowMulti}}">
                                         <view class="user-avatar editable">+</view>
                                     </view>
                                 </block>
@@ -280,23 +286,40 @@
                                 <view class="view-avatar-wrapper">
                                     <view class="view-avatar-block">
                                         <view class="view-avatar">
-                                            <image wx:if="{{item.children.length && item.activityType == 'userTask'}}" src="../../../images/approval.png" class="view-avatar view-avatar-bg"></image>
-                                            <image wx:if="{{item.children.length && item.activityType == 'serviceTask'}}" src="../../../images/copy1.png" class="view-avatar view-avatar-bg"></image>
-                                            <view wx:if="{{!item.children.length}}" class="view-avatar view-avatar-bg">{{item.showAssigneeName}}</view>
+                                            <image wx:if="{{item.children.length && item.activityType == 'userTask'}}"
+                                                src="../../../images/approval.png" class="view-avatar view-avatar-bg">
+                                            </image>
+                                            <image
+                                                wx:if="{{item.children.length && item.activityType == 'serviceTask'}}"
+                                                src="../../../images/copy1.png" class="view-avatar view-avatar-bg">
+                                            </image>
+                                            <view wx:if="{{!item.children.length}}" class="view-avatar view-avatar-bg">
+                                                {{item.showAssigneeName}}</view>
                                         </view>
-                                        <image wx:if="{{item.status == 2}}" src="../../../images/success.png" class="view-avatar-icon"></image>
-                                        <image wx:if="{{item.status == 1}}" src="../../../images/3.png" class="view-avatar-icon"></image>
-                                        <image wx:if="{{item.status == -1 || item.status == -2}}" src="../../../images/reject.png" class="view-avatar-icon"></image>
+                                        <image wx:if="{{item.status == 2}}" src="../../../images/success.png"
+                                            class="view-avatar-icon"></image>
+                                        <image wx:if="{{item.status == 1}}" src="../../../images/3.png"
+                                            class="view-avatar-icon"></image>
+                                        <image wx:if="{{item.status == -1 || item.status == -2}}"
+                                            src="../../../images/reject.png" class="view-avatar-icon"></image>
                                     </view>
-                                    <view wx:if="{{item.status == 0 || item.status == 1}}" class="view-status-dotted-line"></view>
+                                    <view wx:if="{{item.status == 0 || item.status == 1}}"
+                                        class="view-status-dotted-line"></view>
                                     <view wx:else class="view-status-line"></view>
                                 </view>
                                 <view class="view-status-content">
                                     <view class="view-progress-status">{{item.activityName}}</view>
-                                    <view wx:if="{{item.children.length && item.activityType == 'userTask'}}" class="view-progress-user">{{item.children.length}}人{{item.signType == 'and' ? '会签' : '或签'}}{{statusObj[item.status] ? '（' + statusObj[item.status] + '）' : ''}}</view>
-                                    <view wx:if="{{item.children.length && item.activityType == 'serviceTask'}}" class="view-progress-user">抄送{{item.children.length}}人</view>
-                                    <view wx:if="{{!item.children.length}}" class="view-progress-user">{{item.assigneeName}}{{statusObj[item.status] ? '（' + statusObj[item.status] + '）' : ''}}</view>
-                                    <view wx:if="{{item.comment}}" class="view-progress-user view-progress-content">{{item.comment}}</view>
+                                    <view wx:if="{{item.children.length && item.activityType == 'userTask'}}"
+                                        class="view-progress-user">{{item.children.length}}人{{item.signType == 'and' ?
+                                        '会签' : '或签'}}{{statusObj[item.status] ? '（' + statusObj[item.status] + '）' :
+                                        ''}}</view>
+                                    <view wx:if="{{item.children.length && item.activityType == 'serviceTask'}}"
+                                        class="view-progress-user">抄送{{item.children.length}}人</view>
+                                    <view wx:if="{{!item.children.length}}" class="view-progress-user">
+                                        {{item.assigneeName}}{{statusObj[item.status] ? '（' + statusObj[item.status] +
+                                        '）' : ''}}</view>
+                                    <view wx:if="{{item.comment}}" class="view-progress-user view-progress-content">
+                                        {{item.comment}}</view>
                                     <view class="show-user-list" wx:if="{{item.showUserList}}">
                                         <block wx:if="{{item.children.length}}">
                                             <view class="user-block" wx:for="{{item.children}}" wx:for-item="user">
@@ -308,8 +331,10 @@
                                 </view>
                             </view>
                             <view class="progress-right" wx:if="{{item.children.length}}">
-                                <view bindtap="toggleHistoryList" data-index="{{index}}" wx:if="{{item.showUserList}}" class="toggle-user-list down"></view>
-                                <view bindtap="toggleHistoryList" data-index="{{index}}" wx:else class="toggle-user-list up"></view>
+                                <view bindtap="toggleHistoryList" data-index="{{index}}" wx:if="{{item.showUserList}}"
+                                    class="toggle-user-list down"></view>
+                                <view bindtap="toggleHistoryList" data-index="{{index}}" wx:else
+                                    class="toggle-user-list up"></view>
                                 <view wx:if="{{item.endTime}}">{{item.endTime}}</view>
                             </view>
                             <view wx:else class="progress-right">
@@ -323,21 +348,21 @@
             <view class="block-wrapper submit-info-wrapper">
                 <view class="total">
                     <view style="display:flex;align-items: center">
-                        <image src="../../../images/jiekuanTotal-icon.png" mode="scaleToFill" class="jiekuan-icon"/>
+                        <image src="../../../images/jiekuanTotal-icon.png" mode="scaleToFill" class="jiekuan-icon" />
                         <text class="title-word">申请金额：</text>
                     </view>
                     <text class="total-word">{{submitData.formatApplicationAmount}}</text>
                 </view>
                 <view class="total">
                     <view style="display:flex;align-items: center">
-                        <image src="../../../images/jiekuanTotal-icon.png" mode="scaleToFill" class="jiekuan-icon"/>
+                        <image src="../../../images/jiekuanTotal-icon.png" mode="scaleToFill" class="jiekuan-icon" />
                         <text class="title-word">核销借款：</text>
                     </view>
                     <text class="total-word">-{{submitData.formatVerificationAmount}}</text>
                 </view>
                 <view class="total">
                     <view style="display:flex;align-items: center">
-                        <image src="../../../images/jiekuanTotal-icon.png" mode="scaleToFill" class="jiekuan-icon"/>
+                        <image src="../../../images/jiekuanTotal-icon.png" mode="scaleToFill" class="jiekuan-icon" />
                         <text class="title-word">支付总额：</text>
                     </view>
                     <text class="total-word">{{submitData.formatTotalAmount}}</text>
@@ -352,16 +377,20 @@
                             <view class="avatar-wrapper">
                                 <view class="avatar-block">
                                     <image src="{{item.avatar}}" class="avatar"></image>
-                                    <image class="status-icon" wx:if="{{item.operationResult == 2}}" src="../../../images/1.png"></image>
-                                    <image class="status-icon" wx:if="{{item.operationResult == 3}}" src="../../../images/2.png"></image>
-                                    <image class="status-icon" wx:if="{{item.operationResult == 1}}" src="../../../images/3.png"></image>
+                                    <image class="status-icon" wx:if="{{item.operationResult == 2}}"
+                                        src="../../../images/1.png"></image>
+                                    <image class="status-icon" wx:if="{{item.operationResult == 3}}"
+                                        src="../../../images/2.png"></image>
+                                    <image class="status-icon" wx:if="{{item.operationResult == 1}}"
+                                        src="../../../images/3.png"></image>
                                 </view>
                                 <view class="status-line"></view>
                             </view>
                             <view class="status-content">
                                 <view class="progress-status">{{item.operationName}}</view>
                                 <view class="progress-user">{{item.userName}}{{item.resultName}}</view>
-                                <view class="progress-user" wx:if="{{item.remark && item.remark !== 'null'}}">"{{item.remark}}"</view>
+                                <view class="progress-user" wx:if="{{item.remark && item.remark !== 'null'}}">
+                                    "{{item.remark}}"</view>
                             </view>
                         </view>
                         <view class="progress-right">{{item.date}}</view>
@@ -393,7 +422,8 @@
                         </view>
                         <view class="user-word">{{item.userName}}</view>
                     </view>
-                    <view wx:else class="user-box" bindtap="removeUser" data-index="{{nodeIndex}}" data-id="{{item.id}}">
+                    <view wx:else class="user-box" bindtap="removeUser" data-index="{{nodeIndex}}"
+                        data-id="{{item.id}}">
                         <view class="user-avatar">
                             {{item.showUserName}}
                             <view class="remove-node"></view>
@@ -403,7 +433,8 @@
                     <view class="operate">/</view>
                 </block>
                 <block wx:if="{{selectedUserList.editable}}">
-                    <view class="user-box" bindtap="getDept" data-index="{{nodeIndex}}" data-allowMulti="{{selectedUserList.allowMulti}}" data-selectedUserList="{{true}}">
+                    <view class="user-box" bindtap="getDept" data-index="{{nodeIndex}}"
+                        data-allowMulti="{{selectedUserList.allowMulti}}" data-selectedUserList="{{true}}">
                         <view class="user-avatar editable">+</view>
                     </view>
                 </block>
