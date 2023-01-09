@@ -150,7 +150,6 @@ Page({
             res.forEach(item => {
                 allList.push(...item.list)
             })
-            console.log(allList, 'allList')
             allList.sort((a, b) => a.businessDateTime < b.businessDateTime ? 1 : -1)
             allList = allList.map(item => {
                 item.formatAmount = formatNumber(Number(item.originAmount).toFixed(2))
@@ -395,10 +394,10 @@ Page({
         const {id, type, status} = e.currentTarget.dataset
         let url = ''
         switch (type) {
-            case 'jxcPurchaseOrder':
+            case 'purchaseOrder':
                 url = app.globalData.url + 'purchaseOrderController.do?doBatchDel&ids=' + id
                 break
-            case 'jxcPurchaseWarehouseOrder':
+            case 'purchaseWarehouseOrder':
                 url = app.globalData.url + 'purchaseWarehousingOrderController.do?doBatchDel&ids=' + id
                 break
         }
@@ -419,7 +418,7 @@ Page({
                         method: 'GET',
                         success: res => {
                             if (res.data.success) {
-                                this.getListByListStatus()
+                                this.getListByListStatus(e)
                             } else {
                                 wx.showModal({
                                     content: '单据删除失败',

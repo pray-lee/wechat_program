@@ -25,7 +25,7 @@ Page({
     },
     gotoOaList() {
         wx.navigateTo({
-            url: '/pages/oaList/index'
+            url: '/bill/pages/oaList/index'
         })
     },
     gotoJxcList() {
@@ -394,6 +394,16 @@ Page({
             url: '/bill/pages/addBaoxiao/index?type=add'
         })
         this.onAddHide()
+    },
+    onShowAddJCD(e) {
+        wx.navigateTo({
+            url: '/jxc/pages/purchaseOrder/index?type=add'
+        })
+    },
+    onShowAddJCR(e) {
+        wx.navigateTo({
+            url: '/jxc/pages/purchaseWarehouseOrder/index?type=add'
+        })
     },
     onHide() {
         // 页面隐藏

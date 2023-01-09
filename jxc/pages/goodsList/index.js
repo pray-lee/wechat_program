@@ -5,7 +5,6 @@ Page({
       page: 1,
       isPhoneXSeries: false,
       goodsList: [],
-      searchResult: [],
       inputValue: ''
    },
    async initGoodsList() {
@@ -62,9 +61,10 @@ Page({
    },
    goBack(e) {
       const id = e.currentTarget.dataset.id
+      const goodsInfo = this.data.goodsList.filter(item => item.id === id)[0]
       wx.setStorage({
-         key: 'goodsId',
-         data: id,
+         key: 'goodsInfo',
+         data: goodsInfo,
          success: res => {
             wx.navigateBack({
                delta: 1
@@ -99,5 +99,5 @@ Page({
       app.globalData.timeOutInstance = setTimeout(() => {
          this.loadMoreData(value) 
       }, 300)
-   }
+   },
 })
