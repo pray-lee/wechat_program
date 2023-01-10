@@ -140,15 +140,12 @@
                                 data-id="{{item.billDetailId}}" data-index="{{index}}"></view>
                             <view class="form-row-content baoxiaoDetail-left" bindtap="showPurchaseOrderDetail"
                                 data-index="{{index}}">
-                                <view class="subject-title">{{item.subjectName}}</view>
-                                <view class="remark-title">事由：</view>
-                                <view class="remark-content" wx:if="{{item.remark && item.remark !== 'null'}}">
-                                    {{item.remark}}</view>
-                                <view class="remark-content" wx:else>无</view>
+                                <view class="subject-title">{{item.goodsName}}</view>
+                                <view class="remark-title">{{item.goodsCode}}</view>
                             </view>
                             <view class="form-row-content ellipsis borrow-remark baoxiaoDetail-right"
                                 bindtap="showPurchaseOrderDetail" data-index="{{index}}">
-                                {{item[amountField.formatApplicationAmount]}}</view>
+                                {{item.formatAmount}}</view>
                         </view>
                     </view>
                 </view>
@@ -335,7 +332,7 @@
                                 class="jiekuan-icon" />
                             <text class="title-word">采购金额(原币)：</text>
                         </view>
-                        <text class="total-word">{{submitData.originFormatApplicationAmount}}</text>
+                        <text class="total-word">{{submitData.formatOriginAmount}}</text>
                     </view>
                 </block>
                 <block wx:else>
@@ -345,7 +342,7 @@
                                 class="jiekuan-icon" />
                             <text class="title-word">采购金额：</text>
                         </view>
-                        <text class="total-word">{{submitData.formatApplicationAmount}}</text>
+                        <text class="total-word">{{submitData.formatOriginAmount}}</text>
                     </view>
                 </block>
             </view>

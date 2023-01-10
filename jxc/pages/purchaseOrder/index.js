@@ -15,17 +15,6 @@ Page({
         currencyTypeIndex: 0,
         currencyTypeList: [],
         exchangeRateDisabled: false,
-        // 外币字段区分
-        amountField: {
-            applicationAmount: 'applicationAmount',
-            formatApplicationAmount: 'formatApplicationAmount',
-            unverifyAmount: 'unverifyAmount',
-            formatUnverifyAmount: 'formatUnverifyAmount',
-            verificationAmount: 'verificationAmount',
-            formatVerificationAmount: 'formatVerificationAmount',
-            totalAmount: 'totalAmount',
-            formatTotalAmount: 'formatTotalAmount'
-        },
         // =============审批流相关============
         oaModule: null,
         showOaUserNodeList: false,
@@ -71,20 +60,13 @@ Page({
         submitData: {
             billFilesObj: [],
             submitDate: moment().format('YYYY-MM-DD'),
-            invoice: 1,
             businessDateTime: moment().format('YYYY-MM-DD'),
             deliveryDate: moment().format('YYYY-MM-DD'),
             applicationAmount: 0,
             formatApplicationAmount: 0,
-            originApplicationAmount: '',
-            originFormatApplicationAmount: '',
-            totalAmount: 0,
-            formatTotalAmount: 0,
-            formatVerificationAmount: 0,
             status: 20,
             userName: '',
             billCode: '',
-            auxpropertyNames: '',
             remark: '',
             // 外币
             baseCurrencyName: '',
@@ -98,44 +80,12 @@ Page({
     formatSubmitData(array, name) {
         array.forEach((item, index) => {
             Object.keys(item).forEach(keys => {
-                if (item[keys] instanceof Array && keys.indexOf('billDetail') !== -1 && keys.indexOf('extraMessage') < 0 && keys.indexOf('subjectExtraConf') < 0) {
-                    item[keys].forEach((arrItem, arrIndex) => {
-                        Object.keys(arrItem).forEach(arrKeys => {
-                            this.setData({
-                                submitData: {
-                                    ...this.data.submitData,
-                                    [`${name}[${index}].${keys.slice(0, -3)}[${arrIndex}].${arrKeys}`]: arrItem[arrKeys]
-                                }
-                            })
-                        })
-                    })
-                } else {
-                    // 如果是附加信息，转换成字符串
-                    if (keys == 'extraMessage') {
-                        this.setData({
-                            submitData: {
-                                ...this.data.submitData,
-                                [`${name}[${index}].${keys}`]: JSON.stringify(item[keys]),
-                            }
-                        })
-                    } else {
-                        if (keys === 'subjectExtraConf' && typeof item[keys] === 'object') {
-                            this.setData({
-                                submitData: {
-                                    ...this.data.submitData,
-                                    [`${name}[${index}].${keys}`]: JSON.stringify(item[keys])
-                                }
-                            })
-                        } else {
-                            this.setData({
-                                submitData: {
-                                    ...this.data.submitData,
-                                    [`${name}[${index}].${keys}`]: item[keys]
-                                }
-                            })
-                        }
+                this.setData({
+                    submitData: {
+                        ...this.data.submitData,
+                        [`${name}[${index}].${keys}`]: item[keys]
                     }
-                }
+                })
             })
         })
     },
@@ -208,9 +158,9 @@ Page({
         this.addLoading()
         var url = ''
         if (this.data.type === 'add') {
-            url = app.globalData.url + 'reimbursementBillController.do?doAdd'
+            url = app.globalData.url + 'purchaseOrderController.do?doAdd'
         } else {
-            url = app.globalData.url + 'reimbursementBillController.do?doUpdate&id=' + this.data.billId
+            url = app.globalData.url + 'purchaseOrderController.do?doUpdate&id=' + this.data.billId
         }
         // 处理一下 null 变成字符串的问题
         const submitData = clone(this.data.submitData)
@@ -237,14 +187,6 @@ Page({
                 if (res.data && typeof res.data == 'string') {
                     getErrorMessage(res.data)
                 }
-            }
-        })
-    },
-    radioChange(e) {
-        this.setData({
-            submitData: {
-                ...this.data.submitData,
-                invoice: e.detail.value ? 1 : 0
             }
         })
     },
@@ -289,19 +231,15 @@ Page({
                 submitData: {
                     ...this.data.submitData,
                     taxpayerType: this.data.accountbookList[value].taxpayerType,
-                    applicationAmount: '',
-                    originApplicationAmount: '',
-                    totalAmount: '',
-                    verificationAmount: '',
-                    originVerificationAmount: '',
-                    originTotalAmount: '',
+                    originAmount: '',
+                    formatOriginAmount: '',
                 },
             })
             // ============ 审批流 =========
             this.setData({
                 oaModule: this.findAccountbookOaModule(this.data[listName][value].id, this.data.accountbookList)
             })
-            this.showOaProcessByBillType(this.data[listName][value].id, 9)
+            this.showOaProcessByBillType(this.data[listName][value].id, 101)
             // ============ 审批流 =========
             this.getDepartmentList(this.data[listName][value].id)
             // =============外币============
@@ -325,12 +263,8 @@ Page({
                 purchaseOrderDetailList: [],
                 submitData: {
                     ...this.data.submitData,
-                    applicationAmount: '',
-                    originApplicationAmount: '',
-                    totalAmount: '',
-                    originTotalAmount: '',
-                    verificationAmount: '',
-                    originVerificationAmount: '',
+                    originAmount: '',
+                    formatOriginAmount: '',
                 },
             })
         }
@@ -350,10 +284,8 @@ Page({
             purchaseOrderDetailList = data.billDetailList.map(item => {
                 return {
                     ...item,
-                    applicationAmount: item.applicationAmount,
-                    formatApplicationAmount: formatNumber(Number(item.applicationAmount).toFixed(2)),
-                    originApplicationAmount: '',
-                    originFormatApplicationAmount: '',
+                    amount: item.amount,
+                    formatAmount: formatNumber(Number(item.amount).toFixed(2)),
                 }
             })
         }
@@ -368,14 +300,8 @@ Page({
                 baseCurrency: '',
                 baseCurrencyName: '',
                 currencyTypeId: '',
-                applicationAmount: '',
-                formatApplicationAmount: '',
-                verificationAmount: '',
-                formatVerificationAmount: '',
-                originVerificationAmount: '',
-                originFormatVerificationAmount: '',
-                originApplicationAmount: '',
-                originFormatApplicationAmount: ''
+                originAmount: '',
+                formatOriginAmount: '',
             }
         })
     },
@@ -414,21 +340,8 @@ Page({
             key: 'newPurchaseOrderDetailArr',
             success: res => {
                 const purchaseOrderDetail = res.data
-                //=============== 外币 =================
-                if (this.data.multiCurrency) {
-                    purchaseOrderDetail.forEach(item => {
-                        item.originApplicationAmount = item.applicationAmount
-                        item.applicationAmount = ''
-                        item.originFormatApplicationAmount = formatNumber(Number(item.originApplicationAmount).toFixed(2))
-                        item.formatApplicationAmount = ''
-                    })
-                }
-                //=============== 外币 =================
                 if (!!purchaseOrderDetail) {
                     // 处理wxml模板表达式不识别
-                    purchaseOrderDetail.forEach(item => {
-                        item.subjectName = item.subjectName.split('_').pop()
-                    })
                     let purchaseOrderDetailList = clone(this.data.purchaseOrderDetailList)
                     if (!!index || index === 0) {
                         purchaseOrderDetailList.splice(index, 1)
@@ -437,8 +350,8 @@ Page({
                             success: res => {
                             }
                         })
-                        purchaseOrderDetailList.splice(index, 0, purchaseOrderDetailDetail[0])
-                        purchaseOrderDetailList = purchaseOrderDetailList.concat(purchaseOrderDetailDetail.slice(1))
+                        purchaseOrderDetailList.splice(index, 0, purchaseOrderDetail[0])
+                        purchaseOrderDetailList = purchaseOrderDetailList.concat(purchaseOrderDetail.slice(1))
                         this.setData({
                             purchaseOrderDetailList: purchaseOrderDetailList
                         })
@@ -447,13 +360,29 @@ Page({
                             purchaseOrderDetailList: purchaseOrderDetailList.concat(purchaseOrderDetail)
                         })
                     }
-                    this.setApplicationAmount(purchaseOrderDetailList)
+                    this.setApplicationAmount(this.data.purchaseOrderDetailList)
                 }
             }
         })
         wx.removeStorage({
             key: 'newPurchaseOrderDetailArr',
             success: res => {
+            }
+        })
+    },
+    // 价税合计总额
+    setApplicationAmount(purchaseOrderDetailList) {
+        console.log(purchaseOrderDetailList,' lkasdjflkasjdf')
+        let originAmount = 0
+        purchaseOrderDetailList.forEach(item => {
+            console.log(item.amount, item)
+            originAmount += Number(item.amount)
+        })
+        this.setData({
+            submitData: {
+                ...this.data.submitData,
+                originAmount,
+                formatOriginAmount: formatNumber(Number(originAmount).toFixed(2))
             }
         })
     },
@@ -610,6 +539,7 @@ Page({
             submitData: {
                 ...this.data.submitData,
                 userName: app.globalData.realName,
+                submitterName: app.globalData.realName,
             }
         })
         var type = query.type
@@ -743,7 +673,8 @@ Page({
         return arr;
     },
     findAccountbookOaModule(accountbookId, accountbookList) {
-        return accountbookList.filter(item => item.id === accountbookId)[0].oaModule
+        const arr = accountbookList.filter(item => item.id === accountbookId)
+        return arr.length ? arr[0].oaModule : ''
     },
     // 通过单据判断
     showOaProcessByBillType(accountbookId, billType) {
@@ -776,7 +707,7 @@ Page({
             this.setData({
                 showOa: true
             })
-            this.getProcess(fields, 9)
+            this.getProcess(fields, 101)
         } else {
             this.setData({
                 showOa: false
@@ -797,7 +728,7 @@ Page({
         return params
     },
     getProcess(fields) {
-        const params = this.getOaParams(fields, 9)
+        const params = this.getOaParams(fields, 101)
         this.addLoading()
         request({
             hideLoading: this.hideLoading,
@@ -1125,7 +1056,7 @@ Page({
             success: res => {
                 wx.setStorage({
                     key: 'warehouseList',
-                    data: res.data.map(item => ({warehouseId: item.id, warehouseName: item.warehouseName}))
+                    data: res.data.map(item => ({ warehouseId: item.id, warehouseName: item.warehouseName }))
                 })
             }
         })
@@ -1141,13 +1072,13 @@ Page({
                 (async () => {
                     if (res.data.success && res.data.obj.length) {
                         var accountbookIndex = 0
-                        var taxpayerType = !!data ? data.accountbook.taxpayerType : null
+                        var taxpayerType = !!data ? data.accountbookEntity.taxpayerType : null
                         var accountbookId = !!data ? data.accountbookId : res.data.obj[0].id
                         // ============ 审批流 =========
                         this.setData({
                             oaModule: this.findAccountbookOaModule(accountbookId, res.data.obj)
                         })
-                        this.showOaProcessByBillType(accountbookId, 9)
+                        this.showOaProcessByBillType(accountbookId, 101)
                         // ============ 审批流 =========
                         // ============ 外币 =========
                         const currencyTypeId = !!data && data.currencyTypeId ? data.currencyTypeId : undefined
@@ -1297,14 +1228,14 @@ Page({
         this.addLoading()
         request({
             hideLoading: this.hideLoading,
-            url: app.globalData.url + 'reimbursementBillController.do?getDetail&id=' + id,
+            url: app.globalData.url + 'purchaseOrderController.do?getPurchaseOrder&id=' + id,
             method: 'GET',
             dataType: 'json',
             success: res => {
-                console.log(res, '获取报销单编辑回显')
-                if (res.data.obj) {
-                    this.setRenderData(res.data.obj)
-                    this.getProcessInstance(id, res.data.obj.accountbookId)
+                console.log(res, '获取采购订单编辑回显')
+                if (res.data) {
+                    this.setRenderData(res.data)
+                    this.getProcessInstance(id, res.data.accountbookId)
                 }
             }
         })
@@ -1331,21 +1262,9 @@ Page({
                 ...this.data.submitData,
                 billFilesObj: billFilesObj || [],
                 submitDate: moment().format('YYYY-MM-DD'),
-                invoice: data.invoice,
                 businessDateTime: data.businessDateTime.split(' ')[0],
-                applicationAmount: data.applicationAmount,
-                formatApplicationAmount: formatNumber(Number(data.applicationAmount).toFixed(2)),
-                verificationAmount: data.verificationAmount,
-                formatVerificationAmount: formatNumber(Number(data.verificationAmount).toFixed(2)),
-                totalAmount: data.totalAmount,
-                formatTotalAmount: formatNumber(Number(data.totalAmount).toFixed(2)),
-                // 外币
-                originApplicationAmount: data.originApplicationAmount,
-                originFormatApplicationAmount: formatNumber(Number(data.originApplicationAmount).toFixed(2)),
-                originVerificationAmount: data.originVerificationAmount,
-                originFormatVerificationAmount: formatNumber(Number(data.originVerificationAmount).toFixed(2)),
-                originTotalAmount: data.originTotalAmount,
-                originFormatTotalAmount: formatNumber(Number(data.originTotalAmount).toFixed(2)),
+                originAmount: data.originAmount,
+                formatOriginAmount: formatNumber(Number(data.originAmount).toFixed(2)),
                 exchangeRate: data.exchangeRate,
                 status: data.status,
                 remark: data.remark,
@@ -1374,10 +1293,6 @@ Page({
         this.addLoading()
         const index = e.currentTarget.dataset.index
         this.data.purchaseOrderDetailList[index].taxpayerType = this.data.submitData.taxpayerType
-        // 外币
-        if (this.data.multiCurrency) {
-            this.data.purchaseOrderDetailList[index].applicationAmount = this.data.purchaseOrderDetailList[index].originApplicationAmount
-        }
         var obj = this.generateBaseDetail()
         wx.setStorage({
             key: 'index',
@@ -1391,7 +1306,7 @@ Page({
             data: this.data.purchaseOrderDetailList[index],
             success: res => {
                 console.log(this.data.purchaseOrderDetailList[index])
-                console.log('写入报销详情成功！！')
+                console.log('写入采购订单详情成功！！')
                 wx.setStorage({
                     key: 'initPurchaseOrderDetail',
                     data: obj,
@@ -1466,7 +1381,7 @@ Page({
         this.addLoading()
         request({
             hideLoading: this.hideLoading,
-            url: app.globalData.url + 'weixinController.do?getProcessinstanceJson&billType=9&billId=' + billId + '&accountbookId=' + accountbookId,
+            url: app.globalData.url + 'weixinController.do?getProcessinstanceJson&billType=101&billId=' + billId + '&accountbookId=' + accountbookId,
             method: 'GET',
             success: res => {
                 console.log(res, '审批流')
@@ -1599,16 +1514,6 @@ Page({
         const multiCurrency = await this.getCurrencyTagByAccountbookId(accountbookId)
         this.setData({
             multiCurrency: multiCurrency,
-            amountField: {
-                applicationAmount: multiCurrency ? 'originApplicationAmount' : 'applicationAmount',
-                formatApplicationAmount: multiCurrency ? 'originFormatApplicationAmount' : 'formatApplicationAmount',
-                verificationAmount: multiCurrency ? 'originVerificationAmount' : 'verificationAmount',
-                formatVerificationAmount: multiCurrency ? 'originFormatVerificationAmount' : 'formatVerificationAmount',
-                unverifyAmount: multiCurrency ? 'originUnverifyAmount' : 'unverifyAmount',
-                formatUnverifyAmount: multiCurrency ? 'originFormatUnverifyAmount' : 'formatUnverifyAmount',
-                totalAmount: multiCurrency ? 'originTotalAmount' : 'totalAmount',
-                formatTotalAmount: multiCurrency ? 'originFormatTotalAmount' : 'formatTotalAmount',
-            }
         })
         if (multiCurrency) {
             const currencyTypeList = await this.getCurrencyTypeListByAccountbookId(accountbookId)

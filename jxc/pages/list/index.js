@@ -367,7 +367,7 @@ Page({
         const status = e.currentTarget.dataset.status
         const type = e.currentTarget.dataset.type
         switch (type) {
-            case 'jxcPurchaseOrder':
+            case 'purchaseOrder':
                 //借款
                 if (status == 10 || status == 25) {
                     this.setPage(`/jxc/pages/purchaseOrder/index?type=edit&id=${id}`)
@@ -375,7 +375,7 @@ Page({
                     this.setPage(`/jxc/pages/viewPurchaseOrder/index?id=${id}`)
                 }
                 break;
-            case 'jxcPurchaseWarehouseOrder':
+            case 'purchaseWarehouseOrder':
                 // 报销单
                 if (status == 10 || status == 25) {
                     this.setPage(`/jxc/pages/purchaseWarehouseOrder/index?type=edit&id=${id}`)
