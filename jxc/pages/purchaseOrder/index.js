@@ -62,8 +62,6 @@ Page({
             submitDate: moment().format('YYYY-MM-DD'),
             businessDateTime: moment().format('YYYY-MM-DD'),
             deliveryDate: moment().format('YYYY-MM-DD'),
-            applicationAmount: 0,
-            formatApplicationAmount: 0,
             status: 20,
             userName: '',
             billCode: '',
@@ -80,6 +78,7 @@ Page({
     formatSubmitData(array, name) {
         array.forEach((item, index) => {
             Object.keys(item).forEach(keys => {
+                console.log(typeof item[keys])
                 this.setData({
                     submitData: {
                         ...this.data.submitData,
@@ -165,7 +164,7 @@ Page({
         // 处理一下 null 变成字符串的问题
         const submitData = clone(this.data.submitData)
         for (let i in submitData) {
-            if (submitData[i] == null) {
+            if (submitData[i] == null || typeof submitData[i] == 'object') {
                 delete submitData[i]
             }
         }
@@ -224,7 +223,7 @@ Page({
         }
         // --------------------------------------------------------
         if (name === 'accountbookId') {
-            this.showOaUserNodeListUseField(['accountbookId', 'submitterDepartmentId', 'baoxiaoList', 'totalAmount'])
+            this.showOaUserNodeListUseField(['accountbookId', 'submitterDepartmentId', 'originAmount'])
             // 重新获取科目以后，就要置空报销列表
             this.setData({
                 purchaseOrderDetailList: [],
@@ -280,12 +279,18 @@ Page({
     clearCurrencyData(data) {
         // 清除外币字段
         var purchaseOrderDetailList = []
+        console.log(data.billDetailList, 'clearCurrencyData')
         if (data && data.billDetailList && data.billDetailList.length) {
             purchaseOrderDetailList = data.billDetailList.map(item => {
                 return {
                     ...item,
-                    amount: item.amount,
-                    formatAmount: formatNumber(Number(item.amount).toFixed(2)),
+                    goodsName: item.goodsEntity.goodsName,
+                    goodsCode: item.goodsEntity.goodsCode,
+                    goodsSpecs: item.goodsEntity.goodsSpecs,
+                    auxiliaryAttributeName: item.goodsEntity.auxiliaryAttributeName,
+                    unitId: item.goodsEntity?.unitEntity?.id || '',
+                    warehouseId: item.warehouseEntity?.id || '',
+                    formatOriginAmount: formatNumber(Number(item.originAmount).toFixed(2))
                 }
             })
         }
@@ -776,7 +781,7 @@ Page({
                 nodeName: node.nodeName
             }
         })
-        if (!!nodeList) {
+        if (!!nodeList && nodeList.length) {
             this.setData({
                 nodeList: newNodeList,
                 showOa: true
@@ -942,17 +947,20 @@ Page({
         })
     },
     // 获取供应商
-    getSupplierList(accountbookId, supplierDetailId) {
+    getSupplierList(accountbookId, supplierId) {
         this.addLoading()
         request({
             hideLoading: this.hideLoading,
             url: `${app.globalData.url}supplierDetailController.do?json&accountbook.id=${accountbookId}`,
             method: 'GET',
             success: res => {
-                const arr = res.data.map(item => (item.supplier))
+                const arr = res.data.map(item => ({
+                    id: item.id,
+                    supplierName: item.supplier.supplierName
+                }))
                 // edit 的时候设置supplierIndex
                 var supplierDetailIndex = 0
-                var supplierDetailId = !!supplierDetailId ? supplierDetailId : arr[0].id
+                var supplierDetailId = !!supplierId ? supplierId : arr[0].id
                 if (supplierDetailId) {
                     arr.forEach((item, index) => {
                         if (item.id === supplierDetailId) {
@@ -972,7 +980,7 @@ Page({
         })
     },
     // 获取采购人
-    getPurchaseUserList(accountbookId, departDetailId, purchaseUserId) {
+    getPurchaseUserList(accountbookId, departDetailId, userId) {
         this.addLoading()
         request({
             hideLoading: this.hideLoading,
@@ -982,7 +990,7 @@ Page({
                 const arr = res.data
                 // edit 的时候设置departmentIndex
                 var purchaseUserIndex = 0
-                var purchaseUserId = !!purchaseUserId ? purchaseUserId : arr[0].id
+                var purchaseUserId = !!userId ? userId : arr[0].id
                 if (purchaseUserId) {
                     arr.forEach((item, index) => {
                         if (item.id === purchaseUserId) {
@@ -1015,7 +1023,7 @@ Page({
         return []
     },
     // 获取收货组织
-    getAccountbookReceiveList(accountbookIdReceive) {
+    getAccountbookReceiveList(accountbookId) {
         this.addLoading()
         request({
             hideLoading: this.hideLoading(),
@@ -1025,7 +1033,7 @@ Page({
                 const arr = this.handleAccountbookList(this.data.submitData.accountbookId, res.data.rows)
                 // edit 的时候设置departmentIndex
                 var accountbookReceiveIndex = 0
-                var accountbookIdReceive = !!accountbookIdReceive ? accountbookIdReceive : arr[arr.length - 1].accountbookIdReceive
+                var accountbookIdReceive = !!accountbookId ? accountbookId : arr[arr.length - 1].accountbookIdReceive
                 if (accountbookIdReceive) {
                     arr.forEach((item, index) => {
                         if (item.accountbookIdReceive === accountbookIdReceive) {
@@ -1275,8 +1283,8 @@ Page({
         })
         let t = null
         t = setTimeout(() => {
-            this.showOaUserNodeListUseField(['accountbookId', 'submitterDepartmentId', 'baoxiaoList', 'totalAmount'])
-            this.setRenderProgress(JSON.parse(data.oaBillUserNodeListJson))
+            this.showOaUserNodeListUseField(['accountbookId', 'submitterDepartmentId', 'originAmount'])
+            this.setRenderProgress(JSON.parse(data.oaBillUserNodeListJson) || [])
             clearTimeout(t)
             t = null
         })
@@ -1559,7 +1567,6 @@ Page({
                             exchangeRate: 1
                         }
                     })
-                    return
                 }
                 this.setData({
                     submitData: {
@@ -1575,8 +1582,14 @@ Page({
                 billDetailList = data.billDetailList.map(item => {
                     return {
                         ...item,
-                        originApplicationAmount: item.originApplicationAmount ? item.originApplicationAmonut : item.applicationAmount,
-                        originFormatApplicationAmount: item.originApplicationAmount ? formatNumber(Number(item.originApplicationAmount).toFixed(2)) : formatNumber(Number(item.applicationAmount).toFixed(2))
+                        goodsName: item.goodsEntity.goodsName,
+                        goodsCode: item.goodsEntity.goodsCode,
+                        goodsSpecs: item.goodsEntity.goodsSpecs,
+                        auxiliaryAttributeName: item.goodsEntity.auxiliaryAttributeName,
+                        unitId: item.goodsEntity?.unitEntity?.id || '',
+                        warehouseId: item.warehouseEntity?.id || '',
+                        formatOriginAmount: formatNumber(Number(item.originAmount).toFixed(2)),
+                        taxRageObject: this.data.taxRageObject,
                     }
                 })
                 this.setData({

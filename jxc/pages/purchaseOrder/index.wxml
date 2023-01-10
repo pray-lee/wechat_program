@@ -145,7 +145,7 @@
                             </view>
                             <view class="form-row-content ellipsis borrow-remark baoxiaoDetail-right"
                                 bindtap="showPurchaseOrderDetail" data-index="{{index}}">
-                                {{item.formatAmount}}</view>
+                                {{item.formatOriginAmount}}</view>
                         </view>
                     </view>
                 </view>

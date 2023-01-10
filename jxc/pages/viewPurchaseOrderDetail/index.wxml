@@ -1,0 +1,122 @@
+<view class="form-wrapper">
+    <scroll-view scroll-y class="form-scroll-wrapper">
+        <view class="block-wrapper">
+            <view class="form-row">
+                <view class="form-row-label"><text class="require">*</text>商品名称：</view>
+                <view class="form-row-content">
+                    <view class="mock-input">{{purchaseOrderDetail.goodsEntity.goodsName}}</view>
+                </view>
+            </view>
+            <block wx:if="{{purchaseOrderDetia.goodsEntity.goodsCode}}">
+                <view class="form-line"></view>
+                <view class="form-row">
+                    <view class="form-row-label"><text class="require">*</text>商品编码：</view>
+                    <view class="form-row-content">
+                        <view class="mock-input">{{purchaseOrderDetail.goodsEntity.goodsCode}}</view>
+                    </view>
+                </view>
+            </block>
+            <block wx:if="{{purchaseOrderDetail.goodsEntity.goodsSpecs}}">
+                <view class="form-line"></view>
+                <view class="form-row">
+                    <view class="form-row-label"><text class="require">*</text>规格型号：</view>
+                    <view class="form-row-content">
+                        <view class="mock-input">{{purchaseOrderDetail.goodsEntity.goodsSpecs}}</view>
+                    </view>
+                </view>
+            </block>
+            <block wx:if="{{purchaseOrderDetail.goodsEntity.auxiliaryAttributeName}}">
+                <view class="form-line"></view>
+                <view class="form-row">
+                    <view class="form-row-label">商品属性：</view>
+                    <view class="form-row-content">{{purchaseOrderDetail.goodsEntity.auxiliaryAttributeName}}</view>
+                </view>
+            </block>
+                <view class="form-line"></view>
+                <view class="form-row">
+                    <view class="form-row-label">计量单位：</view>
+                    <view class="form-row-content">
+                        <view>{{purchaseOrderDetail.goodsEntity.unitEntity.unitName}}</view>
+                    </view>
+                </view>
+            <view class="form-line"></view>
+            <view class="form-row">
+                <view class="form-row-label"><text class="require">*</text>仓库：</view>
+                <view class="form-row-content">
+                    <view>{{purchaseOrderDetail.warehouseEntity.warehouseName}}</view>
+                </view>
+            </view>
+            <view class="form-line"></view>
+            <view class="form-row">
+                <view class="form-row-label"><text class="require">*</text>计价数量：</view>
+                <view class="form-row-content">
+                    <view>{{purchaseOrderDetail.formatNumber}}</view>
+                </view>
+            </view>
+            <view class="form-line"></view>
+            <view class="form-row">
+                <view class="form-row-label"><text class="require">*</text>含税单价：</view>
+                <view class="form-row-content">
+                    <view>{{purchaseOrderDetail.formatPrice}}</view>
+                </view>
+            </view>
+            <view class="form-line"></view>
+            <view class="form-row">
+                <view class="form-row-label">折扣率%：</view>
+                <view class="form-row-content">
+                    <view>{{purchaseOrderDetail.discountRate}}</view>
+                </view>
+            </view>
+            <view class="form-line"></view>
+            <view class="form-row">
+                <view class="form-row-label">折扣额：</view>
+                <view class="form-row-content">
+                    <view>{{purchaseOrderDetail.formatDiscountAmount}}</view>
+                </view>
+            </view>
+            <view class="form-line"></view>
+            <view class="form-row">
+                <view class="form-row-label"><text class="require">*</text>价税合计：</view>
+                <view class="form-row-content">
+                    <view>{{purchaseOrderDetail.formatOriginAmount}}</view>
+                </view>
+            </view>
+            <view class="form-line" wx:if="{{purchaseOrderDetail.taxpayerType == 2}}" />
+            <view class="form-row invoice-wrapper" wx:if="{{purchaseOrderDetail.taxpayerType == 2}}">
+                <view class="form-row-label"><text class="require">*</text>是否为专票</view>
+                <switch bindchange="purchaseOrderRadioChange" checked="{{purchaseOrderDetail.invoiceType == 2}}"
+                    color="#1f76d8" />
+            </view>
+            <view class="form-line" wx:if="{{purchaseOrderDetail.invoiceType == 2}}" />
+            <view class="form-row" wx:if="{{purchaseOrderDetail.invoiceType == 2}}">
+                <view class="form-row-label"><text class="require">*</text>税率</view>
+                <view class="form-row-content">
+                    <view class="form-row-content">
+                        <view>{{purchaseOrderDetail.taxRate}}</view>
+                    </view>
+                </view>
+            </view>
+            <view class="form-line" wx:if="{{purchaseOrderDetail.invoiceType == 2}}"></view>
+            <view class="form-row" wx:if="{{purchaseOrderDetail.invoiceType == 2}}">
+                <view class="form-row-label"><text class="require">*</text>税额</view>
+                <view class="form-row-content">
+                    <view>{{purchaseOrderDetail.formatTaxAmount}}</view>
+                </view>
+            </view>
+            <view class="form-line"></view>
+            <view class="form-row">
+                <view class="form-row-label"><text class="require">*</text>未税金额：</view>
+                    <view class="form-row-content">
+                        <view>{{purchaseOrderDetail.formatUntaxedAmount}}</view>
+                    </view>
+            </view>
+            <view class="form-line"></view>
+            <view class="form-row">
+                <view class="form-row-label">备注</view>
+                <view class="form-row-content">
+                    <view>{{purchaseOrderDetail.remark}}</view>
+                </view>
+            </view>
+        </view>
+    </scroll-view>
+</view>

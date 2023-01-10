@@ -20,10 +20,12 @@ Page({
             discountRate: '',
             discountAmount: '',
             amount: '',
+            originAmount: '',
             invoiceType: 1,
             taxRate: '',
             taxAmount: '',
             untaxedAmount: '',
+            originUntaxedAmount: '',
             remark: '',
             formatNumber: '',
             formatPrice: '',
@@ -67,10 +69,35 @@ Page({
             this.setData({
                 purchaseOrderDetail: {
                     ...this.data.purchaseOrderDetail,
-                    ...purchaseOrderDetail
+                    ...purchaseOrderDetail,
+                    formatNumber: formatNumber(Number(purchaseOrderDetail.number).toFixed(2)) || '',
+                    formatPrice: formatNumber(Number(purchaseOrderDetail.price).toFixed(2)) || '',
+                    formatDiscountAmount: formatNumber(Number(purchaseOrderDetail.discountAmount).toFixed(2)) || '',
+                    formatOriginAmount: formatNumber(Number(purchaseOrderDetail.amount).toFixed(2)) || '',
+                    formatAmount: formatNumber(Number(purchaseOrderDetail.amount).toFixed(2)) || '',
+                    formatTaxAmount: formatNumber(Number(purchaseOrderDetail.taxAmount).toFixed(2)) || '',
+                    formatUntaxedAmount: formatNumber(Number(purchaseOrderDetail.untaxedAmount).toFixed(2)) || '',
                 },
             })
         }
+        // 设置编辑时候的税率
+        this.setInitTaxRate(this.data.purchaseOrderDetail)
+    },
+    setInitTaxRate(purchaseOrderDetail) {
+        let {taxRageArr} = purchaseOrderDetail.taxRageObject
+        let taxRageIndex = 0
+        const taxRate = purchaseOrderDetail.taxRate
+        taxRageArr.forEach((item, index) => {
+            if(taxRate == item.id) {
+                taxRageIndex = index
+            }
+        })
+        this.setData({
+            purchaseOrderDetail: {
+                ...this.data.purchaseOrderDetail,
+                taxRageIndex
+            }
+        })
     },
     handleUnit(goodsUnitName) {
         const unitList = goodsUnitName.split('##').map(unit => {
@@ -116,13 +143,24 @@ Page({
         var listName = e.currentTarget.dataset.list
         var value = e.detail.value
         var index = e.currentTarget.dataset.index
-        this.setData({
-            [index]: e.detail.value,
-            purchaseOrderDetail: {
-                ...this.data.purchaseOrderDetail,
-                [name]: this.data[listName][value].unitId
-            }
-        })
+        if(name === 'unitId') {
+            this.setData({
+                [index]: e.detail.value,
+                purchaseOrderDetail: {
+                    ...this.data.purchaseOrderDetail,
+                    [name]: this.data[listName][value].unitId
+                }
+            })
+        }
+        if(name === 'warehouseId') {
+            this.setData({
+                [index]: e.detail.value,
+                purchaseOrderDetail: {
+                    ...this.data.purchaseOrderDetail,
+                    [name]: this.data[listName][value].warehouseId
+                }
+            })
+        }
     },
     onShow() {
         // 获取仓库信息
@@ -174,7 +212,9 @@ Page({
                     [name]: value,
                     formatNumber: formatNumber(Number(value).toFixed(2)),
                     amount: price ? (Number(price) * Number(value)).toString() : 0,
-                    formatAmount: formatNumber((Number(price) * Number(value)).toFixed(2))
+                    formatAmount: formatNumber((Number(price) * Number(value)).toFixed(2)),
+                    originAmount: price ? (Number(price) * Number(value)).toString() : 0,
+                    formatOriginAmount: formatNumber((Number(price) * Number(value)).toFixed(2))
                 }
             })
         }
@@ -186,7 +226,9 @@ Page({
                     [name]: value,
                     formatPrice: formatNumber(Number(value).toFixed(2)),
                     amount: number ? (Number(number) * Number(value)).toString() : 0,
-                    formatAmount: formatNumber((Number(number) * Number(value)).toFixed(2))
+                    formatAmount: formatNumber((Number(number) * Number(value)).toFixed(2)),
+                    originAmount: number ? (Number(number) * Number(value)).toString() : 0,
+                    formatOriginAmount: formatNumber((Number(number) * Number(value)).toFixed(2))
                 }
             })
         }
@@ -197,6 +239,8 @@ Page({
                     ...this.data.purchaseOrderDetail,
                     [name]: value,
                     formatAmount: formatNumber(Number(value).toFixed(2)),
+                    originAmount: value,
+                    formatOriginAmount: formatNumber(Number(value).toFixed(2)),
                     price: (Number(value) / Number(number)).toString(),
                     formatPrice: formatNumber((Number(value) / Number(number)).toFixed(2)),
                 }
@@ -211,7 +255,9 @@ Page({
                     purchaseOrderDetail: {
                         ...this.data.purchaseOrderDetail,
                         untaxedAmount: value,
-                        formatUntaxedAmount: formatNumber(Number(value))
+                        originUntaxedAmount: value,
+                        formatUntaxedAmount: formatNumber(Number(value)),
+                        formatOriginUntaxedAmount: formatNumber(Number(value))
                     }
                 })
             }
@@ -224,7 +270,9 @@ Page({
                     taxAmount: '',
                     formatTaxAmount: '',
                     untaxedAmount: this.data.purchaseOrderDetail.amount,
-                    formatUntaxedAmount: this.data.purchaseOrderDetail.formatAmount
+                    originUntaxedAmount: this.data.purchaseOrderDetail.amount,
+                    formatUntaxedAmount: this.data.purchaseOrderDetail.formatAmount,
+                    formatOriginUntaxedAmount: this.data.purchaseOrderDetail.formatAmount
                 }
             })
         }
@@ -236,7 +284,9 @@ Page({
                     [name]: value,
                     formatTaxAmount: formatNumber(Number(value).toFixed(2)),
                     untaxedAmount: (Number(amount) - Number(value)).toString(),
-                    formatUntaxedAmount: formatNumber((Number(amount) - Number(value)).toFixed(2))
+                    originUntaxedAmount: (Number(amount) - Number(value)).toString(),
+                    formatUntaxedAmount: formatNumber((Number(amount) - Number(value)).toFixed(2)),
+                    formatOriginUntaxedAmount: formatNumber((Number(amount) - Number(value)).toFixed(2))
                 }
             })
         }
@@ -246,7 +296,9 @@ Page({
                 purchaseOrderDetail: {
                     ...this.data.purchaseOrderDetail,
                     [name]: value,
+                    originUntaxedAmount: value,
                     formatUntaxedAmount: formatNumber(Number(value).toFixed(2)),
+                    formatOriginUntaxedAmount: formatNumber(Number(value).toFixed(2)),
                     taxAmount: (Number(amount) - Number(value)).toString(),
                     formatTaxAmount: formatNumber((Number(amount) - Number(value)).toFixed(2))
                 }
@@ -316,6 +368,8 @@ Page({
             purchaseOrderItem.formatTaxedAmount = ''
             purchaseOrderItem.untaxedAmount = purchaseOrderItem.amount
             purchaseOrderItem.formatUntaxedAmount = purchaseOrderItem.formatAmount
+            purchaseOrderItem.originUntaxedAmount = purchaseOrderItem.amount
+            purchaseOrderItem.formatOriginUntaxedAmount = purchaseOrderItem.formatAmount
             this.setData({
                 purchaseOrderDetail: purchaseOrderItem,
                 noticeHidden: true
@@ -343,6 +397,8 @@ Page({
                 ...this.data.purchaseOrderDetail,
                 untaxedAmount,
                 formatUntaxedAmount: formatNumber(Number(untaxedAmount).toFixed(2)),
+                originUntaxedAmount: untaxedAmount,
+                formatOriginUntaxedAmount: formatNumber(Number(untaxedAmount).toFixed(2)),
                 taxAmount: Number(amount) - Number(untaxedAmount),
                 formatTaxAmount: formatNumber((Number(amount) - Number(untaxedAmount)).toFixed(2))
             }

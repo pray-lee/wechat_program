@@ -50,8 +50,10 @@
       "root": "jxc",
       "pages": [
         "pages/purchaseOrder/index",
+        "pages/viewPurchaseOrder/index",
         "pages/purchaseWarehouseOrder/index",
         "pages/purchaseOrderDetail/index",
+        "pages/viewPurchaseOrderDetail/index",
         "pages/list/index",
         "pages/goodsList/index"
       ]
