@@ -51,9 +51,12 @@
       "pages": [
         "pages/purchaseOrder/index",
         "pages/viewPurchaseOrder/index",
-        "pages/purchaseWarehouseOrder/index",
         "pages/purchaseOrderDetail/index",
         "pages/viewPurchaseOrderDetail/index",
+        "pages/purchaseWarehouseOrder/index",
+        "pages/viewPurchaseWarehouseOrder/index",
+        "pages/purchaseWarehouseOrderDetail/index",
+        "pages/viewPurchaseWarehouseOrderDetail/index",
         "pages/list/index",
         "pages/goodsList/index"
       ]

@@ -154,7 +154,7 @@
     width: 20rpx;
     height: 20rpx;
 }
-.J, .B, .K, .F{
+.J, .B, .K, .F, .JCD, .JCR{
     background-position-x: 15rpx
 }
 .status.error.purchaseorder::before {

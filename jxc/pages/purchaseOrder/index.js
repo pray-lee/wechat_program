@@ -1301,6 +1301,7 @@ Page({
         this.addLoading()
         const index = e.currentTarget.dataset.index
         this.data.purchaseOrderDetailList[index].taxpayerType = this.data.submitData.taxpayerType
+        this.data.purchaseOrderDetailList[index].taxRageObject = this.data.taxRageObject
         var obj = this.generateBaseDetail()
         wx.setStorage({
             key: 'index',

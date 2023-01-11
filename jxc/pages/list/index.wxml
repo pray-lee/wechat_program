@@ -8,8 +8,8 @@
         </view>
         <view class="select-bill-wrapper" animation="{{animationInfoTopList}}" topHidden="{{topHidden}}">
             <view style="background-color: {{selectedType == 'ALL'?'#ccc' : '#fff'}}" class="bill-btn" bindtap="getAllList">全部</view>
-            <view style="background-color: {{selectedType == 'J'?'#ccc' : '#fff'}}" class="bill-btn purchaseOrder" bindtap="getSingleList" data-type="purchaseOrder">采购订单</view>
-            <view style="background-color: {{selectedType == 'B'?'#ccc' : '#fff'}}" class="bill-btn purchaseWarehouseOrder" bindtap="getSingleList" data-type="purchaseWarehouseOrder">采购入库单</view>
+            <view style="background-color: {{selectedType == 'J'?'#ccc' : '#fff'}}" class="bill-btn JCD" bindtap="getSingleList" data-type="purchaseOrder">采购订单</view>
+            <view style="background-color: {{selectedType == 'B'?'#ccc' : '#fff'}}" class="bill-btn JCR" bindtap="getSingleList" data-type="purchaseWarehouseOrder">采购入库单</view>
         </view>
     </view>
     <view class="search-wrapper">

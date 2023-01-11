@@ -380,7 +380,7 @@ Page({
                 if (status == 10 || status == 25) {
                     this.setPage(`/jxc/pages/purchaseWarehouseOrder/index?type=edit&id=${id}`)
                 } else {
-                    this.setPage(`/jxc/pages/viewPurchaseOrder/index?id=${id}`)
+                    this.setPage(`/jxc/pages/viewPurchaseWarehouseOrder/index?id=${id}`)
                 }
                 break;
         }

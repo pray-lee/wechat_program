@@ -34,7 +34,7 @@
     <view wx:if="{{oaList.length >= 0}}" bindtap="gotoOaList" class="undo-entry">待办事项<text
             style="color:#00c458;padding-left: 30rpx;">{{oaList.length}}</text></view>
     <view bindtap="gotoInvoiceList" class="undo-entry invoice-list">个人票夹</view>
-    <view bindtap="gotoJxcList" class="undo-entry">进销存单据</view>
+    <view bindtap="gotoJxcList" class="undo-entry jxc">进销存单据</view>
     <view class="btn-area-wrapper {{isPhoneXSeries ? 'iphoneX' : ''}}">
         <view class="add-btn" bindtap="onAddShow">
             新增单据
