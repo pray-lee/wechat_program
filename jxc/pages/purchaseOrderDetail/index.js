@@ -1,6 +1,7 @@
 import '../../../util/handleLodash'
 import { cloneDeep as clone } from 'lodash'
 import { formatNumber, validFn, request } from "../../../util/getErrorMessage";
+import NP from "number-precision";
 
 const app = getApp()
 Page({
@@ -117,9 +118,22 @@ Page({
     },
     // 获取仓库信息
     getWarehouseListFromStorage() {
-        const warehouseList = wx.getStorageSync('warehouseList') || {}
+        const warehouseList = wx.getStorageSync('warehouseList') || []
+        let warehouseIndex = 0
+        if(this.data.purchaseOrderDetail.warehouseId) {
+            warehouseList.forEach((item, index) => {
+                if(item.warehouseId === this.data.purchaseOrderDetail.warehouseId){
+                    warehouseIndex = index
+                }
+            })
+        }
         this.setData({
-            warehouseList
+            warehouseList,
+            warehouseIndex,
+            purchaseOrderDetail: {
+                ...this.data.purchaseOrderDetail,
+                warehouseId: warehouseList[warehouseIndex].warehouseId
+            }
         })
     },
     getGoodsInfoFromStorage() {
@@ -211,10 +225,10 @@ Page({
                     ...this.data.purchaseOrderDetail,
                     [name]: value,
                     formatNumber: formatNumber(Number(value).toFixed(2)),
-                    amount: price ? (Number(price) * Number(value)).toString() : 0,
-                    formatAmount: formatNumber((Number(price) * Number(value)).toFixed(2)),
-                    originAmount: price ? (Number(price) * Number(value)).toString() : 0,
-                    formatOriginAmount: formatNumber((Number(price) * Number(value)).toFixed(2))
+                    amount: price ? NP.times(Number(price), Number(value)).toString() : 0,
+                    formatAmount: formatNumber(NP.times(Number(price), Number(value)).toFixed(2)),
+                    originAmount: price ? NP.times(Number(price), Number(value)).toString() : 0,
+                    formatOriginAmount: formatNumber(NP.times(Number(price), Number(value)).toFixed(2))
                 }
             })
         }
@@ -225,10 +239,10 @@ Page({
                     ...this.data.purchaseOrderDetail,
                     [name]: value,
                     formatPrice: formatNumber(Number(value).toFixed(2)),
-                    amount: number ? (Number(number) * Number(value)).toString() : 0,
-                    formatAmount: formatNumber((Number(number) * Number(value)).toFixed(2)),
-                    originAmount: number ? (Number(number) * Number(value)).toString() : 0,
-                    formatOriginAmount: formatNumber((Number(number) * Number(value)).toFixed(2))
+                    amount: number ? NP.times(Number(number), Number(value)).toString() : 0,
+                    formatAmount: formatNumber(NP.times(Number(number), Number(value)).toFixed(2)),
+                    originAmount: number ? NP.times(Number(number), Number(value)).toString() : 0,
+                    formatOriginAmount: formatNumber(NP.times(Number(number), Number(value)).toFixed(2))
                 }
             })
         }
@@ -241,8 +255,8 @@ Page({
                     formatAmount: formatNumber(Number(value).toFixed(2)),
                     originAmount: value,
                     formatOriginAmount: formatNumber(Number(value).toFixed(2)),
-                    price: (Number(value) / Number(number)).toString(),
-                    formatPrice: formatNumber((Number(value) / Number(number)).toFixed(2)),
+                    price: NP.divide(Number(value), Number(number)).toString(),
+                    formatPrice: formatNumber(NP.divide(Number(value), Number(number)).toFixed(2)),
                 }
             })
             if (this.data.purchaseOrderDetail.invoiceType == 2) {
@@ -315,7 +329,7 @@ Page({
                 })
                 return
             }
-            const discountAmount = Number(number) * Number(price) * (1 - Number(value) / 100)
+            const discountAmount = NP.times(Number(number), Number(price), NP.minus(1, NP.divide(Number(value), 100)))
             this.setData({
                 purchaseOrderDetail: {
                     ...this.data.purchaseOrderDetail,
@@ -334,7 +348,7 @@ Page({
                 })
                 return
             }
-            const discountRate = (1 - Number(value) / Number(number) / Number(price)) * 100
+            const discountRate = NP.minus(1, NP.divide(Number(value), Number(number), Number(price))) * 100
             this.setData({
                 purchaseOrderDetail: {
                     ...this.data.purchaseOrderDetail,

@@ -62,6 +62,8 @@ Page({
    goBack(e) {
       const id = e.currentTarget.dataset.id
       const goodsInfo = this.data.goodsList.filter(item => item.id === id)[0]
+      // 补一下goodsId
+      goodsInfo.goodsId = goodsInfo.id
       wx.setStorage({
          key: 'goodsInfo',
          data: goodsInfo,
