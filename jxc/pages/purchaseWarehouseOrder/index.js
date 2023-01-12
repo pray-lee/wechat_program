@@ -8,6 +8,7 @@ var app = getApp()
 app.globalData.loadingCount = 0
 Page({
     data: {
+        showPurchaseOrderList: false,
         // 增加申请人
         realName: '',
         // =============外币相关============
@@ -935,6 +936,10 @@ Page({
                 })
             }
         })
+    },
+    // 获取导入采购订单列表
+    getImportPurchaseOrderList(accountbookId, supplierDetailId) {
+
     },
     // 获取供应商
     getSupplierList(accountbookId, supplierId) {

@@ -25,7 +25,7 @@ Page({
                         formatDiscountAmount: purchaseWarehouseOrderDetail.discountAmount ? formatNumber(Number(purchaseWarehouseOrderDetail.discountAmount).toFixed(2)) : '',
                         formatOriginAmount: formatNumber(Number(purchaseWarehouseOrderDetail.originAmount).toFixed(2)),
                         formatTaxAmount: formatNumber(Number(purchaseWarehouseOrderDetail.taxAmount).toFixed(2)),
-                        formatUntaxedAmount: formatNumber(Number(purchaseWarehouseOrderDetail.untaxedAmount).toFixed(2)),
+                        formatUntaxedAmount: formatNumber(Number(purchaseWarehouseOrderDetail.originUntaxedAmount).toFixed(2)),
                     }
                 })
                 wx.removeStorage({

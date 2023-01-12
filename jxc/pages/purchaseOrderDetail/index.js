@@ -73,7 +73,8 @@ Page({
                     ...purchaseOrderDetail,
                     formatNumber: formatNumber(Number(purchaseOrderDetail.number).toFixed(2)) || '',
                     formatPrice: formatNumber(Number(purchaseOrderDetail.price).toFixed(2)) || '',
-                    formatDiscountAmount: formatNumber(Number(purchaseOrderDetail.discountAmount).toFixed(2)) || '',
+                    discountRate: purchaseOrderDetail.discountRate ? purchaseOrderDetail.discountRate : '',
+                    formatDiscountAmount: purchaseOrderDetail.discountAmount ? formatNumber(Number(purchaseOrderDetail.discountAmount).toFixed(2)) : '',
                     formatOriginAmount: formatNumber(Number(purchaseOrderDetail.originAmount).toFixed(2)) || '',
                     formatAmount: formatNumber(Number(purchaseOrderDetail.amount).toFixed(2)) || '',
                     formatTaxAmount: formatNumber(Number(purchaseOrderDetail.taxAmount).toFixed(2)) || '',
@@ -250,17 +251,15 @@ Page({
             })
             if (this.data.purchaseOrderDetail.invoiceType == 2) {
                 // 算一下税额
-                if (this.data.purchaseOrderDetail.taxRate) {
-                    this.calculateTaxAmount(this.data.purchaseOrderDetail.taxRate)
-                }
+                this.calculateTaxAmount(this.data.purchaseOrderDetail.taxRate)
             } else {
                 this.setData({
                     purchaseOrderDetail: {
                         ...this.data.purchaseOrderDetail,
-                        untaxedAmount: value,
-                        originUntaxedAmount: value,
-                        formatUntaxedAmount: formatNumber(Number(value)),
-                        formatOriginUntaxedAmount: formatNumber(Number(value))
+                        untaxedAmount: price ? NP.minus(NP.times(Number(price), Number(value)), Number(discountAmount)).toString() : 0,
+                        formatUntaxedAmount: formatNumber(NP.minus(NP.times(Number(price), Number(value)), Number(discountAmount)).toFixed(2)),
+                        originUntaxedAmount: price ? NP.minus(NP.times(Number(price), Number(value)), Number(discountAmount)).toString() : 0,
+                        formatUntaxedAmount: formatNumber(NP.minus(NP.times(Number(price), Number(value)), Number(discountAmount)).toFixed(2)),
                     }
                 })
             }
@@ -280,9 +279,7 @@ Page({
             })
             if (this.data.purchaseOrderDetail.invoiceType == 2) {
                 // 算一下税额
-                if (this.data.purchaseOrderDetail.taxRate) {
-                    this.calculateTaxAmount(this.data.purchaseOrderDetail.taxRate)
-                }
+                this.calculateTaxAmount(this.data.purchaseOrderDetail.taxRate)
             } else {
                 this.setData({
                     purchaseOrderDetail: {
@@ -310,9 +307,7 @@ Page({
             })
             if (this.data.purchaseOrderDetail.invoiceType == 2) {
                 // 算一下税额
-                if (this.data.purchaseOrderDetail.taxRate) {
-                    this.calculateTaxAmount(this.data.purchaseOrderDetail.taxRate)
-                }
+                this.calculateTaxAmount(this.data.purchaseOrderDetail.taxRate)
             } else {
                 this.setData({
                     purchaseOrderDetail: {
@@ -388,9 +383,7 @@ Page({
             })
             if (this.data.purchaseOrderDetail.invoiceType == 2) {
                 // 算一下税额
-                if (this.data.purchaseOrderDetail.taxRate) {
-                    this.calculateTaxAmount(this.data.purchaseOrderDetail.taxRate)
-                }
+                this.calculateTaxAmount(this.data.purchaseOrderDetail.taxRate)
             }else{
                 this.setData({
                     purchaseOrderDetail: {
@@ -398,8 +391,10 @@ Page({
                         taxRate: '',
                         taxAmount: '',
                         formatTaxAmount: '',
-                        untaxtedAmount: formatNumber(Number(NP.minus(this.data.purchaseOrderDetail.amount, discountAmount).toFixed(2))),
-                        formatUntaxtedAmount: formatNumber(Number(NP.minus(this.data.purchaseOrderDetail.amount, discountAmount).toFixed(2))),
+                        untaxedAmount: formatNumber(Number(NP.minus(NP.times(number,price), discountAmount).toFixed(2))),
+                        formatUntaxedAmount: formatNumber(Number(NP.minus(NP.times(number,price), discountAmount)).toFixed(2)),
+                        originUntaxedAmount: formatNumber(Number(NP.minus(NP.times(number,price), discountAmount)).toFixed(2)),
+                        formatOriginUntaxedAmount: formatNumber(Number(NP.minus(NP.times(number,price), discountAmount)).toFixed(2)),
                     }
                 })
             }
@@ -412,10 +407,10 @@ Page({
                 return
             }
             let discountRate;
-            if(discountAmount === '') {
+            if(value === '') {
                 discountRate = ''
             }else{
-                discountRate = NP.minus(1, NP.divide(Number(value), Number(number), Number(price))) * 100
+                discountRate = NP.times(NP.minus(1, NP.divide(Number(value), Number(number), Number(price))), 100)
             }
             this.setData({
                 purchaseOrderDetail: {
@@ -427,14 +422,12 @@ Page({
                     amount: NP.minus(NP.times(price, number), Number(value)),
                     formatAmount: formatNumber(Number(NP.minus(NP.times(price, number), Number(value))).toFixed(2)),
                     originAmount: NP.minus(NP.times(price, number), Number(value)),
-                    formatOriginAmount: formatNumber(Number(NP.minus(NP.times(price, number)).toFixed(2))),
+                    formatOriginAmount: formatNumber(Number(NP.minus(NP.times(price, number), Number(value))).toFixed(2)),
                 }
             })
             if (this.data.purchaseOrderDetail.invoiceType == 2) {
                 // 算一下税额
-                if (this.data.purchaseOrderDetail.taxRate) {
-                    this.calculateTaxAmount(this.data.purchaseOrderDetail.taxRate)
-                }
+                this.calculateTaxAmount(this.data.purchaseOrderDetail.taxRate)
             }else{
                 this.setData({
                     purchaseOrderDetail: {
@@ -442,8 +435,10 @@ Page({
                         taxRate: '',
                         taxAmount: '',
                         formatTaxAmount: '',
-                        untaxtedAmount: formatNumber(Number(NP.minus(this.data.purchaseOrderDetail.amount, value).toFixed(2))),
-                        formatUntaxtedAmount: formatNumber(Number(NP.minus(this.data.purchaseOrderDetail.amount, value).toFixed(2))),
+                        untaxedAmount: formatNumber(Number(NP.minus(NP.times(number, price), value).toFixed(2))),
+                        formatUntaxedAmount: formatNumber(Number(NP.minus(NP.times(number, price), value).toFixed(2))),
+                        originUntaxedAmount: formatNumber(Number(NP.minus(NP.times(number, price), value).toFixed(2))),
+                        formatOriginUntaxedAmount: formatNumber(Number(NP.minus(NP.times(number, price), value).toFixed(2))),
                     }
                 })
             }
@@ -477,10 +472,10 @@ Page({
             purchaseOrderItem.noticeHidden = true
             purchaseOrderItem.taxAmount = ''
             purchaseOrderItem.formatTaxAmount = ''
-            purchaseOrderItem.untaxedAmount = NP.minus(purchaseOrderItem.amount, purchaseOrderItem.discountAmount)
-            purchaseOrderItem.formatUntaxedAmount = formatNumber(Number(NP.minus(purchaseOrderItem.amount, purchaseOrderItem.discountAmount)).toFixed(2))
-            purchaseOrderItem.originUntaxedAmount = purchaseOrderItem.amount
-            purchaseOrderItem.formatOriginUntaxedAmount = purchaseOrderItem.formatAmount
+            purchaseOrderItem.untaxedAmount = NP.minus(NP.times(purchaseOrderItem.number, purchaseOrderItem.price), purchaseOrderItem.discountAmount)
+            purchaseOrderItem.formatUntaxedAmount = formatNumber(Number(NP.minus(NP.times(purchaseOrderItem.number, purchaseOrderItem.price), purchaseOrderItem.discountAmount)).toFixed(2))
+            purchaseOrderItem.originUntaxedAmount = NP.minus(NP.times(purchaseOrderItem.price, purchaseOrderItem.number), purchaseOrderItem.discountAmount)
+            purchaseOrderItem.formatOriginUntaxedAmount = formatNumber(Number(NP.minus(NP.times(purchaseOrderItem.price, purchaseOrderItem.number), purchaseOrderItem.discountAmount)))
             this.setData({
                 purchaseOrderDetail: purchaseOrderItem,
                 noticeHidden: true
@@ -499,9 +494,9 @@ Page({
         // 算一下税额
         this.calculateTaxAmount(purchaseOrderItem.taxRate)
     },
-    calculateTaxAmount(taxRate) {
+    calculateTaxAmount(taxRate=0) {
         // 未税金额=价税合计/(1+税率/100)
-        const amount = this.data.purchaseOrderDetail.amount || 0
+        const amount = (NP.minus(NP.times(this.data.purchaseOrderDetail.number, this.data.purchaseOrderDetail.price), this.data.purchaseOrderDetail.discountAmount)) || 0
         const untaxedAmount = (Number(amount) / (1 + Number(taxRate) / 100)).toString()
         this.setData({
             purchaseOrderDetail: {

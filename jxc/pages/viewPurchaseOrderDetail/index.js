@@ -21,6 +21,7 @@ Page({
                         ...purchaseOrderDetail,
                         formatNumber: formatNumber(Number(purchaseOrderDetail.number).toFixed(2)),
                         formatPrice: formatNumber(Number(purchaseOrderDetail.price).toFixed(2)),
+                        discountRate: purchaseOrderDetail.discountRate ? purchaseOrderDetail.discountRate : '',
                         formatDiscountAmount: purchaseOrderDetail.discountAmount ? formatNumber(Number(purchaseOrderDetail.discountAmount).toFixed(2)): '',
                         discountRate: purchaseOrderDetail.discountRate ? purchaseOrderDetail.discountRate: '',
                         formatOriginAmount: formatNumber(Number(purchaseOrderDetail.originAmount).toFixed(2)),
