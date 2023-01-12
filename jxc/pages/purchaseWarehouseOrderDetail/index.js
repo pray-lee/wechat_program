@@ -460,11 +460,11 @@ Page({
             purchaseWarehouseOrderItem.taxRate = ''
             purchaseWarehouseOrderItem.noticeHidden = true
             purchaseWarehouseOrderItem.taxAmount = ''
-            purchaseWarehouseOrderItem.formatTaxedAmount = ''
-            purchaseWarehouseOrderItem.untaxedAmount = purchaseWarehouseOrderItem.amount
-            purchaseWarehouseOrderItem.formatUntaxAmount = purchaseWarehouseOrderItem.formatAmount
-            purchaseWarehouseOrderItem.originUntaxedAmount = purchaseWarehouseOrderItem.amount
-            purchaseWarehouseOrderItem.formatOriginUntaxedAmount = purchaseWarehouseOrderItem.formatAmount
+            purchaseWarehouseOrderItem.formatTaxAmount = ''
+            purchaseWarehouseOrderItem.untaxedAmount = NP.minus(purchaseWarehouseOrderItem.amount, purchaseWarehouseOrderItem.discountAmount)
+            purchaseWarehouseOrderItem.formatUntaxedAmount = formatNumber(Number(NP.minus(purchaseWarehouseOrderItem.amount, purchaseWarehouseOrderItem.discountAmount)).toFixed(2))
+            purchaseWarehouseOrderItem.originUntaxedAmount = NP.minus(purchaseWarehouseOrderItem.originAmount, purchaseWarehouseOrderItem.discountAmount)
+            purchaseWarehouseOrderItem.formatOriginUntaxedAmount = formatNumber(Number(NP.minus(purchaseWarehouseOrderItem.originAmount, purchaseWarehouseOrderItem.discountAmount)).toFixed(2))
             this.setData({
                 purchaseWarehouseOrderDetail: purchaseWarehouseOrderItem,
                 noticeHidden: true

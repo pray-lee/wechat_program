@@ -477,8 +477,8 @@ Page({
             purchaseOrderItem.noticeHidden = true
             purchaseOrderItem.taxAmount = ''
             purchaseOrderItem.formatTaxAmount = ''
-            purchaseOrderItem.untaxedAmount = purchaseOrderItem.amount
-            purchaseOrderItem.formatUntaxedAmount = purchaseOrderItem.formatAmount
+            purchaseOrderItem.untaxedAmount = NP.minus(purchaseOrderItem.amount, purchaseOrderItem.discountAmount)
+            purchaseOrderItem.formatUntaxedAmount = formatNumber(Number(NP.minus(purchaseOrderItem.amount, purchaseOrderItem.discountAmount)).toFixed(2))
             purchaseOrderItem.originUntaxedAmount = purchaseOrderItem.amount
             purchaseOrderItem.formatOriginUntaxedAmount = purchaseOrderItem.formatAmount
             this.setData({

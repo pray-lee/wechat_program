@@ -329,7 +329,7 @@ Page({
     },
     onShowAddJCR() {
         wx.navigateTo({
-            url: '/bill/pages/purchaseWarehouseOrder/index?type=add'
+            url: '/jxc/pages/purchaseWarehouseOrder/index?type=add'
         })
         this.onAddHide()
     },
