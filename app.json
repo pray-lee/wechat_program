@@ -58,7 +58,8 @@
         "pages/purchaseWarehouseOrderDetail/index",
         "pages/viewPurchaseWarehouseOrderDetail/index",
         "pages/list/index",
-        "pages/goodsList/index"
+        "pages/goodsList/index",
+        "pages/importPurchaseOrderList/index"
       ]
     }
   ],

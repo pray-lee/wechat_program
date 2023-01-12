@@ -144,11 +144,11 @@
                 </view>
             </view>
             <!--核销借款-->
-            <block wx:if="{{showPurchaseOrderList}}">
+            <block wx:if="{{importPurchaseOrderList.length}}">
                 <view class="title">导入采购订单</view>
                 <view class="block-wrapper">
                     <view class="add-borrow">
-                        <view class="add-borrow-btn" bindtap="getImportPurchaseOrderList">导入采购订单</view>
+                        <view class="add-borrow-btn" bindtap="gotoImportPurchaseOrderList">导入采购订单</view>
                     </view>
                 </view>
             </block>

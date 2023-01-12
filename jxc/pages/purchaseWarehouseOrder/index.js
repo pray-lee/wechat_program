@@ -1,14 +1,14 @@
 import moment from "moment";
 import NP from "number-precision";
 import '../../../util/handleLodash'
-import { cloneDeep as clone } from 'lodash'
-import { getErrorMessage, submitSuccess, formatNumber, validFn, request } from "../../../util/getErrorMessage";
+import {cloneDeep as clone} from 'lodash'
+import {getErrorMessage, submitSuccess, formatNumber, validFn, request} from "../../../util/getErrorMessage";
 
 var app = getApp()
 app.globalData.loadingCount = 0
 Page({
     data: {
-        showPurchaseOrderList: false,
+        importPurchaseOrderList: [],
         // 增加申请人
         realName: '',
         // =============外币相关============
@@ -210,6 +210,9 @@ Page({
                 [name]: this.data[listName][value].id
             }
         })
+        if (name === 'supplierDetailId') {
+            this.getImportPurchaseOrderList(this.data.submitData.accountbookId, this.data[listName][value].id)
+        }
         if (name === 'accountbookIdReceive') {
             this.setData({
                 [index]: e.detail.value,
@@ -244,6 +247,8 @@ Page({
             // =============外币============
             this.initCurrency(this.data[listName][value].id)
             // =============外币============
+            // 获取导入采购订单列表
+            this.getImportPurchaseOrderList(this.data[listName][value].id, this.data.submitData.supplierDetailId)
         }
         // =============外币============
         if (name === 'currencyTypeId') {
@@ -368,7 +373,7 @@ Page({
     },
     // 价税合计总额
     setApplicationAmount(purchaseWarehouseOrderDetailList) {
-        console.log(purchaseWarehouseOrderDetailList,' lkasdjflkasjdf')
+        console.log(purchaseWarehouseOrderDetailList, ' lkasdjflkasjdf')
         let originAmount = 0
         purchaseWarehouseOrderDetailList.forEach(item => {
             console.log(item.amount, item)
@@ -382,7 +387,35 @@ Page({
             }
         })
     },
+    getSelectedPurchaseOrderDetailListFromStorage() {
+        const selectedPurchaseOrderDetailList = wx.getStorageSync('selectedPurchaseOrderDetailList') || []
+        const newArr = []
+        const idArr = this.data.purchaseWarehouseOrderDetailList.map(item => item.id)
+        selectedPurchaseOrderDetailList.forEach(item => {
+            console.log(item.id)
+            if(item && !idArr.includes(item.id)) {
+                newArr.push(item)
+            }
+        })
+        this.setData({
+            purchaseWarehouseOrderDetailList: this.data.purchaseWarehouseOrderDetailList.concat(newArr)
+        })
+        wx.removeStorage({
+            key: 'selectedPurchaseOrderDetailList',
+            success: () => {
+                console.log('删除选择的导入采购订单列表成功')
+            }
+        })
+        wx.removeStorage({
+            key: 'importPurchaseOrderList',
+            success: () => {
+                console.log('删除选择的导入采购订单列表成功')
+            }
+        })
+    },
     onShow() {
+        // 从缓存获取选择的导入采购订单
+        this.getSelectedPurchaseOrderDetailListFromStorage()
         // 从缓存获取用户已经选择的审批人
         this.getSelectedUserListFromStorage()
         // 从缓存里获取PurchaseWarehouseOrderDetail
@@ -513,7 +546,7 @@ Page({
         var url = e.currentTarget.dataset.url
         wx.downloadFile({
             url,
-            success({ filePath }) {
+            success({filePath}) {
                 wx.previewImage({
                     urls: [filePath]
                 })
@@ -570,7 +603,11 @@ Page({
                 if (res.statusCode === 200) {
                     const historyOaList = this.handleData(res.data)
                     this.setData({
-                        historyOaList: historyOaList.map(item => ({ ...item, showUserList: false, showAssigneeName: item.assigneeName.slice(-2) }))
+                        historyOaList: historyOaList.map(item => ({
+                            ...item,
+                            showUserList: false,
+                            showAssigneeName: item.assigneeName.slice(-2)
+                        }))
                     })
                     console.log(this.data.historyOaList)
                 }
@@ -745,7 +782,7 @@ Page({
                             nodeName: node.nodeName
                         }
                     })
-                    this.setData({ nodeList })
+                    this.setData({nodeList})
                 }
             },
         })
@@ -866,7 +903,7 @@ Page({
         const nodeIndex = wx.getStorageSync('nodeIndex')
         let currentNodeList = []
         if (selectedUsers.length && nodeIndex !== null) {
-            currentNodeList = selectedUsers[nodeIndex].map(item => ({ ...item, removable: true }))
+            currentNodeList = selectedUsers[nodeIndex].map(item => ({...item, removable: true}))
         }
         if (!!currentNodeList && nodeIndex !== null) {
             if (this.data.nodeList[nodeIndex]) {
@@ -886,8 +923,8 @@ Page({
         this.clearSelectedUserList()
     },
     clearSelectedUserList() {
-        wx.removeStorage({ key: 'selectedUsers' })
-        wx.removeStorage({ key: 'nodeIndex' })
+        wx.removeStorage({key: 'selectedUsers'})
+        wx.removeStorage({key: 'nodeIndex'})
     },
     showSelectedUserList(e) {
         const nodeIndex = e.currentTarget.dataset.index
@@ -939,7 +976,31 @@ Page({
     },
     // 获取导入采购订单列表
     getImportPurchaseOrderList(accountbookId, supplierDetailId) {
-
+        if (accountbookId && supplierDetailId) {
+            this.addLoading()
+            request({
+                hideLoading: this.hideLoading(),
+                url: `${app.globalData.url}purchaseOrderController.do?datagrid&query=import&accountbookId=${accountbookId}&supplierDetailId=${supplierDetailId}&accountbookIdReceive=&field=id,code,accountbookId,accountbookEntity.accountbookName,decimalPrice,decimalNumber,purchaseUserId,user.realName,supplierDetailId,supplierDetailEntity.supplier.supplierName,type,originAmount,businessDateTime,deliveryDate,remark,`,
+                method: 'POST',
+                success: res => {
+                    const rows = res.data?.rows ?? []
+                    this.setData({
+                        importPurchaseOrderList: rows
+                    })
+                }
+            })
+        }
+    },
+    gotoImportPurchaseOrderList() {
+        wx.setStorage({
+            key: 'importPurchaseOrderList',
+            data: this.data.importPurchaseOrderList,
+            success: () => {
+                wx.navigateTo({
+                    url: '/jxc/pages/importPurchaseOrderList/index'
+                })
+            }
+        })
     },
     // 获取供应商
     getSupplierList(accountbookId, supplierId) {
@@ -971,6 +1032,8 @@ Page({
                         supplierDetailId
                     }
                 })
+                // 获取导入采购订单列表
+                this.getImportPurchaseOrderList(accountbookId, supplierDetailId)
             }
         })
     },
@@ -1010,7 +1073,10 @@ Page({
         console.log(list.filter(item => item.purchaseAccountbookId === purchaseAccountbookId))
         if (list && list.length) {
             return list.filter(item => item.purchaseAccountbookId === purchaseAccountbookId)
-                .map(item => ({ accountbookReceiveName: item.saleAccountbookName, accountbookIdReceive: item.saleAccountbookId })).concat({
+                .map(item => ({
+                    accountbookReceiveName: item.saleAccountbookName,
+                    accountbookIdReceive: item.saleAccountbookId
+                })).concat({
                     accountbookReceiveName: this.data.accountbookList[this.data.accountbookIndex].accountbookName,
                     accountbookIdReceive: purchaseAccountbookId
                 })
@@ -1059,7 +1125,7 @@ Page({
             success: res => {
                 wx.setStorage({
                     key: 'warehouseList',
-                    data: res.data.map(item => ({ warehouseId: item.id, warehouseName: item.warehouseName }))
+                    data: res.data.map(item => ({warehouseId: item.id, warehouseName: item.warehouseName}))
                 })
             }
         })
@@ -1097,7 +1163,6 @@ Page({
                                 }
                             })
                         }
-                        console.log(taxpayerType, ' taxpayerType')
                         this.setData({
                             accountbookList: res.data.obj,
                             accountbookIndex: accountbookIndex,
@@ -1390,7 +1455,7 @@ Page({
             success: res => {
                 console.log(res, '审批流')
                 if (res.data && res.data.length) {
-                    const { operationRecords, ccUserids } = res.data[0]
+                    const {operationRecords, ccUserids} = res.data[0]
 
                     // 抄送人
                     let cc = []
@@ -1485,7 +1550,7 @@ Page({
             })
         })
     },
-    getExchangeRate({ accountbookId, businessDateTime, currencyTypeId }) {
+    getExchangeRate({accountbookId, businessDateTime, currencyTypeId}) {
         if (currencyTypeId === this.data.submitData.baseCurrency) {
             this.setData({
                 exchangeRateDisabled: true,
