@@ -85,7 +85,7 @@
             <view class="form-row invoice-wrapper" wx:if="{{purchaseWarehouseOrderDetail.taxpayerType == 2}}">
                 <view class="form-row-label"><text class="require">*</text>是否为专票</view>
                 <switch bindchange="purchaseWarehouseOrderRadioChange" checked="{{purchaseWarehouseOrderDetail.invoiceType == 2}}"
-                    color="#1f76d8" />
+                    color="#1f76d8" disabled="true"/>
             </view>
             <view class="form-line" wx:if="{{purchaseWarehouseOrderDetail.invoiceType == 2}}" />
             <view class="form-row" wx:if="{{purchaseWarehouseOrderDetail.invoiceType == 2}}">

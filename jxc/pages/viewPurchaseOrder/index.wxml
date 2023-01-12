@@ -327,7 +327,7 @@
                         <view style="display:flex;align-items: center">
                             <image src="../../../images/jiekuanTotal-icon.png" mode="scaleToFill"
                                    class="jiekuan-icon"/>
-                            <text class="title-word">采购金额(原币)：</text>
+                            <text class="title-word">采购金额：</text>
                         </view>
                         <text class="total-word">{{result.formatOriginAmount}}</text>
                     </view>

@@ -158,6 +158,7 @@ Page({
         var url = ''
         if (this.data.type === 'add') {
             url = app.globalData.url + 'purchaseOrderController.do?doAdd'
+            // url = 'http://192.168.10.233:8080/caika/' + 'purchaseOrderController.do?doAdd'
         } else {
             url = app.globalData.url + 'purchaseOrderController.do?doUpdate&id=' + this.data.billId
         }

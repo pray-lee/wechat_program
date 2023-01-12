@@ -1,6 +1,6 @@
 import '../../../util/handleLodash'
-import { cloneDeep as clone } from 'lodash'
-import { formatNumber, validFn, request } from "../../../util/getErrorMessage";
+import {cloneDeep as clone} from 'lodash'
+import {formatNumber, validFn, request} from "../../../util/getErrorMessage";
 import NP from "number-precision";
 
 const app = getApp()
@@ -89,7 +89,7 @@ Page({
         let taxRageIndex = 0
         const taxRate = purchaseOrderDetail.taxRate
         taxRageArr.forEach((item, index) => {
-            if(taxRate == item.id) {
+            if (taxRate == item.id) {
                 taxRageIndex = index
             }
         })
@@ -104,9 +104,9 @@ Page({
     getWarehouseListFromStorage() {
         const warehouseList = wx.getStorageSync('warehouseList') || []
         let warehouseIndex = 0
-        if(this.data.purchaseOrderDetail.warehouseId) {
+        if (this.data.purchaseOrderDetail.warehouseId) {
             warehouseList.forEach((item, index) => {
-                if(item.warehouseId === this.data.purchaseOrderDetail.warehouseId){
+                if (item.warehouseId === this.data.purchaseOrderDetail.warehouseId) {
                     warehouseIndex = index
                 }
             })
@@ -122,17 +122,17 @@ Page({
     },
     // 获取计量单位
     getUnitList(id) {
-        if(id) {
+        if (id) {
             this.addLoading()
             request({
                 hideLoading: this.hideLoading(),
                 url: `${app.globalData.url}unitController.do?getUnitListById&unitId=${id}`,
                 method: 'GET',
                 success: res => {
-                    const unitList = res.data.map(item => ({unitId: item.id, unitName:item.unitName}))
+                    const unitList = res.data.map(item => ({unitId: item.id, unitName: item.unitName}))
                     let unitIndex = 0
                     unitList.forEach((item, index) => {
-                        if(item.unitId === id) {
+                        if (item.unitId === id) {
                             unitIndex = index
                         }
                     })
@@ -146,10 +146,10 @@ Page({
                     })
                 }
             })
-        }else{
+        } else {
             this.setData({
                 unitList: [],
-                unitIndex:0
+                unitIndex: 0
             })
         }
     },
@@ -174,7 +174,7 @@ Page({
         var listName = e.currentTarget.dataset.list
         var value = e.detail.value
         var index = e.currentTarget.dataset.index
-        if(name === 'unitId') {
+        if (name === 'unitId') {
             this.setData({
                 [index]: e.detail.value,
                 purchaseOrderDetail: {
@@ -183,7 +183,7 @@ Page({
                 }
             })
         }
-        if(name === 'warehouseId') {
+        if (name === 'warehouseId') {
             this.setData({
                 [index]: e.detail.value,
                 purchaseOrderDetail: {
@@ -225,43 +225,25 @@ Page({
         this.calculateAmount(name, e.detail.value.replace(/,/g, ''))
     },
     calculateAmount(name, value) {
-        this.setData({
-            purchaseOrderDetail: {
-                ...this.data.purchaseOrderDetail,
-                [name]: value
-            }
-        })
         // 计算================================
         // 含税单价*计价数量，填列数量和含税单价时自动带出，含税单价*计价数量≠价税合计时不可提交								
         // 含税单价*计价数量，填列数量和含税单价时自动带出，含税单价*计价数量≠价税合计时不可提交																
         //折扣额=计价数量*含税单价*(1-折扣率/100)
         // 折扣率=(1-折扣额/计价数量/含税单价)*100
         // ===================================
+        // 数量 * 单价 - 折扣额 = 未税金额 + 税额
         if (name === 'number') {
             const price = this.data.purchaseOrderDetail.price || 0
+            const discountAmount = this.data.purchaseOrderDetail.discountAmount || 0
             this.setData({
                 purchaseOrderDetail: {
                     ...this.data.purchaseOrderDetail,
                     [name]: value,
                     formatNumber: formatNumber(Number(value).toFixed(2)),
-                    amount: price ? NP.times(Number(price), Number(value)).toString() : 0,
-                    formatAmount: formatNumber(NP.times(Number(price), Number(value)).toFixed(2)),
-                    originAmount: price ? NP.times(Number(price), Number(value)).toString() : 0,
-                    formatOriginAmount: formatNumber(NP.times(Number(price), Number(value)).toFixed(2))
-                }
-            })
-        }
-        if (name === 'price') {
-            const number = this.data.purchaseOrderDetail.number || 0
-            this.setData({
-                purchaseOrderDetail: {
-                    ...this.data.purchaseOrderDetail,
-                    [name]: value,
-                    formatPrice: formatNumber(Number(value).toFixed(2)),
-                    amount: number ? NP.times(Number(number), Number(value)).toString() : 0,
-                    formatAmount: formatNumber(NP.times(Number(number), Number(value)).toFixed(2)),
-                    originAmount: number ? NP.times(Number(number), Number(value)).toString() : 0,
-                    formatOriginAmount: formatNumber(NP.times(Number(number), Number(value)).toFixed(2))
+                    amount: price ? NP.minus(NP.times(Number(price), Number(value)), Number(discountAmount)).toString() : 0,
+                    formatAmount: formatNumber(NP.minus(NP.times(Number(price), Number(value)), Number(discountAmount)).toFixed(2)),
+                    originAmount: price ? NP.minus(NP.times(Number(price), Number(value)), Number(discountAmount)).toString() : 0,
+                    formatOriginAmount: formatNumber(NP.minus(NP.times(Number(price), Number(value)), Number(discountAmount)).toFixed(2)),
                 }
             })
             if (this.data.purchaseOrderDetail.invoiceType == 2) {
@@ -269,37 +251,7 @@ Page({
                 if (this.data.purchaseOrderDetail.taxRate) {
                     this.calculateTaxAmount(this.data.purchaseOrderDetail.taxRate)
                 }
-            }else{
-                this.setData({
-                    purchaseOrderDetail: {
-                        ...this.data.purchaseOrderDetail,
-                        untaxedAmount: number ? NP.times(Number(number), Number(value)).toString() : 0,
-                        originUntaxedAmount: number ? NP.times(Number(number), Number(value)).toString() : 0,
-                        formatUntaxedAmount: formatNumber(Number(number ? NP.times(Number(number), Number(value)).toString() : 0)),
-                        formatOriginUntaxedAmount: formatNumber(Number(number ? NP.times(Number(number), Number(value)).toString() : 0))
-                    }
-                })
-            }
-        }
-        if (name === 'amount') {
-            const number = this.data.purchaseOrderDetail.number || 1
-            this.setData({
-                purchaseOrderDetail: {
-                    ...this.data.purchaseOrderDetail,
-                    [name]: value,
-                    formatAmount: formatNumber(Number(value).toFixed(2)),
-                    originAmount: value,
-                    formatOriginAmount: formatNumber(Number(value).toFixed(2)),
-                    price: NP.divide(Number(value), Number(number)).toString(),
-                    formatPrice: formatNumber(NP.divide(Number(value), Number(number)).toFixed(2)),
-                }
-            })
-            if (this.data.purchaseOrderDetail.invoiceType == 2) {
-                // 算一下税额
-                if (this.data.purchaseOrderDetail.taxRate) {
-                    this.calculateTaxAmount(this.data.purchaseOrderDetail.taxRate)
-                }
-            }else{
+            } else {
                 this.setData({
                     purchaseOrderDetail: {
                         ...this.data.purchaseOrderDetail,
@@ -310,22 +262,70 @@ Page({
                     }
                 })
             }
-        }
-        if (this.data.purchaseOrderDetail.invoiceType == 1) {
+        } else if (name === 'price') {
+            const number = this.data.purchaseOrderDetail.number || 0
+            const discountAmount = this.data.purchaseOrderDetail.discountAmount || 0
             this.setData({
                 purchaseOrderDetail: {
                     ...this.data.purchaseOrderDetail,
-                    taxRate: '',
-                    taxAmount: '',
-                    formatTaxAmount: '',
-                    untaxedAmount: this.data.purchaseOrderDetail.amount,
-                    originUntaxedAmount: this.data.purchaseOrderDetail.amount,
-                    formatUntaxedAmount: this.data.purchaseOrderDetail.formatAmount,
-                    formatOriginUntaxedAmount: this.data.purchaseOrderDetail.formatAmount
+                    [name]: value,
+                    formatPrice: formatNumber(Number(value).toFixed(2)),
+                    amount: number ? NP.minus(NP.times(Number(number), Number(value)), Number(discountAmount)).toString() : 0,
+                    formatAmount: formatNumber(Number(NP.minus(NP.times(Number(number), Number(value)), Number(discountAmount))).toFixed(2)),
+                    originAmount: number ? NP.minus(NP.times(Number(number), Number(value)), Number(discountAmount)).toString() : 0,
+                    formatOriginAmount: formatNumber(Number(NP.minus(NP.times(Number(number), Number(value)), Number(discountAmount))).toFixed(2)),
                 }
             })
-        }
-        if (name === 'taxAmount') {
+            if (this.data.purchaseOrderDetail.invoiceType == 2) {
+                // 算一下税额
+                if (this.data.purchaseOrderDetail.taxRate) {
+                    this.calculateTaxAmount(this.data.purchaseOrderDetail.taxRate)
+                }
+            } else {
+                this.setData({
+                    purchaseOrderDetail: {
+                        ...this.data.purchaseOrderDetail,
+                        untaxedAmount: number ? NP.minus(NP.times(Number(number), Number(value)), Number(discountAmount)).toString() : 0,
+                        originUntaxedAmount: number ? NP.minus(NP.times(Number(number), Number(value)), Number(discountAmount)).toString() : 0,
+                        formatUntaxedAmount: formatNumber(Number(number ? NP.minus(NP.times(Number(number), Number(value)), Number(discountAmount)).toString() : 0).toFixed(2)),
+                        formatOriginUntaxedAmount: formatNumber(Number(number ? NP.minus(NP.times(Number(number), Number(value)), Number(discountAmount)).toString() : 0).toFixed(2)),
+                    }
+                })
+            }
+        } else if (name === 'amount') {
+            const number = this.data.purchaseOrderDetail.number || 1
+            const discountAmount = this.data.purchaseOrderDetail.discountAmount || 0
+            this.setData({
+                purchaseOrderDetail: {
+                    ...this.data.purchaseOrderDetail,
+                    [name]: value,
+                    formatAmount: formatNumber(Number(value).toFixed(2)),
+                    originAmount: value,
+                    formatOriginAmount: formatNumber(Number(value).toFixed(2)),
+                    price: NP.divide(NP.minus(Number(value), Number(discountAmount)), Number(number)).toString(),
+                    formatPrice: formatNumber(NP.divide(NP.minus(Number(value), Number(discountAmount)), Number(number)).toFixed(2)),
+                }
+            })
+            if (this.data.purchaseOrderDetail.invoiceType == 2) {
+                // 算一下税额
+                if (this.data.purchaseOrderDetail.taxRate) {
+                    this.calculateTaxAmount(this.data.purchaseOrderDetail.taxRate)
+                }
+            } else {
+                this.setData({
+                    purchaseOrderDetail: {
+                        ...this.data.purchaseOrderDetail,
+                        taxRate: '',
+                        taxAmount: '',
+                        formatTaxAmount: '',
+                        untaxedAmount: value,
+                        originUntaxedAmount: value,
+                        formatUntaxedAmount: formatNumber(Number(value)),
+                        formatOriginUntaxedAmount: formatNumber(Number(value))
+                    }
+                })
+            }
+        } else if (name === 'taxAmount') {
             const amount = this.data.purchaseOrderDetail.amount || 0
             this.setData({
                 purchaseOrderDetail: {
@@ -338,8 +338,7 @@ Page({
                     formatOriginUntaxedAmount: formatNumber((Number(amount) - Number(value)).toFixed(2))
                 }
             })
-        }
-        if (name === 'untaxedAmount') {
+        } else if (name === 'untaxedAmount') {
             const amount = this.data.purchaseOrderDetail.amount || 0
             this.setData({
                 purchaseOrderDetail: {
@@ -352,12 +351,14 @@ Page({
                     formatTaxAmount: formatNumber((Number(amount) - Number(value)).toFixed(2))
                 }
             })
-        }
-        // 折扣率 折扣额
-        //折扣额=计价数量*含税单价*(1-折扣率/100)
-        // 折扣率=(1-折扣额/计价数量/含税单价)*100
-        if (name === 'discountRate') {
-            const { number, price } = this.data.purchaseOrderDetail
+        } else if (name === 'discountRate') {
+            // 折扣率 折扣额
+            //折扣额=计价数量*含税单价*(1-折扣率/100)
+            // 折扣率=(1-折扣额/计价数量/含税单价)*100
+            if ((Number(value) === Number(this.data.purchaseOrderDetail.discountRate))) {
+                return
+            }
+            const {number, price} = this.data.purchaseOrderDetail
             if (!number || !price) {
                 wx.showModal({
                     title: '请填写数量或者单价'
@@ -371,12 +372,32 @@ Page({
                     [name]: value,
                     formatDiscountRate: formatNumber(Number(value).toFixed(2)),
                     discountAmount,
-                    formatDiscountAmount: formatNumber(discountAmount.toFixed(2))
+                    formatDiscountAmount: formatNumber(discountAmount.toFixed(2)),
+                    amount: NP.minus(NP.times(price, number), Number(discountAmount)),
+                    formatAmount: formatNumber(Number(NP.minus(NP.times(price, number), Number(discountAmount))).toFixed(2)),
+                    originAmount: NP.minus(NP.times(price, number), Number(discountAmount)),
+                    formatOriginAmount: formatNumber(Number(NP.minus(NP.times(price, number), Number(discountAmount))).toFixed(2)),
                 }
             })
-        }
-        if (name === 'discountAmount') {
-            const { number, price } = this.data.purchaseOrderDetail
+            if (this.data.purchaseOrderDetail.invoiceType == 2) {
+                // 算一下税额
+                if (this.data.purchaseOrderDetail.taxRate) {
+                    this.calculateTaxAmount(this.data.purchaseOrderDetail.taxRate)
+                }
+            }else{
+                this.setData({
+                    purchaseOrderDetail: {
+                        ...this.data.purchaseOrderDetail,
+                        taxRate: '',
+                        taxAmount: '',
+                        formatTaxAmount: '',
+                        untaxtedAmount: formatNumber(Number(NP.minus(this.data.purchaseOrderDetail.amount, discountAmount).toFixed(2))),
+                        formatUntaxtedAmount: formatNumber(Number(NP.minus(this.data.purchaseOrderDetail.amount, discountAmount).toFixed(2))),
+                    }
+                })
+            }
+        } else if (name === 'discountAmount') {
+            const {number, price} = this.data.purchaseOrderDetail
             if (!number || !price) {
                 wx.showModal({
                     title: '请填写数量或者单价'
@@ -390,10 +411,37 @@ Page({
                     [name]: value,
                     formatDiscountAmount: formatNumber(Number(value).toFixed(2)),
                     discountRate,
-                    formatDiscountRate: formatNumber(discountRate.toFixed(2))
+                    formatDiscountRate: formatNumber(discountRate.toFixed(2)),
+                    amount: NP.minus(NP.times(price, number), Number(value)),
+                    formatAmount: formatNumber(Number(NP.minus(NP.times(price, number), Number(value))).toFixed(2)),
+                    originAmount: NP.minus(NP.times(price, number), Number(value)),
+                    formatOriginAmount: formatNumber(Number(NP.minus(NP.times(price, number)).toFixed(2))),
                 }
             })
+            if (this.data.purchaseOrderDetail.invoiceType == 2) {
+                // 算一下税额
+                if (this.data.purchaseOrderDetail.taxRate) {
+                    this.calculateTaxAmount(this.data.purchaseOrderDetail.taxRate)
+                }
+            }else{
+                this.setData({
+                    purchaseOrderDetail: {
+                        ...this.data.purchaseOrderDetail,
+                        taxRate: '',
+                        taxAmount: '',
+                        formatTaxAmount: '',
+                        untaxtedAmount: formatNumber(Number(NP.minus(this.data.purchaseOrderDetail.amount, value).toFixed(2))),
+                        formatUntaxtedAmount: formatNumber(Number(NP.minus(this.data.purchaseOrderDetail.amount, value).toFixed(2))),
+                    }
+                })
+            }
         }
+        this.setData({
+            purchaseOrderDetail: {
+                ...this.data.purchaseOrderDetail,
+                [name]: value
+            }
+        })
     },
     purchaseOrderRadioChange(e) {
         var value = e.detail.value ? 2 : 1
@@ -404,6 +452,8 @@ Page({
             purchaseOrderItem.taxRageIndex = 0
             purchaseOrderItem.taxRate = purchaseOrderItem.taxRageObject.taxRageArr[0].id
             purchaseOrderItem.noticeHidden = false
+            purchaseOrderItem.taxAmount = ''
+            purchaseOrderItem.formatTaxAmount = ''
             this.setData({
                 purchaseOrderDetail: purchaseOrderItem,
                 noticeHidden: false
@@ -414,7 +464,7 @@ Page({
             purchaseOrderItem.taxRate = ''
             purchaseOrderItem.noticeHidden = true
             purchaseOrderItem.taxAmount = ''
-            purchaseOrderItem.formatTaxedAmount = ''
+            purchaseOrderItem.formatTaxAmount = ''
             purchaseOrderItem.untaxedAmount = purchaseOrderItem.amount
             purchaseOrderItem.formatUntaxedAmount = purchaseOrderItem.formatAmount
             purchaseOrderItem.originUntaxedAmount = purchaseOrderItem.amount

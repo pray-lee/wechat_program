@@ -143,7 +143,15 @@
                     <view class="add-borrow-btn">添加详情</view>
                 </view>
             </view>
-
+            <!--核销借款-->
+            <block wx:if="{{showPurchaseOrderList}}">
+                <view class="title">导入采购订单</view>
+                <view class="block-wrapper">
+                    <view class="add-borrow">
+                        <view class="add-borrow-btn" bindtap="getImportPurchaseOrderList">导入采购订单</view>
+                    </view>
+                </view>
+            </block>
             <view class="title">附件上传</view>
             <!--上传附件-->
             <view class="block-wrapper">
@@ -320,7 +328,7 @@
                         <view style="display:flex;align-items: center">
                             <image src="../../../images/jiekuanTotal-icon.png" mode="scaleToFill"
                                 class="jiekuan-icon" />
-                            <text class="title-word">采购金额(原币)：</text>
+                            <text class="title-word">采购金额：</text>
                         </view>
                         <text class="total-word">{{submitData.formatOriginAmount}}</text>
                     </view>
