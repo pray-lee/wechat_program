@@ -66,7 +66,7 @@
             <view class="form-row">
                 <view class="form-row-label">折扣率%：</view>
                 <input class="input" placeholder="折扣率" placeholder-class="placeholder" bindblur="onPurchaseOrderBlur"
-                    data-name="discountRate" value="{{purchaseOrderDetail.formatDiscountRate}}" />
+                    data-name="discountRate" value="{{purchaseOrderDetail.discountRate}}" />
             </view>
             <view class="form-line"></view>
             <view class="form-row">
@@ -78,7 +78,7 @@
             <view class="form-row">
                 <view class="form-row-label"><text class="require">*</text>价税合计：</view>
                 <input class="input" placeholder="价税合计" placeholder-class="placeholder" bindblur="onPurchaseOrderBlur"
-                    data-name="amount" value="{{purchaseOrderDetail.formatAmount}}" />
+                    data-name="originAmount" value="{{purchaseOrderDetail.formatOriginAmount}}" />
             </view>
             <view class="form-line" wx:if="{{purchaseOrderDetail.taxpayerType == 2}}" />
             <view class="form-row invoice-wrapper" wx:if="{{purchaseOrderDetail.taxpayerType == 2}}">

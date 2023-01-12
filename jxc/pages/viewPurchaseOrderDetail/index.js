@@ -21,10 +21,11 @@ Page({
                         ...purchaseOrderDetail,
                         formatNumber: formatNumber(Number(purchaseOrderDetail.number).toFixed(2)),
                         formatPrice: formatNumber(Number(purchaseOrderDetail.price).toFixed(2)),
-                        formatDiscountAmount: formatNumber(Number(purchaseOrderDetail.discountAmount).toFixed(2)),
+                        formatDiscountAmount: purchaseOrderDetail.discountAmount ? formatNumber(Number(purchaseOrderDetail.discountAmount).toFixed(2)): '',
+                        discountRate: purchaseOrderDetail.discountRate ? purchaseOrderDetail.discountRate: '',
                         formatOriginAmount: formatNumber(Number(purchaseOrderDetail.originAmount).toFixed(2)),
                         formatTaxAmount: formatNumber(Number(purchaseOrderDetail.taxAmount).toFixed(2)),
-                        formatUntaxedAmount: formatNumber(Number(purchaseOrderDetail.untaxedAmount).toFixed(2)),
+                        formatUntaxedAmount: formatNumber(Number(purchaseOrderDetail.originUntaxedAmount).toFixed(2)),
                     }
                 })
                 wx.removeStorage({

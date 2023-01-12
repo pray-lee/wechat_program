@@ -74,10 +74,10 @@ Page({
                     formatNumber: formatNumber(Number(purchaseWarehouseOrderDetail.number).toFixed(2)) || '',
                     formatPrice: formatNumber(Number(purchaseWarehouseOrderDetail.price).toFixed(2)) || '',
                     formatDiscountAmount: formatNumber(Number(purchaseWarehouseOrderDetail.discountAmount).toFixed(2)) || '',
-                    formatOriginAmount: formatNumber(Number(purchaseWarehouseOrderDetail.amount).toFixed(2)) || '',
+                    formatOriginAmount: formatNumber(Number(purchaseWarehouseOrderDetail.originAmount).toFixed(2)) || '',
                     formatAmount: formatNumber(Number(purchaseWarehouseOrderDetail.amount).toFixed(2)) || '',
                     formatTaxAmount: formatNumber(Number(purchaseWarehouseOrderDetail.taxAmount).toFixed(2)) || '',
-                    formatUntaxedAmount: formatNumber(Number(purchaseWarehouseOrderDetail.untaxedAmount).toFixed(2)) || '',
+                    formatUntaxedAmount: formatNumber(Number(purchaseWarehouseOrderDetail.originUntaxedAmount).toFixed(2)) || '',
                 },
             })
         }
@@ -96,7 +96,9 @@ Page({
         this.setData({
             purchaseWarehouseOrderDetail: {
                 ...this.data.purchaseWarehouseOrderDetail,
-                taxRageIndex
+                taxRageIndex,
+                taxRageArr,
+                taxRate
             }
         })
     },
@@ -349,14 +351,19 @@ Page({
                 })
                 return
             }
-            const discountAmount = NP.times(Number(number), Number(price), NP.minus(1, NP.divide(Number(value), 100)))
+            let discountAmount;
+            if(value === '') {
+                discountAmount = ''
+            }else{
+                discountAmount = NP.times(Number(number), Number(price), NP.minus(1, NP.divide(Number(value), 100)))
+            }
             this.setData({
                 purchaseWarehouseOrderDetail: {
                     ...this.data.purchaseWarehouseOrderDetail,
                     [name]: value,
                     formatDiscountRate: formatNumber(Number(value).toFixed(2)),
                     discountAmount,
-                    formatDiscountAmount: formatNumber(discountAmount.toFixed(2)),
+                    formatDiscountAmount: discountAmount ? formatNumber(discountAmount.toFixed(2)) : '',
                     amount: NP.minus(NP.times(price, number), Number(discountAmount)),
                     formatAmount: formatNumber(Number(NP.minus(NP.times(price, number), Number(discountAmount))).toFixed(2)),
                     originAmount: NP.minus(NP.times(price, number), Number(discountAmount)),
@@ -388,14 +395,19 @@ Page({
                 })
                 return
             }
-            const discountRate = NP.minus(1, NP.divide(Number(value), Number(number), Number(price))) * 100
+            let discountRate;
+            if(discountAmount === '') {
+                discountRate = ''
+            }else{
+                discountRate = NP.minus(1, NP.divide(Number(value), Number(number), Number(price))) * 100
+            }
             this.setData({
                 purchaseWarehouseOrderDetail: {
                     ...this.data.purchaseWarehouseOrderDetail,
                     [name]: value,
                     formatDiscountAmount: formatNumber(Number(value).toFixed(2)),
                     discountRate,
-                    formatDiscountRate: formatNumber(discountRate.toFixed(2)),
+                    formatDiscountRate: discountRate ? formatNumber(discountRate.toFixed(2)):'',
                     amount: NP.minus(NP.times(price, number), Number(value)),
                     formatAmount: formatNumber(Number(NP.minus(NP.times(price, number)).toFixed(2))),
                     originAmount: NP.minus(NP.times(price, number), Number(value)),
