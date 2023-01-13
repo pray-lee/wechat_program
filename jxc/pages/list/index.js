@@ -150,8 +150,7 @@ Page({
             res.forEach(item => {
                 allList.push(...item.list)
             })
-            allList.sort((a, b) => a.businessDateTime < b.businessDateTime ? 1 : -1)
-            allList = allList.map(item => {
+            allList = allList.reverse().map(item => {
                 item.formatAmount = formatNumber(Number(item.originAmount).toFixed(2))
                 item.billTypeClass = item.billType.toLowerCase()
                 return item
@@ -220,12 +219,12 @@ Page({
             }
         })
     },
-    getPurchaseOrderList(type, billStatus="") {
+    getPurchaseOrderList(type, billStatus="10") {
         return new Promise((resolve, reject) => {
             this.addLoading()
             request({
                 hideLoading: this.hideLoading,
-                url: app.globalData.url + 'purchaseOrderController.do?datagrid&field=id,code,purchaseWarehousingOrderId,purchaseWarehousingOrderCode,businessDateTime,businessDateTime_begin,businessDateTime_end,accountbookId,accountbookIdReceive,accountbookEntity.accountbookName,decimalPrice,decimalNumber,submitterDepartmentId,departDetailEntity.depart.departName,purchaseUserId,user.realName,supplierDetailId,supplierDetailEntity.supplier.supplierName,deliveryDate,deliveryDate_begin,deliveryDate_end,currencyTypeId,originAmount,submitterUser.realName,accountbookIdReceiveName,exchangeRate,submitDateTime,submitDateTime_begin,submitDateTime_end,status,submitStockStatus,stockStatus,remark,',
+                url: app.globalData.url + 'purchaseOrderController.do?datagrid&field=id,code,purchaseWarehousingOrderId,purchaseWarehousingOrderCode,businessDateTime,businessDateTime_begin,businessDateTime_end,accountbookId,accountbookIdReceive,accountbookEntity.accountbookName,decimalPrice,decimalNumber,submitterDepartmentId,departDetailEntity.depart.departName,purchaseUserId,user.realName,supplierDetailId,supplierDetailEntity.supplier.supplierName,deliveryDate,deliveryDate_begin,deliveryDate_end,currencyTypeId,originAmount,submitterUser.realName,accountbookIdReceiveName,exchangeRate,submitDateTime,submitDateTime_begin,submitDateTime_end,status,submitStockStatus,stockStatus,remark,&sort=code,updateDate,createDate',
                 method: 'GET',
                 data: {
                     status: billStatus
@@ -243,12 +242,12 @@ Page({
             })
         })
     },
-    getPurchaseWarehouseOrderList(type, billStatus="") {
+    getPurchaseWarehouseOrderList(type, billStatus="10") {
         return new Promise((resolve, reject) => {
             this.addLoading()
             request({
                 hideLoading: this.hideLoading,
-                url: app.globalData.url + 'purchaseWarehousingOrderController.do?datagrid&field=id,fictitiousOrderId,purchaseOrderId,code,purchaseOrderCode,fictitiousOrderCode,businessDateTime,businessDateTime_begin,businessDateTime_end,accountbookId,accountbookIdReceive,accountbookEntity.accountbookName,decimalPrice,decimalNumber,submitterDepartmentId,departDetailEntity.depart.departName,purchaseUserId,user.realName,supplierDetailId,supplierDetailEntity.supplier.supplierName,currencyTypeId,originAmount,submitterUser.realName,accountbookIdReceiveName,exchangeRate,submitDateTime,submitDateTime_begin,submitDateTime_end,status,submitReceiveStatus,receiveStatus,remark,',
+                url: app.globalData.url + 'purchaseWarehousingOrderController.do?datagrid&field=id,fictitiousOrderId,purchaseOrderId,code,purchaseOrderCode,fictitiousOrderCode,businessDateTime,businessDateTime_begin,businessDateTime_end,accountbookId,accountbookIdReceive,accountbookEntity.accountbookName,decimalPrice,decimalNumber,submitterDepartmentId,departDetailEntity.depart.departName,purchaseUserId,user.realName,supplierDetailId,supplierDetailEntity.supplier.supplierName,currencyTypeId,originAmount,submitterUser.realName,accountbookIdReceiveName,exchangeRate,submitDateTime,submitDateTime_begin,submitDateTime_end,status,submitReceiveStatus,receiveStatus,remark,&sort=code,updateDate,createDate',
                 method: 'POST',
                 data: {
                     status: billStatus

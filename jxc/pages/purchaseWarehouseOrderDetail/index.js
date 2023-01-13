@@ -165,10 +165,6 @@ Page({
                 ...goodsInfo
             }
         })
-        // 默认算一下
-        this.calculateAmount('price', this.data.purchaseWarehouseOrderDetail.price)
-        this.calculateAmount('discountRate', this.data.purchaseWarehouseOrderDetail.discountRate)
-        this.calculateAmount('discountAmount', this.data.purchaseWarehouseOrderDetail.discountAmount)
         wx.removeStorage({
             key: 'goodsInfo',
             success: () => {
@@ -240,6 +236,11 @@ Page({
         // ===================================
         // 数量 * 单价 - 折扣额 = 未税金额 + 税额
         if (name === 'number') {
+            const {orderDetailId, number} = this.data.purchaseWarehouseOrderDetail
+            if(orderDetailId && Number(number) < Number(value)) {
+                validFn('入库单计价数量不能大于导入的采购订单计价数量')
+                return
+            }
             const price = this.data.purchaseWarehouseOrderDetail.price || 0
             const discountAmount = this.data.purchaseWarehouseOrderDetail.discountAmount || 0
             this.setData({
@@ -411,7 +412,7 @@ Page({
                     [name]: value ? value : '',
                     formatDiscountAmount: value ? formatNumber(Number(value).toFixed(2)) : '',
                     discountRate,
-                    formatDiscountRate: discountRate ? formatNumber(discountRate.toFixed(2)) : '',
+                    formatDiscountRate: discountRate ? formatNumber(Number(discountRate).toFixed(2)) : '',
                     amount: NP.minus(NP.times(price, number), Number(value)),
                     formatAmount: formatNumber(Number(NP.minus(NP.times(price, number))).toFixed(2)),
                     originAmount: NP.minus(NP.times(price, number), Number(value)),
@@ -428,7 +429,7 @@ Page({
                         taxRate: '',
                         taxAmount: '',
                         formatTaxAmount: '',
-                        untaxedAmount: formatNumber(Number(NP.minus(NP.times(number, price), value)).toFixed(2)),
+                        untaxedAmount: Number(NP.minus(NP.times(number, price), value)).toFixed(2),
                         formatUntaxedAmount: formatNumber(Number(NP.minus(NP.times(number, price), value)).toFixed(2)),
                         originUntaxedAmount: Number(NP.minus(NP.times(number, price), value)).toFixed(2),
                         formatOriginUntaxedAmount: formatNumber(Number(NP.minus(NP.times(number, price), value)).toFixed(2)),
@@ -493,7 +494,7 @@ Page({
         const discountAmount = this.data.purchaseWarehouseOrderDetail.discountAmount ?? 0
         const price = this.data.purchaseWarehouseOrderDetail.price ?? 0
         const amount = NP.minus(NP.times(number, price), discountAmount) || 0
-        const untaxedAmount = (Number(amount) / (1 + Number(taxRate) / 100)).toString()
+        const untaxedAmount = (NP.divide(amount, NP.plus(1, NP.divide(taxRate, 100)))).toFixed(2)
         this.setData({
             purchaseWarehouseOrderDetail: {
                 ...this.data.purchaseWarehouseOrderDetail,
@@ -501,8 +502,8 @@ Page({
                 formatUntaxedAmount: formatNumber(Number(untaxedAmount).toFixed(2)),
                 originUntaxedAmount: untaxedAmount,
                 formatOriginUntaxedAmount: formatNumber(Number(untaxedAmount).toFixed(2)),
-                taxAmount: Number(amount) - Number(untaxedAmount),
-                formatTaxAmount: formatNumber((Number(amount) - Number(untaxedAmount)).toFixed(2))
+                taxAmount: NP.minus(Number(amount), Number(untaxedAmount)),
+                formatTaxAmount: formatNumber(NP.minus(Number(amount), Number(untaxedAmount)).toFixed(2))
             }
         })
     },

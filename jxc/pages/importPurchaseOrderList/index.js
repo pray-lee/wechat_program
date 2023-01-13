@@ -1,5 +1,5 @@
 import {formatNumber, request} from "../../../util/getErrorMessage";
-
+import NP from "number-precision";
 var app = getApp()
 Page({
    data:{
@@ -37,6 +37,7 @@ Page({
       })
    },
    goBack(e) {
+      // 未税金额=价税合计/(1+税率/100)
       const id = e.currentTarget.dataset.id
       this.showLoading()
       request({
@@ -44,7 +45,27 @@ Page({
          url: `${app.globalData.url}purchaseOrderDetailController.do?listByOrderId&orderIds=${id}`,
          method: 'GET',
          success: res => {
-            wx.setStorageSync('selectedPurchaseOrderDetailList', res.data)
+            const rows = res.data.map(item => {
+               const amount = NP.minus(NP.times(item.number, item.price), item.discountAmount || 0)
+               const untaxedAmount = (item.taxRate ? NP.divide(NP.minus(NP.times(item.number, item.price), item.discountAmount || 0), NP.plus(1, NP.divide(item.taxRate, 100))) : NP.minus(NP.times(item.number, item.price), item.discountAmount || 0)).toFixed(2)
+               const taxAmount = NP.minus(amount, untaxedAmount)
+               return {
+                  ...item,
+                  goodsId: item.id || '',
+                  unitId: item.goodsUnit || '',
+                  amount,
+                  originAmount: amount,
+                  formatAmount: formatNumber(Number(amount).toFixed(2)),
+                  formatOriginAmount: formatNumber(Number(amount).toFixed(2)),
+                  untaxedAmount,
+                  originUntaxedAmount: untaxedAmount,
+                  formatUntaxedAmount: formatNumber(Number(untaxedAmount).toFixed(2)),
+                  formatOriginUntaxedAmount: formatNumber(Number(untaxedAmount).toFixed(2)),
+                  taxAmount,
+                  formatTaxAmount: formatNumber(Number(taxAmount).toFixed(2))
+               }
+            })
+            wx.setStorageSync('selectedPurchaseOrderDetailList', rows)
          },
          complete: () => {
             wx.navigateBack({

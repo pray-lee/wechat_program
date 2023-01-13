@@ -165,10 +165,6 @@ Page({
                 ...goodsInfo
             }
         })
-        // 默认算一下
-        this.calculateAmount('price', this.data.purchaseOrderDetail.price)
-        this.calculateAmount('discountRate', this.data.purchaseOrderDetail.discountRate)
-        this.calculateAmount('discountAmount', this.data.purchaseOrderDetail.discountAmount)
         wx.removeStorage({
             key: 'goodsInfo',
             success: () => {
@@ -427,7 +423,7 @@ Page({
                         taxRate: '',
                         taxAmount: '',
                         formatTaxAmount: '',
-                        untaxedAmount: formatNumber(Number(NP.minus(NP.times(number, price), value)).toFixed(2)),
+                        untaxedAmount: Number(NP.minus(NP.times(number, price), value)).toFixed(2),
                         formatUntaxedAmount: formatNumber(Number(NP.minus(NP.times(number, price), value)).toFixed(2)),
                         originUntaxedAmount: Number(NP.minus(NP.times(number, price), value)).toFixed(2),
                         formatOriginUntaxedAmount: formatNumber(Number(NP.minus(NP.times(number, price), value)).toFixed(2)),
@@ -491,8 +487,8 @@ Page({
         const number = this.data.purchaseOrderDetail.number ?? 0
         const price = this.data.purchaseOrderDetail.price ?? 0
         const discountAmount = this.data.purchaseOrderDetail.discountAmount ?? 0
-        const amount = (NP.minus(NP.times(number, price), discountAmount)) || 0
-        const untaxedAmount = (Number(amount) / (1 + Number(taxRate) / 100)).toString()
+        const amount = NP.minus(NP.times(number, price), discountAmount) || 0
+        const untaxedAmount = (NP.divide(amount, NP.plus(1, NP.divide(taxRate, 100)))).toFixed(2)
         this.setData({
             purchaseOrderDetail: {
                 ...this.data.purchaseOrderDetail,
@@ -500,8 +496,8 @@ Page({
                 formatUntaxedAmount: formatNumber(Number(untaxedAmount).toFixed(2)),
                 originUntaxedAmount: untaxedAmount,
                 formatOriginUntaxedAmount: formatNumber(Number(untaxedAmount).toFixed(2)),
-                taxAmount: Number(amount) - Number(untaxedAmount),
-                formatTaxAmount: formatNumber((Number(amount) - Number(untaxedAmount)).toFixed(2))
+                taxAmount: NP.minus(Number(amount), Number(untaxedAmount)),
+                formatTaxAmount: formatNumber(NP.minus(Number(amount), Number(untaxedAmount)).toFixed(2))
             }
         })
     },

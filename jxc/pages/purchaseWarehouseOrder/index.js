@@ -1,5 +1,4 @@
 import moment from "moment";
-import NP from "number-precision";
 import '../../../util/handleLodash'
 import {cloneDeep as clone} from 'lodash'
 import {getErrorMessage, submitSuccess, formatNumber, validFn, request} from "../../../util/getErrorMessage";
@@ -346,11 +345,6 @@ Page({
                     let purchaseWarehouseOrderDetailList = clone(this.data.purchaseWarehouseOrderDetailList)
                     if (!!index || index === 0) {
                         purchaseWarehouseOrderDetailList.splice(index, 1)
-                        wx.removeStorage({
-                            key: 'index',
-                            success: res => {
-                            }
-                        })
                         purchaseWarehouseOrderDetailList.splice(index, 0, purchaseWarehouseOrderDetail[0])
                         purchaseWarehouseOrderDetailList = purchaseWarehouseOrderDetailList.concat(purchaseWarehouseOrderDetail.slice(1))
                         this.setData({
@@ -363,6 +357,12 @@ Page({
                     }
                     this.setApplicationAmount(this.data.purchaseWarehouseOrderDetailList)
                 }
+                console.log(this.data.purchaseWarehouseOrderDetailList, 'purchaseWarehouseOrderList')
+            }
+        })
+        wx.removeStorage({
+            key: 'index',
+            success: res => {
             }
         })
         wx.removeStorage({
@@ -376,7 +376,6 @@ Page({
         console.log(purchaseWarehouseOrderDetailList, ' lkasdjflkasjdf')
         let originAmount = 0
         purchaseWarehouseOrderDetailList.forEach(item => {
-            console.log(item.amount, item)
             originAmount += Number(item.amount)
         })
         this.setData({
@@ -390,16 +389,16 @@ Page({
     getSelectedPurchaseOrderDetailListFromStorage() {
         const selectedPurchaseOrderDetailList = wx.getStorageSync('selectedPurchaseOrderDetailList') || []
         const newArr = []
-        const idArr = this.data.purchaseWarehouseOrderDetailList.map(item => item.id)
+        const orderDetailIdArr = this.data.purchaseWarehouseOrderDetailList.map(item => item.orderDetailId ?? '')
         selectedPurchaseOrderDetailList.forEach(item => {
-            console.log(item.id)
-            if(item && !idArr.includes(item.id)) {
+            if(item && !orderDetailIdArr.includes(item.orderDetailId)) {
                 newArr.push(item)
             }
         })
         this.setData({
             purchaseWarehouseOrderDetailList: this.data.purchaseWarehouseOrderDetailList.concat(newArr)
         })
+        this.setApplicationAmount(this.data.purchaseWarehouseOrderDetailList)
         wx.removeStorage({
             key: 'selectedPurchaseOrderDetailList',
             success: () => {
