@@ -53,31 +53,31 @@
             <view class="form-line"></view>
             <view class="form-row">
                 <view class="form-row-label"><text class="require">*</text>计价数量：</view>
-                <input class="input" placeholder="计价数量" placeholder-class="placeholder" bindblur="onPurchaseWarehouseOrderBlur"
+                <input class="input" placeholder="计价数量" bindblur="onPurchaseWarehouseOrderBlur"
                     data-name="number" value="{{purchaseWarehouseOrderDetail.formatNumber}}" />
             </view>
             <view class="form-line"></view>
             <view class="form-row">
                 <view class="form-row-label"><text class="require">*</text>含税单价：</view>
-                <input class="input" placeholder="含税单价" placeholder-class="placeholder" bindblur="onPurchaseWarehouseOrderBlur"
+                <input class="input" placeholder="含税单价" bindblur="onPurchaseWarehouseOrderBlur"
                     data-name="price" value="{{purchaseWarehouseOrderDetail.formatPrice}}" />
             </view>
             <view class="form-line"></view>
             <view class="form-row">
                 <view class="form-row-label">折扣率%：</view>
-                <input class="input" placeholder="折扣率" placeholder-class="placeholder" bindblur="onPurchaseWarehouseOrderBlur"
+                <input class="input" placeholder="折扣率" bindblur="onPurchaseWarehouseOrderBlur"
                     data-name="discountRate" value="{{purchaseWarehouseOrderDetail.discountRate}}" />
             </view>
             <view class="form-line"></view>
             <view class="form-row">
                 <view class="form-row-label">折扣额：</view>
-                <input class="input" placeholder="折扣额" placeholder-class="placeholder" bindblur="onPurchaseWarehouseOrderBlur"
+                <input class="input" placeholder="折扣额" bindblur="onPurchaseWarehouseOrderBlur"
                     data-name="discountAmount" value="{{purchaseWarehouseOrderDetail.formatDiscountAmount}}" />
             </view>
             <view class="form-line"></view>
             <view class="form-row">
                 <view class="form-row-label"><text class="require">*</text>价税合计：</view>
-                <input class="input" placeholder="价税合计" placeholder-class="placeholder" bindblur="onPurchaseWarehouseOrderBlur"
+                <input class="input" placeholder="价税合计" bindblur="onPurchaseWarehouseOrderBlur"
                     data-name="originAmount" value="{{purchaseWarehouseOrderDetail.formatOriginAmount}}" />
             </view>
             <view class="form-line" wx:if="{{purchaseWarehouseOrderDetail.taxpayerType == 2}}" />
@@ -101,20 +101,20 @@
             <view class="form-row" wx:if="{{purchaseWarehouseOrderDetail.invoiceType == 2}}">
                 <view class="form-row-label"><text class="require">*</text>税额</view>
                 <view class="form-row-content">
-                    <input class="input" placeholder="税额" placeholder-class="placeholder" bindblur="onPurchaseWarehouseOrderBlur"
+                    <input class="input" placeholder="税额" bindblur="onPurchaseWarehouseOrderBlur"
                         data-name="taxAmount" value="{{purchaseWarehouseOrderDetail.formatTaxAmount}}" />
                 </view>
             </view>
             <view class="form-line"></view>
             <view class="form-row">
                 <view class="form-row-label"><text class="require">*</text>未税金额：</view>
-                <input class="input" placeholder="未税金额" placeholder-class="placeholder" bindblur="onPurchaseWarehouseOrderBlur"
+                <input class="input" placeholder="未税金额" bindblur="onPurchaseWarehouseOrderBlur"
                     data-name="untaxedAmount" value="{{purchaseWarehouseOrderDetail.formatUntaxedAmount}}" />
             </view>
             <view class="form-line"></view>
             <view class="form-row">
                 <view class="form-row-label">备注</view>
-                <input class="input" placeholder="备注" placeholder-class="placeholder" bindblur="onPurchaseWarehouseOrderBlur"
+                <input class="input" placeholder="备注" bindblur="onPurchaseWarehouseOrderBlur"
                     data-name="remark" value="{{purchaseWarehouseOrderDetail.remark}}" />
             </view>
         </view>

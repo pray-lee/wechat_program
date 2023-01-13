@@ -73,7 +73,7 @@ Page({
                     ...purchaseOrderDetail,
                     formatNumber: formatNumber(Number(purchaseOrderDetail.number).toFixed(2)) || '',
                     formatPrice: formatNumber(Number(purchaseOrderDetail.price).toFixed(2)) || '',
-                    discountRate: purchaseOrderDetail.discountRate ? purchaseOrderDetail.discountRate.toFixed(2) : '',
+                    discountRate: purchaseOrderDetail.discountRate ? Number(purchaseOrderDetail.discountRate).toFixed(2) : '',
                     formatDiscountAmount: purchaseOrderDetail.discountAmount ? formatNumber(Number(purchaseOrderDetail.discountAmount).toFixed(2)) : '',
                     formatOriginAmount: formatNumber(Number(purchaseOrderDetail.originAmount).toFixed(2)) || '',
                     formatAmount: formatNumber(Number(purchaseOrderDetail.amount).toFixed(2)) || '',
@@ -389,9 +389,9 @@ Page({
                         taxRate: '',
                         taxAmount: '',
                         formatTaxAmount: '',
-                        untaxedAmount: formatNumber(Number(NP.minus(NP.times(number,price), discountAmount).toFixed(2))),
+                        untaxedAmount: Number(NP.minus(NP.times(number,price), discountAmount)).toFixed(2),
                         formatUntaxedAmount: formatNumber(Number(NP.minus(NP.times(number,price), discountAmount)).toFixed(2)),
-                        originUntaxedAmount: formatNumber(Number(NP.minus(NP.times(number,price), discountAmount)).toFixed(2)),
+                        originUntaxedAmount: Number(NP.minus(NP.times(number,price), discountAmount)).toFixed(2),
                         formatOriginUntaxedAmount: formatNumber(Number(NP.minus(NP.times(number,price), discountAmount)).toFixed(2)),
                     }
                 })
@@ -429,7 +429,7 @@ Page({
                         formatTaxAmount: '',
                         untaxedAmount: formatNumber(Number(NP.minus(NP.times(number, price), value)).toFixed(2)),
                         formatUntaxedAmount: formatNumber(Number(NP.minus(NP.times(number, price), value)).toFixed(2)),
-                        originUntaxedAmount: formatNumber(Number(NP.minus(NP.times(number, price), value)).toFixed(2)),
+                        originUntaxedAmount: Number(NP.minus(NP.times(number, price), value)).toFixed(2),
                         formatOriginUntaxedAmount: formatNumber(Number(NP.minus(NP.times(number, price), value)).toFixed(2)),
                     }
                 })

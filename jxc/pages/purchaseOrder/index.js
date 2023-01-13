@@ -351,11 +351,6 @@ Page({
                     let purchaseOrderDetailList = clone(this.data.purchaseOrderDetailList)
                     if (!!index || index === 0) {
                         purchaseOrderDetailList.splice(index, 1)
-                        wx.removeStorage({
-                            key: 'index',
-                            success: res => {
-                            }
-                        })
                         purchaseOrderDetailList.splice(index, 0, purchaseOrderDetail[0])
                         purchaseOrderDetailList = purchaseOrderDetailList.concat(purchaseOrderDetail.slice(1))
                         this.setData({
@@ -368,6 +363,11 @@ Page({
                     }
                     this.setApplicationAmount(this.data.purchaseOrderDetailList)
                 }
+            }
+        })
+        wx.removeStorage({
+            key: 'index',
+            success: res => {
             }
         })
         wx.removeStorage({
