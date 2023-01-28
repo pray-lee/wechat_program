@@ -357,7 +357,6 @@ Page({
                     }
                     this.setApplicationAmount(this.data.purchaseWarehouseOrderDetailList)
                 }
-                console.log(this.data.purchaseWarehouseOrderDetailList, 'purchaseWarehouseOrderList')
             }
         })
         wx.removeStorage({
