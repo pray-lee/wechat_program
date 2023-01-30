@@ -43,7 +43,7 @@ Page({
         submitOaType: {
             approval: 1,
             reject: 0
-        }
+        },
         // oa===============================
     },
     addLoading() {
@@ -65,6 +65,30 @@ Page({
         var url = e.currentTarget.dataset.url
         wx.previewImage({
             urls: [url],
+        })
+    },
+    onGenerateWarehouseOrder() {
+        this.addLoading()
+        request({
+            hideLoading: this.hideLoading,
+            url: `${app.globalData.url}purchaseOrderController.do?doPush`,
+            method: 'POST',
+            data: {
+                ids: this.data.result.id
+            },
+            success: res => {
+                if(res.data.success) {
+                    wx.showModal({
+                        content: res.data.msg,
+                        confirmText: '好的',
+                        success: () => {
+                            wx.navigateBack({
+                                delta: 1
+                            })
+                        }
+                    })
+                }
+            }
         })
     },
     getDetail(query) {
@@ -147,6 +171,7 @@ Page({
             success: res => {
                 if (res.data) {
                     const result = clone(res.data)
+                    console.log(result, 'result')
                     // ============外币=============
                     this.getCurrencyTagByAccountbookId(result)
                     // 获取钉钉审批流

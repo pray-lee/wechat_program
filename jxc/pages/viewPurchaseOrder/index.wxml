@@ -388,6 +388,12 @@
                 <button class="approval" bindtap="onCommentShow" data-type="approval">同意</button>
             </view>
         </block>
+        <block wx:if="{{result.status == 30 && result.submitStockStatus < 30}}">
+            <view class="title"></view>
+            <view class="btn-area {{isPhoneXSeries ? 'iphoneX' : ''}}">
+                <button class="submit-btn" bindtap="onGenerateWarehouseOrder">生成入库单</button>
+            </view>
+        </block>
     </form>
     <view class="add-comment-page" animation="{{animationInfo}}" hidden="{{dialogHidden}}">
         <view class="title">批复意见</view>
