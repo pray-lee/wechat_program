@@ -405,6 +405,11 @@ Page({
             url: '/jxc/pages/purchaseWarehouseOrder/index?type=add'
         })
     },
+    onShowAddAllocate(e) {
+        wx.navigateTo({
+            url: '/jxc/pages/warehouseAllocateOrder/index?type=add'
+        })
+    },
     onHide() {
         // 页面隐藏
     },

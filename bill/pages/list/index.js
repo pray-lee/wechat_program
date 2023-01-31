@@ -449,6 +449,23 @@ Page({
         })
         this.onAddHide()
     },
+    onShowAddJCD() {
+        wx.navigateTo({
+            url: '/jxc/pages/purchaseOrder/index?type=add'
+        })
+        this.onAddHide()
+    },
+    onShowAddJCR() {
+        wx.navigateTo({
+            url: '/jxc/pages/purchaseWarehouseOrder/index?type=add'
+        })
+        this.onAddHide()
+    },
+    onShowAddAllocate(e) {
+        wx.navigateTo({
+            url: '/jxc/pages/warehouseAllocateOrder/index?type=add'
+        })
+    },
     onShow() {
         // 页面显示
         var animation = wx.createAnimation({

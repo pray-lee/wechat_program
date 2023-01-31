@@ -332,6 +332,11 @@ Page({
         })
         this.onAddHide()
     },
+    onShowAddAllocate(e) {
+        wx.navigateTo({
+            url: '/jxc/pages/warehouseAllocateOrder/index?type=add'
+        })
+    },
     onShow() {
         // 页面显示
         var animation = wx.createAnimation({

@@ -57,6 +57,10 @@
         "pages/viewPurchaseWarehouseOrder/index",
         "pages/purchaseWarehouseOrderDetail/index",
         "pages/viewPurchaseWarehouseOrderDetail/index",
+        "pages/warehouseAllocateOrder/index",
+        "pages/viewWarehouseAllocateOrder/index",
+        "pages/warehouseAllocateOrderDetail/index",
+        "pages/viewWarehouseAllocateOrderDetail/index",
         "pages/list/index",
         "pages/goodsList/index",
         "pages/importPurchaseOrderList/index"
