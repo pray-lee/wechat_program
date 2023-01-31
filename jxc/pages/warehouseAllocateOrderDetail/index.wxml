@@ -3,31 +3,31 @@
         <view class="block-wrapper">
             <view class="form-row">
                 <view class="form-row-label"><text class="require">*</text>商品名称：</view>
-                <view bindtap="gotoGoodsList" class="form-row-content">{{purchaseOrderDetail.goodsName || '请选择商品'}}
+                <view bindtap="gotoGoodsList" class="form-row-content">{{warehouseAllocateOrderDetail.goodsName || '请选择商品'}}
                 </view>
             </view>
-            <block wx:if="{{purchaseOrderDetail.goodsCode}}">
+            <block wx:if="{{warehouseAllocateOrderDetail.goodsCode}}">
                 <view class="form-line"></view>
                 <view class="form-row">
                     <view class="form-row-label"><text class="require">*</text>商品编码：</view>
-                    <view class="form-row-content">{{purchaseOrderDetail.goodsCode}}</view>
+                    <view class="form-row-content">{{warehouseAllocateOrderDetail.goodsCode}}</view>
                 </view>
             </block>
-            <block wx:if="{{purchaseOrderDetail.goodsSpecs}}">
+            <block wx:if="{{warehouseAllocateOrderDetail.goodsSpecs}}">
                 <view class="form-line"></view>
                 <view class="form-row">
                     <view class="form-row-label"><text class="require">*</text>规格型号：</view>
-                    <view class="form-row-content">{{purchaseOrderDetail.goodsSpecs}}</view>
+                    <view class="form-row-content">{{warehouseAllocateOrderDetail.goodsSpecs}}</view>
                 </view>
             </block>
-            <block wx:if="{{purchaseOrderDetail.auxiliaryAttributeName}}">
+            <block wx:if="{{warehouseAllocateOrderDetail.auxiliaryAttributeName}}">
                 <view class="form-line"></view>
                 <view class="form-row">
                     <view class="form-row-label">商品属性：</view>
-                    <view class="form-row-content">{{purchaseOrderDetail.auxiliaryAttributeName}}</view>
+                    <view class="form-row-content">{{warehouseAllocateOrderDetail.auxiliaryAttributeName}}</view>
                 </view>
             </block>
-            <block wx:if="{{unitList.length}}">
+            <block wx:if="{{warehouseAllocateOrderDetail.goodsId}}">
                 <view class="form-line"></view>
                 <view class="form-row">
                     <view class="form-row-label">计量单位：</view>
@@ -41,86 +41,51 @@
             </block>
             <view class="form-line"></view>
             <view class="form-row">
-                <view class="form-row-label"><text class="require">*</text>仓库：</view>
+                <view class="form-row-label"><text class="require">*</text>调出仓库：</view>
                 <view class="form-row-content">
-                    <picker bindchange="bindObjPickerChange" value="{{warehouseIndex}}" range="{{warehouseList}}"
-                        range-key="warehouseName" data-name="warehouseId" data-index="warehouseIndex"
-                        data-list="warehouseList">
-                        <view class="row-extra">{{warehouseList[warehouseIndex].warehouseName}}</view>
+                    <picker disabled bindchange="bindObjPickerChange" value="{{sourceWarehouseIndex}}" range="{{sourceWarehouseList}}"
+                        range-key="warehouseName" data-name="sourceWarehouseId" data-index="sourceWarehouseIndex"
+                        data-list="sourceWarehouseList">
+                        <view class="row-extra">{{sourceWarehouseList[sourceWarehouseIndex].warehouseName}}</view>
                     </picker>
                 </view>
             </view>
+            <block wx:if="{{warehouseAllocateOrderDetail.stockAmount}}">
+                <view class="form-line"></view>
+                <view class="form-row">
+                    <view class="form-row-label"><text class="require">*</text>库存数量</view>
+                    <view class="form-row-content">{{warehouseAllocateOrderDetail.stockAmount}}</view>
+                </view>
+            </block>
+            <block wx:if="{{warehouseAllocateOrderDetail.stockAmount}}">
+                <view class="form-line"></view>
+                <view class="form-row">
+                    <view class="form-row-label"><text class="require">*</text>调拨数量</view>
+                    <input class="input" placeholder="调拨数量" bindchange="onWarehouseAllocateOrderBlur"
+                           data-name="unitAmount" value="{{warehouseAllocateOrderDetail.unitAmount}}" />
+                </view>
+            </block>
             <view class="form-line"></view>
             <view class="form-row">
-                <view class="form-row-label"><text class="require">*</text>计价数量：</view>
-                <input class="input" placeholder="计价数量" bindchange="onPurchaseOrderBlur"
-                    data-name="number" value="{{purchaseOrderDetail.formatNumber}}" />
-            </view>
-            <view class="form-line"></view>
-            <view class="form-row">
-                <view class="form-row-label"><text class="require">*</text>含税单价：</view>
-                <input class="input" placeholder="含税单价" bindchange="onPurchaseOrderBlur"
-                    data-name="price" value="{{purchaseOrderDetail.formatPrice}}" />
-            </view>
-            <view class="form-line"></view>
-            <view class="form-row">
-                <view class="form-row-label">折扣率%：</view>
-                <input class="input" placeholder="折扣率" bindchange="onPurchaseOrderBlur"
-                    data-name="discountRate" value="{{purchaseOrderDetail.discountRate}}" />
-            </view>
-            <view class="form-line"></view>
-            <view class="form-row">
-                <view class="form-row-label">折扣额：</view>
-                <input class="input" placeholder="折扣额" bindchange="onPurchaseOrderBlur"
-                    data-name="discountAmount" value="{{purchaseOrderDetail.formatDiscountAmount}}" />
-            </view>
-            <view class="form-line"></view>
-            <view class="form-row">
-                <view class="form-row-label"><text class="require">*</text>价税合计：</view>
-                <input class="input" placeholder="价税合计" bindchange="onPurchaseOrderBlur"
-                    data-name="originAmount" value="{{purchaseOrderDetail.formatOriginAmount}}" />
-            </view>
-            <view class="form-line" wx:if="{{purchaseOrderDetail.taxpayerType == 2}}" />
-            <view class="form-row invoice-wrapper" wx:if="{{purchaseOrderDetail.taxpayerType == 2}}">
-                <view class="form-row-label"><text class="require">*</text>是否为专票</view>
-                <switch bindchange="purchaseOrderRadioChange" checked="{{purchaseOrderDetail.invoiceType == 2}}"
-                    color="#1f76d8" />
-            </view>
-            <view class="form-line" wx:if="{{purchaseOrderDetail.invoiceType == 2}}" />
-            <view class="form-row" wx:if="{{purchaseOrderDetail.invoiceType == 2}}">
-                <view class="form-row-label"><text class="require">*</text>税率</view>
+                <view class="form-row-label"><text class="require">*</text>调入仓库：</view>
                 <view class="form-row-content">
-                    <picker bindchange="bindTaxRagePickerChange" value="{{purchaseOrderDetail.taxRageIndex}}"
-                        range="{{purchaseOrderDetail.taxRageArr}}" range-key="text">
-                        <view class="row-extra">
-                            {{purchaseOrderDetail.taxRageArr[purchaseOrderDetail.taxRageIndex].text}}</view>
+                    <picker bindchange="bindObjPickerChange" value="{{targetWarehouseIndex}}" range="{{targetWarehouseList}}"
+                            range-key="warehouseName" data-name="targetWarehouseId" data-index="targetWarehouseIndex"
+                            data-list="targetWarehouseList">
+                        <view class="row-extra">{{targetWarehouseList[targetWarehouseIndex].warehouseName}}</view>
                     </picker>
                 </view>
-            </view>
-            <view class="form-line" wx:if="{{purchaseOrderDetail.invoiceType == 2}}"></view>
-            <view class="form-row" wx:if="{{purchaseOrderDetail.invoiceType == 2}}">
-                <view class="form-row-label"><text class="require">*</text>税额</view>
-                <view class="form-row-content">
-                    <input class="input" placeholder="税额" bindchange="onPurchaseOrderBlur"
-                        data-name="taxAmount" value="{{purchaseOrderDetail.formatTaxAmount}}" />
-                </view>
-            </view>
-            <view class="form-line"></view>
-            <view class="form-row">
-                <view class="form-row-label"><text class="require">*</text>未税金额：</view>
-                <input class="input" placeholder="未税金额" bindchange="onPurchaseOrderBlur"
-                    data-name="untaxedAmount" value="{{purchaseOrderDetail.formatUntaxedAmount}}" />
             </view>
             <view class="form-line"></view>
             <view class="form-row">
                 <view class="form-row-label">备注</view>
-                <input class="input" placeholder="备注" bindchange="onPurchaseOrderBlur"
-                    data-name="remark" value="{{purchaseOrderDetail.remark}}" />
+                <input class="input" placeholder="备注" bindchange="onWarehouseAllocateOrderBlur"
+                    data-name="remark" value="{{warehouseAllocateOrderDetail.remark}}" />
             </view>
         </view>
     </scroll-view>
     <view class="btn-area {{isPhoneXSeries ? 'iphoneX' : ''}}" hidden="{{btnHidden}}">
         <button bindtap="addDetail" class="submit-btn save-draft">新增商品</button>
-        <button bindtap="submitPurchaseOrderDetail" class="submit-btn">保存订单</button>
+        <button bindtap="submitWarehouseAllocateOrderDetail" class="submit-btn">保存订单</button>
     </view>
 </view>

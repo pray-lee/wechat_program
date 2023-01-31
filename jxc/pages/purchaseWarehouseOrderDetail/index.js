@@ -158,7 +158,7 @@ Page({
     },
     getGoodsInfoFromStorage() {
         const goodsInfo = wx.getStorageSync('goodsInfo') || {}
-        this.getUnitList(this.data.purchaseWarehouseOrderDetail.unitId || this.data.purchaseWarehouseOrderDetail.goodsUnit || goodsInfo.goodsUnit)
+        this.getUnitList(goodsInfo.goodsUnit || this.data.purchaseWarehouseOrderDetail.goodsUnit || this.data.purchaseWarehouseOrderDetail.unitId)
         this.setData({
             purchaseWarehouseOrderDetail: {
                 ...this.data.purchaseWarehouseOrderDetail,
@@ -208,7 +208,7 @@ Page({
         if (!!purchaseWarehouseOrderDetail) {
             this.setData({
                 ...this.data.purchaseWarehouseOrderDetail,
-                ...app.purchaseWarehouseOrderDetail,
+                ...purchaseWarehouseOrderDetail,
             })
         }
         wx.removeStorage({

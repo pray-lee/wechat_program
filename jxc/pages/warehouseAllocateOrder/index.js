@@ -10,11 +10,6 @@ Page({
     data: {
         // 增加申请人
         realName: '',
-        // =============外币相关============
-        multiCurrency: false,
-        currencyTypeIndex: 0,
-        currencyTypeList: [],
-        exchangeRateDisabled: false,
         // =============审批流相关============
         oaModule: null,
         showOaUserNodeList: false,
@@ -39,40 +34,23 @@ Page({
         accountbookIndex: 0,
         accountbookList: [],
         // 收货组织
-        accountbookReceiveIndex: 0,
-        accountbookReceiveList: [],
+        targetAccountbookIndex: 0,
+        targetAccountbookList: [],
         // 部门
         departmentIndex: 0,
         departmentList: [],
-        // 税率
-        taxRageObject: {
-            taxRageArr: [],
-            taxRageIndex: 0,
-        },
-        // 采购人
-        purchaseUserIndex: 0,
-        purchaseUserList: [],
-        // 供应商
-        supplierDetailIndex: 0,
-        supplierDetailList: [],
         // 删除用的status
         status: 0,
         submitData: {
             billFilesObj: [],
             submitDate: moment().format('YYYY-MM-DD'),
             businessDateTime: moment().format('YYYY-MM-DD'),
-            deliveryDate: moment().format('YYYY-MM-DD'),
             status: 20,
             userName: '',
             billCode: '',
             remark: '',
-            // 外币
-            baseCurrencyName: '',
-            baseCurrency: '',
-            exchangeRate: '',
-            currencyTypeId: ''
         },
-        purchaseOrderDetailList: [],
+        warehouseAllocateOrderDetailList: [],
     },
     // 把baoxiaoList的数据，重组一下，拼在submitData里提交
     formatSubmitData(array, name) {
@@ -86,17 +64,6 @@ Page({
                     }
                 })
             })
-        })
-    },
-    getInvoiceTypeArr() {
-        request({
-            url: app.globalData.url + 'systemController.do?formTree&typegroupCode=invoiceType',
-            method: 'GET',
-            success: res => {
-                this.setData({
-                    invoiceTypeArr: res.data[0].children
-                })
-            }
         })
     },
     addLoading() {
@@ -115,16 +82,6 @@ Page({
         }
     },
     formSubmit(e) {
-        // ============= 处理外币提交=================
-        if (!this.data.submitData.isMultiCurrency) {
-            this.setData({
-                submitData: {
-                    ...this.data.submitData,
-                    isMultiCurrency: 0
-                }
-            })
-        }
-        // ============= 处理外币提交=================
         // ==================处理审批流数据==================
         if (this.data.nodeList.length) {
             this.setData({
@@ -152,15 +109,15 @@ Page({
             }
         })
         // 处理一下提交格式
-        this.formatSubmitData(this.data.purchaseOrderDetailList, 'billDetailList')
+        this.formatSubmitData(this.data.warehouseAllocateOrderDetailList, 'billDetailList')
         this.formatSubmitData(this.data.submitData.billFilesObj, 'billFiles')
         this.addLoading()
         var url = ''
         if (this.data.type === 'add') {
-            url = app.globalData.url + 'purchaseOrderController.do?doAdd'
-            // url = 'http://192.168.10.233:8080/caika/' + 'purchaseOrderController.do?doAdd'
+            url = app.globalData.url + 'warehouseAllocateBillController.do?doAdd'
+            // url = 'http://192.168.10.233:8080/caika/' + 'warehouseAllocateOrderController.do?doAdd'
         } else {
-            url = app.globalData.url + 'purchaseOrderController.do?doUpdate&id=' + this.data.billId
+            url = app.globalData.url + 'warehouseAllocateBillController.do?doUpdate&id=' + this.data.billId
         }
         // 处理一下 null 变成字符串的问题
         const submitData = clone(this.data.submitData)
@@ -211,28 +168,27 @@ Page({
                 [name]: this.data[listName][value].id
             }
         })
-        if (name === 'accountbookIdReceive') {
+        if (name === 'targetAccountbookId') {
             this.setData({
                 [index]: e.detail.value,
                 submitData: {
                     ...this.data.submitData,
-                    [name]: this.data[listName][value].accountbookIdReceive
+                    [name]: this.data[listName][value].targetAccountbookId
                 }
             })
             // 获取仓库
-            this.getWarehouseList(this.data[listName][value].accountbookIdReceive)
+            this.getTargetWarehouseList(this.data[listName][value].targetAccountbookId)
         }
         // --------------------------------------------------------
         if (name === 'accountbookId') {
             this.showOaUserNodeListUseField(['accountbookId', 'submitterDepartmentId', 'originAmount'])
             // 重新获取科目以后，就要置空报销列表
             this.setData({
-                purchaseOrderDetailList: [],
+                warehouseAllocateOrderDetailList: [],
                 submitData: {
                     ...this.data.submitData,
-                    taxpayerType: this.data.accountbookList[value].taxpayerType,
-                    originAmount: '',
-                    formatOriginAmount: '',
+                    unitAmouna: '',
+                    formatUnitAmount: ''
                 },
             })
             // ============ 审批流 =========
@@ -242,29 +198,16 @@ Page({
             this.showOaProcessByBillType(this.data[listName][value].id, 101)
             // ============ 审批流 =========
             this.getDepartmentList(this.data[listName][value].id)
-            // =============外币============
-            this.initCurrency(this.data[listName][value].id)
-            // =============外币============
+            // 获取仓库
+            this.getSourceWarehouseList(this.data[listName][value].id)
         }
-        // =============外币============
-        if (name === 'currencyTypeId') {
-            this.getExchangeRate({
-                accountbookId: this.data.submitData.accountbookId,
-                currencyTypeId: this.data[listName][value].id,
-                businessDateTime: this.data.submitData.businessDateTime
-            })
-        }
-        // =============外币============
         if (name === 'submitterDepartmentId') {
-            // =============采购人============
-            this.getPurchaseUserList(this.data.submitData.accountbookId, this.data[listName][value].id)
-            // =============采购人============
             this.setData({
-                purchaseOrderDetailList: [],
+                warehouseAllocateOrderDetailList: [],
                 submitData: {
                     ...this.data.submitData,
-                    originAmount: '',
-                    formatOriginAmount: '',
+                    unitAmount: '',
+                    formatUnitAmount: ''
                 },
             })
         }
@@ -277,40 +220,6 @@ Page({
             }
         })
     },
-    clearCurrencyData(data) {
-        // 清除外币字段
-        var purchaseOrderDetailList = []
-        console.log(data.billDetailList, 'clearCurrencyData')
-        if (data && data.billDetailList && data.billDetailList.length) {
-            purchaseOrderDetailList = data.billDetailList.map(item => {
-                return {
-                    ...item,
-                    goodsName: item.goodsEntity.goodsName,
-                    goodsCode: item.goodsEntity.goodsCode,
-                    goodsSpecs: item.goodsEntity.goodsSpecs,
-                    auxiliaryAttributeName: item.goodsEntity.auxiliaryAttributeName,
-                    unitId: item.goodsEntity?.unitEntity?.id || '',
-                    warehouseId: item.warehouseEntity?.id || '',
-                    formatOriginAmount: formatNumber(Number(item.originAmount).toFixed(2))
-                }
-            })
-        }
-        this.setData({
-            currencyTypeIndex: 0,
-            currencyTypeList: [],
-            exchangeRateDisabled: false,
-            purchaseOrderDetailList,
-            submitData: {
-                ...this.data.submitData,
-                isMultiCurrency: null,
-                baseCurrency: '',
-                baseCurrencyName: '',
-                currencyTypeId: '',
-                originAmount: '',
-                formatOriginAmount: '',
-            }
-        })
-    },
     onBusinessFocus(e) {
         this.setData({
             submitData: {
@@ -318,24 +227,8 @@ Page({
                 businessDateTime: e.detail.value
             }
         })
-        // ============外币相关=============
-        this.getExchangeRate({
-            accountbookId: this.data.submitData.accountbookId,
-            businessDateTime: this.data.submitData.businessDateTime,
-            currencyTypeId: this.data.submitData.currencyTypeId
-        })
-        // ============外币相关=============
     },
-    // 交货日期
-    onDeliveryFocus(e) {
-        this.setData({
-            submitData: {
-                ...this.data.submitData,
-                deliveryDate: e.detail.value
-            }
-        })
-    },
-    getPurchaseOrderDetailFromStorage() {
+    getWarehouseAllocateOrderDetailFromStorage() {
         const index = wx.getStorageSync('index')
         this.setData({
             submitData: {
@@ -343,25 +236,25 @@ Page({
             }
         })
         wx.getStorage({
-            key: 'newPurchaseOrderDetailArr',
+            key: 'newWarehouseAllocateOrderDetailArr',
             success: res => {
-                const purchaseOrderDetail = res.data
-                if (!!purchaseOrderDetail) {
+                const warehouseAllocateOrderDetail = res.data
+                if (!!warehouseAllocateOrderDetail) {
                     // 处理wxml模板表达式不识别
-                    let purchaseOrderDetailList = clone(this.data.purchaseOrderDetailList)
+                    let warehouseAllocateOrderDetailList = clone(this.data.warehouseAllocateOrderDetailList)
                     if (!!index || index === 0) {
-                        purchaseOrderDetailList.splice(index, 1)
-                        purchaseOrderDetailList.splice(index, 0, purchaseOrderDetail[0])
-                        purchaseOrderDetailList = purchaseOrderDetailList.concat(purchaseOrderDetail.slice(1))
+                        warehouseAllocateOrderDetailList.splice(index, 1)
+                        warehouseAllocateOrderDetailList.splice(index, 0, warehouseAllocateOrderDetail[0])
+                        warehouseAllocateOrderDetailList = warehouseAllocateOrderDetailList.concat(warehouseAllocateOrderDetail.slice(1))
                         this.setData({
-                            purchaseOrderDetailList: purchaseOrderDetailList
+                            warehouseAllocateOrderDetailList: warehouseAllocateOrderDetailList
                         })
                     } else {
                         this.setData({
-                            purchaseOrderDetailList: purchaseOrderDetailList.concat(purchaseOrderDetail)
+                            warehouseAllocateOrderDetailList: warehouseAllocateOrderDetailList.concat(warehouseAllocateOrderDetail)
                         })
                     }
-                    this.setApplicationAmount(this.data.purchaseOrderDetailList)
+                    this.setApplicationAmount(this.data.warehouseAllocateOrderDetailList)
                 }
             }
         })
@@ -371,32 +264,30 @@ Page({
             }
         })
         wx.removeStorage({
-            key: 'newPurchaseOrderDetailArr',
+            key: 'newWarehouseAllocateOrderDetailArr',
             success: res => {
             }
         })
     },
     // 价税合计总额
-    setApplicationAmount(purchaseOrderDetailList) {
-        console.log(purchaseOrderDetailList,' lkasdjflkasjdf')
-        let originAmount = 0
-        purchaseOrderDetailList.forEach(item => {
-            console.log(item.amount, item)
-            originAmount += Number(item.amount)
+    setApplicationAmount(warehouseAllocateOrderDetailList) {
+        let unitAmount = 0
+        warehouseAllocateOrderDetailList.forEach(item => {
+            unitAmount += Number(item.unitAmount)
         })
         this.setData({
             submitData: {
                 ...this.data.submitData,
-                originAmount,
-                formatOriginAmount: formatNumber(Number(originAmount).toFixed(2))
+                unitAmount,
+                formatUnitAmount: formatNumber(Number(unitAmount).toFixed(2))
             }
         })
     },
     onShow() {
         // 从缓存获取用户已经选择的审批人
         this.getSelectedUserListFromStorage()
-        // 从缓存里获取PurchaseOrderDetail
-        this.getPurchaseOrderDetailFromStorage()
+        // 从缓存里获取WarehouseAllocateOrderDetail
+        this.getWarehouseAllocateOrderDetailFromStorage()
     },
     // 删除得时候把submitData里面之前存的报销列表数据清空
     clearListSubmitData(submitData) {
@@ -406,16 +297,16 @@ Page({
             }
         })
     },
-    deletePurchaseOrderDetail(e) {
+    deleteWarehouseAllocateOrderDetail(e) {
         var idx = e.currentTarget.dataset.index
-        var purchaseOrderDetailList = this.data.purchaseOrderDetailList.filter((item, index) => {
+        var warehouseAllocateOrderDetailList = this.data.warehouseAllocateOrderDetailList.filter((item, index) => {
             return idx !== index
         })
         this.clearListSubmitData(this.data.submitData)
         this.setData({
-            purchaseOrderDetailList
+            warehouseAllocateOrderDetailList
         })
-        this.setApplicationAmount(purchaseOrderDetailList)
+        this.setApplicationAmount(warehouseAllocateOrderDetailList)
     },
     // 删除得时候把submitData里面之前存的报销列表数据清空
     clearFileList(submitData) {
@@ -538,8 +429,6 @@ Page({
             realName: app.globalData.realName
         })
         app.globalData.loadingCount = 0
-        this.getTaxRageArr()
-        this.getInvoiceTypeArr()
         this.setData({
             isPhoneXSeries: app.globalData.isPhoneXSeries,
             submitData: {
@@ -927,99 +816,11 @@ Page({
         })
     },
     // ===============================================================================
-    // 获取税率
-    getTaxRageArr() {
-        request({
-            url: app.globalData.url + 'systemController.do?formTree&typegroupCode=VATRateForMost',
-            method: 'GET',
-            success: res => {
-                console.log(res, '税率')
-                res.data[0].children.unshift({
-                    id: null,
-                    text: '请选择'
-                })
-                this.setData({
-                    taxRageObject: {
-                        taxRageArr: res.data[0].children,
-                        taxRageIndex: 0
-                    }
-                })
-            }
-        })
-    },
-    // 获取供应商
-    getSupplierList(accountbookId, supplierId) {
-        this.addLoading()
-        request({
-            hideLoading: this.hideLoading,
-            url: `${app.globalData.url}supplierDetailController.do?json&accountbook.id=${accountbookId}`,
-            method: 'GET',
-            success: res => {
-                const arr = res.data.map(item => ({
-                    id: item.id,
-                    supplierName: item.supplier.supplierName
-                }))
-                // edit 的时候设置supplierIndex
-                var supplierDetailIndex = 0
-                var supplierDetailId = !!supplierId ? supplierId : arr[0].id
-                if (supplierDetailId) {
-                    arr.forEach((item, index) => {
-                        if (item.id === supplierDetailId) {
-                            supplierDetailIndex = index
-                        }
-                    })
-                }
-                this.setData({
-                    supplierDetailList: arr,
-                    supplierDetailIndex,
-                    submitData: {
-                        ...this.data.submitData,
-                        supplierDetailId
-                    }
-                })
-            }
-        })
-    },
-    // 获取采购人
-    getPurchaseUserList(accountbookId, departDetailId, userId) {
-        this.addLoading()
-        request({
-            hideLoading: this.hideLoading,
-            url: `${app.globalData.url}userController.do?getUserByAccountbookIdAnddepartDetailId&accountbookId=${accountbookId}&departDetailId=${departDetailId}`,
-            method: 'GET',
-            success: res => {
-                const arr = res.data
-                // edit 的时候设置departmentIndex
-                var purchaseUserIndex = 0
-                var purchaseUserId = !!userId ? userId : arr[0].id
-                if (purchaseUserId) {
-                    arr.forEach((item, index) => {
-                        if (item.id === purchaseUserId) {
-                            purchaseUserIndex = index
-                        }
-                    })
-                }
-                this.setData({
-                    purchaseUserList: res.data,
-                    purchaseUserIndex,
-                    submitData: {
-                        ...this.data.submitData,
-                        purchaseUserId
-                    }
-                })
-            }
-        })
-    },
     // 从所有收货组织中找到结算间关系中需要的数据
-    handleAccountbookList(purchaseAccountbookId, list) {
-        console.log(list, purchaseAccountbookId)
-        console.log(list.filter(item => item.purchaseAccountbookId === purchaseAccountbookId))
+    handleAccountbookList(accountbookId, list) {
         if (list && list.length) {
-            return list.filter(item => item.purchaseAccountbookId === purchaseAccountbookId)
-                .map(item => ({ accountbookReceiveName: item.saleAccountbookName, accountbookIdReceive: item.saleAccountbookId })).concat({
-                    accountbookReceiveName: this.data.accountbookList[this.data.accountbookIndex].accountbookName,
-                    accountbookIdReceive: purchaseAccountbookId
-                })
+            return list.filter(item => item.purchaseAccountbookId === accountbookId)
+                .map(item => ({ targetAccountbookName: item.saleAccountbookName, targetAccountbookId: item.saleAccountbookId }))
         }
         return []
     },
@@ -1032,31 +833,32 @@ Page({
             method: 'GET',
             success: res => {
                 const arr = this.handleAccountbookList(this.data.submitData.accountbookId, res.data.rows)
+                console.log(arr, 'arr')
                 // edit 的时候设置departmentIndex
-                var accountbookReceiveIndex = 0
-                var accountbookIdReceive = !!accountbookId ? accountbookId : arr[arr.length - 1].accountbookIdReceive
-                if (accountbookIdReceive) {
+                var targetAccountbookIndex = 0
+                var targetAccountbookId = !!accountbookId ? accountbookId : arr[arr.length - 1].targetAccountbookId
+                if (targetAccountbookId) {
                     arr.forEach((item, index) => {
-                        if (item.accountbookIdReceive === accountbookIdReceive) {
-                            accountbookReceiveIndex = index
+                        if (item.targetAccountbookId === targetAccountbookId) {
+                            targetAccountbookIndex = index
                         }
                     })
                 }
                 this.setData({
-                    accountbookReceiveList: arr,
-                    accountbookReceiveIndex,
+                    targetAccountbookList: arr,
+                    targetAccountbookIndex,
                     submitData: {
                         ...this.data.submitData,
-                        accountbookIdReceive
+                        targetAccountbookId
                     }
                 })
                 // 获取仓库
-                this.getWarehouseList(accountbookIdReceive)
+                this.getTargetWarehouseList(targetAccountbookId)
             }
         })
     },
-    // 获取仓库
-    getWarehouseList(accountbookId) {
+    // 获取调出仓库
+    getSourceWarehouseList(accountbookId) {
         this.addLoading()
         request({
             hideLoading: this.hideLoading(),
@@ -1064,7 +866,26 @@ Page({
             method: 'GET',
             success: res => {
                 wx.setStorage({
-                    key: 'warehouseList',
+                    key: 'sourceWarehouseList',
+                    data: res.data.map(item => ({ warehouseId: item.id, warehouseName: item.warehouseName }))
+                })
+                wx.setStorage({
+                    key: 'sourceAccountbookId',
+                    data: accountbookId
+                })
+            }
+        })
+    },
+    // 获取调入仓库
+    getTargetWarehouseList(accountbookId) {
+        this.addLoading()
+        request({
+            hideLoading: this.hideLoading(),
+            url: `${app.globalData.url}warehouseController.do?getWarehouseList&accountbookId=${accountbookId}`,
+            method: 'GET',
+            success: res => {
+                wx.setStorage({
+                    key: 'targetWarehouseList',
                     data: res.data.map(item => ({ warehouseId: item.id, warehouseName: item.warehouseName }))
                 })
             }
@@ -1081,7 +902,6 @@ Page({
                 (async () => {
                     if (res.data.success && res.data.obj.length) {
                         var accountbookIndex = 0
-                        var taxpayerType = !!data ? data.accountbookEntity.taxpayerType : null
                         var accountbookId = !!data ? data.accountbookId : res.data.obj[0].id
                         // ============ 审批流 =========
                         this.setData({
@@ -1089,39 +909,30 @@ Page({
                         })
                         this.showOaProcessByBillType(accountbookId, 101)
                         // ============ 审批流 =========
-                        // ============ 外币 =========
-                        const currencyTypeId = !!data && data.currencyTypeId ? data.currencyTypeId : undefined
-                        const exchangeRate = !!data && data.exchangeRate ? data.exchangeRate : undefined
-                        await this.initCurrency(accountbookId, currencyTypeId, exchangeRate, data)
-                        // ============ 外币 =========
                         // edit的时候设置值
                         if (accountbookId) {
                             res.data.obj.forEach((item, index) => {
                                 if (item.id === accountbookId) {
                                     accountbookIndex = index
-                                    taxpayerType = item.taxpayerType
                                 }
                             })
                         }
-                        console.log(taxpayerType, ' taxpayerType')
                         this.setData({
                             accountbookList: res.data.obj,
                             accountbookIndex: accountbookIndex,
                             submitData: {
                                 ...this.data.submitData,
                                 accountbookId,
-                                taxpayerType
                             }
                         })
                         var submitterDepartmentId = data ? data.submitterDepartmentId : ''
                         var billDetailList = data ? data.billDetailList : []
-                        var purchaseUserId = data ? data.purchaseUserId : ''
-                        var supplierDetailId = data ? data.supplierDetailId : ''
-                        var accountbookIdReceive = data ? data.accountbookIdReceive : ''
+                        var targetAccountbookId = data ? data.targetAccountbookId : ''
                         // 获取收货组织
-                        this.getAccountbookReceiveList(accountbookIdReceive)
-                        this.getDepartmentList(accountbookId, submitterDepartmentId, billDetailList, taxpayerType, purchaseUserId)
-                        this.getSupplierList(accountbookId, supplierDetailId)
+                        this.getAccountbookReceiveList(targetAccountbookId)
+                        this.getDepartmentList(accountbookId, submitterDepartmentId, billDetailList)
+                        // 获取调出仓库
+                        this.getSourceWarehouseList(accountbookId)
                     } else {
                         wx.showModal({
                             content: res.data.msg,
@@ -1139,7 +950,7 @@ Page({
         })
     },
     // 获取申请部门
-    getDepartmentList(accountbookId, departmentId, billDetailList, taxpayerType, purchaseUserId) {
+    getDepartmentList(accountbookId, departmentId, billDetailList) {
         this.addLoading()
         request({
             hideLoading: this.hideLoading,
@@ -1172,7 +983,6 @@ Page({
                             submitterDepartmentId
                         },
                     })
-                    this.getPurchaseUserList(accountbookId, submitterDepartmentId, purchaseUserId)
                 } else {
                     wx.showModal({
                         content: '当前用户未设置部门或者所属部门已禁用',
@@ -1190,16 +1000,7 @@ Page({
     },
     // 组成初始详情数据
     generateBaseDetail() {
-        var newTaxRageObj = clone(this.data.taxRageObject)
-        var taxpayerType = this.data.submitData.taxpayerType
         var obj = {
-            taxpayerType: this.data.submitData.taxpayerType,
-            invoiceTypeArr: this.data.invoiceTypeArr,
-            invoiceType: taxpayerType == 1 ? this.data.invoiceTypeArr[0].id : this.data.invoiceTypeArr[1].id,
-            taxRageObject: clone(newTaxRageObj),
-            taxRageArr: clone(newTaxRageObj).taxRageArr,
-            taxRageIndex: clone(newTaxRageObj).taxRageIndex,
-            taxRate: taxpayerType == 2 ? clone(newTaxRageObj).taxRageArr[0].id : '',
             remark: '',
             goodsId: '',
             goodsName: '',
@@ -1207,27 +1008,22 @@ Page({
             goodsSpecs: '',
             auxiliaryAttributeName: '',
             unitId: '',
-            warehouseId: '',
-            number: '',
-            price: '',
-            discountRate: '',
-            discountAmount: '',
-            originAmount: '',
-            taxRate: '',
-            taxAmount: '',
-            originUntaxedAmount: '',
+            sourceWarehouseId: '',
+            targetWarehouseId: '',
+            stockAmount: '',
+            unitAmount: '',
         }
         return obj
     },
-    onAddPurchaseOrderDetail() {
+    onAddWarehouseAllocateOrderDetail() {
         var obj = this.generateBaseDetail()
         wx.setStorage({
-            key: 'initPurchaseOrderDetail',
+            key: 'initWarehouseAllocateOrderDetail',
             data: obj,
             success: res => {
                 console.log('写入报销详情成功...')
                 wx.navigateTo({
-                    url: '/jxc/pages/purchaseOrderDetail/index'
+                    url: '/jxc/pages/warehouseAllocateOrderDetail/index'
                 })
             }
         })
@@ -1237,11 +1033,11 @@ Page({
         this.addLoading()
         request({
             hideLoading: this.hideLoading,
-            url: app.globalData.url + 'purchaseOrderController.do?getPurchaseOrder&id=' + id,
+            url: app.globalData.url + 'warehouseAllocateBillController.do?getWarehouseAllocateBill&id=' + id,
             method: 'GET',
             dataType: 'json',
             success: res => {
-                console.log(res, '获取采购订单编辑回显')
+                console.log(res, '获取库存调拨编辑回显')
                 if (res.data) {
                     this.setRenderData(res.data)
                     this.getProcessInstance(id, res.data.accountbookId)
@@ -1253,6 +1049,15 @@ Page({
     setRenderData(data) {
         // 请求
         this.getAccountbookList(data)
+        // billDetailList
+        if(data.billDetailList && data.billDetailList.length) {
+            var warehouseAllocateOrderDetailList = data.billDetailList.map(item => ({
+                ...item,
+                goodsCode: item.goods.goodsCode,
+                goodsName: item.goods.goodsName,
+                formatUnitAmount: formatNumber(Number(item.unitAmount).toFixed(2))
+            }))
+        }
         //fileList
         if (data.billFiles.length) {
             var billFilesObj = data.billFiles.map(item => {
@@ -1265,16 +1070,15 @@ Page({
         // 设置数据
         this.setData({
             ...this.data,
-            // purchaseOrderDetailList,
+            warehouseAllocateOrderDetailList,
             status: data.status,
             submitData: {
                 ...this.data.submitData,
                 billFilesObj: billFilesObj || [],
                 submitDate: moment().format('YYYY-MM-DD'),
                 businessDateTime: data.businessDateTime.split(' ')[0],
-                originAmount: data.originAmount,
-                formatOriginAmount: formatNumber(Number(data.originAmount).toFixed(2)),
-                exchangeRate: data.exchangeRate,
+                unitAmount: data.unitAmount,
+                formatUnitAmount: formatNumber(Number(data.unitAmount).toFixed(2)),
                 status: data.status,
                 remark: data.remark,
                 userName: app.globalData.realName,
@@ -1290,7 +1094,7 @@ Page({
             t = null
         })
     },
-    showPurchaseOrderDetail(e) {
+    showWarehouseAllocateOrderDetail(e) {
         // 加一个编辑标志
         wx.setStorage({
             key: 'edit',
@@ -1301,8 +1105,6 @@ Page({
         })
         this.addLoading()
         const index = e.currentTarget.dataset.index
-        this.data.purchaseOrderDetailList[index].taxpayerType = this.data.submitData.taxpayerType
-        this.data.purchaseOrderDetailList[index].taxRageObject = this.data.taxRageObject
         var obj = this.generateBaseDetail()
         wx.setStorage({
             key: 'index',
@@ -1312,18 +1114,18 @@ Page({
             }
         })
         wx.setStorage({
-            key: 'purchaseOrderDetail',
-            data: this.data.purchaseOrderDetailList[index],
+            key: 'warehouseAllocateOrderDetail',
+            data: this.data.warehouseAllocateOrderDetailList[index],
             success: res => {
-                console.log(this.data.purchaseOrderDetailList[index])
+                console.log(this.data.warehouseAllocateOrderDetailList[index])
                 console.log('写入采购订单详情成功！！')
                 wx.setStorage({
-                    key: 'initPurchaseOrderDetail',
+                    key: 'initWarehouseAllocateOrderDetail',
                     data: obj,
                     success: res => {
                         this.hideLoading()
                         wx.navigateTo({
-                            url: '/jxc/pages/purchaseOrderDetail/index'
+                            url: '/jxc/pages/warehouseAllocateOrderDetail/index'
                         })
                     }
                 })
@@ -1366,7 +1168,7 @@ Page({
                     this.addLoading()
                     request({
                         hideLoading: this.hideLoading,
-                        url: app.globalData.url + 'purchaseOrderController.do?doBatchDel&ids=' + this.data.billId,
+                        url: app.globalData.url + 'warehouseAllocateBillController.do?doBatchDel&ids=' + this.data.billId,
                         method: 'GET',
                         success: res => {
                             console.log(res)
@@ -1438,168 +1240,5 @@ Page({
                 }
             },
         })
-    },
-    // ====================外币=====================
-    getCurrencyTagByAccountbookId(accountbookId) {
-        return new Promise((resolve, reject) => {
-            request({
-                hideLoading: this.hideLoading,
-                url: `${app.globalData.url}accountbookController.do?isMultiCurrency&accountbookId=${accountbookId}`,
-                method: 'GET',
-                success: res => {
-                    if (res.statusCode == 200) {
-                        resolve(res.data.multiCurrency)
-                    } else {
-                        resolve(false)
-                    }
-                },
-            })
-        })
-    },
-    getCurrencyTypeListByAccountbookId(accountbookId) {
-        return new Promise((resolve, reject) => {
-            this.addLoading()
-            request({
-                hideLoading: this.hideLoading,
-                url: `${app.globalData.url}currencyController.do?getCurrencyTypeList&accountbookId=${accountbookId}`,
-                method: 'GET',
-                success: res => {
-                    console.log(res, '币别列表。。。。。')
-                    if (res.statusCode == 200) {
-                        resolve(res.data)
-                    } else {
-                        resolve([])
-                    }
-                },
-            })
-        })
-    },
-    getBaseCurrencyNameByAccountbookId(accountbookId) {
-        return new Promise((resolve, reject) => {
-            this.addLoading()
-            request({
-                hideLoading: this.hideLoading,
-                url: `${app.globalData.url}accountbookController.do?getBaseCurrencyInfo&accountbookId=${accountbookId}`,
-                method: 'GET',
-                success: res => {
-                    if (res.statusCode == 200) {
-                        resolve(res.data)
-                    } else {
-                        resolve([])
-                    }
-                },
-            })
-        })
-    },
-    getExchangeRate({ accountbookId, businessDateTime, currencyTypeId }) {
-        if (currencyTypeId === this.data.submitData.baseCurrency) {
-            this.setData({
-                exchangeRateDisabled: true,
-                submitData: {
-                    ...this.data.submitData,
-                    exchangeRate: 1
-                }
-            })
-            return
-        }
-        this.addLoading()
-        request({
-            hideLoading: this.hideLoading,
-            url: `${app.globalData.url}exchangeRateController.do?getAverageExchangeRate&accountbookId=${accountbookId}&businessDateTime=${businessDateTime}&currencyTypeId=${currencyTypeId}`,
-            method: 'GET',
-            success: res => {
-                if (res.statusCode == 200) {
-                    this.setData({
-                        exchangeRateDisabled: false,
-                        submitData: {
-                            ...this.data.submitData,
-                            exchangeRate: res.data.obj || 0
-                        }
-                    })
-                }
-            },
-        })
-    },
-    async initCurrency(accountbookId, currencyTypeId, exchangeRate, data) {
-        const multiCurrency = await this.getCurrencyTagByAccountbookId(accountbookId)
-        this.setData({
-            multiCurrency: multiCurrency,
-        })
-        if (multiCurrency) {
-            const currencyTypeList = await this.getCurrencyTypeListByAccountbookId(accountbookId)
-            let currencyType = currencyTypeList[0].id
-            let currencyTypeIndex = 0
-            if (currencyTypeId) {
-                currencyTypeList.forEach((item, index) => {
-                    if (item.id == currencyTypeId) {
-                        currencyType = item.id
-                        currencyTypeIndex = index
-                    }
-                })
-            }
-            this.setData({
-                currencyTypeList,
-                currencyTypeIndex,
-                submitData: {
-                    ...this.data.submitData,
-                    currencyTypeId: currencyType,
-                    isMultiCurrency: 1
-                }
-            })
-            const baseCurrencyInfo = await this.getBaseCurrencyNameByAccountbookId(accountbookId)
-            this.setData({
-                submitData: {
-                    ...this.data.submitData,
-                    baseCurrencyName: baseCurrencyInfo.baseCurrencyName,
-                    baseCurrency: baseCurrencyInfo.baseCurrency
-                }
-            })
-            if (!exchangeRate) {
-                this.getExchangeRate({
-                    accountbookId,
-                    currencyTypeId: currencyType,
-                    businessDateTime: this.data.submitData.businessDateTime,
-                })
-            } else {
-                if (currencyType === this.data.submitData.baseCurrency) {
-                    this.setData({
-                        exchangeRateDisabled: true,
-                        submitData: {
-                            ...this.data.submitData,
-                            exchangeRate: 1
-                        }
-                    })
-                }
-                this.setData({
-                    submitData: {
-                        ...this.data.submitData,
-                        exchangeRate
-                    }
-                })
-            }
-            // billDetailList
-            // 外币
-            var billDetailList = []
-            if (data && data.billDetailList && data.billDetailList.length) {
-                billDetailList = data.billDetailList.map(item => {
-                    return {
-                        ...item,
-                        goodsName: item.goodsEntity.goodsName,
-                        goodsCode: item.goodsEntity.goodsCode,
-                        goodsSpecs: item.goodsEntity.goodsSpecs,
-                        auxiliaryAttributeName: item.goodsEntity.auxiliaryAttributeName,
-                        unitId: item.goodsEntity?.unitEntity?.id || '',
-                        warehouseId: item.warehouseEntity?.id || '',
-                        formatOriginAmount: formatNumber(Number(item.originAmount).toFixed(2)),
-                        taxRageObject: this.data.taxRageObject,
-                    }
-                })
-                this.setData({
-                    purchaseOrderDetailList: billDetailList,
-                })
-            }
-        } else {
-            this.clearCurrencyData(data)
-        }
     },
 })

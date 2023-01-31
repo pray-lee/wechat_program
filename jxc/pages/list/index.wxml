@@ -10,6 +10,7 @@
             <view style="background-color: {{selectedType == 'ALL'?'#ccc' : '#fff'}}" class="bill-btn" bindtap="getAllList">全部</view>
             <view style="background-color: {{selectedType == 'J'?'#ccc' : '#fff'}}" class="bill-btn JCD" bindtap="getSingleList" data-type="purchaseOrder">采购订单</view>
             <view style="background-color: {{selectedType == 'B'?'#ccc' : '#fff'}}" class="bill-btn JCR" bindtap="getSingleList" data-type="purchaseWarehouseOrder">采购入库单</view>
+            <view style="background-color: {{selectedType == 'B'?'#ccc' : '#fff'}}" class="bill-btn allocate" bindtap="getSingleList" data-type="warehouseAllocateOrder">库存调拨单</view>
         </view>
     </view>
     <view class="search-wrapper">
@@ -33,7 +34,7 @@
                             <view class="content" data-type="{{item.billType}}" bindtap="goToEdit" data-id="{{item.id}}" data-status="{{item.status}}" style="display:block">
                                 <view class="content1">
                                     <view class="status error {{item.billTypeClass}}">{{statusObj[item.status]}}</view>
-                                    <view class="right">￥{{item.formatAmount || item.formatTotalAmount}}</view>
+                                    <view wx:if="{{item.billType !== 'warehouseAllocateOrder'}}" class="right">￥{{item.formatAmount || item.formatTotalAmount}}</view>
                                 </view>
                                 <view class="content1">
                                     <view wx:if="{{!!item.remark && item.remark !== 'null'}}" class="remark">{{item.remark}}</view>
@@ -54,7 +55,7 @@
                             <view class="content" data-type="{{item.billType}}" bindtap="goToEdit" data-id="{{item.id}}" data-status="{{item.status}}" style="display:block">
                                 <view class="content1">
                                     <view class="status error {{item.billTypeClass}}">{{statusObj[item.status]}}</view>
-                                    <view class="right">￥{{item.formatTotalAmount || item.formatAmount}}</view>
+                                    <view wx:if="{{item.billType !== 'warehouseAllocateOrder'}}" class="right">￥{{item.formatTotalAmount || item.formatAmount}}</view>
                                 </view>
                                 <view class="content1">
                                     <view wx:if="{{!!item.remark && item.remark !== 'null'}}" class="remark">{{item.remark}}</view>

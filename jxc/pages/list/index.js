@@ -135,16 +135,18 @@ Page({
             this.requestAllList({
                 purchaseOrder: 'purchaseOrder',
                 purchaseWarehouseOrder: 'purchaseWarehouseOrder',
+                warehouseAllocateOrder: 'warehouseAllocateOrder',
             }, billStatus)
         } else {
             this.singleListLogic(selectedType, billStatus)
         }
     },
     requestAllList(status, billStatus) {
-        const {purchaseOrder, purchaseWarehouseOrder} = status
+        const {purchaseOrder, purchaseWarehouseOrder, warehouseAllocateOrder} = status
         Promise.all([
             this.getPurchaseOrderList(purchaseOrder, billStatus),
             this.getPurchaseWarehouseOrderList(purchaseWarehouseOrder, billStatus),
+            this.getWarehouseAllocateOrderList(warehouseAllocateOrder, billStatus),
         ]).then(res => {
             let allList = []
             res.forEach(item => {
@@ -177,6 +179,9 @@ Page({
             case 'purchaseWarehouseOrder':
                 this.handleSingleResult(this.getPurchaseWarehouseOrderList.bind(this), type, billStatus)
                 break
+            case 'warehouseAllocateOrder':
+                this.handleSingleResult(this.getWarehouseAllocateOrderList.bind(this), type, billStatus)
+                break
         }
     },
     handleSingleResult(fn, selectedType, billStatus) {
@@ -189,6 +194,11 @@ Page({
             case 'purchaseWarehouseOrder':
                 this.setData({
                     selectedText: '采购入库单'
+                })
+                break;
+            case 'warehouseAllocateOrder':
+                this.setData({
+                    selectedText: '库存调拨单'
                 })
                 break;
         }
@@ -259,6 +269,29 @@ Page({
                             billType: type,
                             billTypeClass: type.toLowerCase(),
                             billName: '采购入库单'
+                        }))
+                    })
+                }
+            })
+        })
+    },
+    getWarehouseAllocateOrderList(type, billStatus="10") {
+        return new Promise((resolve, reject) => {
+            this.addLoading()
+            request({
+                hideLoading: this.hideLoading,
+                url: app.globalData.url + 'warehouseAllocateBillController.do?datagrid&field=id,billCode,businessDateTime,businessDateTime_begin,businessDateTime_end,submitter.realName,submitterId,submitDateTime,submitDateTime_begin,submitDateTime_end,accountbookId,accountbook.accountbookName,targetAccountbookId,targetAccountbook.accountbookName,submitterDepartmentId,departDetail.depart.departName,sourceWarehouseName,targetWarehouseName,status,remark,&sort=updateDate,createDate',
+                method: 'POST',
+                data: {
+                    status: billStatus
+                },
+                success: res => {
+                    resolve({
+                        list: res.data.rows.map(item => ({
+                            ...item,
+                            billType: type,
+                            billTypeClass: type.toLowerCase(),
+                            billName: '库存调拨单'
                         }))
                     })
                 }
@@ -372,7 +405,7 @@ Page({
         const type = e.currentTarget.dataset.type
         switch (type) {
             case 'purchaseOrder':
-                //借款
+                //采购订单
                 if (status == 10 || status == 25) {
                     this.setPage(`/jxc/pages/purchaseOrder/index?type=edit&id=${id}`)
                 } else {
@@ -380,11 +413,19 @@ Page({
                 }
                 break;
             case 'purchaseWarehouseOrder':
-                // 报销单
+                // 采购入库单
                 if (status == 10 || status == 25) {
                     this.setPage(`/jxc/pages/purchaseWarehouseOrder/index?type=edit&id=${id}`)
                 } else {
                     this.setPage(`/jxc/pages/viewPurchaseWarehouseOrder/index?id=${id}`)
+                }
+                break;
+            case 'warehouseAllocateOrder':
+                // 库存调拨单
+                if (status == 10 || status == 25) {
+                    this.setPage(`/jxc/pages/warehouseAllocateOrder/index?type=edit&id=${id}`)
+                } else {
+                    this.setPage(`/jxc/pages/viewWarehouseAllocateOrder/index?id=${id}`)
                 }
                 break;
         }

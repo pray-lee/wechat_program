@@ -1,10 +1,10 @@
 <view class="form-wrapper">
     <form bindsubmit="formSubmit">
         <scroll-view scroll-y class="form-scroll-wrapper {{isPhoneXSeries ? 'iphoneX' : ''}}">
-            <view class="title">采购方信息</view>
+            <view class="title">申请方信息</view>
             <view class="block-wrapper">
                 <view class="form-row">
-                    <view class="form-row-label"><text class="require">*</text>采购组织</view>
+                    <view class="form-row-label"><text class="require">*</text>申请组织</view>
                     <view class="form-row-content">
                         <picker bindchange="bindObjPickerChange" value="{{accountbookIndex}}"
                             range="{{accountbookList}}" range-key="accountbookName" data-name="accountbookId"
@@ -15,23 +15,12 @@
                 </view>
                 <view class="form-line" />
                 <view class="form-row">
-                    <view class="form-row-label"><text class="require">*</text>采购部门</view>
+                    <view class="form-row-label"><text class="require">*</text>申请部门</view>
                     <view class="form-row-content">
                         <picker class="picker-style" bindchange="bindObjPickerChange" value="{{departmentIndex}}"
                             range="{{departmentList}}" range-key="name" data-name="submitterDepartmentId"
                             data-list="departmentList" data-index="departmentIndex">
                             <view class="row-extra">{{departmentList[departmentIndex].name}}</view>
-                        </picker>
-                    </view>
-                </view>
-                <view class="form-line" />
-                <view class="form-row">
-                    <view class="form-row-label picker"><text class="require">*</text>采购人</view>
-                    <view class="form-row-content">
-                        <picker class="picker-style" bindchange="bindObjPickerChange" value="{{purchaseUserIndex}}"
-                            range="{{purchaseUserList}}" range-key="name" data-name="purchaseUserId"
-                            data-list="purchaseUserList" data-index="purchaseUserIndex">
-                            <view class="row-extra">{{purchaseUserList[purchaseUserIndex].name}}</view>
                         </picker>
                     </view>
                 </view>
@@ -43,26 +32,24 @@
                     </view>
                 </view>
             </view>
-            <view class="title">供应商信息</view>
+            <view class="title">单据信息</view>
             <view class="block-wrapper">
                 <view class="form-row">
-                    <view class="form-row-label"><text class="require">*</text>供应商名称</view>
+                    <view class="form-row-label"><text class="require">*</text>调入组织</view>
                     <view class="form-row-content">
-                        <picker class="picker-style" bindchange="bindObjPickerChange" value="{{supplierDetailIndex}}"
-                            range="{{supplierDetailList}}" range-key="supplierName" data-name="supplierDetailId"
-                            data-list="supplierDetailList" data-index="supplierDetailIndex">
-                            <view class="row-extra">{{supplierDetailList[supplierDetailIndex].supplierName}}</view>
+                        <picker class="picker-style" bindchange="bindObjPickerChange" value="{{targetAccountbookIndex}}"
+                            range="{{targetAccountbookList}}" range-key="targetAccountbookName" data-name="targetAccountbookId"
+                            data-list="targetAccountbookList" data-index="targetAccountbookIndex">
+                            <view class="row-extra">{{targetAccountbookList[targetAccountbookIndex].targetAccountbookName}}</view>
                         </picker>
                     </view>
                 </view>
-            </view>
-            <view class="title">单据信息</view>
-            <view class="block-wrapper">
+                <view class="form-line"></view>
                 <view class="form-row">
                     <view class="form-row-label"><text class="require">*</text>事由</view>
                     <view class="form-row-content">
                         <input class="input" value="{{submitData.remark}}" placeholder="请输入事由"
-                            placeholder-class="placeholder" data-name="remark" bindblur="bindblur" />
+                               placeholder-class="placeholder" data-name="remark" bindblur="bindblur" />
                     </view>
                 </view>
                 <view class="form-line" />
@@ -75,85 +62,30 @@
                     </picker>
                     <image src="../../../images/date-icon.png" mode="scaleToFill" class="date-icon"></image>
                 </view>
-                <view class="form-line"></view>
-                <view class="form-row">
-                    <view class="form-row-label"><text class="require">*</text>收货组织</view>
-                    <view class="form-row-content">
-                        <picker bindchange="bindObjPickerChange" value="{{accountbookReceiveIndex}}"
-                            range="{{accountbookReceiveList}}" range-key="accountbookReceiveName" data-name="accountbookIdReceive"
-                            data-index="accountbookReceiveIndex" data-list="accountbookReceiveList">
-                            <view class="row-extra">{{accountbookReceiveList[accountbookReceiveIndex].accountbookReceiveName}}</view>
-                        </picker>
-                    </view>
-                </view>
-                <view class="form-line"></view>
-                <view class="form-row">
-                    <view class="form-row-label"><text class="require">*</text>交货日期</view>
-                    <picker mode="date" bindchange="onDeliveryFocus" value="{{submitData.deliveryDate}}">
-                        <view class="form-row-content">
-                            <view>{{submitData.deliveryDate}}</view>
-                        </view>
-                    </picker>
-                    <image src="../../../images/date-icon.png" mode="scaleToFill" class="date-icon"></image>
-                </view>
             </view>
-            <!--      外币        -->
-            <block wx:if="{{multiCurrency}}">
-                <view class="title">外币信息</view>
-                <view class="block-wrapper">
-                    <view class="form-row">
-                        <view class="form-row-label"><text class="require">*</text>币别</view>
-                        <view class="form-row-content">
-                            <picker class="picker-style" bindchange="bindObjPickerChange" value="{{currencyTypeIndex}}"
-                                range="{{currencyTypeList}}" range-key="currencyName" data-index="currencyTypeIndex"
-                                data-name="currencyTypeId" data-list="currencyTypeList">
-                                <view class="row-extra">{{currencyTypeList[currencyTypeIndex].currencyName}}</view>
-                            </picker>
-                        </view>
-                    </view>
-                    <view class="form-line" />
-                    <view class="form-row">
-                        <view class="form-row-label"><text class="require">*</text>本位币</view>
-                        <view class="form-row-content">
-                            <input disabled class="input" value="{{submitData.baseCurrencyName}}"
-                                placeholder="请输入本位币" />
-                        </view>
-                    </view>
-                    <view class="form-line" />
-                    <view class="form-row">
-                        <view class="form-row-label"><text class="require">*</text>汇率</view>
-                        <view class="form-row-content">
-                            <input disabled="{{exchangeRateDisabled}}" class="input" value="{{submitData.exchangeRate}}"
-                                placeholder="请输入汇率" bindinput="bindExchangeRateInput" />
-                        </view>
-                    </view>
-                    <view class="form-line" />
-                </view>
-            </block>
             <!-- 增加报销详情-->
-            <view class="title">采购订单详情</view>
+            <view class="title">库存调拨详情</view>
             <view class="block-wrapper">
                 <view class="baoxiao-list">
-                    <view class="baoxiao-item" wx:for="{{purchaseOrderDetailList}}" wx:key="index" wx:if="{{purchaseOrderDetailList.length}}">
+                    <view class="baoxiao-item" wx:for="{{warehouseAllocateOrderDetailList}}" wx:key="index" wx:if="{{warehouseAllocateOrderDetailList.length}}">
                         <view class="form-row">
-                            <view class="delete-baoxiao-item" bindtap="deletePurchaseOrderDetail"
+                            <view class="delete-baoxiao-item" bindtap="deleteWarehouseAllocateOrderDetail"
                                 data-id="{{item.billDetailId}}" data-index="{{index}}"></view>
-                            <view class="form-row-content baoxiaoDetail-left" bindtap="showPurchaseOrderDetail"
+                            <view class="form-row-content baoxiaoDetail-left" bindtap="showWarehouseAllocateOrderDetail"
                                 data-index="{{index}}">
                                 <view class="subject-title">{{item.goodsName}}</view>
                                 <view class="remark-title">{{item.goodsCode}}</view>
                             </view>
                             <view class="form-row-content ellipsis borrow-remark baoxiaoDetail-right"
-                                bindtap="showPurchaseOrderDetail" data-index="{{index}}">
-                                {{item.formatOriginAmount}}</view>
+                                bindtap="showWarehouseAllocateOrderDetail" data-index="{{index}}">
+                                {{item.formatUnitAmount}}</view>
                         </view>
                     </view>
                 </view>
-                <view class="add-borrow" bindtap="onAddPurchaseOrderDetail">
+                <view class="add-borrow" bindtap="onAddWarehouseAllocateOrderDetail">
                     <view class="add-borrow-btn">添加详情</view>
                 </view>
             </view>
-
             <view class="title">附件上传</view>
             <!--上传附件-->
             <view class="block-wrapper">
@@ -325,24 +257,14 @@
             </block>
             <view class="title"></view>
             <view class="block-wrapper submit-info-wrapper">
-                <block wx:if="{{multiCurrency}}">
+                <block>
                     <view class="total">
                         <view style="display:flex;align-items: center">
                             <image src="../../../images/jiekuanTotal-icon.png" mode="scaleToFill"
                                 class="jiekuan-icon" />
-                            <text class="title-word">采购金额：</text>
+                            <text class="title-word">调拨数量合计：</text>
                         </view>
-                        <text class="total-word">{{submitData.formatOriginAmount}}</text>
-                    </view>
-                </block>
-                <block wx:else>
-                    <view class="total">
-                        <view style="display:flex;align-items: center">
-                            <image src="../../../images/jiekuanTotal-icon.png" mode="scaleToFill"
-                                class="jiekuan-icon" />
-                            <text class="title-word">采购金额：</text>
-                        </view>
-                        <text class="total-word">{{submitData.formatOriginAmount}}</text>
+                        <text class="total-word">{{submitData.formatUnitAmount}}</text>
                     </view>
                 </block>
             </view>

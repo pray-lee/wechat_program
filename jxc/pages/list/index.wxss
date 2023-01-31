@@ -163,6 +163,9 @@
 .status.error.purchasewarehouseorder::before {
     background: green
 }
+.status.error.warehouseallocateorder::before {
+    background: purple;
+}
 .F{
     background-position-x: 10rpx
 }
