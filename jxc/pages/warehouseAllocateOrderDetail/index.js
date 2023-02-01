@@ -1,5 +1,5 @@
-import '../../../util/handleLodash'
-import {cloneDeep as clone} from 'lodash'
+import '../../../util/handleLodash';
+import {cloneDeep as clone} from 'lodash';
 import {formatNumber, validFn, request} from "../../../util/getErrorMessage";
 import NP from "number-precision";
 
@@ -21,7 +21,7 @@ Page({
             unitAmount: '',
             formatStockAmount: '',
             formatUnitAmount: '',
-            remark: ''
+            remark: '',
         },
         warehouseAllocateOrderDetailArr: [],
         // 单位

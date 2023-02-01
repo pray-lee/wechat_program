@@ -1,35 +1,25 @@
 <view class="form-wrapper">
     <form bindsubmit="formSubmit">
         <scroll-view scroll-y class="form-scroll-wrapper {{isPhoneXSeries ? 'iphoneX' : ''}}">
-            <view class="title">采购方信息</view>
+            <view class="title">申请方信息</view>
             <view class="block-wrapper">
                 <view class="form-row">
                     <view class="form-row-label">
                         <text class="require">*</text>
-                        采购组织
+                        申请组织
                     </view>
                     <view class="form-row-content">
-                        <view class="mock-input">{{result.accountbookEntity.accountbookName}}</view>
+                        <view class="mock-input">{{result.accountbookName}}</view>
                     </view>
                 </view>
                 <view class="form-line"/>
                 <view class="form-row">
                     <view class="form-row-label">
                         <text class="require">*</text>
-                        采购部门
+                        申请部门
                     </view>
                     <view class="form-row-content">
-                        <view class="mock-input">{{result.departDetailEntity.depart.departName}}</view>
-                    </view>
-                </view>
-                <view class="form-line"/>
-                <view class="form-row">
-                    <view class="form-row-label picker">
-                        <text class="require">*</text>
-                        采购人
-                    </view>
-                    <view class="form-row-content">
-                        <view class="mock-input">{{result.user.userName}}</view>
+                        <view class="mock-input">{{result.departDetail.depart.departName}}</view>
                     </view>
                 </view>
                 <view class="form-line"/>
@@ -43,20 +33,18 @@
                     </view>
                 </view>
             </view>
-            <view class="title">供应商信息</view>
+            <view class="title">单据信息</view>
             <view class="block-wrapper">
                 <view class="form-row">
                     <view class="form-row-label">
                         <text class="require">*</text>
-                        供应商名称
+                        调入组织
                     </view>
                     <view class="form-row-content">
-                        <view class="mock-input">{{result.supplierDetailEntity.supplier.supplierName}}</view>
+                        <view class="mock-input">{{result.targetAccountbookName}}</view>
                     </view>
                 </view>
-            </view>
-            <view class="title">单据信息</view>
-            <view class="block-wrapper">
+                <view class="form-line"></view>
                 <view class="form-row">
                     <view class="form-row-label">
                         <text class="require">*</text>
@@ -77,88 +65,23 @@
                     </view>
                     <image src="../../../images/date-icon.png" mode="scaleToFill" class="date-icon"></image>
                 </view>
-                <view class="form-line"></view>
-                <view class="form-row">
-                    <view class="form-row-label">
-                        <text class="require">*</text>
-                        收货组织
-                    </view>
-                    <view class="form-row-content">
-                        <view class="mock-input">收货组织</view>
-                    </view>
-                </view>
-                <view class="form-line"></view>
-                <view class="form-row">
-                    <view class="form-row-label">
-                        <text class="require">*</text>
-                        交货日期
-                    </view>
-                    <view class="form-row-content">
-                        <view class="mock-input">{{result.deliveryDate}}</view>
-                    </view>
-                    <image src="../../../images/date-icon.png" mode="scaleToFill" class="date-icon"></image>
-                </view>
             </view>
-            <!--      外币        -->
-            <block wx:if="{{multiCurrency}}">
-                <view class="title">外币信息</view>
-                <view class="block-wrapper">
-                    <view class="form-row">
-                        <view class="form-row-label">
-                            <text class="require">*</text>
-                            币别
-                        </view>
-                        <view class="form-row-content">
-                            <view>{{currencyTypeName}}</view>
-                        </view>
-                    </view>
-                    <view class="form-line"/>
-                    <view class="form-row">
-                        <view class="form-row-label">
-                            <text class="require">*</text>
-                            本位币
-                        </view>
-                        <view class="form-row-content">
-                            <view>{{baseCurrencyName}}</view>
-                        </view>
-                    </view>
-                    <view class="form-line"/>
-                    <view class="form-row">
-                        <view class="form-row-label">
-                            <text class="require">*</text>
-                            汇率
-                        </view>
-                        <view class="form-row-content">
-                            <view class="form-row-content">
-                                <view>{{exchangeRate}}</view>
-                            </view>
-                        </view>
-                    </view>
-                    <view class="form-line"/>
-                </view>
-            </block>
             <!-- 增加报销详情-->
-            <view class="title">采购订单详情</view>
+            <view class="title">库存调拨详情</view>
             <view class="block-wrapper">
                 <view class="baoxiao-list">
                     <view class="baoxiao-item" wx:for="{{result.billDetailList}}" wx:key="index"
                           wx:if="{{result.billDetailList.length}}">
                         <view class="form-row">
-                            <view class="form-row-content baoxiaoDetail-left" bindtap="showPurchaseOrderDetail"
+                            <view class="form-row-content baoxiaoDetail-left" bindtap="showWarehouseAllocateOrderDetail"
                                   data-index="{{index}}">
-                                <view class="subject-title">{{item.goodsEntity.goodsName}}</view>
-                                <view class="remark-title">{{item.goodsEntity.goodsCode}}</view>
+                                <view class="subject-title">{{item.goods.goodsName}}</view>
+                                <view class="remark-title">{{item.goods.goodsCode}}</view>
                             </view>
-                            <block wx:if="{{multiCurrency}}">
+                            <block>
                                 <view class="form-row-content ellipsis borrow-remark baoxiaoDetail-right"
                                       bindtap="showPurchaseOrderDetail" data-index="{{index}}">
-                                    {{item.formatOriginAmount}}
-                                </view>
-                            </block>
-                            <block wx:else>
-                                <view class="form-row-content ellipsis borrow-remark baoxiaoDetail-right"
-                                      bindtap="showPurchaseOrderDetail" data-index="{{index}}">
-                                    {{item.formatAmount}}
+                                    {{item.formatUnitAmount}}
                                 </view>
                             </block>
                         </view>
@@ -322,24 +245,14 @@
             </block>
             <view class="title"></view>
             <view class="block-wrapper submit-info-wrapper">
-                <block wx:if="{{multiCurrency}}">
+                <block>
                     <view class="total">
                         <view style="display:flex;align-items: center">
                             <image src="../../../images/jiekuanTotal-icon.png" mode="scaleToFill"
                                    class="jiekuan-icon"/>
-                            <text class="title-word">采购金额：</text>
+                            <text class="title-word">调拨数量合计：</text>
                         </view>
-                        <text class="total-word">{{result.formatOriginAmount}}</text>
-                    </view>
-                </block>
-                <block wx:else>
-                    <view class="total">
-                        <view style="display:flex;align-items: center">
-                            <image src="../../../images/jiekuanTotal-icon.png" mode="scaleToFill"
-                                   class="jiekuan-icon"/>
-                            <text class="title-word">采购金额：</text>
-                        </view>
-                        <text class="total-word">{{result.formatOriginAmount}}</text>
+                        <text class="total-word">{{result.totalAmount}}</text>
                     </view>
                 </block>
             </view>
@@ -386,12 +299,6 @@
             <view class="btn-area {{isPhoneXSeries ? 'iphoneX' : ''}}">
                 <button class="reject" bindtap="onCommentShow" data-type="reject">驳回</button>
                 <button class="approval" bindtap="onCommentShow" data-type="approval">同意</button>
-            </view>
-        </block>
-        <block wx:if="{{result.status == 30 && result.submitStockStatus < 30}}">
-            <view class="title"></view>
-            <view class="btn-area {{isPhoneXSeries ? 'iphoneX' : ''}}">
-                <button class="submit-btn" bindtap="onGenerateWarehouseOrder">生成入库单</button>
             </view>
         </block>
     </form>

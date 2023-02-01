@@ -6,31 +6,25 @@ const app = getApp()
 Page({
     data: {
         isPhoneXSeries: false,
-        purchaseOrderDetail: null,
+        warehouseAllocateOrderDetail: null,
     },
     onLoad() {
         this.setData({
             isPhoneXSeries: app.globalData.isPhoneXSeries
         })
         wx.getStorage({
-            key: 'purchaseOrderDetail',
+            key: 'warehouseAllocateOrderDetail',
             success: res => {
-                const purchaseOrderDetail = clone(res.data)
+                const warehouseAllocateOrderDetail = clone(res.data)
+                console.log(warehouseAllocateOrderDetail)
                 this.setData({
-                    purchaseOrderDetail: {
-                        ...purchaseOrderDetail,
-                        formatNumber: formatNumber(Number(purchaseOrderDetail.number).toFixed(2)),
-                        formatPrice: formatNumber(Number(purchaseOrderDetail.price).toFixed(2)),
-                        discountRate: purchaseOrderDetail.discountRate ? purchaseOrderDetail.discountRate : '',
-                        formatDiscountAmount: purchaseOrderDetail.discountAmount ? formatNumber(Number(purchaseOrderDetail.discountAmount).toFixed(2)): '',
-                        discountRate: purchaseOrderDetail.discountRate ? purchaseOrderDetail.discountRate: '',
-                        formatOriginAmount: formatNumber(Number(purchaseOrderDetail.originAmount).toFixed(2)),
-                        formatTaxAmount: formatNumber(Number(purchaseOrderDetail.taxAmount).toFixed(2)),
-                        formatUntaxedAmount: formatNumber(Number(purchaseOrderDetail.originUntaxedAmount).toFixed(2)),
+                    warehouseAllocateOrderDetail: {
+                        ...warehouseAllocateOrderDetail,
+                        formatUnitAmount: formatNumber(Number(warehouseAllocateOrderDetail.unitAmount).toFixed(2))
                     }
                 })
                 wx.removeStorage({
-                    key: 'purchaseOrderDetail',
+                    key: 'warehouseAllocateOrderDetail',
                     success: res => {
                         console.log('删除查看采购订单详情成功....')
                     }

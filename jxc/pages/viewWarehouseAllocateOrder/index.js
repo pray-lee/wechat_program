@@ -1,6 +1,7 @@
 import {loginFiled, formatNumber, request} from "../../../util/getErrorMessage";
 import '../../../util/handleLodash'
 import {cloneDeep as clone} from 'lodash'
+import NP from "number-precision";
 
 var app = getApp()
 app.globalData.loadingCount = 0
@@ -8,13 +9,6 @@ Page({
     data: {
         // 增加申请人
         realName: '',
-        // =============外币相关============
-        multiCurrency: false,
-        baseCurrencyName: '',
-        currencyTypeName: '',
-        baseCurrency: '',
-        exchangeRate: '',
-        // ==============外币相关=============
         isPhoneXSeries: false,
         result: null,
         process: null,
@@ -65,30 +59,6 @@ Page({
         var url = e.currentTarget.dataset.url
         wx.previewImage({
             urls: [url],
-        })
-    },
-    onGenerateWarehouseOrder() {
-        this.addLoading()
-        request({
-            hideLoading: this.hideLoading,
-            url: `${app.globalData.url}purchaseOrderController.do?doPush`,
-            method: 'POST',
-            data: {
-                ids: this.data.result.id
-            },
-            success: res => {
-                if(res.data.success) {
-                    wx.showModal({
-                        content: res.data.msg,
-                        confirmText: '好的',
-                        success: () => {
-                            wx.navigateBack({
-                                delta: 1
-                            })
-                        }
-                    })
-                }
-            }
         })
     },
     getDetail(query) {
@@ -166,14 +136,23 @@ Page({
         const id = query.id
         request({
             hideLoading: this.hideLoading,
-            url: app.globalData.url + 'purchaseOrderController.do?getPurchaseOrder&id=' + id,
+            url: app.globalData.url + 'warehouseAllocateBillController.do?getWarehouseAllocateBill&id=' + id,
             method: 'GET',
             success: res => {
                 if (res.data) {
                     const result = clone(res.data)
-                    console.log(result, 'result')
-                    // ============外币=============
-                    this.getCurrencyTagByAccountbookId(result)
+                    result.businessDateTime = result.businessDateTime.split(' ')[0];
+                    let totalAmount = 0;
+                    (result.billDetailList && result.billDetailList.length) && result.billDetailList.forEach(item => {
+                        totalAmount = NP.plus(totalAmount, item.unitAmount)
+                        item.formatUnitAmount = formatNumber(Number(item.unitAmount).toFixed(2))
+                    })
+                    result.totalAmount = formatNumber(totalAmount.toFixed(2))
+                    this.setData({
+                        result: {
+                            ...result
+                        }
+                    })
                     // 获取钉钉审批流
                     this.getProcessInstance(result.id, result.accountbookId)
                 }
@@ -482,89 +461,17 @@ Page({
             },
         })
     },
-    showPurchaseOrderDetail(e) {
+    showWarehouseAllocateOrderDetail(e) {
         const index = e.currentTarget.dataset.index
         const tempData = clone(this.data.result.billDetailList[index])
-        tempData.taxpayerType = this.data.result.accountbookEntity.taxpayerType
         wx.setStorage({
-            key: 'purchaseOrderDetail',
+            key: 'warehouseAllocateOrderDetail',
             data: tempData,
             success: res => {
                 wx.navigateTo({
-                    url: '/jxc/pages/viewPurchaseOrderDetail/index'
+                    url: '/jxc/pages/viewWarehouseAllocateOrderDetail/index'
                 })
             }
-        })
-    },
-    // ==========================外币==========================
-    getCurrencyTagByAccountbookId(result) {
-        request({
-            hideLoading: this.hideLoading,
-            url: `${app.globalData.url}accountbookController.do?isMultiCurrency&accountbookId=${result.accountbookId}`,
-            method: 'GET',
-            success: res => {
-                if(res.statusCode == 200) {
-                    this.setData({
-                        multiCurrency: res.data.multiCurrency,
-                    })
-                    if(res.data.multiCurrency) {
-                        this.getCurrencyTypeListByAccountbookId(result.accountbookId, result.currencyTypeId)
-                        this.getBaseCurrencyNameByAccountbookId(result.accountbookId)
-                        this.setData({
-                            exchangeRate: result.exchangeRate
-                        })
-                        result.billDetailList.forEach(item => {
-                            item.formatOriginAmount = formatNumber(Number(item.originAmount).toFixed(2))
-                        })
-                        result.formatOriginAmount = formatNumber(Number(result.originAmount).toFixed(2))
-                    }else{
-                        result.billDetailList.forEach(item => {
-                            item.formatAmount = formatNumber(Number(item.amount).toFixed(2))
-                        })
-                        result.formatAmount = formatNumber(Number(result.amount).toFixed(2))
-                    }
-                    console.log(result, 'result')
-                    this.setData({
-                        result: {
-                            ...result,
-                            businessDateTime: result.businessDateTime.split(' ')[0],
-                            deliveryDate: result.deliveryDate.split(' ')[0],
-                        }
-                    })
-                }
-            },
-        })
-    },
-    getCurrencyTypeListByAccountbookId(accountbookId, currencyTypeId) {
-        this.addLoading()
-        request({
-            hideLoading: this.hideLoading,
-            url: `${app.globalData.url}currencyController.do?getCurrencyTypeList&accountbookId=${accountbookId}`,
-            method: 'GET',
-            success: res => {
-                console.log(res, '币别列表。。。。。')
-                if (res.statusCode == 200) {
-                    var currencyTypeName = res.data.filter(item => item.id === currencyTypeId)[0].currencyName
-                    this.setData({
-                        currencyTypeName
-                    })
-                }
-            },
-        })
-    },
-    getBaseCurrencyNameByAccountbookId(accountbookId) {
-        this.addLoading()
-        request({
-            hideLoading: this.hideLoading,
-            url: `${app.globalData.url}accountbookController.do?getBaseCurrencyInfo&accountbookId=${accountbookId}`,
-            method: 'GET',
-            success: res => {
-                if (res.statusCode == 200) {
-                    this.setData({
-                        baseCurrencyName: res.data.baseCurrencyName
-                    })
-                }
-            },
         })
     },
 })
