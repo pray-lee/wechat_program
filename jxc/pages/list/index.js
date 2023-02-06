@@ -164,7 +164,7 @@ Page({
             res.forEach(item => {
                 allList.push(...item.list)
             })
-            allList = allList.reverse().map(item => {
+            allList = allList.map(item => {
                 item.formatAmount = formatNumber(Number(item.originAmount).toFixed(2))
                 item.billTypeClass = item.billType.toLowerCase()
                 return item
@@ -223,7 +223,6 @@ Page({
             selectedType
         })
         fn(selectedType, billStatus).then(res => {
-            res.list.sort((a, b) => a.createDate < b.createDate ? 1 : -1)
             res.list = res.list.map(item => {
                 if (item.totalAmount) {
                     item.formatTotalAmount = formatNumber(Number(item.totalAmount).toFixed(2))
@@ -246,7 +245,7 @@ Page({
             this.addLoading()
             request({
                 hideLoading: this.hideLoading,
-                url: app.globalData.url + 'purchaseOrderController.do?datagrid&field=id,code,purchaseWarehousingOrderId,purchaseWarehousingOrderCode,businessDateTime,businessDateTime_begin,businessDateTime_end,accountbookId,accountbookIdReceive,accountbookEntity.accountbookName,decimalPrice,decimalNumber,submitterDepartmentId,departDetailEntity.depart.departName,purchaseUserId,user.realName,supplierDetailId,supplierDetailEntity.supplier.supplierName,deliveryDate,deliveryDate_begin,deliveryDate_end,currencyTypeId,originAmount,submitterUser.realName,accountbookIdReceiveName,exchangeRate,submitDateTime,submitDateTime_begin,submitDateTime_end,status,submitStockStatus,stockStatus,remark,&sort=code,updateDate,createDate&order=desc',
+                url: app.globalData.url + 'purchaseOrderController.do?datagrid&field=id,code,purchaseWarehousingOrderId,purchaseWarehousingOrderCode,businessDateTime,businessDateTime_begin,businessDateTime_end,accountbookId,accountbookIdReceive,accountbookEntity.accountbookName,decimalPrice,decimalNumber,submitterDepartmentId,departDetailEntity.depart.departName,purchaseUserId,user.realName,supplierDetailId,supplierDetailEntity.supplier.supplierName,deliveryDate,deliveryDate_begin,deliveryDate_end,currencyTypeId,originAmount,submitterUser.realName,accountbookIdReceiveName,exchangeRate,submitDateTime,submitDateTime_begin,submitDateTime_end,status,submitStockStatus,stockStatus,remark&sort=code,updateDate,createDate&order=desc',
                 method: 'GET',
                 data: {
                     status: billStatus

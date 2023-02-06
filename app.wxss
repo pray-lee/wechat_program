@@ -751,6 +751,13 @@ page {
   padding-top: 320rpx;
     text-align: center;
 }
+.remark{
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  max-width: 85vw
+}
+
 
 
 

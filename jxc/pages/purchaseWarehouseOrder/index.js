@@ -372,6 +372,7 @@ Page({
     },
     // 价税合计总额
     setApplicationAmount(purchaseWarehouseOrderDetailList) {
+        console.log('ahahaha')
         let originAmount = 0
         purchaseWarehouseOrderDetailList.forEach(item => {
             originAmount += Number(item.amount)
