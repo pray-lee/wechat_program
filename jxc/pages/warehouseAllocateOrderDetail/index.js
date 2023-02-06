@@ -168,7 +168,7 @@ Page({
             method: 'GET',
             url: `${app.globalData.url}goodsController.do?getStockAmount&accountbookId=${params.accountbookId}&goodsId=${params.goodsId}&warehouseId=${params.warehouseId}&unitId=${params.unitId || null}`,
             success: res => {
-                if(res.data) {
+                if(res.data || res.data == 0) {
                     this.setData({
                         warehouseAllocateOrderDetail: {
                             ...this.data.warehouseAllocateOrderDetail,
@@ -201,6 +201,14 @@ Page({
                     ...this.data.warehouseAllocateOrderDetail,
                     [name]: this.data[listName][value].warehouseId
                 }
+            })
+            const sourceAccountbookId = wx.getStorageSync('sourceAccountbookId') || ''
+            const {unitId, sourceWarehouseId, goodsId} = this.data.warehouseAllocateOrderDetail
+            this.getStockNumber({
+                accountbookId: sourceAccountbookId,
+                unitId,
+                warehouseId: sourceWarehouseId,
+                goodsId,
             })
         }
         if (name === 'targetWarehouseId') {
@@ -307,9 +315,17 @@ Page({
         }
     },
     valid(obj) {
-        console.log(obj, '库存详情')
+        console.log(obj)
         if (!obj.goodsName) {
             validFn('请选择商品')
+            return
+        }
+        if(!obj.stockAmount) {
+            validFn('当前商品库存为0, 请重新选择商品')
+            return
+        }
+        if(!obj.unitAmount) {
+            validFn('请输入调拨数量')
             return
         }
         return true

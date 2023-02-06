@@ -69,7 +69,7 @@
             <view class="add-item JCR" bindtap="onShowAddJCR">
                 <view>采购入库单</view>
             </view>
-            <view class="add-item allocate" bindtap="onShowAddAllocate">
+            <view class="add-item ALLOCATE" bindtap="onShowAddAllocate">
                 <view>库存调拨单</view>
             </view>
             <view class="add-item">

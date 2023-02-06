@@ -38,9 +38,9 @@
                     <view class="form-row-label"><text class="require">*</text>调入组织</view>
                     <view class="form-row-content">
                         <picker class="picker-style" bindchange="bindObjPickerChange" value="{{targetAccountbookIndex}}"
-                            range="{{targetAccountbookList}}" range-key="targetAccountbookName" data-name="targetAccountbookId"
+                            range="{{targetAccountbookList}}" range-key="accountbookName" data-name="targetAccountbookId"
                             data-list="targetAccountbookList" data-index="targetAccountbookIndex">
-                            <view class="row-extra">{{targetAccountbookList[targetAccountbookIndex].targetAccountbookName}}</view>
+                            <view class="row-extra">{{targetAccountbookList[targetAccountbookIndex].accountbookName}}</view>
                         </picker>
                     </view>
                 </view>

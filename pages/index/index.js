@@ -48,7 +48,7 @@ Page({
             method: 'POST',
             success: res => {
                 if(res.statusCode === 200) {
-                    const billTypes = ['4', '9', '3']
+                    const billTypes = ['4', '9', '3', '101', '105', '115']
                     this.setData({
                         oaList: res.data.rows.filter(item => billTypes.includes(item.billType))
                     })

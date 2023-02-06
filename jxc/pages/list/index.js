@@ -43,8 +43,14 @@ Page({
             startX: e.changedTouches[0].clientX,
             startY: e.changedTouches[0].clientY,
             list: this.data.list,
-            filterList: this.data.list
         })
+        if(!!this.data.inputValue) {
+            this.handleFilter(this.data.inputValue)
+        }else{
+            this.setData({
+                filterList: this.data.list
+            })
+        }
     },
     //滑动事件处理
     touchmove: function (e) {
@@ -70,8 +76,14 @@ Page({
         //更新数据
         that.setData({
             list: that.data.list,
-            filterList: this.data.list
         })
+        if(!!this.data.inputValue) {
+            this.handleFilter(this.data.inputValue)
+        }else{
+            this.setData({
+                filterList: this.data.list
+            })
+        }
     },
     /**
      * 计算滑动角度
@@ -234,7 +246,7 @@ Page({
             this.addLoading()
             request({
                 hideLoading: this.hideLoading,
-                url: app.globalData.url + 'purchaseOrderController.do?datagrid&field=id,code,purchaseWarehousingOrderId,purchaseWarehousingOrderCode,businessDateTime,businessDateTime_begin,businessDateTime_end,accountbookId,accountbookIdReceive,accountbookEntity.accountbookName,decimalPrice,decimalNumber,submitterDepartmentId,departDetailEntity.depart.departName,purchaseUserId,user.realName,supplierDetailId,supplierDetailEntity.supplier.supplierName,deliveryDate,deliveryDate_begin,deliveryDate_end,currencyTypeId,originAmount,submitterUser.realName,accountbookIdReceiveName,exchangeRate,submitDateTime,submitDateTime_begin,submitDateTime_end,status,submitStockStatus,stockStatus,remark,&sort=code,updateDate,createDate',
+                url: app.globalData.url + 'purchaseOrderController.do?datagrid&field=id,code,purchaseWarehousingOrderId,purchaseWarehousingOrderCode,businessDateTime,businessDateTime_begin,businessDateTime_end,accountbookId,accountbookIdReceive,accountbookEntity.accountbookName,decimalPrice,decimalNumber,submitterDepartmentId,departDetailEntity.depart.departName,purchaseUserId,user.realName,supplierDetailId,supplierDetailEntity.supplier.supplierName,deliveryDate,deliveryDate_begin,deliveryDate_end,currencyTypeId,originAmount,submitterUser.realName,accountbookIdReceiveName,exchangeRate,submitDateTime,submitDateTime_begin,submitDateTime_end,status,submitStockStatus,stockStatus,remark,&sort=code,updateDate,createDate&order=desc',
                 method: 'GET',
                 data: {
                     status: billStatus
@@ -257,7 +269,7 @@ Page({
             this.addLoading()
             request({
                 hideLoading: this.hideLoading,
-                url: app.globalData.url + 'purchaseWarehousingOrderController.do?datagrid&field=id,fictitiousOrderId,purchaseOrderId,code,purchaseOrderCode,fictitiousOrderCode,businessDateTime,businessDateTime_begin,businessDateTime_end,accountbookId,accountbookIdReceive,accountbookEntity.accountbookName,decimalPrice,decimalNumber,submitterDepartmentId,departDetailEntity.depart.departName,purchaseUserId,user.realName,supplierDetailId,supplierDetailEntity.supplier.supplierName,currencyTypeId,originAmount,submitterUser.realName,accountbookIdReceiveName,exchangeRate,submitDateTime,submitDateTime_begin,submitDateTime_end,status,submitReceiveStatus,receiveStatus,remark,&sort=code,updateDate,createDate',
+                url: app.globalData.url + 'purchaseWarehousingOrderController.do?datagrid&field=id,fictitiousOrderId,purchaseOrderId,code,purchaseOrderCode,fictitiousOrderCode,businessDateTime,businessDateTime_begin,businessDateTime_end,accountbookId,accountbookIdReceive,accountbookEntity.accountbookName,decimalPrice,decimalNumber,submitterDepartmentId,departDetailEntity.depart.departName,purchaseUserId,user.realName,supplierDetailId,supplierDetailEntity.supplier.supplierName,currencyTypeId,originAmount,submitterUser.realName,accountbookIdReceiveName,exchangeRate,submitDateTime,submitDateTime_begin,submitDateTime_end,status,submitReceiveStatus,receiveStatus,remark,&sort=code,updateDate,createDate&order=desc',
                 method: 'POST',
                 data: {
                     status: billStatus
@@ -280,7 +292,7 @@ Page({
             this.addLoading()
             request({
                 hideLoading: this.hideLoading,
-                url: app.globalData.url + 'warehouseAllocateBillController.do?datagrid&field=id,billCode,businessDateTime,businessDateTime_begin,businessDateTime_end,submitter.realName,submitterId,submitDateTime,submitDateTime_begin,submitDateTime_end,accountbookId,accountbook.accountbookName,targetAccountbookId,targetAccountbook.accountbookName,submitterDepartmentId,departDetail.depart.departName,sourceWarehouseName,targetWarehouseName,status,remark,&sort=updateDate,createDate',
+                url: app.globalData.url + 'warehouseAllocateBillController.do?datagrid&field=id,billCode,businessDateTime,businessDateTime_begin,businessDateTime_end,submitter.realName,submitterId,submitDateTime,submitDateTime_begin,submitDateTime_end,accountbookId,accountbook.accountbookName,targetAccountbookId,targetAccountbook.accountbookName,submitterDepartmentId,departDetail.depart.departName,sourceWarehouseName,targetWarehouseName,status,remark,&sort=updateDate,createDate&order=desc',
                 method: 'POST',
                 data: {
                     status: billStatus
@@ -444,6 +456,9 @@ Page({
                 break
             case 'purchaseWarehouseOrder':
                 url = app.globalData.url + 'purchaseWarehousingOrderController.do?doBatchDel&ids=' + id
+                break
+            case 'warehouseAllocateOrder':
+                url = app.globalData.url + 'warehouseAllocateBillController.do?doBatchDel&ids=' + id
                 break
         }
         wx.showModal({

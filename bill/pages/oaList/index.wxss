@@ -111,3 +111,12 @@
 .list-wrapper{
     padding: 0 0 20rpx 20rpx;
 }
+.status.error.jcd::before {
+    background:#ff5252
+}
+.status.error.jcr::before {
+    background: green
+}
+.content .left.status.error.allocate::before {
+    background: purple !important;
+}

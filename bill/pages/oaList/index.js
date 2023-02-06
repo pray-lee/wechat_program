@@ -11,17 +11,26 @@ Page({
         billName: {
             '4': '借款单',
             '9': '报销单',
-            '3': '付款申请单'
+            '3': '付款申请单',
+            '101': '采购订单',
+            '105': '采购入库单',
+            '115': '库存调拨单'
         },
         billType: {
             '4': 'J',
             '9': 'B',
-            '3': 'F'
+            '3': 'F',
+            '101': 'JCD',
+            '105': 'JCR',
+            '115': 'allocate'
         },
         billUrl: {
             'J': '/bill/pages/viewJiekuan/index',
             'B': '/bill/pages/viewBaoxiao/index',
             'F': '/bill/pages/viewFukuan/index',
+            'JCD': '/jxc/pages/viewPurchaseOrder/index',
+            'JCR': '/jxc/pages/viewPurchaseWarehouseOrder/index',
+            'allocate': '/jxc/pages/viewWarehouseAllocateOrder/index',
         }
     },
     onLoad() {
@@ -60,7 +69,7 @@ Page({
             method: 'POST',
             success: res => {
                 if(res.statusCode === 200) {
-                    const billTypes = ['4', '9', '3']
+                    const billTypes = ['4', '9', '3', '101', '105', '115']
                     this.setData({
                         list: res.data.rows.filter(item => billTypes.includes(item.billType)).map(item => {
                             return {
@@ -72,6 +81,7 @@ Page({
                             }
                         })
                     })
+                    console.log(this.data.list, 'list')
                 }
             }
         })

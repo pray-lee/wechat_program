@@ -949,7 +949,6 @@ Page({
                 return !!fieldValue
             }
         })
-        console.log(result, 'result..........')
         if(this.data.oaModule && this.data.showOaUserNodeList && result) {
             this.setData({
                 showOa: true

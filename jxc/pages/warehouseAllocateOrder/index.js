@@ -155,6 +155,16 @@ Page({
             }
         })
     },
+    clearDetailList() {
+        this.setData({
+            warehouseAllocateOrderDetailList: [],
+            submitData: {
+                ...this.data.submitData,
+                unitAmount: '',
+                formatUnitAmount: ''
+            },
+        })
+    },
     bindObjPickerChange(e) {
         var name = e.currentTarget.dataset.name
         var listName = e.currentTarget.dataset.list
@@ -173,43 +183,32 @@ Page({
                 [index]: e.detail.value,
                 submitData: {
                     ...this.data.submitData,
-                    [name]: this.data[listName][value].targetAccountbookId
+                    [name]: this.data[listName][value].id
                 }
             })
             // 获取仓库
-            this.getTargetWarehouseList(this.data[listName][value].targetAccountbookId)
+            this.getTargetWarehouseList(this.data[listName][value].id)
+            // 清除库存详情
+            this.clearDetailList()
+
         }
         // --------------------------------------------------------
         if (name === 'accountbookId') {
-            this.showOaUserNodeListUseField(['accountbookId', 'submitterDepartmentId', 'originAmount'])
             // 重新获取科目以后，就要置空报销列表
-            this.setData({
-                warehouseAllocateOrderDetailList: [],
-                submitData: {
-                    ...this.data.submitData,
-                    unitAmouna: '',
-                    formatUnitAmount: ''
-                },
-            })
+            this.clearDetailList()
             // ============ 审批流 =========
             this.setData({
                 oaModule: this.findAccountbookOaModule(this.data[listName][value].id, this.data.accountbookList)
             })
-            this.showOaProcessByBillType(this.data[listName][value].id, 101)
+            this.showOaProcessByBillType(this.data[listName][value].id, 115)
             // ============ 审批流 =========
             this.getDepartmentList(this.data[listName][value].id)
             // 获取仓库
             this.getSourceWarehouseList(this.data[listName][value].id)
         }
         if (name === 'submitterDepartmentId') {
-            this.setData({
-                warehouseAllocateOrderDetailList: [],
-                submitData: {
-                    ...this.data.submitData,
-                    unitAmount: '',
-                    formatUnitAmount: ''
-                },
-            })
+            this.clearDetailList()
+            this.showOaUserNodeListUseField(['accountbookId', 'submitterDepartmentId'])
         }
     },
     bindblur(e) {
@@ -585,7 +584,7 @@ Page({
             }
         })
     },
-    showOaUserNodeListUseField(fields) {
+    showOaUserNodeListUseField(fields, data) {
         let result = false
         fields.forEach(field => {
             if (this.data[field] && this.data[field].length) {
@@ -602,7 +601,11 @@ Page({
             this.setData({
                 showOa: true
             })
-            this.getProcess(fields, 101)
+            if(data && data.oaBillUserNodeListJson) {
+                this.setRenderProgress(JSON.parse(data.oaBillUserNodeListJson) || [])
+            }else{
+                this.getProcess(fields, 115)
+            }
         } else {
             this.setData({
                 showOa: false
@@ -623,7 +626,7 @@ Page({
         return params
     },
     getProcess(fields) {
-        const params = this.getOaParams(fields, 101)
+        const params = this.getOaParams(fields, 115)
         this.addLoading()
         request({
             hideLoading: this.hideLoading,
@@ -676,6 +679,7 @@ Page({
                 nodeList: newNodeList,
                 showOa: true
             })
+            console.log(newNodeList,'newNodeList.......')
         }
     },
     getDept(e) {
@@ -816,34 +820,28 @@ Page({
         })
     },
     // ===============================================================================
-    // 从所有收货组织中找到结算间关系中需要的数据
-    handleAccountbookList(accountbookId, list) {
-        if (list && list.length) {
-            return list.filter(item => item.purchaseAccountbookId === accountbookId)
-                .map(item => ({ targetAccountbookName: item.saleAccountbookName, targetAccountbookId: item.saleAccountbookId }))
-        }
-        return []
-    },
     // 获取收货组织
     getAccountbookReceiveList(accountbookId) {
         this.addLoading()
+        console.log(accountbookId, 'id')
         request({
             hideLoading: this.hideLoading(),
-            url: `${app.globalData.url}jxcAccountbookSettlementController.do?datagrid&field=id,saleAccountbookId,saleAccountbookName,purchaseAccountbookId,purchaseAccountbookName,priceListId,priceListCode,priceListName`,
+            url: `${app.globalData.url}accountbookController.do?getAccountbooksJsonByUserId&corpId=${app.globalData.corpId}`,
             method: 'GET',
             success: res => {
-                const arr = this.handleAccountbookList(this.data.submitData.accountbookId, res.data.rows)
+                const arr = res.data.obj
                 console.log(arr, 'arr')
                 // edit 的时候设置departmentIndex
                 var targetAccountbookIndex = 0
-                var targetAccountbookId = !!accountbookId ? accountbookId : arr[arr.length - 1].targetAccountbookId
+                var targetAccountbookId = !!accountbookId ? accountbookId : arr[arr.length - 1].id
                 if (targetAccountbookId) {
                     arr.forEach((item, index) => {
-                        if (item.targetAccountbookId === targetAccountbookId) {
+                        if (item.id === targetAccountbookId) {
                             targetAccountbookIndex = index
                         }
                     })
                 }
+                console.log(arr, targetAccountbookIndex, targetAccountbookId)
                 this.setData({
                     targetAccountbookList: arr,
                     targetAccountbookIndex,
@@ -907,7 +905,7 @@ Page({
                         this.setData({
                             oaModule: this.findAccountbookOaModule(accountbookId, res.data.obj)
                         })
-                        this.showOaProcessByBillType(accountbookId, 101)
+                        this.showOaProcessByBillType(accountbookId, 115)
                         // ============ 审批流 =========
                         // edit的时候设置值
                         if (accountbookId) {
@@ -930,7 +928,7 @@ Page({
                         var targetAccountbookId = data ? data.targetAccountbookId : ''
                         // 获取收货组织
                         this.getAccountbookReceiveList(targetAccountbookId)
-                        this.getDepartmentList(accountbookId, submitterDepartmentId, billDetailList)
+                        this.getDepartmentList(accountbookId, submitterDepartmentId, billDetailList, data)
                         // 获取调出仓库
                         this.getSourceWarehouseList(accountbookId)
                     } else {
@@ -950,7 +948,7 @@ Page({
         })
     },
     // 获取申请部门
-    getDepartmentList(accountbookId, departmentId, billDetailList) {
+    getDepartmentList(accountbookId, departmentId, billDetailList, data) {
         this.addLoading()
         request({
             hideLoading: this.hideLoading,
@@ -995,6 +993,7 @@ Page({
                         }
                     })
                 }
+                this.showOaUserNodeListUseField(['accountbookId', 'submitterDepartmentId'], data)
             }
         })
     },
@@ -1050,13 +1049,15 @@ Page({
         // 请求
         this.getAccountbookList(data)
         // billDetailList
+        var warehouseAllocateOrderDetailList = []
         if(data.billDetailList && data.billDetailList.length) {
-            var warehouseAllocateOrderDetailList = data.billDetailList.map(item => ({
+            warehouseAllocateOrderDetailList = data.billDetailList.map(item => ({
                 ...item,
                 goodsCode: item.goods.goodsCode,
                 goodsName: item.goods.goodsName,
-                formatUnitAmount: formatNumber(Number(item.unitAmount).toFixed(2))
+                formatUnitAmount: item.unitAmount ? formatNumber(Number(item.unitAmount).toFixed(2)): ''
             }))
+            this.setApplicationAmount(warehouseAllocateOrderDetailList)
         }
         //fileList
         if (data.billFiles.length) {
@@ -1077,8 +1078,6 @@ Page({
                 billFilesObj: billFilesObj || [],
                 submitDate: moment().format('YYYY-MM-DD'),
                 businessDateTime: data.businessDateTime.split(' ')[0],
-                unitAmount: data.unitAmount,
-                formatUnitAmount: formatNumber(Number(data.unitAmount).toFixed(2)),
                 status: data.status,
                 remark: data.remark,
                 userName: app.globalData.realName,
@@ -1088,8 +1087,7 @@ Page({
         })
         let t = null
         t = setTimeout(() => {
-            this.showOaUserNodeListUseField(['accountbookId', 'submitterDepartmentId', 'originAmount'])
-            this.setRenderProgress(JSON.parse(data.oaBillUserNodeListJson) || [])
+            this.showOaUserNodeListUseField(['accountbookId', 'submitterDepartmentId'], data)
             clearTimeout(t)
             t = null
         })
@@ -1193,7 +1191,7 @@ Page({
         this.addLoading()
         request({
             hideLoading: this.hideLoading,
-            url: app.globalData.url + 'weixinController.do?getProcessinstanceJson&billType=101&billId=' + billId + '&accountbookId=' + accountbookId,
+            url: app.globalData.url + 'weixinController.do?getProcessinstanceJson&billType=115&billId=' + billId + '&accountbookId=' + accountbookId,
             method: 'GET',
             success: res => {
                 console.log(res, '审批流')

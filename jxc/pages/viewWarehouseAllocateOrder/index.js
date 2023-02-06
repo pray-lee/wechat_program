@@ -171,7 +171,7 @@ Page({
                 if(res.statusCode === 200) {
                     const historyOaList = this.handleData(res.data)
                     this.setData({
-                        historyOaList: historyOaList.map(item => ({...item, showUserList: false, assigneeNameSlice: item.assigneeName.slice(-2)}))
+                        historyOaList: historyOaList.map(item => ({...item, showUserList: false, assigneeNameSlice: item.assigneeName ? item.assigneeName.slice(-2) : ''}))
                     })
                 }
             }
@@ -207,12 +207,12 @@ Page({
                             if(!item.children) {
                                 return {
                                     ...item,
-                                    assigneeNameSlice: item.assigneeName.slice(-2),
+                                    assigneeNameSlice: item.assigneeName ? item.assigneeName.slice(-2) : '',
                                     showUserList: false,
                                 }
                             }else{
                                 item.children.forEach(item => {
-                                    item.assigneeNameSlice = item.assigneeName.slice(-2)
+                                    item.assigneeNameSlice = item.assigneeName ? item.assigneeName.slice(-2) : ''
                                 })
                                 return {
                                     ...item,
@@ -371,6 +371,7 @@ Page({
         })
     },
     setOaQuery(query) {
+        console.log(query, 'query.......')
         this.setData({
             submitOaData: {
                 ...this.data.submitOaData,

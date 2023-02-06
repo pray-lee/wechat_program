@@ -224,7 +224,6 @@ Page({
         }
         // --------------------------------------------------------
         if (name === 'accountbookId') {
-            this.showOaUserNodeListUseField(['accountbookId', 'submitterDepartmentId', 'originAmount'])
             // 重新获取科目以后，就要置空报销列表
             this.setData({
                 purchaseOrderDetailList: [],
@@ -267,6 +266,7 @@ Page({
                     formatOriginAmount: '',
                 },
             })
+            this.showOaUserNodeListUseField(['accountbookId', 'submitterDepartmentId', 'originAmount'])
         }
     },
     bindblur(e) {
@@ -280,7 +280,6 @@ Page({
     clearCurrencyData(data) {
         // 清除外币字段
         var purchaseOrderDetailList = []
-        console.log(data.billDetailList, 'clearCurrencyData')
         if (data && data.billDetailList && data.billDetailList.length) {
             purchaseOrderDetailList = data.billDetailList.map(item => {
                 return {
@@ -310,6 +309,7 @@ Page({
                 formatOriginAmount: '',
             }
         })
+        this.setApplicationAmount(purchaseOrderDetailList)
     },
     onBusinessFocus(e) {
         this.setData({
@@ -378,10 +378,8 @@ Page({
     },
     // 价税合计总额
     setApplicationAmount(purchaseOrderDetailList) {
-        console.log(purchaseOrderDetailList,' lkasdjflkasjdf')
         let originAmount = 0
         purchaseOrderDetailList.forEach(item => {
-            console.log(item.amount, item)
             originAmount += Number(item.amount)
         })
         this.setData({
@@ -391,6 +389,7 @@ Page({
                 formatOriginAmount: formatNumber(Number(originAmount).toFixed(2))
             }
         })
+        this.showOaUserNodeListUseField(['accountbookId', 'submitterDepartmentId', 'originAmount'])
     },
     onShow() {
         // 从缓存获取用户已经选择的审批人
@@ -696,7 +695,7 @@ Page({
             }
         })
     },
-    showOaUserNodeListUseField(fields) {
+    showOaUserNodeListUseField(fields, data) {
         let result = false
         fields.forEach(field => {
             if (this.data[field] && this.data[field].length) {
@@ -709,11 +708,16 @@ Page({
                 }
             }
         })
+        console.log('result,', result, fields, this.data)
         if (this.data.oaModule && this.data.showOaUserNodeList && result) {
             this.setData({
                 showOa: true
             })
-            this.getProcess(fields, 101)
+            if(data && data.oaBillUserNodeListJson) {
+                this.setRenderProgress(JSON.parse(data.oaBillUserNodeListJson) || [])
+            }else {
+                this.getProcess(fields, 101)
+            }
         } else {
             this.setData({
                 showOa: false
@@ -933,7 +937,6 @@ Page({
             url: app.globalData.url + 'systemController.do?formTree&typegroupCode=VATRateForMost',
             method: 'GET',
             success: res => {
-                console.log(res, '税率')
                 res.data[0].children.unshift({
                     id: null,
                     text: '请选择'
@@ -1012,8 +1015,6 @@ Page({
     },
     // 从所有收货组织中找到结算间关系中需要的数据
     handleAccountbookList(purchaseAccountbookId, list) {
-        console.log(list, purchaseAccountbookId)
-        console.log(list.filter(item => item.purchaseAccountbookId === purchaseAccountbookId))
         if (list && list.length) {
             return list.filter(item => item.purchaseAccountbookId === purchaseAccountbookId)
                 .map(item => ({ accountbookReceiveName: item.saleAccountbookName, accountbookIdReceive: item.saleAccountbookId })).concat({
@@ -1103,7 +1104,6 @@ Page({
                                 }
                             })
                         }
-                        console.log(taxpayerType, ' taxpayerType')
                         this.setData({
                             accountbookList: res.data.obj,
                             accountbookIndex: accountbookIndex,
@@ -1120,7 +1120,7 @@ Page({
                         var accountbookIdReceive = data ? data.accountbookIdReceive : ''
                         // 获取收货组织
                         this.getAccountbookReceiveList(accountbookIdReceive)
-                        this.getDepartmentList(accountbookId, submitterDepartmentId, billDetailList, taxpayerType, purchaseUserId)
+                        this.getDepartmentList(accountbookId, submitterDepartmentId, billDetailList, taxpayerType, purchaseUserId, data)
                         this.getSupplierList(accountbookId, supplierDetailId)
                     } else {
                         wx.showModal({
@@ -1139,7 +1139,7 @@ Page({
         })
     },
     // 获取申请部门
-    getDepartmentList(accountbookId, departmentId, billDetailList, taxpayerType, purchaseUserId) {
+    getDepartmentList(accountbookId, departmentId, billDetailList, taxpayerType, purchaseUserId, data) {
         this.addLoading()
         request({
             hideLoading: this.hideLoading,
@@ -1185,6 +1185,7 @@ Page({
                         }
                     })
                 }
+                this.showOaUserNodeListUseField(['accountbookId', 'submitterDepartmentId', 'originAmount'], data)
             }
         })
     },
@@ -1284,8 +1285,7 @@ Page({
         })
         let t = null
         t = setTimeout(() => {
-            this.showOaUserNodeListUseField(['accountbookId', 'submitterDepartmentId', 'originAmount'])
-            this.setRenderProgress(JSON.parse(data.oaBillUserNodeListJson) || [])
+            this.showOaUserNodeListUseField(['accountbookId', 'submitterDepartmentId', 'originAmount'],data)
             clearTimeout(t)
             t = null
         })

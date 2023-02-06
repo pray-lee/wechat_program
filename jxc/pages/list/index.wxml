@@ -10,7 +10,7 @@
             <view style="background-color: {{selectedType == 'ALL'?'#ccc' : '#fff'}}" class="bill-btn" bindtap="getAllList">全部</view>
             <view style="background-color: {{selectedType == 'J'?'#ccc' : '#fff'}}" class="bill-btn JCD" bindtap="getSingleList" data-type="purchaseOrder">采购订单</view>
             <view style="background-color: {{selectedType == 'B'?'#ccc' : '#fff'}}" class="bill-btn JCR" bindtap="getSingleList" data-type="purchaseWarehouseOrder">采购入库单</view>
-            <view style="background-color: {{selectedType == 'B'?'#ccc' : '#fff'}}" class="bill-btn allocate" bindtap="getSingleList" data-type="warehouseAllocateOrder">库存调拨单</view>
+            <view style="background-color: {{selectedType == 'B'?'#ccc' : '#fff'}}" class="bill-btn ALLOCATE" bindtap="getSingleList" data-type="warehouseAllocateOrder">库存调拨单</view>
         </view>
     </view>
     <view class="search-wrapper">
@@ -42,7 +42,7 @@
                                 </view>
                                 <view class="bill-number">
                                     <text class="bill-number-span">{{item.billName}}</text>
-                                    {{item.code}}
+                                    {{item.code || item.billCode}}
                                 </view>
                             </view>
                             <view class="del" bindtap="deleteBill" data-id="{{item.id}}" data-type="{{item.billType}}" data-status="{{item.status}}">删除</view>
@@ -107,7 +107,7 @@
             <view class="add-item JCR" bindtap="onShowAddJCR">
                 <view>采购入库单</view>
             </view>
-            <view class="add-item allocate" bindtap="onShowAddAllocate">
+            <view class="add-item ALLOCATE" bindtap="onShowAddAllocate">
                 <view>库存调拨单</view>
             </view>
             <view class="add-item">

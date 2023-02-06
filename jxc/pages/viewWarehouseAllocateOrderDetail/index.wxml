@@ -77,7 +77,7 @@
                     调入仓库：
                 </view>
                 <view class="form-row-content">
-                    <view>{{purchaseOrderDetail.sourceWarehouse.warehouseName}}</view>
+                    <view>{{warehouseAllocateOrderDetail.targetWarehouse.warehouseName}}</view>
                 </view>
             </view>
             <view class="form-line"></view>

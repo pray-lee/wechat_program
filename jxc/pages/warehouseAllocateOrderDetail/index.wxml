@@ -43,7 +43,7 @@
             <view class="form-row">
                 <view class="form-row-label"><text class="require">*</text>调出仓库：</view>
                 <view class="form-row-content">
-                    <picker disabled bindchange="bindObjPickerChange" value="{{sourceWarehouseIndex}}" range="{{sourceWarehouseList}}"
+                    <picker bindchange="bindObjPickerChange" value="{{sourceWarehouseIndex}}" range="{{sourceWarehouseList}}"
                         range-key="warehouseName" data-name="sourceWarehouseId" data-index="sourceWarehouseIndex"
                         data-list="sourceWarehouseList">
                         <view class="row-extra">{{sourceWarehouseList[sourceWarehouseIndex].warehouseName}}</view>
