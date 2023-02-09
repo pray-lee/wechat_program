@@ -36,7 +36,6 @@ Page({
       this.setData({
          page: this.data.page + 1
       })
-      console.log(this.data.page)
       const data = await this.getGoodsList(this.data.page)
       this.setData({
          goodsList: this.data.goodsList.concat(data)

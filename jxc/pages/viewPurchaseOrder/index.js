@@ -87,6 +87,12 @@ Page({
                             })
                         }
                     })
+                }else{
+                    wx.showModal({
+                        content: res.data.msg,
+                        confirmText: '好的',
+                        showCancel: false,
+                    })
                 }
             }
         })

@@ -77,11 +77,11 @@ Page({
                                 billType: this.data.billType[item.billType],
                                 billName: this.data.billName[item.billType],
                                 billClass: this.data.billType[item.billType].toLowerCase(),
-                                billAmount: formatNumber(Number(item.billAmount).toFixed(2))
+                                billAmount: formatNumber(Number(item.billAmount).toFixed(2)),
+                                createDate: item.createDate.split(' ')[0]
                             }
                         })
                     })
-                    console.log(this.data.list, 'list')
                 }
             }
         })
