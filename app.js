@@ -14,10 +14,14 @@ App({
         // login(this)
     },
     globalData: {
+        // 辉旺资本
+        url: "https://www.caika.net/caika/",
+        corpId: 'wwc49aa53dae2b3f3d',
+        tenantCode: 'db_ck_kh2021',
         // 即客办公
-        url: "https://www.caika.net/saas/",
-        corpId: 'wwf180a50d5157c473',
-        tenantCode: 'db_ck_jkyl',
+        // url: "https://www.caika.net/saas/",
+        // corpId: 'wwf180a50d5157c473',
+        // tenantCode: 'db_ck_jkyl',
         // 云尊府
         // url: "https://www.caika.net/caika/",
         // corpId: 'ww94bc2d53a7db24a6',
