@@ -12,6 +12,7 @@ const getErrorMessage = string => {
 }
 
 const submitSuccess = () => {
+    console.log('submit success...')
     wx.reLaunch({
         url: '/pages/index/index'
     })
@@ -54,10 +55,12 @@ const login = (app) => {
                     if (res.data.success) {
 
                     } else {
+                        console.log(res.data.msg)
                         loginFiled(res.data.msg)
                     }
                 },
                 fail: res => {
+                    console.log(res, 'fail')
                     if (res.error == 19) {
                         loginFiled()
                     }
@@ -68,6 +71,7 @@ const login = (app) => {
             })
         },
         fail: res => {
+            console.log(res, 'outer failed')
             loginFiled('当前组织没有该小程序')
         }
     })
@@ -76,26 +80,28 @@ const login = (app) => {
 const request = option => {
     const sessionId = wx.getStorageSync('sessionId')
     wx.request({
-        url: option.url,
+        url: option.url + '&test=8888',
         dataType: 'json',
         data: option.data,
         header: {
             'cookie': sessionId,
-            'Content-Type': option.headers ? option.headers['Content-Type'] : 'application/x-www-form-urlencoded',
+            'content-type': 'application/x-www-form-urlencoded',
         },
         method: option.method,
         success: res => {
+            console.log(new Date(), option.url)
             if (typeof res.data !== 'string' || res.data.indexOf('主框架') === -1) {
                 option.success(res)
             }else{
                 wx.removeStorage({
                     key: 'sessionId',
                     success: res => {
+                        console.log('清除sessionId成功')
                     }
                 })
-                wx.reLaunch({
-                    url: '/pages/index/index'
-                })
+                // wx.reLaunch({
+                //     url: '/pages/index/index'
+                // })
             }
         },
         fail: res => {

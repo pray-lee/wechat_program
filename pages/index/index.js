@@ -28,12 +28,6 @@ Page({
             url: '/pages/oaList/index'
         })
     },
-    gotoInvoiceList() {
-        wx.removeStorageSync('accountbookId')
-        wx.navigateTo({
-            url: '/pages/invoiceList/index'
-        })
-    },
     getOaList() {
         const url = `${app.globalData.url}oaTaskController.do?todoDatagrid&field=id,applicationAmount,accountbookId,billType,billCode,taskName,billId,createDate,processInstanceId,remark,status`
         this.addLoading()
@@ -78,8 +72,7 @@ Page({
     addLoading() {
         if (app.globalData.loadingCount < 1) {
             wx.showLoading({
-                title: '加载中...',
-                mask: true,
+                content: '加载中...'
             })
         }
         app.globalData.loadingCount += 1
@@ -104,7 +97,7 @@ Page({
             this.addLoading()
             request({
                 hideLoading: this.hideLoading,
-                url: app.globalData.url + 'borrowBillController.do?datagrid&reverseVerifyStatus=0&page=1&rows=3&sort=updateDate&order=desc&status_end=79&field=id,,accountbookId,billCode,accountbook.accountbookName,submitterDepartmentId,departDetail.depart.departName,applicantType,applicantId,applicantName,incomeBankName,incomeBankName_begin,incomeBankName_end,incomeBankAccount,incomeBankAccount_begin,incomeBankAccount_end,subjectName,auxpropertyNames,capitalTypeDetailEntity.detailName,amount,unpaidAmount,paidAmount,unverifyAmount,submitter.id,submitter.realName,invoice,contractNumber,submitDate,submitDate_begin,submitDate_end,status,businessDateTime,businessDateTime_begin,businessDateTime_end,remark,createDate,createDate_begin,createDate_end,updateDate,updateDate_begin,updateDate_end,accountbook.oaModule,',
+                url: app.globalData.url + 'borrowBillController.do?datagrid&reverseVerifyStatus=0&page=1&rows=3&sort=updateDate&order=desc&status_end=79&field=id,,accountbookId,billCode,accountbook.accountbookName,submitterDepartmentId,departDetail.depart.departName,applicantType,applicantId,applicantName,incomeBankName,incomeBankName_begin,incomeBankName_end,incomeBankAccount,incomeBankAccount_begin,incomeBankAccount_end,subject.fullSubjectName,auxpropertyNames,capitalTypeDetailEntity.detailName,amount,unpaidAmount,paidAmount,unverifyAmount,submitter.id,submitter.realName,invoice,contractNumber,submitDate,submitDate_begin,submitDate_end,status,businessDateTime,businessDateTime_begin,businessDateTime_end,remark,createDate,createDate_begin,createDate_end,updateDate,updateDate_begin,updateDate_end,accountbook.oaModule,',
                 method: 'GET',
                 success: res => {
                     resolve({
@@ -138,7 +131,7 @@ Page({
             this.addLoading()
             request({
                 hideLoading: this.hideLoading,
-                url: app.globalData.url + 'invoicebillController.do?datagrid&page=1&rows=3&sort=createDate&order=desc&status_end=29&field=id,invoicebillCode,accountbookId,accountbookName,submitterId,submitterName,submitterDepartmentId,departName,customerDetailId,customerName,invoiceType,createDate,taxRate,amount,unverifyAmount,unverifyReceivableAmount,submitDateTime,contacts,telephone,address,status,businessDateTime,remark,billCode',
+                url: app.globalData.url + 'invoicebillController.do?datagrid&page=1&rows=3&sort=createDate&order=desc&status_end=29&field=id,invoicebillCode,accountbookId,accountbookEntity.accountbookName,submitterId,user.realName,submitterDepartmentId,departDetailEntity.depart.departName,customerDetailId,customerDetailEntity.customer.customerName,invoiceType,createDate,taxRate,amount,unverifyAmount,unverifyReceivableAmount,submitDateTime,contacts,telephone,address,status,businessDateTime,remark,billCode',
                 method: 'GET',
                 success: res => {
                     resolve({
@@ -155,7 +148,7 @@ Page({
             this.addLoading()
             request({
                 hideLoading: this.hideLoading,
-                url: app.globalData.url + 'paymentBillController.do?datagrid&reverseVerifyStatus=0&page=1&rows=3&sort=createDate&order=desc&status_end=79&field=id,billCode,accountbookId,accountbook.accountbookName,submitterDepartmentId,departDetail.depart.departName,supplierId,supplierName,applicantType,applicantId,applicantName,submitterId,submitter.realName,incomeBankName,incomeBankAccount,invoice,applicationAmount,verificationAmount,totalAmount,unpaidAmount,paidAmount,unverifyAmount,businessDateTime,createDate,updateDate,remark,childrenCount,status,accountbook.oaModule,oaModule,',
+                url: app.globalData.url + 'paymentBillController.do?datagrid&reverseVerifyStatus=0&page=1&rows=3&sort=createDate&order=desc&status_end=79&field=id,billCode,accountbookId,accountbook.accountbookName,submitterDepartmentId,departDetail.depart.departName,supplierId,supplierDetail.supplier.supplierName,applicantType,applicantId,applicantName,submitterId,submitter.realName,incomeBankName,incomeBankAccount,invoice,applicationAmount,verificationAmount,totalAmount,unpaidAmount,paidAmount,unverifyAmount,businessDateTime,createDate,updateDate,remark,childrenCount,status,accountbook.oaModule,oaModule,',
                 method: 'GET',
                 success: res => {
                     resolve({
@@ -174,6 +167,7 @@ Page({
                 this.addLoading()
                 wx.qy.login({
                     success: (res) => {
+                        console.log(res, 'res')
                         this.hideLoading()
                         this.addLoading()
                         request({
@@ -184,7 +178,9 @@ Page({
                                 if (res.data.success) {
                                     if(res.data.obj) {
                                         // session写入缓存
-                                        wx.setStorageSync('sessionId', res.header['Set-Cookie'])
+                                        let cookie = res.header['Set-Cookie']
+                                        cookie = cookie.replace(/JSESSIONID/, ';JSESSIONID')
+                                        wx.setStorageSync('sessionId', cookie)
                                         wx.setStorageSync('realName', res.data.obj.realName)
                                         wx.setStorageSync('applicantId', res.data.obj.id)
                                         app.globalData.realName = res.data.obj.realName
@@ -235,11 +231,13 @@ Page({
                                 }
                             },
                             fail: res => {
+                                console.log(res)
                             }
                         })
                     },
                     fail: res => {
                         this.hideLoading()
+                        console.log(res ,'获取授权码失败')
                         wx.showModal({
                             content: '当前组织没有该小程序',
                             confirmText: '好的',
@@ -292,6 +290,7 @@ Page({
                     this.setData({
                         list: sortableList
                     })
+                    console.log(this.data.list, 'list')
                 })
             }
         }else{
@@ -321,6 +320,7 @@ Page({
         const type = e.currentTarget.dataset.type
         const id = e.currentTarget.dataset.id
         const status = e.currentTarget.dataset.status
+        console.log(type, id)
         switch(type) {
             case 'J':
                 //借款
@@ -397,8 +397,11 @@ Page({
         // 页面被关闭
     },
     onTitleClick() {
+        // 标题被点击
+        console.log('title clicked')
     },
     onPullDownRefresh() {
+        console.log(1121)
         // 页面被下拉
     },
     onReachBottom() {
