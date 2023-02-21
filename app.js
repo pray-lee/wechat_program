@@ -31,17 +31,17 @@ App({
         // "corpId": "wwbc109332dfcce85c",
         // "tenantCode": "db_ck_ucommune_test",
         // 沃土
-        // url: "https://www.caika.net/saas/",
-        // corpId: 'ww239da829e102ac9d',
-        // tenantCode: 'db_ck_wtsw',
+        url: "https://www.caika.net/saas/",
+        corpId: 'ww239da829e102ac9d',
+        tenantCode: 'db_ck_wtsw',
         // 北京凡影
         // url: "https://www.caika.net/saas/",
         // corpId: 'wwbc0416559b69864b',
         // tenantCode: 'db_ck_fykj2021'
         // 财咖
-        url: "https://www.caika.net/caika/",
-        corpId: "wwc5c826092131ecb7",
-        tenantCode: 'db_ck_online2021'
+        // url: "https://www.caika.net/caika/",
+        // corpId: "wwc5c826092131ecb7",
+        // tenantCode: 'db_ck_online2021'
         // demo
         // url: "https://www.caika.net/saas/",
         // corpId: "wwbc109332dfcce85c",

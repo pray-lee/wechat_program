@@ -161,6 +161,7 @@ Page({
         })
     },
     onShow() {
+        wx.setStorageSync('db', app.globalData.tenantCode);
         if(app.globalData.isWxWork) {
             const sessionId = wx.getStorageSync('sessionId')
             if(!sessionId) {

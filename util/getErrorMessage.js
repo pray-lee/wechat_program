@@ -79,8 +79,9 @@ const login = (app) => {
 
 const request = option => {
     const sessionId = wx.getStorageSync('sessionId')
+    const db = wx.getStorageSync('db')
     wx.request({
-        url: option.url + '&test=8888',
+        url: option.url + '&db=' + db,
         dataType: 'json',
         data: option.data,
         header: {
