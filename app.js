@@ -15,9 +15,9 @@ App({
     },
     globalData: {
         // 辉旺资本
-        // url: "https://www.caika.net/caika/",
-        // corpId: 'wwc49aa53dae2b3f3d',
-        // tenantCode: 'db_ck_kh2021',
+        url: "https://www.caika.net/caika/",
+        corpId: 'wwc49aa53dae2b3f3d',
+        tenantCode: 'db_ck_kh2021',
         // 即客办公
         // url: "https://www.caika.net/saas/",
         // corpId: 'wwf180a50d5157c473',
@@ -31,9 +31,9 @@ App({
         // "corpId": "wwbc109332dfcce85c",
         // "tenantCode": "db_ck_ucommune_test",
         // 沃土
-        url: "https://www.caika.net/saas/",
-        corpId: 'ww239da829e102ac9d',
-        tenantCode: 'db_ck_wtsw',
+        // url: "https://www.caika.net/saas/",
+        // corpId: 'ww239da829e102ac9d',
+        // tenantCode: 'db_ck_wtsw',
         // 北京凡影
         // url: "https://www.caika.net/saas/",
         // corpId: 'wwbc0416559b69864b',
