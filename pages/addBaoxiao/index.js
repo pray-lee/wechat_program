@@ -819,7 +819,6 @@ Page({
                     this.setData({
                         historyOaList: historyOaList.map(item => ({...item, showUserList: false, showAssigneeName: item.assigneeName.slice(-2)}))
                     })
-                    console.log(this.data.historyOaList)
                 }
             }
         })
@@ -1169,7 +1168,6 @@ Page({
             url: app.globalData.url + 'systemController.do?formTree&typegroupCode=VATRateForMost',
             method: 'GET',
             success: res => {
-                console.log(res, '税率')
                 res.data[0].children.unshift({
                     id: null,
                     text: '请选择'
@@ -1203,8 +1201,6 @@ Page({
             method: 'GET',
             success: res => {
                 (async () => {
-                    console.log(res.data, 'accountbookList')
-                    console.log(data)
                     if(res.data.success && res.data.obj.length) {
                         var accountbookIndex = 0
                         var taxpayerType = !!data ? data.accountbook.taxpayerType : null
@@ -1229,7 +1225,6 @@ Page({
                                 }
                             })
                         }
-                        console.log(taxpayerType,' taxpayerType')
                         this.setData({
                             accountbookList: res.data.obj,
                             accountbookIndex: accountbookIndex,

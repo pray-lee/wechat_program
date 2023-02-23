@@ -251,7 +251,6 @@ Page({
         }
     },
     onBlur(e) {
-        console.log(e, 'blur')
         this.setData({
             submitData: {
                 ...this.data.submitData,
