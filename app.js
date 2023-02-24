@@ -51,9 +51,9 @@ App({
         // corpId: "wwd1120d9b6c216447",
         // tenantCode: 'db_ck_medicine'
         // 中杰超润
-        url: "https://www.caika.net/saas/",
-        corpId: "ww32d0d93a731b5cba",
-        tenantCode: 'db_ck_gyry',
+        // url: "https://www.caika.net/saas/",
+        // corpId: "ww32d0d93a731b5cba",
+        // tenantCode: 'db_ck_gyry',
         // 高远瑞研
         // url: "https://www.caika.net/saas/",
         // corpId: "wwb785d3a227d6f3e5",
