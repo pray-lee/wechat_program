@@ -14,6 +14,10 @@ App({
         // login(this)
     },
     globalData: {
+        // 大彬科技
+        // url: "https://www.caika.net/saas/",
+        // corpId: 'wwc7beab47a77cfb2e',
+        // tenantCode: 'db_ck_dbjy',
         // 辉旺资本
         // url: "https://www.caika.net/caika/",
         // corpId: 'wwc49aa53dae2b3f3d',
@@ -35,9 +39,9 @@ App({
         // corpId: 'ww239da829e102ac9d',
         // tenantCode: 'db_ck_wtsw',
         // 北京凡影
-        // url: "https://www.caika.net/saas/",
-        // corpId: 'wwbc0416559b69864b',
-        // tenantCode: 'db_ck_fykj2021'
+        url: "https://www.caika.net/saas/",
+        corpId: 'wwbc0416559b69864b',
+        tenantCode: 'db_ck_fykj2021'
         // 财咖
         // url: "https://www.caika.net/caika/",
         // corpId: "wwc5c826092131ecb7",
