@@ -39,9 +39,9 @@ App({
         // corpId: 'wwbc0416559b69864b',
         // tenantCode: 'db_ck_fykj2021'
         // 财咖
-        url: "https://www.caika.net/caika/",
-        corpId: "wwc5c826092131ecb7",
-        tenantCode: 'db_ck_online2021'
+        // url: "https://www.caika.net/caika/",
+        // corpId: "wwc5c826092131ecb7",
+        // tenantCode: 'db_ck_online2021'
         // demo
         // url: "https://www.caika.net/saas/",
         // corpId: "wwbc109332dfcce85c",
@@ -51,9 +51,9 @@ App({
         // corpId: "wwd1120d9b6c216447",
         // tenantCode: 'db_ck_medicine'
         // 中杰超润
-        // url: "https://www.caika.net/saas/",
-        // corpId: "ww32d0d93a731b5cba",
-        // tenantCode: 'db_ck_gyry',
+        url: "https://www.caika.net/saas/",
+        corpId: "ww32d0d93a731b5cba",
+        tenantCode: 'db_ck_gyry',
         // 高远瑞研
         // url: "https://www.caika.net/saas/",
         // corpId: "wwb785d3a227d6f3e5",
