@@ -187,6 +187,7 @@ Page({
                                         // session写入缓存
                                         let cookie = res.header['Set-Cookie']
                                         cookie = cookie.replace(/JSESSIONID/, ';JSESSIONID')
+                                            .replace(/,db=/, ';db=')
                                         wx.setStorageSync('sessionId', cookie)
                                         wx.setStorageSync('realName', res.data.obj.realName)
                                         wx.setStorageSync('applicantId', res.data.obj.id)
