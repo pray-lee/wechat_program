@@ -188,6 +188,14 @@
     border-color:#ff5252;
     color:#ff5252
 }
+.invoice-type_21 {
+    border-color:#ff5252;
+    color:#ff5252
+}
+.invoice-type_22 {
+    border-color:#ff5252;
+    color:#ff5252
+}
 .invoice-type_95 {
     border-color:#3276c3;
     color:#3276c3

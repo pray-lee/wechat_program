@@ -72,6 +72,11 @@
                                     <view class="invoice-title">开票日期：{{item.kprq || '无'}}</view>
                                     <view class="invoice-tag {{'invoice-type_' + item.invoiceType}}">增值税发票</view>
                                 </block>
+                                <block wx:if="{{item.invoiceType == '21' || item.invoiceType == '22'}}">
+                                    <view class="invoice-title">销方名称：{{item.xhfmc || '无'}}</view>
+                                    <view class="invoice-title">开票日期：{{item.kprq || '无'}}</view>
+                                    <view class="invoice-tag {{'invoice-type_' + item.invoiceType}}">全电发票</view>
+                                </block>
                                 <block wx:if="{{item.invoiceType == '95'}}">
                                     <view class="invoice-title">发票代码：{{item.fpdm || '无'}}</view>
                                     <view class="invoice-title">发票号码：{{item.fphm || '无'}}</view>

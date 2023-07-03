@@ -8,6 +8,7 @@
         </view>
         <view class="select-bill-wrapper" animation="{{animationInfoTopList}}" topHidden="{{topHidden}}">
             <view class="bill-btn zzs" bindtap="getInvoiceList" data-type="zzs" data-class="zzs">增值税发票</view>
+            <view class="bill-btn qd" bindtap="getInvoiceList" data-type="qd" data-class="qd">全电发票</view>
             <view class="bill-btn de" bindtap="getInvoiceList" data-type="95" data-class="de">定额发票</view>
             <view class="bill-btn hcp" bindtap="getInvoiceList" data-type="92" data-class="hcp">火车票</view>
             <view class="bill-btn fjp" bindtap="getInvoiceList" data-type="93" data-class="fjp">飞机行程单</view>
@@ -44,6 +45,18 @@
                                         </view>
                                         <view class="bill-number">
                                             <text class="bill-number-span">增值税发票</text>
+                                        </view>
+                                    </block>
+                                    <block wx:if="{{item.invoiceType == '21' || item.invoiceType == '22'}}">
+                                        <view class="content1">
+                                            <view class="status error {{'invoice-type_' + item.invoiceType}}">销方名称：{{item.xhfmc || '无'}}</view>
+                                            <view class="right">{{item.formatJshj || '价税合计：无'}}</view>
+                                        </view>
+                                        <view class="content1">
+                                            <view class="remark">开票日期：{{item.kprq || '无'}}</view>
+                                        </view>
+                                        <view class="bill-number">
+                                            <text class="bill-number-span">全电发票</text>
                                         </view>
                                     </block>
                                     <block wx:if="{{item.invoiceType == '95'}}">
