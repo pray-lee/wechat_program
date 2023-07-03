@@ -14,6 +14,18 @@ App({
         // login(this)
     },
     globalData: {
+        // 央福汇
+        // url: "https://www.caika.net/saas/",
+        // corpId: 'wwc7beab47a77cfb2e',
+        // tenantCode: 'db_ck_yfh',
+        // 大彬科技
+        // url: "https://www.caika.net/saas/",
+        // corpId: 'wwc7beab47a77cfb2e',
+        // tenantCode: 'db_ck_dbjy',
+        // 辉旺资本
+        // url: "https://www.caika.net/caika/",
+        // corpId: 'wwc49aa53dae2b3f3d',
+        // tenantCode: 'db_ck_kh2021',
         // 即客办公
         // url: "https://www.caika.net/saas/",
         // corpId: 'wwf180a50d5157c473',
@@ -35,9 +47,9 @@ App({
         // corpId: 'wwbc0416559b69864b',
         // tenantCode: 'db_ck_fykj2021'
         // 财咖
-        // url: "https://www.caika.net/caika/",
-        // corpId: "wwc5c826092131ecb7",
-        // tenantCode: 'db_ck_online2021'
+        url: "https://www.caika.net/caika/",
+        corpId: "wwc5c826092131ecb7",
+        tenantCode: 'db_ck_online2021'
         // demo
         // url: "http://192.168.10.199:8080/caika/",
         url: "https://www.caika.net/jeecg/",

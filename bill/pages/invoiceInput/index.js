@@ -35,6 +35,17 @@ Page({
                 invoiceType: '10'
             },
         ],
+        qdList: [
+            {
+                name: '专用',
+                invoiceType: '21'
+            },
+            {
+                name: '普通',
+                invoiceType: '22'
+            },
+        ],
+        qdIndex: 0,
         hidden: true,
         topHidden: true,
         animationImg: {},
@@ -65,8 +76,16 @@ Page({
     getEditInvoiceDetailFromStorage() {
         const editInvoiceDetail = wx.getStorageSync('editInvoiceDetail')
         if(editInvoiceDetail) {
+            let type = ''
             const arr = ['01', '04', '08', '10', '11']
-            const type = arr.includes(editInvoiceDetail.invoiceType) ? 'zzs' : editInvoiceDetail.invoiceType
+            const qdArr = ['21', '22']
+            if(arr.includes(editInvoiceDetail.invoiceType)) {
+                type = 'zzs'
+            } else if (qdArr.includes(editInvoiceDetail.invoiceType)) {
+                type = 'qd'
+            }else{
+                type = editInvoiceDetail.invoiceType
+            }
             if(editInvoiceDetail.invoiceFileEntityList.length) {
                 this.setData({
                     imgUrl: editInvoiceDetail.invoiceFileEntityList[0].uri
@@ -91,8 +110,16 @@ Page({
     getInvoiceDetailFromStorage() {
         const invoiceDetail = wx.getStorageSync('invoiceDetail')
         if(invoiceDetail) {
+            let type = ''
             const arr = ['01', '04', '08', '10', '11']
-            const type = arr.includes(invoiceDetail.invoiceType) ? 'zzs' : invoiceDetail.invoiceType
+            const qdArr = ['21', '22']
+            if(arr.includes(invoiceDetail.invoiceType)) {
+                type = 'zzs'
+            } else if (qdArr.includes(invoiceDetail.invoiceType)) {
+                type = 'qd'
+            }else{
+                type = invoiceDetail.invoiceType
+            }
             this.getInvoiceImgUrl(invoiceDetail.id)
             this.setData({
                 fromStorage: true,
@@ -258,6 +285,9 @@ Page({
             case 'zzs':
                 typeText = '增值税发票'
                 break
+            case 'qd':
+                typeText = '全电发票'
+                break
             case '95':
                 typeText = '定额发票'
                 break
@@ -282,6 +312,9 @@ Page({
         }
         if(type == 'zzs') {
             invoiceType = this.data.zzsList[this.data.zzsIndex].invoiceType
+        }
+        if(type == 'qd') {
+            invoiceType = this.data.qdList[this.data.qdIndex].invoiceType
         }
         this.setData({
             hidden: true,

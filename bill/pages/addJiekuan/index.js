@@ -110,7 +110,6 @@ Page({
         if (!!array && array.length) {
             array.forEach((item, index) => {
                 Object.keys(item).forEach(keys => {
-                    console.log(keys)
                     this.setData({
                         submitData: {
                             ...this.data.submitData,
@@ -165,9 +164,7 @@ Page({
             }
         })
         // 删除辅助核算的信息，然后通过formatSubmitData重新赋值
-        console.log(this.data.submitData)
         Object.keys(this.data.submitData).forEach(item => {
-            console.log(item)
             if (item.indexOf('billApEntityList[') !== -1) {
                 delete this.data.submitData[item]
             }
@@ -211,7 +208,6 @@ Page({
                 if (res.data && typeof res.data == 'string') {
                     getErrorMessage(res.data)
                 }
-                console.log(res, 'fail')
             },
         })
     },

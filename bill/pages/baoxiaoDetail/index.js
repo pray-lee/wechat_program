@@ -19,8 +19,6 @@ Page({
             '14': '通行费发票',
             '15': '二手车发票',
             '16': '区块链电子发票',
-            '21': '全电发票（专用发票）',
-            '22': '全电发票（普通发票）',
             '96': '国际小票',
             '85': '可报销其他发票',
             '86': '滴滴出行行程单',
@@ -58,9 +56,7 @@ Page({
             this.setData({
                 baoxiaoDetail: baoxiaoDetail,
             })
-            console.log(baoxiaoDetail, '..................')
         }
-        console.log('onLoad')
     },
     getBorrowIdFromStorage() {
         // 从缓存里获取借款人id
@@ -312,7 +308,6 @@ Page({
                 })
                 const tempData = clone(this.data.baoxiaoDetail.allAuxptyList)
                 tempData[auxptyid] = newObj
-                console.log(tempData)
                 this.setData({
                     baoxiaoDetail: {
                         ...this.data.baoxiaoDetail,
@@ -533,7 +528,6 @@ Page({
     },
     goAuxptyPage(e) {
         const auxptyId = e.currentTarget.dataset.id
-        console.log(auxptyId, 'auxptyId,......')
         wx.setStorage({
             key: 'auxptyList',
             data: this.data.baoxiaoDetail.allAuxptyList[auxptyId],
@@ -545,7 +539,6 @@ Page({
         })
     },
     valid(obj) {
-        console.log(obj, '..........')
         if (!obj.subjectId) {
             validFn('请选择费用类型')
             return false

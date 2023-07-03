@@ -41,10 +41,8 @@ Page({
     onShow() {
     },
     onClick() {
-        console.log('clicked')
     },
     setScrollView(id) {
-        console.log(id)
         this.setData({
             scrollId: id.toString()
         })

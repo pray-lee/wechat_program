@@ -55,7 +55,11 @@
   },
   "compileType": "miniprogram",
   "libVersion": "2.12.0",
+<<<<<<< HEAD
   "appid": "wxfdb3332c9dae464d",
+=======
+  "appid": "wx07c16a39cd177974",
+>>>>>>> invoice
   "projectname": "%E5%B0%8F%E7%A8%8B%E5%BA%8F2.0",
   "simulatorType": "qywx_simulator_plugin",
   "simulatorPluginLibVersion": {

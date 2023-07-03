@@ -36,7 +36,6 @@ Page({
             data: obj,
             success: res => {
                 console.log('设置辅助核算成功...')
-                console.log(obj)
                 wx.navigateBack({
                     delta: 1
                 })

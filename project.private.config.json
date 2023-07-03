@@ -15,8 +15,27 @@
         },
         {
           "name": "",
+<<<<<<< HEAD
           "pathName": "bill/pages/addJiekuan/index",
           "query": "type=add",
+=======
+          "pathName": "pages/viewBaoxiao/index",
+          "query": "isNotification=1&id=2c91e301879158ef0187933a9f5603cf&oaId=2c91e301879158ef0187933bfba503e2&processInstance Id=11581131",
+          "launchMode": "default",
+          "scene": 1157
+        },
+        {
+          "name": "",
+          "pathName": "pages/viewBaoxiao/index",
+          "query": "isNotification=1&id=2c91e301879158ef0187933a9f5603cf&oaId=2c91e301879158ef0187933bfba503e2&processInstance Id=11581131",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/viewBaoxiao/index",
+          "query": "id=2c91e3ed876d5b5b01876ed731f2226d&processInstanceId=undefined&oaId=2c91e3ed876d5b5b01876ed73510227c&showOaOperate=true",
+>>>>>>> invoice
           "launchMode": "default",
           "scene": null
         }

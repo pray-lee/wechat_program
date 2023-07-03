@@ -30,6 +30,18 @@
                               <text class="bill-number-span">增值税发票</text>
                            </view>
                         </block>
+                        <block wx:if="{{item.invoiceType == '21' || item.invoiceType == '22'}}">
+                           <view class="content1">
+                              <view class="status error {{'invoice-type_' + item.invoiceType}}">销方名称：{{item.xhfmc || '无'}}</view>
+                              <view class="right">{{item.formatJshj || '价税合计：无'}}</view>
+                           </view>
+                           <view class="content1">
+                              <view class="remark">开票日期：{{item.kprq || '无'}}</view>
+                           </view>
+                           <view class="bill-number">
+                              <text class="bill-number-span">全电发票</text>
+                           </view>
+                        </block>
                         <block wx:if="{{item.invoiceType == '95'}}">
                            <view class="content1">
                               <view class="status error {{'invoice-type_' + item.invoiceType}}">发票代码：{{item.fpdm || '无'}}</view>
