@@ -52,9 +52,9 @@ App({
         tenantCode: 'db_ck_online2021'
         // demo
         // url: "http://192.168.10.199:8080/caika/",
-        url: "https://www.caika.net/jeecg/",
-        corpId: "wwbc109332dfcce85c",
-        tenantCode: 'db_ck_jxc'
+        // url: "https://www.caika.net/jeecg/",
+        // corpId: "wwbc109332dfcce85c",
+        // tenantCode: 'db_ck_jxc'
         // 上方股份
         // url: "https://www.caika.net/caika/",
         // corpId: "wwd1120d9b6c216447",
