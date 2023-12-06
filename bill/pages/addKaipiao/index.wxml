@@ -189,22 +189,22 @@
                             </radio-group>
                         </view>
                     </view>
-                    <block wx:if="{{submitData.deliveryMode == 1}}">
-                        <view class="form-line"/>
-                        <view class="form-row" bindtap="getExpressList">
-                            <view class="form-row-label">
-                                <text class="require">*</text>
-                                快递信息
-                            </view>
-                            <view class="form-row-content express">
-                                <view>
-                                    <text>{{submitData.contacts}}</text>
-                                    <text style="margin-left: 15rpx">{{submitData.telephone}}</text>
-                                </view>
-                                <view>{{submitData.address}}</view>
-                            </view>
-                        </view>
-                    </block>
+<!--                    <block wx:if="{{submitData.deliveryMode == 1}}">-->
+<!--                        <view class="form-line"/>-->
+<!--                        <view class="form-row" bindtap="getExpressList">-->
+<!--                            <view class="form-row-label">-->
+<!--                                <text class="require">*</text>-->
+<!--                                快递信息-->
+<!--                            </view>-->
+<!--                            <view class="form-row-content express">-->
+<!--                                <view>-->
+<!--                                    <text>{{submitData.contacts}}</text>-->
+<!--                                    <text style="margin-left: 15rpx">{{submitData.telephone}}</text>-->
+<!--                                </view>-->
+<!--                                <view>{{submitData.address}}</view>-->
+<!--                            </view>-->
+<!--                        </view>-->
+<!--                    </block>-->
                 </view>
             </block>
             <view class="title">附件上传</view>

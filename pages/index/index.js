@@ -204,7 +204,7 @@ Page({
                                         Promise.all([
                                             this.getJiekuanList(),
                                             this.getBaoxiaoList(),
-                                            this.getKaipiaoList(),
+                                            // this.getKaipiaoList(),
                                             this.getFukuanList()
                                         ]).then(res => {
                                             // 添加单据类型标志 k j b f
@@ -257,7 +257,7 @@ Page({
                             showCancel: false,
                             success: res => {
                                 wx.reLaunch({
-                                    url: '/pages/error/index'
+                                    url: '/bill/pages/error/index'
                                 })
                             }
                         })
@@ -272,7 +272,7 @@ Page({
                 Promise.all([
                     this.getJiekuanList(),
                     this.getBaoxiaoList(),
-                    this.getKaipiaoList(),
+                    // this.getKaipiaoList(),
                     this.getFukuanList()
                 ]).then(res => {
                     // 添加单据类型标志 k j b f
@@ -353,9 +353,9 @@ Page({
                 break;
             case 'K':
                 if(status == 10 || status == 25) {
-                    this.setPage(`../addKaipiao/index?type=edit&id=${id}`)
+                    // this.setPage(`../addKaipiao/index?type=edit&id=${id}`)
                 }else{
-                    this.setPage(`../viewKaipiao/index?id=${id}`)
+                    // this.setPage(`../viewKaipiao/index?id=${id}`)
                 }
                 // 开票单
                 break;
@@ -385,12 +385,12 @@ Page({
         })
         this.onAddHide()
     },
-    onShowAddKaipiao(e) {
-        wx.navigateTo({
-            url: '/bill/pages/addKaipiao/index?type=add'
-        })
-        this.onAddHide()
-    },
+    // onShowAddKaipiao(e) {
+    //     wx.navigateTo({
+    //         url: '/bill/pages/addKaipiao/index?type=add'
+    //     })
+    //     this.onAddHide()
+    // },
     onShowAddFukuan(e) {
         wx.navigateTo({
             url: '/bill/pages/addFukuan/index?type=add'

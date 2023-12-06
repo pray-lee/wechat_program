@@ -352,12 +352,12 @@ Page({
         })
         this.onAddHide()
     },
-    onShowAddKaipiao(e) {
-        wx.navigateTo({
-            url: '/bill/pages/addKaipiao/index?type=add'
-        })
-        this.onAddHide()
-    },
+    // onShowAddKaipiao(e) {
+    //     wx.navigateTo({
+    //         url: '/bill/pages/addKaipiao/index?type=add'
+    //     })
+    //     this.onAddHide()
+    // },
     onShowAddFukuan(e) {
         wx.navigateTo({
             url: '/bill/pages/addFukuan/index?type=add'

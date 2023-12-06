@@ -119,7 +119,7 @@ Page({
             warehouseIndex,
             purchaseWarehouseOrderDetail: {
                 ...this.data.purchaseWarehouseOrderDetail,
-                warehouseId: warehouseList[warehouseIndex].warehouseId
+                warehouseId: warehouseList[warehouseIndex]?.warehouseId
             }
         })
     },

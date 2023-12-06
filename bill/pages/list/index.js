@@ -204,7 +204,7 @@ Page({
         Promise.all([
             this.getJiekuanList(J),
             this.getBaoxiaoList(B),
-            this.getKaipiaoList(K),
+            // this.getKaipiaoList(K),
             this.getFukuanList(F)
         ]).then(res => {
             let allList = []
@@ -256,7 +256,7 @@ Page({
                 this.handleSingleResult(this.getBaoxiaoList.bind(this), status, 'B')
                 break
             case 'K':
-                this.handleSingleResult(this.getKaipiaoList.bind(this), status, 'K')
+                // this.handleSingleResult(this.getKaipiaoList.bind(this), status, 'K')
                 break
             case 'F':
                 this.handleSingleResult(this.getFukuanList.bind(this), status, 'F')
@@ -277,9 +277,9 @@ Page({
                 })
                 break;
             case 'K':
-                this.setData({
-                    selectedText: '开票申请单'
-                })
+                // this.setData({
+                //     selectedText: '开票申请单'
+                // })
                 break;
             case 'F':
                 this.setData({
@@ -437,12 +437,12 @@ Page({
         })
         this.onAddHide()
     },
-    onShowAddKaipiao(e) {
-        wx.navigateTo({
-            url: '/bill/pages/addKaipiao/index?type=add'
-        })
-        this.onAddHide()
-    },
+    // onShowAddKaipiao(e) {
+    //     wx.navigateTo({
+    //         url: '/bill/pages/addKaipiao/index?type=add'
+    //     })
+    //     this.onAddHide()
+    // },
     onShowAddFukuan(e) {
         wx.navigateTo({
             url: '/bill/pages/addFukuan/index?type=add'
@@ -517,11 +517,11 @@ Page({
                 }
                 break;
             case 'K':
-                if (status == 10 || status == 25) {
-                    this.setPage(`../addKaipiao/index?type=edit&id=${id}`)
-                } else {
-                    this.setPage(`../viewKaipiao/index?id=${id}`)
-                }
+                // if (status == 10 || status == 25) {
+                //     this.setPage(`../addKaipiao/index?type=edit&id=${id}`)
+                // } else {
+                //     this.setPage(`../viewKaipiao/index?id=${id}`)
+                // }
                 // 开票单
                 break;
             case 'F':

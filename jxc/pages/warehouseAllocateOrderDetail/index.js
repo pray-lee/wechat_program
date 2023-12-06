@@ -101,7 +101,7 @@ Page({
             targetWarehouseIndex,
             warehouseAllocateOrderDetail: {
                 ...this.data.warehouseAllocateOrderDetail,
-                targetWarehouseId: targetWarehouseList[targetWarehouseIndex].warehouseId
+                targetWarehouseId: targetWarehouseList[targetWarehouseIndex]?.warehouseId
             }
         })
     },

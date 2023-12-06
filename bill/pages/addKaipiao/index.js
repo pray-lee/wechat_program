@@ -408,7 +408,7 @@ Page({
                 }
             })
             // 获取快递信息
-            this.getExpressList()
+            // this.getExpressList()
         } else {
             // 自取
             this.setData({
@@ -428,18 +428,18 @@ Page({
             })
         }
     },
-    getExpressList() {
-        wx.setStorageSync('customerDetailId', this.data.customerDetail.id)
-        wx.navigateTo({
-            url: '/bill/pages/express/index'
-        })
-    },
-    goUpdateCustomer() {
-        wx.setStorageSync("updateCustomerDetailData", this.data.customerDetail)
-        wx.navigateTo({
-            url: '/bill/pages/updateCustomerInfo/index'
-        })
-    },
+    // getExpressList() {
+    //     wx.setStorageSync('customerDetailId', this.data.customerDetail.id)
+    //     wx.navigateTo({
+    //         url: '/bill/pages/express/index'
+    //     })
+    // },
+    // goUpdateCustomer() {
+    //     wx.setStorageSync("updateCustomerDetailData", this.data.customerDetail)
+    //     wx.navigateTo({
+    //         url: '/bill/pages/updateCustomerInfo/index'
+    //     })
+    // },
     goKaipiaoDetail() {
         wx.navigateTo({
             url: '/bill/pages/kaipiaoDetail/index'

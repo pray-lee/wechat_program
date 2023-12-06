@@ -10,7 +10,7 @@
             <view style="background-color: {{selectedType == 'ALL'?'#ccc' : '#fff'}}" class="bill-btn" bindtap="getAllList">全部</view>
             <view style="background-color: {{selectedType == 'J'?'#ccc' : '#fff'}}" class="bill-btn J" bindtap="getSingleList" data-type="J">借款单</view>
             <view style="background-color: {{selectedType == 'B'?'#ccc' : '#fff'}}" class="bill-btn B" bindtap="getSingleList" data-type="B">报销单</view>
-            <view style="background-color: {{selectedType == 'K'?'#ccc' : '#fff'}}" class="bill-btn K" bindtap="getSingleList" data-type="K">开票申请单</view>
+<!--            <view style="background-color: {{selectedType == 'K'?'#ccc' : '#fff'}}" class="bill-btn K" bindtap="getSingleList" data-type="K">开票申请单</view>-->
             <view style="background-color: {{selectedType == 'F'?'#ccc' : '#fff'}}" class="bill-btn F" bindtap="getSingleList" data-type="F">付款申请单</view>
         </view>
     </view>
@@ -86,14 +86,15 @@
                 <!--            <image class="add-img" mode="scaleToFill" src="../../../images/jiekuan-icon.png"></image>-->
                 <view>报销单</view>
             </view>
-            <view class="add-item K" bindtap="onShowAddKaipiao">
-                <!--            <image class="add-img" mode="scaleToFill" src="../../../images/jiekuan-icon.png"></image>-->
-                <view>开票申请单</view>
-            </view>
             <view class="add-item F" bindtap="onShowAddFukuan">
                 <!--            <image class="add-img" mode="scaleToFill" src="../../../images/jiekuan-icon.png"></image>-->
                 <view>付款申请单</view>
+<!--            <view class="add-item K" bindtap="onShowAddKaipiao">-->
+                <!--            <image class="add-img" mode="scaleToFill" src="../../../images/jiekuan-icon.png"></image>-->
+<!--                <view>开票申请单</view>-->
+<!--            </view>-->
             </view>
+            <view class="add-item"></view>
         </view>
         <view class="title title-jxc">进销存单据</view>
         <view class="add-page-wrapper">

@@ -31,9 +31,9 @@ App({
         // corpId: 'wwf180a50d5157c473',
         // tenantCode: 'db_ck_jkyl',
         // 云尊府
-        // url: "https://www.caika.net/caika/",
-        // corpId: 'ww94bc2d53a7db24a6',
-        // tenantCode: 'db_ck_yzf',
+        url: "https://www.caika.net/saas/",
+        corpId: 'ww94bc2d53a7db24a6',
+        tenantCode: 'db_ck_yzf',
         // url: "https://www.caika.net/saas/",
         // url: "https://www.caika.net/ucommune-test/",
         // "corpId": "wwbc109332dfcce85c",
@@ -47,9 +47,9 @@ App({
         // corpId: 'wwbc0416559b69864b',
         // tenantCode: 'db_ck_fykj2021'
         // 财咖
-        url: "https://www.caika.net/caika/",
-        corpId: "wwc5c826092131ecb7",
-        tenantCode: 'db_ck_online2021'
+        // url: "https://www.caika.net/caika/",
+        // corpId: "wwc5c826092131ecb7",
+        // tenantCode: 'db_ck_online2021'
         // demo
         // url: "http://192.168.10.199:8080/caika/",
         // url: "https://www.caika.net/jeecg/",

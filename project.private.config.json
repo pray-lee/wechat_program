@@ -1,45 +1,7 @@
 {
-  "projectname": "wechat_program",
+  "description": "项目私有配置文件。此文件中的内容将覆盖 project.config.json 中的相同字段。项目的改动优先同步到此文件中。详见文档：https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html",
+  "projectname": "%E5%B0%8F%E7%A8%8B%E5%BA%8F2.0",
   "setting": {
     "compileHotReLoad": true
-  },
-  "description": "Project configuration file, more information: https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html",
-  "condition": {
-    "miniprogram": {
-      "list": [
-        {
-          "name": "pages/index/index",
-          "pathName": "pages/index/index",
-          "query": "",
-          "scene": null
-        },
-        {
-          "name": "",
-<<<<<<< HEAD
-          "pathName": "bill/pages/addJiekuan/index",
-          "query": "type=add",
-=======
-          "pathName": "pages/viewBaoxiao/index",
-          "query": "isNotification=1&id=2c91e301879158ef0187933a9f5603cf&oaId=2c91e301879158ef0187933bfba503e2&processInstance Id=11581131",
-          "launchMode": "default",
-          "scene": 1157
-        },
-        {
-          "name": "",
-          "pathName": "pages/viewBaoxiao/index",
-          "query": "isNotification=1&id=2c91e301879158ef0187933a9f5603cf&oaId=2c91e301879158ef0187933bfba503e2&processInstance Id=11581131",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
-          "pathName": "pages/viewBaoxiao/index",
-          "query": "id=2c91e3ed876d5b5b01876ed731f2226d&processInstanceId=undefined&oaId=2c91e3ed876d5b5b01876ed73510227c&showOaOperate=true",
->>>>>>> invoice
-          "launchMode": "default",
-          "scene": null
-        }
-      ]
-    }
   }
 }

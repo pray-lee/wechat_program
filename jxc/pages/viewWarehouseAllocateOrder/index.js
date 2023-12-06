@@ -101,7 +101,7 @@ Page({
                             showCancel: false,
                             success: res => {
                                 wx.reLaunch({
-                                    url: '/pages/error/index'
+                                    url: '/bill/pages/error/index'
                                 })
                             }
                         })
